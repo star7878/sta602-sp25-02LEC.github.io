@@ -1,0 +1,18 @@
+{
+  "hash": "62e60e9338b5862bb2ce3ff0f654b4e8",
+  "result": {
+    "markdown": "---\ntitle: \"MCMC Practice\"\nformat: \n    revealjs:\n      mainfont: Lato\n      smaller: true\n---\n\n\n# Metropolis algorithm\n\n## Exercise\n\nSuppose the target distribution we wish to sample from is given by probability mass function\n\n\n$$\n\\pi(\\theta) = \\theta / w \\text{ for } \\theta \\in \\{1, 2, \\ldots 6\\}\n$$\n\n\nin words, we wish to roll a die with probability $1/w$ of landing on face 1, $2/w$ of landing on face 2, etc. \n\n- Write a Metropolis algorithm to approximate the target distribution using a proposal $J(\\theta = j | \\theta^{(s)} = i) = 1/6$ for all $j$, i.e. propose a new state $j$ uniformly. Run your Markov chain for $S=10000$ states.\n\n- The Metropolis algorithm requires a symmetric proposal $J$. Explain why this proposal is symmetric. \n\n- Plot a histogram of the output. Does the plot match your intuition? \n\n- Compare the estimated probabilities of each outcome to the truth (compute $w$).\n\n# Metropolis-Hastings\n\n## Exercise\n\nMetropolis-Hastings lets us work with non-symmetric proposals. Re-write the algorithm of the previous exercise using the non-symmetric proposal $J(\\theta = j  | \\theta^{(s)} = i)$ such that\n\n\n$$\n\\theta  = \\begin{cases}\n1 & \\text{ with prob } & 0.05\\\\\n2 & \\text{ with prob } & 0.15\\\\\n3 & \\text{ with prob } & 0.2\\\\\n4 & \\text{ with prob } & 0.15\\\\\n5 & \\text{ with prob } & 0.15\\\\\n6 & \\text{ with prob } & 0.3\\\\\n\\end{cases}\n$$\n\n- compare your results to that those of the previous exercise. In particular, compare the ESS of $\\theta$ in each chain. Which do you prefer? How might you explain this difference in ESS?\n\n\n::: {.cell}\n\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-after-body": [
+        "\n<script>\n  // htmlwidgets need to know to resize themselves when slides are shown/hidden.\n  // Fire the \"slideenter\" event (handled by htmlwidgets.js) when the current\n  // slide changes (different for each slide format).\n  (function () {\n    function fireSlideChanged(previousSlide, currentSlide) {\n\n      // dispatch for htmlwidgets\n      const event = window.document.createEvent(\"Event\");\n      event.initEvent(\"slideenter\", true, true);\n      window.document.dispatchEvent(event);\n\n      // dispatch for shiny\n      if (window.jQuery) {\n        if (previousSlide) {\n          window.jQuery(previousSlide).trigger(\"hidden\");\n        }\n        if (currentSlide) {\n          window.jQuery(currentSlide).trigger(\"shown\");\n        }\n      }\n    }\n\n    // hookup for reveal\n    if (window.Reveal) {\n      window.Reveal.addEventListener(\"slidechanged\", function(event) {\n        fireSlideChanged(event.previousSlide, event.currentSlide);\n      });\n    }\n\n    // hookup for slidy\n    if (window.w3c_slidy) {\n      window.w3c_slidy.add_observer(function (slide_num) {\n        // slide_num starts at position 1\n        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);\n      });\n    }\n\n  })();\n</script>\n\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

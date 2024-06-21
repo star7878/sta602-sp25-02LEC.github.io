@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Alexander Fisher">
+
+<title>STA360 - Bayesian regression II</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">STA360</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html">schedule</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html">syllabus</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../links.html">links</a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#gibbs-sampler" id="toc-gibbs-sampler" class="nav-link active" data-scroll-target="#gibbs-sampler">Gibbs sampler</a>
+  <ul class="collapse">
+  <li><a href="#last-time" id="toc-last-time" class="nav-link" data-scroll-target="#last-time">Last time</a></li>
+  <li><a href="#diffuse-prior" id="toc-diffuse-prior" class="nav-link" data-scroll-target="#diffuse-prior">Diffuse prior</a></li>
+  <li><a href="#sampler-pseudo-code" id="toc-sampler-pseudo-code" class="nav-link" data-scroll-target="#sampler-pseudo-code">Sampler pseudo-code</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Code</a></li>
+  <li><a href="#visually" id="toc-visually" class="nav-link" data-scroll-target="#visually">Visually</a></li>
+  </ul></li>
+  <li><a href="#other-priors" id="toc-other-priors" class="nav-link" data-scroll-target="#other-priors">Other priors</a>
+  <ul class="collapse">
+  <li><a href="#ridge-regression-and-the-normal-prior" id="toc-ridge-regression-and-the-normal-prior" class="nav-link" data-scroll-target="#ridge-regression-and-the-normal-prior">Ridge regression and the normal prior</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Bayesian regression II</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Alexander Fisher </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<details>
+<summary>See libraries used in these notes</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latex2exp)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scatterplot3d)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coda)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(animation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="gibbs-sampler" class="level2">
+<h2 class="anchored" data-anchor-id="gibbs-sampler">Gibbs sampler</h2>
+<section id="last-time" class="level3">
+<h3 class="anchored" data-anchor-id="last-time">Last time</h3>
+<p>We set up the model,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{y} | X, \beta, \sigma^2 &amp;\sim MVN(X\beta, \sigma^2 I)\\
+\beta &amp;\sim MVN(\beta_0, \Sigma_0)\\
+1/\sigma^2 &amp;\sim \text{gamma}(\nu_0/2, \nu_0 \sigma_0^2/2)
+\end{aligned}
+\]</span></p>
+<p>and derived the full conditionals</p>
+<p><span class="math display">\[
+\begin{aligned}
+\beta | \mathbf{y}, X, \sigma^2 &amp;\sim MVN(\mathbf{m}, V),\\
+1/\sigma^2 | \mathbf{y}, X, \beta &amp; \sim
+\text{gamma}([\nu_0 + n]/2, [\nu_0 \sigma_0^2 + SSR(\beta)]/2),
+\end{aligned}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\begin{aligned}
+V = Var[\beta | \mathbf{y}, X, \sigma^2] &amp;=
+(\Sigma_0^{-1} + X^TX / \sigma^2)^{-1},\\
+\mathbf{m} = E[\beta | \mathbf{y}, X, \sigma^2] &amp;= (\Sigma_0^{-1} + X^T X/ \sigma^2)^{-1}(\Sigma_0^{-1} \beta_0 + X^T\mathbf{y} / \sigma^2).
+\end{aligned}
+\]</span></p>
+</section>
+<section id="diffuse-prior" class="level3">
+<h3 class="anchored" data-anchor-id="diffuse-prior">Diffuse prior</h3>
+<p>To complete model specification, we must choose <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\Sigma_0\)</span>, <span class="math inline">\(\sigma_0^2\)</span> and <span class="math inline">\(\nu_0\)</span>.</p>
+<p>If we know very little about the relationships between <span class="math inline">\(X\)</span> and <span class="math inline">\(\mathbf{y}\)</span>, we might wish to consider a “diffuse” prior that prescribes a large mass of uncertainty around each parameter.</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">math of prior</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">picture of prior</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p><span class="math display">\[
+\begin{aligned}
+\beta &amp; \sim MVN(0, 1000 I)\\
+1/\sigma^2 &amp;\sim \text{gamma}(1, 10)
+\end{aligned}
+\]</span></p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec14-BayesianRegression2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="sampler-pseudo-code" class="level3">
+<h3 class="anchored" data-anchor-id="sampler-pseudo-code">Sampler pseudo-code</h3>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+pseudo-code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="0" type="1">
+<li>pick a starting <span class="math inline">\(\sigma^{2(0)}\)</span>, set <span class="math inline">\(s = 0\)</span>. Now for <span class="math inline">\(s\)</span> in 1:S perform 1-3:</li>
+<li>update <span class="math inline">\(\beta\)</span>:</li>
+</ol>
+<ul>
+<li>compute <span class="math inline">\(V\)</span> and <span class="math inline">\(\mathbf{m}\)</span></li>
+<li>sample <span class="math inline">\(\beta^{(s+1)} \sim MVN(\mathbf{m}, V)\)</span></li>
+</ul>
+<ol start="2" type="1">
+<li>update <span class="math inline">\(\sigma^{2}\)</span>:</li>
+</ol>
+<ul>
+<li>compute <span class="math inline">\(SSR(\beta^{(s+1)})\)</span></li>
+<li>sample <span class="math inline">\(1/\sigma^{2(s+1)} \sim \text{gamma}([\nu_0 + n]/2, [\nu_0 \sigma_0^2 + SSR(\beta^{s+1})]/2)\)</span></li>
+</ul>
+<ol start="3" type="1">
+<li>save the states of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span>.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="code" class="level3">
+<h3 class="anchored" data-anchor-id="code">Code</h3>
+<p>The Gibbs sampler for our penguin example:</p>
+<div class="cell">
+<details>
+<summary>Code to reproduce penguins_subset</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># our example examines just a subset of the penguin data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>penguins_subset <span class="ot">=</span> penguins <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(body_mass_g, flipper_length_mm, bill_length_mm) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">body_mass_kg =</span> body_mass_g <span class="sc">/</span> <span class="dv">1000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>body_mass_g)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> penguins_subset <span class="sc">%&gt;%</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>body_mass_kg) <span class="sc">%&gt;%</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">one =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(penguins_subset))) <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(one) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">select</span>(penguins_subset, </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>           body_mass_kg) <span class="sc">%&gt;%</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># prior hyperparameters </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">2</span> <span class="co"># number of covariates</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Sigma0 <span class="ot">=</span> <span class="dv">1000</span> <span class="sc">*</span> <span class="fu">diag</span>(<span class="fu">rep</span>(<span class="dv">1</span>, p<span class="sc">+</span><span class="dv">1</span>)) <span class="co"># p + 1 for intercept term</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, p <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>nu0 <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>sigma02 <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">nrow</span>(y)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># starting values</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="do">## note: gamma = 1 / sigma^2</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>gamma <span class="ot">=</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">var</span>(penguins_subset<span class="sc">$</span>body_mass_kg)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># values we should compute just once</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>SigmaInv <span class="ot">=</span> <span class="fu">solve</span>(Sigma0)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>X2 <span class="ot">=</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> X</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>Xy <span class="ot">=</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> y</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>SIB0 <span class="ot">=</span> SigmaInv <span class="sc">%*%</span> b0</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> (nu0 <span class="sc">+</span> n) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>nu0s02 <span class="ot">=</span> nu0 <span class="sc">*</span> sigma02</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="do">## empty objects to fill</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>BETA <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>GAMMA <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>S <span class="ot">=</span> <span class="dv">2000</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>S) {</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="do">### UPDATE BETA</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  V <span class="ot">=</span> <span class="fu">solve</span>(SigmaInv <span class="sc">+</span> (gamma <span class="sc">*</span> X2))</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">=</span> V <span class="sc">%*%</span> (Xy <span class="sc">*</span> gamma) <span class="co"># simplified since b0 = 0</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">=</span> <span class="fu">rmvnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> m, <span class="at">sigma =</span> V)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="do">### UPDATE SIGMA</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  SSR1 <span class="ot">=</span> (y <span class="sc">-</span> (X <span class="sc">%*%</span> <span class="fu">t</span>(beta)))</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  SSRB <span class="ot">=</span> <span class="fu">t</span>(SSR1) <span class="sc">%*%</span> SSR1</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  gamma <span class="ot">=</span> <span class="fu">rgamma</span>(<span class="dv">1</span>, a, ((nu0s02 <span class="sc">+</span> SSRB) <span class="sc">/</span> <span class="dv">2</span>))</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="do">### SAVE STATES</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  GAMMA <span class="ot">=</span> <span class="fu">c</span>(GAMMA, gamma)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  BETA <span class="ot">=</span> <span class="fu">rbind</span>(BETA, beta)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details>
+<summary>ESS?</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effectiveSize</span>(BETA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>var1 var2 var3 
+2000 2000 2000 </code></pre>
+</div>
+<details>
+<summary>ESS?</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">effectiveSize</span>(GAMMA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>var1 
+2000 </code></pre>
+</div>
+</div>
+<p>How do posterior mean estimates compare to the OLS estimates?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>posteriorMean <span class="ot">=</span> <span class="fu">apply</span>(BETA, <span class="dv">2</span>, mean)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>OLS <span class="ot">=</span> <span class="fu">lm</span>(body_mass_kg <span class="sc">~</span> flipper_length_mm <span class="sc">+</span> bill_length_mm, <span class="at">data =</span> penguins_subset) </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>OLS <span class="ot">=</span> OLS<span class="sc">$</span>coefficients</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(OLS, posteriorMean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              (Intercept) flipper_length_mm bill_length_mm
+OLS             -5.736897        0.04814486    0.006047488
+posteriorMean   -5.723741        0.04801443    0.006336029</code></pre>
+</div>
+</div>
+<p>We might have figured out this is what we were going to see already based on the the fact that the expressions for <span class="math inline">\(E[\beta | \mathbf{y}, X]\)</span> and <span class="math inline">\(Var[\beta | \mathbf{y}, X]\)</span> look just like <span class="math inline">\(E[\hat{\beta}_{OLS} | \beta]\)</span> and <span class="math inline">\(Var[\hat{\beta}_{OLS} | \beta]\)</span> when the prior information is diffuse.</p>
+<p>What was the point of all that extra work? Well, we don’t just have a point estimate and a confidence interval, we have a whole posterior! We can quantify uncertainty about <span class="math inline">\(\beta\)</span> in an easy and intuitive way.</p>
+<p>Using the posterior, we may find 95% posterior CI, compute <span class="math inline">\(p(\beta_i &gt; 0 | \mathbf{y}, X)\)</span>, compute <span class="math inline">\(p(\beta_i &gt; \beta_j | \mathbf{y}, X)\)</span>, compute the posterior median, and a whole host of additional queries quickly and intuitively.</p>
+<p>Let’s take a look at the marginal posteriors.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec14-BayesianRegression2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Exercise: is flipper length or bill length a “more important” predictor of penguin body mass? Why?</p>
+</section>
+<section id="visually" class="level3">
+<h3 class="anchored" data-anchor-id="visually">Visually</h3>
+<p>For each iteration of our Gibbs sampler, we’re sampling a hyperplane, i.e.&nbsp;a set of <span class="math inline">\(\beta\)</span>s.</p>
+<div class="cell">
+
+</div>
+<p><img src="imgs/hyperplane-search.gif" width="600" height="600"></p>
+<p>Exercise: discuss how autocorrelation of <span class="math inline">\(\beta\)</span>s would affect our sampler based on the animation above.</p>
+</section>
+</section>
+<section id="other-priors" class="level1">
+<h1>Other priors</h1>
+<section id="ridge-regression-and-the-normal-prior" class="level2">
+<h2 class="anchored" data-anchor-id="ridge-regression-and-the-normal-prior">Ridge regression and the normal prior</h2>
+<p>What if <span class="math inline">\(p &gt; n\)</span>? In words: what if we have more predictors than observations? <span class="math inline">\(X\)</span> will be wide and therefore have <strong>linearly dependent</strong> columns.</p>
+<p>In this case, <span class="math inline">\(X^T X\)</span> is <span class="math inline">\(p \times p\)</span> but is of rank <span class="math inline">\(n &lt; p\)</span>, i.e.&nbsp;<span class="math inline">\(X^TX\)</span> is <strong>not</strong> full rank and thus <strong>not</strong> invertible. Therefore, <span class="math inline">\(\hat{\beta}_{OLS}\)</span> satisfying <span class="math inline">\((X^T X)\hat{\beta}_{OLS} = X^T \mathbf{y}\)</span> does not exist uniquely.</p>
+<p>Separately, in the case of multicollinearity, where the columns of <span class="math inline">\(X\)</span> are highly correlated, some eigenvalues of <span class="math inline">\(X^TX\)</span> will be very small, which means <span class="math inline">\((X^TX)^{-1}\)</span> will have very <em>large</em> eigenvalues, i.e.&nbsp;<span class="math inline">\(Var(\hat{\beta}_{OLS})\)</span> will be very large.</p>
+<ul>
+<li><p>Intuitively: we can fix this by shrinking some of the <span class="math inline">\(\beta_i\)</span> towards zero (reducing <span class="math inline">\(p\)</span>).</p></li>
+<li><p>Algebraically: one way we can fix this is by adding some positive quantity on the diagonals.</p></li>
+</ul>
+<p>Frequentists call this sort of algebraic fix “ridge regression” and define the problem thus:</p>
+<p><span class="math display">\[
+\hat{\beta}_{ridge} = \underset{\beta}{\mathrm{argmin}} \underbrace{(\mathbf{y} - X\beta)^T (\mathbf{y} - X \beta)}_{\text{SSR}(\beta)} + \underbrace{\lambda \beta^T \beta}_{L_2^2 ~\text{penalty}}
+\]</span></p>
+<p>where <span class="math inline">\(\lambda\)</span> is a tuning parameter called the “ridge coefficient”.</p>
+<p>Bayesians obtain the same objective via the following prior on <span class="math inline">\(\beta\)</span>,</p>
+<p><span class="math display">\[
+\beta \sim MVN(0, \sigma^2 I /\lambda)
+\]</span></p>
+<p>Exercise: show that <span class="math inline">\(\hat{\beta}_{ridge} = E[\beta | \mathbf{y}, X, \sigma^2] = ((X^TX) + \lambda I)^{-1} X^T \mathbf{y}\)</span>.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

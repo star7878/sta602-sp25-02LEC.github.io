@@ -1,0 +1,46 @@
+---
+title: "Homework 5"
+subtitle: "Due Tuesday October 24th at 5:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Exercise 1
+
+Risk calculation: Let $Y_1, \ldots, Y_n | \theta \sim \text{ i.i.d. Poission}(\theta)$.
+
+a. For the case that $\theta \sim \text{gamma}(a, b)$, show that the posterior mean of $\theta$ given $Y_1, \ldots, Y_n$ can be written as $\hat{\theta}_w = w \bar{y} + (1-w)\mu$ for values $w$ and $\mu$ that depend on $n$, $a$ and $b$. 
+
+b. Now consider how good this estimator is for a specific value of $\theta$. Compute $E[\hat{\theta}_w|\theta]$, $V[\hat{\theta}_w|\theta]$, and
+$E[\bar{y}|\theta]$ and $V[\bar{y}|\theta]$.
+
+c. Find some nice conditions on $w$ and $\mu$ so that $MSE[\hat{\theta}_w] < MSE[\bar{y}]$
+
+d. [Optional] Now suppose $n = 10$ and $\theta = 5$. Pick a value of $w$ and $\mu$ so that your condition in c. is met. Now verify the condition numerically with a Monte Carlo simulation, by simulating 1000 samples of size $n=10$ from the Poisson(5) distribution, computing $\bar{y}$ and $\hat{\theta}_w$ for each simulated sample, and then approximating the MSE of each estimator using the 1000 simulated values of each. Also make histograms or density plots of the simulated estimators, to confirm that one has low(er) variance but positive bias, and the other has zero bias but high(er) variance.
+
+
+## Exercise 2
+
+6.1 from Hoff. Let $\theta$ and $\gamma$ be independent. Use the code below to load the data.
+
+```{r}
+#| eval: false
+bach30 = readr::read_csv("https://sta360-fa23.github.io/data/bach30.csv")
+
+nobach30 = readr::read_csv("https://sta360-fa23.github.io/data/nobach30.csv")
+```
+
+
+## Exercise 3
+
+6.2 from Hoff. Note the typo: $1/\sigma_j^2$ is gamma, not $1/\sigma_j$. Use the code below to load the data.
+
+```{r}
+#| eval: false
+
+glucose = readr::read_csv("https://sta360-fa23.github.io/data/glucose.csv")
+
+```
+

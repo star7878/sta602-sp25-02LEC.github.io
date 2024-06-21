@@ -1,0 +1,73 @@
+---
+title: "Homework 0"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+This math assessment is meant to help both you and the instructor identify gaps in background knowledge both at the class and individual level.
+
+::: callout-important
+This homework will **not** be a part of your grade. 
+:::
+
+## Exercise 1
+
+Simplify 
+
+$$
+\log(e^{a_1} e^{a_2} e^{a_3} \cdots e^{a_n})
+$$
+
+## Exercise 2
+
+Find the derivative.
+
+$$
+\frac{d}{dx} \left( \frac{x}{\log x} \right)
+$$
+## Exercise 3
+
+What is the ordinary least squares estimator of $\beta$ (1-dimensional) in the linear regression $y = x \beta + \epsilon$ with iid errors?
+
+## Exercise 4
+
+What is the ordinary least squares estimator of $\beta$ (p-dimensional) in the linear regression $y = X \beta + \epsilon$ with iid errors?
+
+## Exercise 5
+
+In linear regression with p-dimensional β, what is the interpretation of the estimate for the jth coefficient?
+
+## Exercise 6
+
+Compute the integral,
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx
+$$
+
+## Exercise 7
+
+$X \sim N(\mu, \sigma^2)$ reads "X is normally distributed with **mean** $\mu$ and **variance** $\sigma^2$.
+
+Let
+
+$$
+\begin{aligned}
+X &\sim N(0, 1),\\
+Y &\sim N(3, 2),\\
+Z &= X + Y
+\end{aligned}
+$$
+What is the distribution of $Z$? What is $\mathbb{E}[Z]$ and $Var(Z)$?
+
+## Exercise 8
+
+In your own words, the "support" of random variable is...
+
+## Exercise 9
+
+TRUE/FALSE: The product of two uniform[0, 1] random variables is uniform[0, 1].
+
+

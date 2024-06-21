@@ -1,0 +1,25 @@
+---
+title: "Links"
+mainfont: Lato
+format: 
+   html: 
+    page-layout: full
+    toc: false
+---
+
+Code 
+
+- [RStudio containers](https://cmgr.oit.duke.edu/containers)
+
+Resources
+
+- [Sakai website](https://sakai.duke.edu/x/9NpNkv)
+  - lectures and solutions uploaded here under "Resources" tab on the left hand side
+
+- [Gradescope](https://www.gradescope.com/)
+
+Textbook
+
+- [A First Course in Bayesian Statistical Methods](https://link.springer.com/book/10.1007/978-0-387-92407-6) by Peter Hoff
+
+- [Errata](http://www.stat.duke.edu/~pdh10/FCBS/Misc/errata.txt) to the textbook

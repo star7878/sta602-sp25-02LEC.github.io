@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: docs
+  resources:
+    - data/
+
+website:
+  title: "STA360"
+  search: false
+  navbar:
+    background: "#2774AE"
+    left:
+      - href: index.qmd
+        text: schedule
+      - href: syllabus.qmd
+        text: syllabus
+      - href: links.qmd
+        text: links
+
+format:
+  html:
+    theme: cosmo
+    mainfont: Lato
+    css: styles.css
+    toc: true
+
+
+

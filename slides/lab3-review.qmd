@@ -1,0 +1,27 @@
+---
+title: "Exam practice"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# Exponential distribution
+
+## Exercise
+
+Physicists studying a radioactive substance measure the times at which the substance emits a particle. They will record $n+1$ emissions and set $Y_1$ to be the time elapsed between the first and second emission, $Y_2$ to be the time elapsed between the second and third emission and so on. They will model the data as $Y_1, \ldots Y_n | \theta \sim \text{exponential}(\theta)$. The pdf of the exponential($\theta$) distribution is 
+
+$$
+p(y |\theta) = \theta e^{-\theta y} \ \text{ for } \ y>0, \ \theta>0.
+$$
+
+For this distribution, $E[Y|\theta] = \frac{1}{\theta}$.
+
+(a). Write out the corresponding joint density $p(y_1, \ldots, y_n | \theta)$ and simplify as much as possible. Justify each step of your calculation.
+
+(b). For fixed values of $y_1, \ldots y_n$, find the value of $\theta$ that maximizes $p(y_1, \ldots, y_n | \theta)$ as a function of $\theta$, and call this maximizing value $\hat{\theta}$. Hint: $\hat{\theta}$ can also be found by maximizing $\log p(y_1, \ldots, y_n | \theta)$, which is easier to work with.
+
+(c). Suppose your information about $\theta$ can be described with a gamma($a, b$) prior distribution for some values of $a$ and $b$. Write out the formula for $p(\theta | y_1, \ldots y_n)$, up to a proportionality in $\theta$, and simplify as much as possible. From this, identify explicitly the posterior distribution of $\theta$ (i.e., write "the posterior is a blank distribution with parameter(s) blank)".
+
+(d). Obtain the formula for $E[\theta, y_1, \ldots y_n]$ as a function of $a, b n$ and $y_1, \ldots y_n$, and try to write this as a function of the estimator $\hat{\theta}$ you found in part (b). What does $E[\theta | y_1,\ldots,y_n]$ get close to as $n$ increases?

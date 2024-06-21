@@ -1,0 +1,20 @@
+{
+  "hash": "178ae672724001cdca09fac4729d0793",
+  "result": {
+    "markdown": "---\ntitle: \"MCMC diagnostics practice\"\nformat: \n    revealjs:\n      mainfont: Lato\n      smaller: true\n---\n\n\n# Exercises\n\n## Exercise 1\n\nLet $p(\\theta_1, \\theta_2 | \\mathbf{y})$ be our **target distribution**, i.e. the distribution we are interested in sampling.\n\nWe construct a Gibbs sampler and look at the trace plots of $\\theta_1$ and $\\theta_2$, produced below. Chat with your neighbor, describe what you observe. Has the chain **converged** for each parameter? How well is the sampler **mixing**? Do you think the parameters are correlated or uncorrelated? \n\nWrite down a description of the plots below, in 2 paragraphs or less, for a reader who has **not taken this class**. You may assume the reader has taken a course on probability (e.g. similar to STA230/240).\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](lab06_files/figure-revealjs/unnamed-chunk-1-1.png){width=960}\n:::\n:::\n\n\n## Exercise 2\n\nBased on the first 1000 iterations of your Gibbs sampler shown on the previous slide, which of the following joint densities is the most plausible for $\\theta_1, \\theta_2 | \\mathbf{y}$? Why? Hint: it may help to think about where your sampler starts and imagine a particle moving through space according to conditional updates.\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](lab06_files/figure-revealjs/unnamed-chunk-2-1.png){width=960}\n:::\n:::\n",
+    "supporting": [
+      "lab06_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-after-body": [
+        "\n<script>\n  // htmlwidgets need to know to resize themselves when slides are shown/hidden.\n  // Fire the \"slideenter\" event (handled by htmlwidgets.js) when the current\n  // slide changes (different for each slide format).\n  (function () {\n    function fireSlideChanged(previousSlide, currentSlide) {\n\n      // dispatch for htmlwidgets\n      const event = window.document.createEvent(\"Event\");\n      event.initEvent(\"slideenter\", true, true);\n      window.document.dispatchEvent(event);\n\n      // dispatch for shiny\n      if (window.jQuery) {\n        if (previousSlide) {\n          window.jQuery(previousSlide).trigger(\"hidden\");\n        }\n        if (currentSlide) {\n          window.jQuery(currentSlide).trigger(\"shown\");\n        }\n      }\n    }\n\n    // hookup for reveal\n    if (window.Reveal) {\n      window.Reveal.addEventListener(\"slidechanged\", function(event) {\n        fireSlideChanged(event.previousSlide, event.currentSlide);\n      });\n    }\n\n    // hookup for slidy\n    if (window.w3c_slidy) {\n      window.w3c_slidy.add_observer(function (slide_num) {\n        // slide_num starts at position 1\n        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);\n      });\n    }\n\n  })();\n</script>\n\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

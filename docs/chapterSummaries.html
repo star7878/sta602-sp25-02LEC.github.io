@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>STA360 - Chapter summaries</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">STA360</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html">schedule</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./syllabus.html">syllabus</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./links.html">links</a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#chapter-2" id="toc-chapter-2" class="nav-link active" data-scroll-target="#chapter-2">Chapter 2</a>
+  <ul class="collapse">
+  <li><a href="#additional-related-content-ch2" id="toc-additional-related-content-ch2" class="nav-link" data-scroll-target="#additional-related-content-ch2">Additional related content (Ch2)</a></li>
+  </ul></li>
+  <li><a href="#chapter-3" id="toc-chapter-3" class="nav-link" data-scroll-target="#chapter-3">Chapter 3</a>
+  <ul class="collapse">
+  <li><a href="#definitions-and-conjugacy" id="toc-definitions-and-conjugacy" class="nav-link" data-scroll-target="#definitions-and-conjugacy">Definitions and conjugacy</a></li>
+  <li><a href="#reliability" id="toc-reliability" class="nav-link" data-scroll-target="#reliability">Reliability</a></li>
+  <li><a href="#exponential-families" id="toc-exponential-families" class="nav-link" data-scroll-target="#exponential-families">Exponential families</a></li>
+  </ul></li>
+  <li><a href="#chapter-4" id="toc-chapter-4" class="nav-link" data-scroll-target="#chapter-4">Chapter 4</a>
+  <ul class="collapse">
+  <li><a href="#predictive-distributions" id="toc-predictive-distributions" class="nav-link" data-scroll-target="#predictive-distributions">Predictive distributions</a></li>
+  <li><a href="#monte-carlo-error" id="toc-monte-carlo-error" class="nav-link" data-scroll-target="#monte-carlo-error">Monte Carlo error</a></li>
+  <li><a href="#the-sampling-view" id="toc-the-sampling-view" class="nav-link" data-scroll-target="#the-sampling-view">The sampling view</a></li>
+  </ul></li>
+  <li><a href="#chapter-5" id="toc-chapter-5" class="nav-link" data-scroll-target="#chapter-5">Chapter 5</a>
+  <ul class="collapse">
+  <li><a href="#conjugate-prior-to-the-normal-model" id="toc-conjugate-prior-to-the-normal-model" class="nav-link" data-scroll-target="#conjugate-prior-to-the-normal-model">Conjugate prior to the normal model</a></li>
+  <li><a href="#estimators" id="toc-estimators" class="nav-link" data-scroll-target="#estimators">Estimators</a></li>
+  </ul></li>
+  <li><a href="#chapter-6" id="toc-chapter-6" class="nav-link" data-scroll-target="#chapter-6">Chapter 6</a>
+  <ul class="collapse">
+  <li><a href="#gibbs-sampling-procedure" id="toc-gibbs-sampling-procedure" class="nav-link" data-scroll-target="#gibbs-sampling-procedure">Gibbs sampling procedure</a></li>
+  <li><a href="#mcmc-diagnostics" id="toc-mcmc-diagnostics" class="nav-link" data-scroll-target="#mcmc-diagnostics">MCMC diagnostics</a></li>
+  </ul></li>
+  <li><a href="#chapter-7" id="toc-chapter-7" class="nav-link" data-scroll-target="#chapter-7">Chapter 7</a>
+  <ul class="collapse">
+  <li><a href="#density" id="toc-density" class="nav-link" data-scroll-target="#density">Density</a></li>
+  <li><a href="#semi-conjugate-prior-for-boldsymboltheta" id="toc-semi-conjugate-prior-for-boldsymboltheta" class="nav-link" data-scroll-target="#semi-conjugate-prior-for-boldsymboltheta">semi-conjugate prior for <span class="math inline">\(\boldsymbol{\theta}\)</span></a></li>
+  <li><a href="#semiconjugate-prior-for-sigma" id="toc-semiconjugate-prior-for-sigma" class="nav-link" data-scroll-target="#semiconjugate-prior-for-sigma">semiconjugate prior for <span class="math inline">\(\Sigma\)</span></a></li>
+  <li><a href="#wishart-as-sum-of-squares-matrix" id="toc-wishart-as-sum-of-squares-matrix" class="nav-link" data-scroll-target="#wishart-as-sum-of-squares-matrix">Wishart as sum of squares matrix</a></li>
+  </ul></li>
+  <li><a href="#chapter-8" id="toc-chapter-8" class="nav-link" data-scroll-target="#chapter-8">Chapter 8</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter summaries</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="chapter-2" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-2">Chapter 2</h2>
+<p><em>Axioms of probability</em></p>
+<p>For all sets <span class="math inline">\(F\)</span>, <span class="math inline">\(G\)</span> and <span class="math inline">\(H\)</span>,</p>
+<ul>
+<li><span class="math inline">\(0 = Pr(\neg H | H) \leq Pr(F | H) \leq Pr(H | H) = 1\)</span></li>
+<li><span class="math inline">\(Pr(F \cup G | H) = Pr(F|H) + Pr(G|H) \text{ if } F \cap G = \emptyset\)</span></li>
+<li><span class="math inline">\(Pr(F \cap G | H) = Pr(G | H) Pr(F | G \cap H)\)</span></li>
+</ul>
+<p><em>Partitions and probability</em></p>
+<p>Suppose <span class="math inline">\(\{ H_1, \ldots, H_K\}\)</span> is a partition of <span class="math inline">\(\mathcal{H}\)</span>, <span class="math inline">\(Pr(\mathcal{H}) = 1\)</span> and <span class="math inline">\(E\)</span> is some specific event. From the axioms of probability one may prove:</p>
+<ul>
+<li><em>Rule of total probability</em>:</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+\sum_{k = 1}^K Pr(H_k) = 1
+\end{equation}\]</span></p>
+<ul>
+<li><em>Rule of marginal probability</em>:</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+\begin{aligned}
+Pr(E) &amp;= \sum_{k = 1}^K Pr(E \cap H_k)\\ &amp;= \sum_{k = 1}^K Pr(E | H_k) Pr(H_k)
+\end{aligned}
+\end{equation}\]</span></p>
+<ul>
+<li><em>Bayes’ theorem</em>:</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+Pr(H_j | E) = \frac{Pr(E|H_j) Pr(H_j)}{Pr(E)}
+\end{equation}\]</span></p>
+<p>Note it is often useful to replace the denominator, <span class="math inline">\(Pr(E)\)</span>, using the rule of marginal probability.</p>
+<p><em>Independence</em></p>
+<p>Two events <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span> are conditionally independent given <span class="math inline">\(H\)</span> if <span class="math inline">\(Pr(F \cap G |H) = Pr(F|H) Pr(G|H)\)</span>.</p>
+<section id="additional-related-content-ch2" class="level3">
+<h3 class="anchored" data-anchor-id="additional-related-content-ch2">Additional related content (Ch2)</h3>
+<ul>
+<li><em>Law of total expectation</em> <span class="math inline">\(E(X) = E(E(X|Y))\)</span></li>
+<li><em>Law of total variance</em> <span class="math inline">\(Var(X) = E(Var(X|Y)) + Var(E(X|Y))\)</span></li>
+</ul>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Remember we can always add conditioning statements e.g.</p>
+<ul>
+<li><em>Law of total expectation</em> <span class="math inline">\(E(X|Z) = E(E(X|Y)|Z)\)</span></li>
+<li><em>Law of total variance</em> <span class="math inline">\(Var(X|Z) = E(Var(X|Y)|Z) + Var(E(X|Y)|Z)\)</span></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="chapter-3" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-3">Chapter 3</h2>
+<section id="definitions-and-conjugacy" class="level3">
+<h3 class="anchored" data-anchor-id="definitions-and-conjugacy">Definitions and conjugacy</h3>
+<ul>
+<li>Be able to define <strong>likelihood</strong>, <strong>prior</strong>, <strong>posterior</strong>, <strong>normalizing constant</strong></li>
+</ul>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Definition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A prior <span class="math inline">\(p(\theta)\)</span> is said to be <strong>conjugate</strong> to the data generative model <span class="math inline">\(p(y|\theta)\)</span> if the family of the posterior is necessarily in the same family as the prior. In math, <span class="math inline">\(p(\theta)\)</span> is conjugate to <span class="math inline">\(p(y|\theta)\)</span> if</p>
+<p><span class="math display">\[
+p(\theta) \in \mathcal{P} \implies p(\theta | y) \in \mathcal{P}
+\]</span></p>
+</div>
+</div>
+<ul>
+<li>Examples of conjugate models: beta-binomial, gamma-Poisson.</li>
+</ul>
+</section>
+<section id="reliability" class="level3">
+<h3 class="anchored" data-anchor-id="reliability">Reliability</h3>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Definition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\Phi\)</span> be the support of <span class="math inline">\(\theta\)</span>. An interval <span class="math inline">\((l(y), u(y)) \subset \Phi\)</span> has 95% <strong>posterior coverage</strong> if</p>
+<p><span class="math display">\[
+p(l(y) &lt; \theta &lt; u(y) | y ) = 0.95
+\]</span></p>
+<p>Interpretation: after observing <span class="math inline">\(Y = y\)</span>, our probability that <span class="math inline">\(\theta \in (l(y), u(y))\)</span> is 95%.</p>
+<p>Such an interval is called 95% posterior confidence interval (CI). It may also sometimes be referred to as a 95% “credible interval” to distinguish it from a frequentist CI.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Definition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <span class="math inline">\(100 \times (1-\alpha)\)</span>% <strong>high posterior density</strong> (HPD) region is a set <span class="math inline">\(s(y) \subset \Theta\)</span> such that</p>
+<ol type="1">
+<li><p><span class="math inline">\(p(\theta \in s(y) | Y = y) = 1 - \alpha\)</span></p></li>
+<li><p>If <span class="math inline">\(\theta_a \in s(y)\)</span> and <span class="math inline">\(\theta_b \not\in s(y)\)</span>, then <span class="math inline">\(p(\theta_a | Y = y) &gt; p(\theta_b | Y = y)\)</span></p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="exponential-families" class="level3">
+<h3 class="anchored" data-anchor-id="exponential-families">Exponential families</h3>
+<p>If density <span class="math inline">\(p(y|\theta)\)</span> can be written <span class="math inline">\(h(y) c(\phi) e^{\phi t(y)}\)</span> for some transform <span class="math inline">\(\phi = f(\theta)\)</span> we can say <span class="math inline">\(p(y|\theta)\)</span> belongs in the exponential family, and the conjugate prior is <span class="math inline">\(p(\phi | n_0, t_0) =c(\phi)^{n_0} e^{n_0 t_0 \phi}\)</span>. Note: the conjugate prior is given over <span class="math inline">\(\phi\)</span> and we’d have to transform back if we care about <span class="math inline">\(p(\theta)\)</span>.</p>
+</section>
+</section>
+<section id="chapter-4" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-4">Chapter 4</h2>
+<section id="predictive-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="predictive-distributions">Predictive distributions</h3>
+<p>The posterior predictive distribution,</p>
+<p><span class="math display">\[
+p(\tilde{y} | y_1, \ldots y_n) = \int p(\tilde{y}|\theta) p(\theta|y_1, \ldots, y_n)d\theta
+\]</span></p>
+<p>when <span class="math inline">\(Y | \theta\)</span> conditionally iid.</p>
+<p>The prior predictive distribution,</p>
+<p><span class="math display">\[
+p(\tilde{y}) = \int p(\tilde{y}|\theta) p(\theta)d\theta.
+\]</span></p>
+<p>Notice both the posterior and prior predictive distributions are represented as <strong>integrals</strong>. Integrals are expectations. This means we can use Monte Carlo integration to approximate.</p>
+<p>To approximate the posterior predictive distribution:</p>
+<ol type="1">
+<li>sample from the posterior of theta, <span class="math inline">\(p(\theta|y_1,\ldots y_n)\)</span></li>
+<li>sample from data generative model <span class="math inline">\(p(\tilde{y}|\theta)\)</span> for the values of theta sampled in (1).</li>
+</ol>
+<p>To approximate the prior predictive distribution:</p>
+<ol type="1">
+<li>sample from the prior of theta, <span class="math inline">\(p(\theta)\)</span></li>
+<li>sample from the data generative model <span class="math inline">\(p(\tilde{y}|\theta)\)</span> for the values of theta sampled in (1).</li>
+</ol>
+</section>
+<section id="monte-carlo-error" class="level3">
+<h3 class="anchored" data-anchor-id="monte-carlo-error">Monte Carlo error</h3>
+<p>Since Monte Carlo approximation can be viewed as a sample mean approximating an expected value, CLT applies.</p>
+<p>More specifically, if <span class="math inline">\(\theta_i |\vec{y}\)</span> iid with mean <span class="math inline">\(\theta\)</span> and finite variance <span class="math inline">\(\sigma^2\)</span>, for <span class="math inline">\(i \in \{1, \ldots, N\}\)</span>, then the sample mean</p>
+<p><span class="math display">\[
+\bar{\theta} \sim N(\theta, \frac{\sigma^2}{N} ).
+\]</span></p>
+<p>and Monte Carlo estimates converge at a rate <span class="math inline">\(\mathcal{O}\left(\frac{1}{\sqrt{N}}\right)\)</span> regardless of the dimension of the integral!</p>
+</section>
+<section id="the-sampling-view" class="level3">
+<h3 class="anchored" data-anchor-id="the-sampling-view">The sampling view</h3>
+<p>If we have a posterior <span class="math inline">\(p(\theta | y_1, \ldots y_n)\)</span> that we can sample from and we want some summary of the posterior… e.g.&nbsp;we want</p>
+<ul>
+<li><span class="math inline">\(p(\theta &lt; a)\)</span></li>
+<li>quantiles of the posterior , or</li>
+<li>the posterior of some transform <span class="math inline">\(f(\theta)\)</span>,</li>
+</ul>
+<p>then we can simply sample from the posterior to obtain an empirical approximation of the posterior and then report the empirical quantity of interest. This is also called Monte Carlo approximation.</p>
+<p>The procedure can be written:</p>
+<ol type="1">
+<li>sample from the posterior <span class="math inline">\(p(\theta |y_1, \ldots y_n)\)</span> some large number of times and then</li>
+<li>compute the quantity of interest</li>
+</ol>
+</section>
+</section>
+<section id="chapter-5" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-5">Chapter 5</h2>
+<section id="conjugate-prior-to-the-normal-model" class="level3">
+<h3 class="anchored" data-anchor-id="conjugate-prior-to-the-normal-model">Conjugate prior to the normal model</h3>
+<p>If</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_i | \theta, \sigma^2 &amp;\sim N(\theta, \sigma^2)\\
+\theta | \sigma^2 &amp; \sim N(\mu_0, \sigma^2/\kappa_0)\\
+\frac{1}{\sigma^2} &amp;\sim \text{gamma}(\frac{\nu_0}{2}, \frac{\nu_0}{2} \sigma_0^2)
+\end{aligned}
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+\begin{aligned}
+\theta | \sigma^2, y_1,\ldots y_n &amp;\sim \text{normal}\\
+\sigma^2 | y_1,\ldots y_n &amp;\sim \text{gamma}
+\end{aligned}
+\]</span></p>
+<p>and since</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(\theta, \sigma^2 | y_1, \ldots y_n) &amp;= p(\theta |\sigma^2, y_1,\ldots y_n) p(\sigma^2 | y_1,\ldots y_n),
+\end{aligned}
+\]</span></p>
+<p>we can sample <strong>directly</strong> from the joint posterior by sampling from <span class="math inline">\(p(\sigma^2 | y_1,\ldots y_n)\)</span> and then from <span class="math inline">\(p(\theta | \sigma^2, y_1,\ldots y_n)\)</span>.</p>
+</section>
+<section id="estimators" class="level3">
+<h3 class="anchored" data-anchor-id="estimators">Estimators</h3>
+<p>Be able to define and compute the bias, variance and MSE of an estimator.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Definition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Bias</strong> is the the difference between the expected value of the estimator and the true value of the parameter.</p>
+<ul>
+<li><p><span class="math inline">\(E[\hat{\theta} | \theta = \theta_ 0] - \theta_0\)</span> is the bias of <span class="math inline">\(\hat{\theta}\)</span>.</p></li>
+<li><p>If <span class="math inline">\(E[\hat{\theta} | \theta = \theta_0] = \theta_0\)</span>, then we say <span class="math inline">\(\hat{\theta}\)</span> is an <strong>unbiased estimator</strong> of <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>If <span class="math inline">\(E[\hat{\theta} | \theta = \theta_0] \neq \theta_0\)</span>, then we say <span class="math inline">\(\hat{\theta}\)</span> is a <strong>biased estimator</strong> of <span class="math inline">\(\theta\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Definition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Recall: <strong>variance</strong> is average squared distance from the mean. In this context, the variance of an estimator refers to the variance of the sampling distribution of <span class="math inline">\(\hat{\theta}\)</span>. We write this mathematically,</p>
+<p><span class="math display">\[
+Var[\hat{\theta} | \theta_0] = E[(\hat{\theta} - m)^2 |\theta_0]
+\]</span></p>
+<p>where <span class="math inline">\(m = E[\hat{\theta}|\theta_0]\)</span>.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Definition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Mean squared error</strong> (MSE) is (as the name suggests) the expected value of the squared difference between the estimator and true parameter value. Equivalently, MSE is the variance plus the square bias of the estimator.</p>
+<p><span class="math display">\[
+\begin{aligned}
+MSE[\hat{\theta}|\theta_0] &amp;= E[(\hat{\theta} - \theta_0)^2 | \theta_0]\\
+&amp;= Var[\hat{\theta} | \theta_0] + Bias^2[\hat{\theta}|\theta_0]
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="chapter-6" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-6">Chapter 6</h2>
+<section id="gibbs-sampling-procedure" class="level3">
+<h3 class="anchored" data-anchor-id="gibbs-sampling-procedure">Gibbs sampling procedure</h3>
+<p>How can we look at a joint posterior, e.g.&nbsp;<span class="math inline">\(p(\theta_1,\ldots \theta_p | y_1,\ldots y_n)\)</span>, if we have non-conjugate priors?</p>
+<p>Well if we <em>do</em> have the full conditionals, <span class="math inline">\(p(\theta_i | \theta_{-i}, y_1,\ldots y_n)\)</span> then we can sample from the joint posterior via Gibbs sampling. Note: <span class="math inline">\(\theta_{-i}\)</span> denotes <span class="math inline">\(\{\theta\} \backslash \theta_i\)</span>, i.e.&nbsp;the set of all theta except <span class="math inline">\(\theta_i\)</span>.</p>
+<p>Gibbs sampling proceeds:</p>
+<p>Pick a starting point <span class="math inline">\(\theta_2^{(0)}, \ldots \theta_p^{(0)}\)</span>, then for s in 1:S,</p>
+<ol type="1">
+<li><p>Sample <span class="math inline">\(\theta_1^{(s)} \sim p(\theta_1 | \theta_{2}^{(s-1)}, \ldots, \theta_{p}^{(s-1)}, y_1,\ldots y_n)\)</span></p></li>
+<li><p>Sample <span class="math inline">\(\theta_2^{(s)} \sim p(\theta_2 | \theta_{1}^{(s)}, \theta_{3}^{(s-1)} \ldots, \theta_{p}^{(s-1)}, y_1,\ldots y_n)\)</span></p></li>
+</ol>
+<p><span class="math inline">\(\vdots\)</span></p>
+<ol start="16" type="a">
+<li>Sample <span class="math inline">\(\theta_p^{(s)} \sim p(\theta_2 | \theta_{1}^{(s)}, \ldots, \theta_{p-1}^{(s)}, y_1,\ldots y_n)\)</span></li>
+</ol>
+<p>It follows that we have a sequence of <em>dependent</em> samples from the joint posterior. The sequence <span class="math inline">\(\{\theta^{(s)}\}\)</span> is called a Markov chain.</p>
+<p><span class="math display">\[
+\frac{1}{S} \sum_{s=1}^S g(\theta^{(s)})  \rightarrow E[g(\theta)]
+\]</span></p>
+<p>Gibbs sampling is a form of Markov chain Monte Carlo (MCMC).</p>
+</section>
+<section id="mcmc-diagnostics" class="level3">
+<h3 class="anchored" data-anchor-id="mcmc-diagnostics">MCMC diagnostics</h3>
+<p>Effective sample size (ESS), autocorrelation, and traceplots are diagnostic tools we use to assess how well our Markov chain approximates the posterior. You should be able to define these terms and interpret their output. See <a href="./notes/lec09-mcmc-diagnostics.html">this lecture</a> for details.</p>
+<p>Specifically, ESS is the number of independent Monte Carlo samples necessary to give the same precision as the MCMC samples. Typically, ESS is a criterion used to figure out how many samples to generate, i.e.&nbsp;how long to run your Markov chain.</p>
+</section>
+</section>
+<section id="chapter-7" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-7">Chapter 7</h2>
+<section id="density" class="level3">
+<h3 class="anchored" data-anchor-id="density">Density</h3>
+<p>We say a <span class="math inline">\(p\)</span> dimensional vector <span class="math inline">\(\boldsymbol{Y}\)</span> has a multivariate normal distribution if its sampling density is given by</p>
+<p><span class="math display">\[
+p(\boldsymbol{y}| \boldsymbol{\theta}, \Sigma) = (2\pi)^{-p/2} |\Sigma|^{-1/2} \exp\{
+-\frac{1}{2}(\boldsymbol{y}-\boldsymbol{\theta})^T \Sigma^{-1} (\boldsymbol{y}- \boldsymbol{\theta})
+\}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\boldsymbol{y}=  \left[ {\begin{array}{cc}
+   y_1 \\
+   y_2\\
+   \vdots\\
+   y_p
+  \end{array} } \right]
+  ~~~
+   \boldsymbol{\theta}= \left[ {\begin{array}{cc}
+   \theta_1 \\
+   \theta_2\\
+   \vdots\\
+   \theta_p
+  \end{array} } \right]
+  ~~~
+  \Sigma =
+  \left[ {\begin{array}{cc}
+   \sigma_1^2 &amp; \sigma_{12}&amp; \ldots &amp; \sigma_{1p}\\
+   \sigma_{12} &amp; \sigma_2^2 &amp;\ldots &amp; \sigma_{2p}\\
+   \vdots &amp; \vdots &amp; &amp; \vdots\\
+   \sigma_{1p} &amp; \ldots &amp; \ldots &amp; \sigma_p^2
+  \end{array} } \right].
+\]</span></p>
+<section id="key-facts" class="level4">
+<h4 class="anchored" data-anchor-id="key-facts">Key facts</h4>
+<ul>
+<li><span class="math inline">\(\boldsymbol{y}\in \mathbb{R}^p\)</span> ; <span class="math inline">\(\boldsymbol{\theta}\in \mathbb{R}^p\)</span>; <span class="math inline">\(\Sigma &gt; 0\)</span></li>
+<li><span class="math inline">\(E[\boldsymbol{y}] = \boldsymbol{\theta}\)</span></li>
+<li><span class="math inline">\(V[\boldsymbol{y}] = E[(\boldsymbol{y}- \boldsymbol{\theta})(\boldsymbol{y}- \boldsymbol{\theta})^T] = \Sigma\)</span></li>
+<li>Marginally, <span class="math inline">\(y_i \sim N(\theta_i, \sigma_i^2)\)</span>.</li>
+<li>If <span class="math inline">\(\boldsymbol{\theta}\)</span> is a MVN random vector, then the kernel is <span class="math inline">\(\exp\{-\frac{1}{2} \boldsymbol{\theta}^T A \boldsymbol{\theta}+ \boldsymbol{\theta}^T \boldsymbol{b} \}\)</span>. The mean is <span class="math inline">\(A^{-1}\boldsymbol{b}\)</span> and the covariance is <span class="math inline">\(A^{-1}\)</span>.</li>
+</ul>
+</section>
+</section>
+<section id="semi-conjugate-prior-for-boldsymboltheta" class="level3">
+<h3 class="anchored" data-anchor-id="semi-conjugate-prior-for-boldsymboltheta">semi-conjugate prior for <span class="math inline">\(\boldsymbol{\theta}\)</span></h3>
+<p>If</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{y}| \boldsymbol{\theta}, \Sigma &amp;\sim MVN(\boldsymbol{\theta}, \Sigma),\\
+\boldsymbol{\theta}&amp;\sim MVN(\mu_0, \Lambda_0),
+\end{aligned}
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+\boldsymbol{\theta}| \boldsymbol{y}, \Sigma \sim MVN
+\]</span></p>
+</section>
+<section id="semiconjugate-prior-for-sigma" class="level3">
+<h3 class="anchored" data-anchor-id="semiconjugate-prior-for-sigma">semiconjugate prior for <span class="math inline">\(\Sigma\)</span></h3>
+<p>If</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{y}| \boldsymbol{\theta}, \Sigma &amp;\sim MVN(\boldsymbol{\theta}, \Sigma),\\
+\Sigma &amp;\sim \text{inverse-Wishart}(\nu_0, S_0^{-1}),
+\end{aligned}
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+\Sigma | \boldsymbol{y}, \boldsymbol{\theta}\sim \text{inverse-Wishart}
+\]</span></p>
+</section>
+<section id="wishart-as-sum-of-squares-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="wishart-as-sum-of-squares-matrix">Wishart as sum of squares matrix</h3>
+<p>For a given <span class="math inline">\(\nu_0\)</span> and and a <span class="math inline">\(p \times p\)</span> covariance matrix <span class="math inline">\(S_0\)</span>, we can generate samples from a MVN by the following procedure:</p>
+<ol type="1">
+<li>sample <span class="math inline">\(\boldsymbol{z}_1, \ldots \boldsymbol{z}_{\nu_0} \sim \text{ i.i.d. } MVN(\mathbf{0}, S_0)\)</span></li>
+<li>calculate <span class="math inline">\(\mathbf{Z}^T \mathbf{Z} = \sum_{i =1}^{\nu_0} \boldsymbol{z}_i \boldsymbol{z}_i^T\)</span>.</li>
+</ol>
+<p>It follows that <span class="math inline">\(\mathbf{Z}^T \mathbf{Z} &gt; 0\)</span> and symmetric. <span class="math inline">\(E[\mathbf{Z}^T \mathbf{Z}] = \nu_0 S_0\)</span></p>
+</section>
+</section>
+<section id="chapter-8" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-8">Chapter 8</h2>
+<p>Be able to write a hierarchical model. Review and be able to explain all aspects of the example <a href="./notes/lec12-hierarchical-intro.html">here</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

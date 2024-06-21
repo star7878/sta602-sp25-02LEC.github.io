@@ -1,0 +1,284 @@
+---
+title: "Multivariate normal"
+author: "Dr. Alexander Fisher"
+# mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+\newcommand{\bt}{\boldsymbol{\theta}}
+\newcommand{\by}{\boldsymbol{y}}
+\newcommand{\identity}{\boldsymbol{I}}
+\newcommand{\bz}{\boldsymbol{z}}
+
+## The multivariate normal (MVN)
+
+### Motivating examples
+
+```{r}
+#| echo: false
+#| warning: false
+
+library(palmerpenguins)
+library(tidyverse)
+```
+
+
+Example 1: Twenty two students take a reading comprehension test before and after receiving an instructional method. The result for each student is a bivariate vector $Y_i$ that includes a pre- and post- instructional score.
+
+```{r}
+#| echo: false
+set.seed(123)
+s1 = rnorm(22, 75, sd = 5)
+s2 = s1 + rnorm(22, 15, sd = 3)
+scores = data.frame(s1, s2)
+
+scores %>%
+  ggplot(aes(x = s1, y = s2)) + 
+  geom_point() +
+  theme_bw() +
+  labs(x = "score on first test", y = "score on second test", 
+       title = "Reading comprehension test scores")
+```
+
+
+Example 2: We measure three features of Gentoo penguins: bill length, bill depth and body mass. For each penguin we record $Y_i$, a three-dimensional vector of trait measurements.
+
+
+```{r}
+#| warning: false
+#| echo: false
+library(plotly)
+
+penguins = penguins %>%
+  filter(species == "Gentoo")
+
+bill_length = penguins$bill_length_mm
+bill_depth = penguins$bill_depth_mm
+body_mass = penguins$body_mass_g
+
+plot_ly(x=bill_length, y=bill_depth, z=body_mass,
+        type="scatter3d", mode="markers") %>%
+  layout(scene = list(xaxis = list(title = "bill length (mm)"),
+                      yaxis = list(title = "bill depth (mm)"),
+                      zaxis = list(title = "body mass (g)")))
+```
+
+
+### Density
+
+We say a $p$ dimensional vector $\boldsymbol{Y}$ has a multivariate normal distribution if its sampling density is given by
+
+$$
+p(\by | \bt, \Sigma) = (2\pi)^{-p/2} |\Sigma|^{-1/2} \exp\{
+-\frac{1}{2}(\by -\bt)^T \Sigma^{-1} (\by - \bt)
+\}
+$$
+
+where
+
+$$
+\by =  \left[ {\begin{array}{cc}
+   y_1 \\
+   y_2\\
+   \vdots\\
+   y_p 
+  \end{array} } \right]
+  ~~~
+   \bt = \left[ {\begin{array}{cc}
+   \theta_1 \\
+   \theta_2\\
+   \vdots\\
+   \theta_p 
+  \end{array} } \right]
+  ~~~
+  \Sigma =
+  \left[ {\begin{array}{cc}
+   \sigma_1^2 & \sigma_{12}& \ldots & \sigma_{1p}\\
+   \sigma_{12} & \sigma_2^2 &\ldots & \sigma_{2p}\\
+   \vdots & \vdots & & \vdots\\
+   \sigma_{1p} & \ldots & \ldots & \sigma_p^2
+  \end{array} } \right].
+$$
+
+### Key facts
+
+- $\by \in \mathbb{R}^p$ ; $\bt \in \mathbb{R}^p$; $\Sigma > 0$
+- $E[\by] = \bt$
+- $V[\by] = E[(\by - \bt)(\by - \bt)^T] =  \Sigma$
+- Marginally, $y_i \sim N(\theta_i, \sigma_i^2)$.
+- If $\bt$ is a MVN random vector, then the kernel is $\exp\{-\frac{1}{2} \bt^T A \bt + \bt^T \boldsymbol{b} \}$. The mean is $A^{-1}\boldsymbol{b}$ and the covariance is $A^{-1}$.
+
+
+
+#### sampling from a mvt norm
+
+`library(mvtnorm)` contains functions we need.
+
+- `rmvnorm()` to sample from a multivariate normal
+- `dmvnorm()` to compute the density
+- `pmvnorm()` to compute the distribution function
+- `qmvnorm()` to compute quantiles of the multivariate normal
+
+## Matrix algebra fundamentals
+
+### matrix facts
+
+- matrix multiplication proceeds row $\times$ column, so if we have the product $AB$, $A$ must have the same number of ___ as B has ___.
+- the determinant of a matrix, $|A|$, measures the size of the matrix
+- the identity matrix is the matrix multiplicative identity. It is represented by $\identity$, in general $\identity_p$ is a $p \times p$ matrix with 1 on each diagonal and 0 on every off-diagonal. $\identity A = A \identity = A$.
+- the inverse of a matrix $A^{-1}$ works as follows: $A A^{-1} = A^{-1}A = \identity$.
+- the trace of a matrix, tr(A), is the sum of its diagonal elements
+- order matters: $AB \neq BA$ in general.
+- $\Sigma > 0$ is shorthand for saying the matrix is positive definite. This means that for all vectors $\boldsymbol{x}$, the quadratic form $\boldsymbol{x}^T \Sigma \boldsymbol{x} > 0$. $Sigma > 0 \iff$ all eigenvalues of $\Sigma$ are positive.
+
+Exercise: 
+
+- $\bt$ and $\boldsymbol{b}$ are $p \times 1$ vectors, $A$ is a symmetric matrix. Simplify $\boldsymbol{b}^T A \bt + \bt ^T A \boldsymbol{b}$ what is the dimension of the result?
+- what's the dimension of $V[\by]$?
+
+### matrix operations in R
+
+```{r}
+# make a matrix A
+A = matrix(c(1,.2, .2, 2), ncol = 2)
+A
+
+# invert A (expensive for large matrices)
+Ainv = solve(A)
+
+# matrix multiplication
+Ainv %*% A
+
+# determinant of A
+det(A)
+
+# trace of A
+sum(diag(A))
+
+# create a vector b
+b = matrix(c(1, 2), ncol = 1)
+b
+
+# transpose the vector b
+t(b)
+```
+
+```{r}
+#| error: true
+b %*% A
+```
+
+- What went wrong in the code above?
+
+
+
+## Semiconjugate priors
+
+### semiconjugate prior for $\bt$
+
+If
+
+$$
+\begin{aligned}
+\by | \bt, \Sigma &\sim MVN(\bt, \Sigma),\\
+\bt &\sim MVN(\mu_0, \Lambda_0),
+\end{aligned}
+$$
+
+then
+
+$$
+\bt | \by, \Sigma \sim MVN(\boldsymbol{\mu_n}, \Lambda_n),
+$$
+
+where 
+
+$$
+\begin{aligned}
+\Lambda_n &= (\Lambda_0^{-1} + n \Sigma^{-1} )^{-1},\\
+\boldsymbol{\mu_n} &= (\Lambda_0^{-1} + n \Sigma^{-1} )^{-1}(\Lambda_0^{-1} \boldsymbol{\mu}_0 + n \Sigma^{-1} \bar{\by}).
+\end{aligned}
+$$
+
+Exercise: interpret $E[\bt | \by_1, \ldots \by_n, \Sigma]$ and $Cov[\bt | \by_1, \ldots \by_n, \Sigma]$.
+
+
+### semiconjugate prior for $\Sigma$
+
+If
+
+$$
+\begin{aligned}
+\by | \bt, \Sigma &\sim MVN(\bt, \Sigma),\\
+\Sigma &\sim \text{inverse-Wishart}(\nu_0, S_0^{-1}),
+\end{aligned}
+$$
+
+then
+
+$$
+\Sigma | \by, \bt \sim \text{inverse-Wishart} (\nu_0 + n, (S_0 + S_{\theta})^{-1}),
+$$
+where $S_\theta = \sum_{i=1}^n (\by_i - \bt)(\by_i - \bt)^T$ is the residual sum of squares matrix for the vectors $\by_1, \ldots \by_n$ if the population mean is $\bt$.
+
+---
+
+### the inverse-Wishart
+
+the inverse-Wishart$(\nu_0, S_0^{-1})$ density is given by 
+
+$$
+\begin{aligned}
+p(\Sigma | \nu_0, S_0^{-1}) = \left[ 
+2^{\nu_0 p / 2} \pi^{{p \choose 2}/2} |S_0|^{-\nu_0/2} \prod_{j = 1}^p \Gamma([\nu_0 + 1 - j]/2)
+\right]^{-1} \times\\
+|\Sigma|^{-(\nu_0 + p + 1)/2} \times \exp \{ -\frac{1}{2}tr(S_0 \Sigma^{-1})\}.
+\end{aligned}
+$$
+#### Key facts
+- notice that the first line is the normalizing constant of the density
+- the support is $\Sigma > 0$ and $\Sigma$ symmetric $p \times p$ matrix. $\nu_0 \in \mathbb{N}^+$ and $\nu_0 \geq p$. $S_0$ is a $p \times p$ symmetric positive definite matrix.
+- if $\Sigma$ is inv-Wishart$(\nu_0, S_0^{-1})$ then $\Sigma^{-1}$ is Wishart$(\nu_0, S_0^{-1})$.
+- $E[\Sigma^{-1}] = \nu_0 S_0^{-1}$ and $E[\Sigma] = \frac{1}{\nu_0 - p - 1} S_0$.
+- intuition: $\nu_0$ is prior sample size. $S_0$ is a prior guess of the covariance matrix.
+
+#### sampling from the inverse-Wishart
+
+0. pick $\nu_0 > p$, pick $S_0$
+1. sample $\bz_1, \ldots \bz_{\nu_0} \sim \text{ i.i.d. } MVN(\boldsymbol{0}, S_0^{-1})$
+2. calculate $\boldsymbol{Z}^T \boldsymbol{Z} = \sum_{i = 1}^{\nu_0} \bz_i \bz^T$
+3. set $\Sigma = (\boldsymbol{Z}^T \boldsymbol{Z})^{-1}$
+
+```{r}
+library(mvtnorm) # contains function rmvnorm
+
+# 2x2 example: generating 1 sample from an inv-Wishart
+set.seed(360)
+p = 2
+nu0 = 3
+S0 = matrix(c(1, .1, .1, 1), ncol = 2)
+S0inv = solve(S0)
+Z = rmvnorm(n = nu0, # number of observations of the 2D vector Z
+        mean = rep(0, p), # mean 0
+        sigma = S0inv) # prior variance
+Sigma = solve(t(Z) %*% Z)
+eigen(Sigma)$values
+Sigma
+```
+
+Exercise/show offline: why does this work? Hint: what is $cov[\bz]$?
+
+We can also use the `monomvn` package to simulate from a Wishart more succinctly,
+
+```{r}
+#| warning: false
+library(monomvn)
+
+set.seed(360)
+Sigma = solve(rwish(nu0, S0inv))
+eigen(Sigma)$values
+Sigma
+```
+

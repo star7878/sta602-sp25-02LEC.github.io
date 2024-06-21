@@ -1,0 +1,217 @@
+---
+title: "Estimators"
+author: "Dr. Alexander Fisher"
+# mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+
+## Definitions
+
+::: callout-note
+## Definition
+A **point estimator** of an unknown parameter $\theta$ is a function that converts data into a single element of parameter space $\Theta$.
+:::
+
+Example: imagine $\theta$ is the population mean. The following are each point estimators of $\theta$: 
+
+- $\bar{y}$ 
+- $y_1$
+- $\frac{y_1 + y_2}{2}$
+
+::: callout-important
+It is convention to write the population parameter as a Greek character and the estimator as the same Greek character, but with a "hat". For example, $\theta$ is the parameter and $\hat{\theta}$ is the estimator.
+:::
+
+**Sampling properties** of a point estimator refer to the estimator's behavior under hypothetical repeatable surveys or experiments.
+
+Three common sampling properties of estimators we will see again and again are:
+
+- bias
+- variance
+- mean squared error (MSE)
+
+#### Intuition 
+
+Before we discuss bias, variance and mean squared error of an estimator, it's important to understand that **an estimator is a statistic (function of the data) and therefore a random variable**. Because of this, estimator's have a **sampling distribution**.
+
+Exercise: What does the example below show? What is x?
+
+```{r}
+set.seed(360)
+
+x = vector()
+for (i in 1:100) {
+  y = rnorm(10)
+  x = append(min(y), x)
+}
+hist(x, freq = FALSE)
+abline(v = mean(x), col= "steelblue", lwd = 4)
+
+cat("The variance of x is ", round(var(x), 3))
+```
+
+### Bias, variance and mean squared error
+
+In the rest of these notes, let $\theta_0$ be the true value of the population parameter $\theta$.
+
+::: callout-note
+## Definition
+
+**Bias** is the the difference between the expected value of the estimator and the true value of the parameter.
+
+- $E[\hat{\theta} | \theta = \theta_ 0] - \theta_0$ is the bias of $\hat{\theta}$.
+
+- If $E[\hat{\theta} | \theta = \theta_0] = \theta_0$, then we say $\hat{\theta}$ is an **unbiased estimator** of $\theta$.
+- If $E[\hat{\theta} | \theta = \theta_0] \neq \theta_0$, then we say $\hat{\theta}$ is a **biased estimator** of $\theta$.
+
+:::
+
+
+Exercise: Imagine $\hat{\theta}_a$ and $\hat{\theta}_b$ are two different estimators of $\theta$. The true value of $\theta$ is $\theta_0 = 0$. The sampling distributions of the two estimators are given below. Which estimator do you prefer?
+
+```{r}
+#| echo: false
+#| warning: false
+
+library(tidyverse)
+library(latex2exp)
+library(patchwork)
+set.seed(360)
+
+n = 3
+k0 = 20
+mu0 = 0.5
+
+ta = vector()
+tb = vector()
+for (i in 1:10000) {
+  y = rnorm(3, 0, 10)
+  ybar = mean(y)
+  ta = append(ybar, ta)
+  w = n / (k0 + n)
+  postMean = (w * ybar) + ((1 - w) * mu0)
+  tb = append(postMean, tb)
+}
+
+df = data.frame(ta, tb)
+
+p1 = df %>%
+  ggplot(aes(x = ta)) +
+  geom_histogram(aes(y = ..density..), bins = 25) +
+  geom_vline(xintercept = 0, color = "steelblue") +
+  scale_x_continuous(labels = c("-15", "-7.5", TeX("$\\theta_0$"), "7.5", "15"),
+                     breaks = c(-15, -7.5, 0, 7.5, 15)) +
+  labs(x = TeX("$\\hat{\\theta}_a$"), y = "Density") +
+  theme_bw()
+
+p2 = df %>%
+  ggplot(aes(x = tb)) + 
+  geom_histogram(aes(y = ..density..), bins = 25) +
+  geom_vline(xintercept = 0, color = "steelblue") +
+ scale_x_continuous(labels = c("-2", "-1", TeX("$\\theta_0$"), "1", "2"),
+                    breaks = c(-2, -1, 0, 1, 2)) +
+  labs(x = TeX("$\\hat{\\theta}_b$"), y = "Density") +
+  theme_bw()
+
+p1 / p2
+  
+# hist(ta)
+```
+
+
+::: callout-note
+## Definition
+Recall: **variance** is average squared distance from the mean. In this context, the variance of an estimator refers to the variance of the sampling distribution of $\hat{\theta}$. We write this mathematically, 
+
+$$
+Var[\hat{\theta} | \theta_0] = E[(\hat{\theta} - m)^2 |\theta_0]
+$$
+where $m = E[\hat{\theta}|\theta_0]$.
+
+:::
+
+While it may seem desirable to have an estimator with zero bias, the estimator may still be far away from the true parameter value if the variance is too large. The mean squared error quantifies *how close* an estimator is to the true parameter value.
+
+::: callout-note
+## Definition
+**Mean squared error** (MSE) is (as the name suggests) the expected value of the squared difference between the estimator and true parameter value. Equivalently, MSE is the variance plus the square bias of the estimator.
+
+$$
+\begin{aligned}
+MSE[\hat{\theta}|\theta_0] &= E[(\hat{\theta} - \theta_0)^2 | \theta_0]\\
+&= Var[\hat{\theta} | \theta_0] + Bias^2[\hat{\theta}|\theta_0]
+\end{aligned}
+$$
+:::
+
+- Let's show this offline.
+
+## Practice 
+
+Suppose you wish to make inference about the average bill length of [Chinstrap penguins](https://allisonhorst.github.io/palmerpenguins/).
+
+You make the modeling assumption that $Y$, the bill length of a penguin is normally distributed, i.e. $Y \sim N(\theta, \sigma^2)$ and you set up a conjugate prior as we've done before.
+
+One can then show that the posterior mean estimator of $\theta$ is
+
+$$
+\hat{\theta}_b = E[\theta | y_1,\ldots y_n] = \frac{n}{\kappa_0 + n} \bar{y} + \frac{\kappa_0}{\kappa_0 + n} \mu_0 = w\bar{y} + (1-w) \mu_0
+$$
+
+Exercise: compare $\hat{\theta}_b$ to the estimator $\hat{\theta}_e = \bar{y}$. Compute the expected value of each estimator, which one is biased? Compute the variance of each estimator. Which has lower variance?
+
+- Let's compute the MSE and discuss when the Bayesian estimator $\hat{\theta}_b$ has lower MSE than the sample mean offline.
+
+## Extra practice
+
+<!-- # ```{r} -->
+<!-- # #| warning: false -->
+<!-- # library(tidyverse) -->
+<!-- # library(palmerpenguins) -->
+<!-- # ``` -->
+
+Suppose you know that you know Gentoo penguins are closely related to Chinstrap penguins. Previously, you've measured the bill length of three Gentoo penguins and found their mean bill length to be 46.2. Accordingly, you set $\mu_0 = 46.2$.
+
+<!-- # ```{r} -->
+<!-- # set.seed(360) -->
+<!-- # penguins %>% -->
+<!-- #   filter(species == "Gentoo") %>% -->
+<!-- #   slice_sample(n = 3) %>% -->
+<!-- #   summarize(mean(bill_length_mm)) %>% -->
+<!-- #   pull() -->
+<!-- # ``` -->
+
+Suppose (for illustrative purposes) that you *know* the true population mean and variance for Chinstrap penguin bill length,
+
+$$
+\begin{aligned}
+\theta_0 &= 48.8\\
+\sigma^2 &= 3.3.
+\end{aligned}
+$$
+<!-- # ```{r} -->
+<!-- # penguins %>% -->
+<!-- #   filter(species == "Chinstrap") %>% -->
+<!-- #   summarize(mean(bill_length_mm), -->
+<!-- #             sd(bill_length_mm)) -->
+<!-- # ``` -->
+
+- Compute $MSE[\hat{\theta}_e|\theta_0]$ and $MSE[\hat{\theta_b}|\theta_0]$ and plot the ratio $MSE[\hat{\theta}_b]/MSE[\hat{\theta}_e|\theta_0]$ as a function of $n$ for $\kappa_0 = 0, 1, 2, 3$.
+
+
+<!-- ```{r} -->
+<!-- penguins %>% -->
+<!--   group_by(species) %>% -->
+<!--   summarize(mean(bill_length_mm, na.rm = TRUE), -->
+<!--             sd(bill_length_mm, na.rm = TRUE)) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- penguins %>% -->
+<!--   ggplot(aes(x = bill_length_mm, fill = species)) +  -->
+<!--   geom_histogram() -->
+<!-- ``` -->
+

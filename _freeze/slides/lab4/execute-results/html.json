@@ -1,0 +1,18 @@
+{
+  "hash": "658754c12228481f7c97d08e710e65d6",
+  "result": {
+    "markdown": "---\ntitle: \"Extra practice\"\nformat: \n    revealjs:\n      mainfont: Lato\n      smaller: true\n---\n\n\n# Predictive checks\n\n## Exercise\n\nA data scientist at a small subscriber-based tech company models the number of new subscribers in a day as $Y|\\theta \\sim \\text{Poisson}(\\theta)$ with prior $\\theta \\sim \\text{gamma}(a,b)$. A priori, the data scientist believes that there are on average 20 signups per day and 90% of the time there are between approximately 3 and 50 signups on a given day.\n\n#### a\n\nFind suitable $a$ and $b$ that satisfy the data scientist's prior beliefs.\n\nVerify how well your prior aligns with this belief using Monte Carlo sampling to generate the prior predictive distribution, $p(\\tilde{y}) = \\int p(\\tilde{y}, \\theta)d\\theta$.\n\n\n::: {.cell}\n\n:::\n\n\n#### b\n\nAfter one month the data scientist observes the following daily subscriber counts:\n\n\n::: {.cell}\n\n```{.r .cell-code}\ny = c(10, 21, 19, 16, 20, 18, 35, 16, 23, 26, 20, 21, 23, 19, 18, 20, 23, 18, 21, 16, 15, 15, 20, 22, 19, 25)\n```\n:::\n\n\nThe data scientist is fundamentally interested in the variance of subscriber counts per day. Is the Poisson model appropriate for this data?\n\nReport $p(\\tilde{S}^2 > s^2_{obs} | y_1,\\ldots y_n)$ where $\\tilde{S}^2$ is the posterior predictive sample variance and $s^2_{obs}$ is the observed sample variance ($s^2_{obs} = 21.3$). To generate samples under the posterior predictive distribution, use the prior from part (a).\n\n\n::: {.cell}\n\n:::\n\n\n\n# Estimator bias\n\n## Exercise\n\nLet $Y_1,\\ldots Y_n$ be iid random variables with expectation $\\theta$ and variance $\\sigma^2$.\n\nShow that $\\frac{1}{n} \\sum_{i = 1}^n (Y_i -\\bar{Y})^2$ is a biased estimator of $\\sigma^2$.",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-after-body": [
+        "\n<script>\n  // htmlwidgets need to know to resize themselves when slides are shown/hidden.\n  // Fire the \"slideenter\" event (handled by htmlwidgets.js) when the current\n  // slide changes (different for each slide format).\n  (function () {\n    function fireSlideChanged(previousSlide, currentSlide) {\n\n      // dispatch for htmlwidgets\n      const event = window.document.createEvent(\"Event\");\n      event.initEvent(\"slideenter\", true, true);\n      window.document.dispatchEvent(event);\n\n      // dispatch for shiny\n      if (window.jQuery) {\n        if (previousSlide) {\n          window.jQuery(previousSlide).trigger(\"hidden\");\n        }\n        if (currentSlide) {\n          window.jQuery(currentSlide).trigger(\"shown\");\n        }\n      }\n    }\n\n    // hookup for reveal\n    if (window.Reveal) {\n      window.Reveal.addEventListener(\"slidechanged\", function(event) {\n        fireSlideChanged(event.previousSlide, event.currentSlide);\n      });\n    }\n\n    // hookup for slidy\n    if (window.w3c_slidy) {\n      window.w3c_slidy.add_observer(function (slide_num) {\n        // slide_num starts at position 1\n        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);\n      });\n    }\n\n  })();\n</script>\n\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

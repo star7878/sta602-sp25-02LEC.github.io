@@ -1,0 +1,78 @@
+---
+title: "Extra practice"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# Predictive checks
+
+## Exercise
+
+A data scientist at a small subscriber-based tech company models the number of new subscribers in a day as $Y|\theta \sim \text{Poisson}(\theta)$ with prior $\theta \sim \text{gamma}(a,b)$. A priori, the data scientist believes that there are on average 20 signups per day and 90% of the time there are between approximately 3 and 50 signups on a given day.
+
+#### a
+
+Find suitable $a$ and $b$ that satisfy the data scientist's prior beliefs.
+
+Verify how well your prior aligns with this belief using Monte Carlo sampling to generate the prior predictive distribution, $p(\tilde{y}) = \int p(\tilde{y}, \theta)d\theta$.
+
+```{r}
+#| eval: false
+#| echo: false
+set.seed(360)
+a = 2; b = .1
+
+N = 10000
+theta.prior = rgamma(N, a, b)
+y.prior = rpois(N, theta.prior)
+quantile(y.prior, c(0.05, 0.95))
+mean(y.prior) # equivalently, a/b = 20
+```
+
+#### b
+
+After one month the data scientist observes the following daily subscriber counts:
+
+```{r}
+y = c(10, 21, 19, 16, 20, 18, 35, 16, 23, 26, 20, 21, 23, 19, 18, 20, 23, 18, 21, 16, 15, 15, 20, 22, 19, 25)
+```
+
+The data scientist is fundamentally interested in the variance of subscriber counts per day. Is the Poisson model appropriate for this data?
+
+Report $p(\tilde{S}^2 > s^2_{obs} | y_1,\ldots y_n)$ where $\tilde{S}^2$ is the posterior predictive sample variance and $s^2_{obs}$ is the observed sample variance ($s^2_{obs} = 21.3$). To generate samples under the posterior predictive distribution, use the prior from part (a).
+
+```{r}
+#| echo: false
+#| eval: false
+set.seed(360)
+
+# posterior predictive distribution
+ytotal = sum(y)
+a = 2 ; b = .1; n = length(y)
+s2 = var(y) # test statistic
+
+t.mc = NULL
+for (i in 1:10000) {
+  theta1 = rgamma(1, ytotal + a, b + n) # draw 1 theta from posterior
+  y.mc = rpois(n, theta1) # draw y from post pred of sample size n = 30
+  t.mc = c(t.mc, var(y.mc))# compute t
+}
+
+tailProb = mean(t.mc > s2)
+
+tailProb
+
+# tail probability of 0.363
+# the Poisson model is probably suitable for making inference about the variance here
+```
+
+
+# Estimator bias
+
+## Exercise
+
+Let $Y_1,\ldots Y_n$ be iid random variables with expectation $\theta$ and variance $\sigma^2$.
+
+Show that $\frac{1}{n} \sum_{i = 1}^n (Y_i -\bar{Y})^2$ is a biased estimator of $\sigma^2$.

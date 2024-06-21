@@ -1,0 +1,34 @@
+---
+title: "Quiz 6"
+---
+
+To receive credit for this assignment, write at the top of your paper your name and Duke netID. For example, my netID is `aaf29`.
+
+### Exercise 1
+
+$$
+Y = X\beta
+$$
+
+Write down $\hat{\beta}_{OLS}$ as a function of $X$ and $Y$. Assume $X$ is full rank.
+
+### Exercise 2 
+
+`TRUE` or `FALSE`
+
+$\hat{\beta}_{OLS}$ is biased.
+
+### Exercise 3
+
+`TRUE` or `FALSE`
+
+$y_i = \beta_0 + \beta_1 x_i^2$ is a linear model.
+
+
+```{r}
+#| echo: false
+library(countdown)
+countdown(minutes = 3, font_size = "4em",
+          color_running_background = "#2774AE")
+```
+

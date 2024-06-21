@@ -1,0 +1,35 @@
+---
+title: "Quiz 4"
+---
+
+To receive credit for this assignment, write at the top of your paper your name and Duke netID. For example, my netID is `aaf29`.
+
+### Exercise 1
+
+$$
+Y | \theta, \sigma^2 \sim N(\theta, \sigma^2) 
+$$
+
+What is a conjugate class of priors for $\theta | \sigma^2$?
+
+
+### Exercise 2
+
+`TRUE` or `FALSE`
+
+An estimator is a random variable.
+
+### Exercise 3
+
+Let $\theta_0$ be the true value of $\theta$.
+
+If $E[\hat{\theta}| \theta = \theta_0] = \theta_0$, we say $\hat{\theta}$ is a ____ estimator of $\theta$.
+
+
+```{r}
+#| echo: false
+library(countdown)
+countdown(minutes = 3, font_size = "4em",
+          color_running_background = "#2774AE")
+```
+

@@ -1,0 +1,17 @@
+---
+title: "Extra credit"
+subtitle: "Due Wednesday October 18th at 9:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+Because this is extra credit, the teaching team will not assist solving this problem during office hours. Additionally, extra credit may not be turned in late.
+
+## Exercise
+
+3.14 from Hoff.
+
+Additionally, complete part (e): discuss the resulting posterior based on your findings from parts (a) through (d) in a couple of sentences.
+

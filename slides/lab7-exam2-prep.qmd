@@ -1,0 +1,37 @@
+---
+title: "Practice"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# Exercises
+
+## Exercise 1
+
+$$
+\begin{aligned}
+Y_1, \ldots, Y_n &\sim \text{ i.i.d. binary}(\theta)\\
+\theta &\sim \text{beta}(a, b)
+\end{aligned}
+$$
+
+- Compute $\hat{\theta}_{MLE}$
+- Compute $\hat{\theta}_{B} = E[\theta | y_1,\ldots y_n]$.
+- Compare $MSE(\hat{\theta}_{MLE})$ to $MSE(\hat{\theta}_{B})$). Under what conditions is the MSE of $\hat{\theta}_B$ smaller?
+
+
+## Exercise 2
+
+Consider a single observation $(y_1, y_2)$ drawn from a bivariate normal distribution with mean $(\theta_1, \theta_2)$ and fixed, known $2 \times 2$ covariance matrix $\Sigma = \left[ {\begin{array}{cc}
+   1 & .5 \\
+   .5 & 1
+  \end{array} } \right]$. Consider a uniform prior on $\theta = (\theta_1, \theta_2)$ : $p(\theta_1, \theta_2) \propto 1$. 
+
+(a.) Derive the joint posterior for $\theta_1, \theta_2 | y_1, y_2, \Sigma$. Describe a direct sampler for this distribution.
+
+(b.) Write down full conditionals $p(\theta_1 | \theta_2, y_1, y_2, \Sigma)$ and $p(\theta_2 | \theta_1, y_1, y_2, \Sigma)$. Write pseudo-code to describe a Gibbs sampling procedure. Hint: you can use the result from HW6 Ex 3.
+
+(c.) Will the direct sampler from part (a) or the Gibbs sampler in part (b) have higher ESS? Why?
+

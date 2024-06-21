@@ -1,0 +1,269 @@
+---
+title: "Easy Bayesian linear modeling"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# `rstanarm` and `bayesplot`
+
+## Download
+
+To download `rstanarm` and `bayesplot` run the code below
+
+```{r}
+#| echo: true
+#| eval: false
+install.packages("rstanarm", "bayesplot")
+```
+
+To load the package, run 
+
+```{r}
+#| warning: false
+library(rstanarm)
+library(bayesplot)
+```
+
+
+## Overview
+
+- `rstanarm` contains a host of functions to make Bayesian linear modeling in R easy. See [https://mc-stan.org/rstanarm/articles/](https://mc-stan.org/rstanarm/articles/) for a variety of tutorials.
+
+  - pros: fast and easy to test Bayesian linear models
+  
+  - cons: limited in scope, e.g. requires differentiable objective and small model adjustments can be cumbersome to implement, e.g. placing a  prior on variance versus standard deviation of normal model.
+
+- `bayesplot` contains many useful plotting wrappers that work out of the box with objects created by `rstanarm` in an intuitive way.
+
+## Example
+
+::: panel-tabset
+
+## code
+```{r}
+#| warning: false
+#| message: false
+#| eval: false
+library(tidyverse)
+bass = read_csv(
+     "https://sta101-fa22.netlify.app/static/appex/data/bass.csv")
+glimpse(bass)
+```
+
+## output
+
+```{r}
+#| warning: false
+#| message: false
+#| eval: true
+#| echo: false
+library(tidyverse)
+bass = read_csv(
+     "https://sta101-fa22.netlify.app/static/appex/data/bass.csv")
+glimpse(bass)
+```
+
+:::
+
+**Description** 
+
+Mercury, is a naturally occurring element that can have toxic effects on the nervous, digestive and immune systems of humans.
+In local rivers microbes transform mercury into the highly toxic methyl mercury. Fish accumulate methyl mercury (since they are unable to excrete it) in their tissue over the course of their life.
+
+Bass from the Waccamaw and Lumber Rivers were caught randomly, weighed, and measured. In addition, a filet from each fish caught was sent to the lab so that the tissue concentration of mercury could be determined for each fish. Each fish caught corresponds to a single row of the data frame.
+A code book is provided below.
+
+- river: 0=Lumber, 1=Waccamaw
+- station that the fish was collected at
+- length of the fish in centimeters
+- weight of the fish in grams
+- mercury: concentration of mercury in parts per million (ppm)
+
+The data come from Craig Stowe, Nicholas School of the Environment circa 1990s
+
+## Fitting a normal linear model
+
+Let's consider the model below:
+
+$$
+y_i = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_p x_p + \epsilon_i
+$$
+
+where $\epsilon_i \sim \text{ i.i.d.} N(0, \sigma^2)$. We complete model specification with the priors:
+
+$$
+\begin{aligned}
+\beta_0 &\sim N(0, 100)\\
+\beta_i &\sim \text{ i.i.d } N(0, 1) \text{ for all } i > 0\\
+\sigma &\sim \text{uniform}(0, \infty)
+\end{aligned}
+$$
+Let's look at building this model using the `stan_glm` function of `rstanarm`.
+
+:::callout-note
+We'll always want to access the object we create, so you should save the result, e.g. `model1` below.
+:::
+
+```{r}
+#| eval: false
+# save the result as "model1"
+model1 = stan_glm(mercury ~ ., data = bass, # remove the intercept
+                 family = gaussian(link = "identity"),
+                 seed = 360, # sets a random starting seed
+                 prior_intercept = normal(0, 100), # sets the intercept prior
+                 prior = normal(0, 1), # sets the beta prior
+                 prior_aux = NULL, # set a flat prior on sigma
+                 ) 
+```
+
+```{r}
+#| eval: false
+#| echo: false
+saveRDS(model1, "model1.rds")
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+model1 = readRDS("model1.rds")
+```
+
+
+## Examining the output
+
+- Did `stan_glm` do what we think it did? Did the Markov chain converge?
+
+::: panel-tabset
+
+## quick look
+
+```{r}
+summary(model1)
+```
+
+## check priors
+
+```{r}
+prior_summary(model1)
+```
+## trace plots
+
+```{r}
+mcmc_trace(model1)
+```
+## marginal posteriors
+
+```{r}
+#| warning: false
+mcmc_hist(model1)
+```
+## plotting tips
+
+To plot specific parameters, use the arguemnt `pars`, e.g.
+
+- `mcmc_trace(model1, pars = c("river", "station")`
+- `mcmc_hist(model1, pars = "length")`
+
+To read more about `bayesplot` functionality, see [https://mc-stan.org/bayesplot/articles/plotting-mcmc-draws.html](https://mc-stan.org/bayesplot/articles/plotting-mcmc-draws.html)
+
+## residual plot
+
+```{r}
+#| fig-width: 5
+#| fig-height: 3
+df = data.frame(yhat = model1$fitted.values,
+                residual = model1$residuals)
+
+df %>%
+  ggplot(aes(x = yhat, y = residual)) +
+  geom_point() +
+  theme_bw()
+
+```
+## get chain
+
+```{r}
+chain_draws = as_draws(model1)
+print(names(chain_draws))
+
+chain_draws$river[1:5] # first 5 samples of the first chain run by stan
+```
+
+- try the following command: `View(chain_draws)`
+
+## summarize
+
+Report posterior mean, posterior median and 90% posterior CI.
+
+
+```{r}
+#| warning: false
+posteriorMean = apply(chain_draws[,1:6], 2, mean)
+posteriorMedian = model1$coefficients
+posteriorCI = posterior_interval(model1, prob = 0.9)
+cbind(posteriorMean, posteriorMedian, posteriorCI)
+```
+:::
+
+## Exercise: Bayesian logistic regression
+
+Using the `bass` data set, see how well you can predict which river a bass came from, given only its length and mercury level. In other words,
+
+$$
+p(y_i = 1) = \frac{1}{1 + \exp [- (\beta_0 + \beta_1 x_1 + \beta_2 x_2)]}
+$$
+Use the priors
+
+$$
+\beta_i \sim N(0, 4) \text{ for } i \in (0, 1, 2)
+$$
+
+A template for fitting logistic regression using `rstanarm` can be found at [https://mc-stan.org/rstanarm/articles/binomial.html](https://mc-stan.org/rstanarm/articles/binomial.html).
+
+- Does your chain converge?
+- Report $E[\beta_i | y]$ and 80% posterior CI for each $\beta$, i.e. $i \in (0, 1, 2)$
+- Is `length` or `mercury` a more important predictor of which river the bass came from? Why?
+
+```{r}
+#| echo: false
+#| eval: false
+# bass2 = bass
+# bass2$length = (bass2$length - mean(bass2$length)) / sd(bass2$length)
+# bass2$mercury = (bass2$mercury - mean(bass2$mercury)) / sd(bass2$mercury)
+fit1 = stan_glm(river ~ length + mercury, data = bass.train,
+                 family = binomial(link = "logit"),
+                 prior = normal(0, 1), prior_intercept = normal(0, 1),
+                 cores = 2, seed = 360,
+                chains = 2)
+```
+
+```{r}
+#| echo: false
+#| eval: false
+mcmc_trace(fit1)
+chain_draws = as_draws(fit1)
+posteriorMean = apply(chain_draws, 2, mean)
+posteriorCI = posterior_interval(fit1, prob = 0.80)
+cbind(posteriorMean, posteriorCI) %>%
+  head(n = 3)
+
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+set.seed(360)
+bass.test = bass %>%
+  select(river, length, mercury)
+
+indices = sample(1:171, 20)
+indices
+bass.train = bass[-indices, ]
+bass.test = bass.test[indices, ]
+
+```
+

@@ -1,0 +1,66 @@
+---
+title: "Homework 3"
+subtitle: "Due Friday September 22nd at 5:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Exercise 1
+
+Let $Y_1, \ldots Y_n | \theta$ be an i.i.d. random sample from a population with pdf $p(y|\theta)$ where 
+
+$$
+p(y|\theta) = \frac{2}{\Gamma(a)} \theta^{2a} y^{2a -1} e^{-\theta^2 y^2}
+$$
+
+and $y > 0$, $\theta > 0$, $a > 0$.
+
+For this density, 
+
+$$
+\begin{aligned}
+E~Y|\theta &= \frac{\Gamma(a + \frac{1}{2})}{\theta \Gamma(a)}\\
+E~Y^2|\theta &= \frac{a}{\theta^2}
+\end{aligned}
+$$
+
+Call this density $g^2$ such that $Y_1, \ldots Y_n | \theta \sim g^2(a, \theta)$.
+
+a. Find the joint pdf of $Y_1, \ldots Y_n | \theta$ and simplify as much as possible.
+
+b. Suppose $a$ is known but $\theta$ is unknown. Identify a simple conjugate class of priors for $\theta$. For any arbitrary member of the class, identify the posterior density $p(\theta | y_1, \ldots y_n)$.
+
+c. Obtain a formula for $E~ \theta | Y_1, \ldots Y_n$ when the prior is in the conjugate class.
+
+## Exercise 2
+
+Suppose $Y|\theta \sim \text{binary}(\theta)$ and we want to use $\theta \sim \text{Uniform}(0, 1)$ to represent our lack of knowledge about $\theta$. However, we are interested in the log-odds $\gamma = \log \frac{\theta}{1 - \theta}$.
+
+a. Find the prior distribution for $\gamma$ induced by our prior on $\theta$. Is the prior informative about $\gamma$? Verify $p(\gamma)$ using Monte Carlo sampling and then plotting the empirical density of the samples along with the closed-form solution.
+
+b. Assume some data come in and $y = 7$ out of $n = 10$ trials. Report the posterior mean and 95% posterior confidence interval for $\gamma$.
+
+## Exercise 3
+
+Suppose an experimental machine in a lab is either fine, or comes from a bad batch of machines that are to be recalled by the manufacturer. Scientists in the lab want to estimate the failure rate of their machine and decide whether or not to return it. They encode their prior uncertainty about the failure rate $\theta$ with the following density: 
+
+$$
+p(\theta) = \frac{1}{4} \frac{\Gamma(10)}{\Gamma(2)\Gamma(8)}\left[
+3 \theta (1 - \theta)^7 + \theta^7(1- \theta)
+\right]
+$$
+
+
+a. Make a plot of this prior density and explain why it makes sense for the scientists. Based on the prior density, which do the scientists think is more likely - that their machine is fine, or bad?
+
+b. The scientists run the machine $n$ times. Let $y_i$ be one if the machine fails on the $i$th run, and zero otherwise. Write out the posterior distribution of $\theta$ given $y_1, \ldots, y_n$ (up to a proportionality constant) and simplify as much as possible.
+
+c. For the case that $n = 4$, make a plot of the (unscaled) posterior of $\theta$ for the five cases $\sum y_i \in \{ 0, 1, 2, 3, 4\}$.
+
+d. The posterior is a mixture (weighted average) of two distributions that you know. Identify these two distributions, including their parameters.
+
+
+
+

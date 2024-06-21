@@ -1,0 +1,32 @@
+---
+title: "Homework 1"
+subtitle: "Due Friday September 8th at 5:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Exercise 1
+
+Let $X_i \in \mathcal{X}$ for all $i \in \{1, 2, \ldots\}$ and suppose our belief model for $\mathbf{X} = \{ X_1, \ldots X_n \}$ is exchangeable for all $n$. Show, using de Finetti's theorem, that for all $i \neq j$,
+
+$$
+Cov(X_i, X_j) \geq 0 \text{ and }
+$$
+
+$$
+Corr(X_i, X_j) \geq 0.
+$$
+
+## Exercise 2
+
+- 2.2 from Hoff
+
+## Exercise 3
+
+- 2.3 from Hoff
+
+## Exercise 4
+
+- 2.6 from Hoff

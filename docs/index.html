@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>STA360 - Bayesian methods and modern statistics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">STA360</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page">schedule</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./syllabus.html">syllabus</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./links.html">links</a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content column-page" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Bayesian methods and modern statistics</h1>
+<p class="subtitle lead">Fall 2023</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="schedule" class="level1">
+<h1>Schedule</h1>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Week</th>
+<th style="text-align: left;">Date</th>
+<th style="text-align: left;">Topic</th>
+<th>Reading</th>
+<th style="text-align: center;">Notes</th>
+<th style="text-align: left;">Assignment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Mon Aug 28</td>
+<td style="text-align: left;">lab: welcome</td>
+<td></td>
+<td style="text-align: center;"><a href="./slides/lab0-welcome.html">💻</a></td>
+<td style="text-align: left;"><a href="./labs/lab0.html">hello R</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Aug 29</td>
+<td style="text-align: left;">intro, history, notation</td>
+<td>Ch. 2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"><a href="./hw/hw00.html">hw 0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Aug 31</td>
+<td style="text-align: left;">probability, exchangeability</td>
+<td>Ch. 2</td>
+<td style="text-align: center;"><a href="./notes/lec01-probability.html">💻</a></td>
+<td style="text-align: left;"><a href="./hw/hw01.html">hw 1</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Mon Sep 04</td>
+<td style="text-align: left;">NO LAB</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Sep 05</td>
+<td style="text-align: left;">single parameter estimation</td>
+<td>Ch. 3</td>
+<td style="text-align: center;"><a href="./notes/lec02-estimation.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Sep 07</td>
+<td style="text-align: left;">Poisson model and conjugacy</td>
+<td>Ch. 3</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"><a href="./hw/hw02.html">hw 2</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Mon Sep 11</td>
+<td style="text-align: left;">lab: MLE and MAP estimator</td>
+<td></td>
+<td style="text-align: center;"><a href="./slides/lab1.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Sep 12</td>
+<td style="text-align: left;">reliability, exp. families</td>
+<td>Ch. 3</td>
+<td style="text-align: center;"><a href="./notes/lec03-reliability.html">💻</a>, <a href="./notes/ReliabilityExpFamilies.pdf">📝</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Sep 14</td>
+<td style="text-align: left;">prediction, Monte Carlo intro</td>
+<td>Ch. 4</td>
+<td style="text-align: center;"><a href="./notes/lec04-prediction.html">💻</a>, <a href="./notes/predictionOffline.pdf">📝</a></td>
+<td style="text-align: left;"><a href="./hw/hw03.html">hw 3</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Mon Sep 18</td>
+<td style="text-align: left;">lab: prior sensitivity and change of variables</td>
+<td></td>
+<td style="text-align: center;"><a href="./slides/lab2.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Sep 19</td>
+<td style="text-align: left;">Monte Carlo integration</td>
+<td>Ch. 4</td>
+<td style="text-align: center;"><a href="./notes/lec05-MonteCarlo.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Sep 21</td>
+<td style="text-align: left;">the normal model</td>
+<td>Ch. 5</td>
+<td style="text-align: center;"><a href="./notes/lec06-normalModel.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Mon Sep 25</td>
+<td style="text-align: left;">practice and review</td>
+<td></td>
+<td style="text-align: center;"><a href="./slides/lab3-review.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Sep 26</td>
+<td style="text-align: left;">catch up / review</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Sep 28</td>
+<td style="text-align: left;"><a href="./notes/exam-notes.html">Exam I</a></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Mon Oct 02</td>
+<td style="text-align: left;">NO LAB</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Oct 03</td>
+<td style="text-align: left;">the normal model II</td>
+<td>Ch. 5</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"><a href="./hw/hw04.html">hw 4</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Oct 05</td>
+<td style="text-align: left;">estimators</td>
+<td>Ch. 5</td>
+<td style="text-align: center;"><a href="./notes/lec07-estimators.html">💻</a>, <a href="./notes/estimator-notes.pdf">📝</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Mon Oct 09</td>
+<td style="text-align: left;">lab: predictive checks and bias</td>
+<td></td>
+<td style="text-align: center;"><a href="./slides/lab4.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Oct 10</td>
+<td style="text-align: left;">Gibbs sampling</td>
+<td>Ch. 6</td>
+<td style="text-align: center;"><a href="./notes/lec08-gibbs.html">💻</a></td>
+<td style="text-align: left;"><a href="./hw/extra-credit.html">ec</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Oct 12</td>
+<td style="text-align: left;">MCMC diagnostics</td>
+<td>Ch. 6</td>
+<td style="text-align: center;"><a href="./notes/lec09-mcmc-diagnostics.html">💻</a></td>
+<td style="text-align: left;"><a href="./hw/hw05.html">hw 5</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">Mon Oct 16</td>
+<td style="text-align: left;">NO LAB</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Oct 17</td>
+<td style="text-align: left;">NO CLASS</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Oct 19</td>
+<td style="text-align: left;">multivariate normal (mvn)</td>
+<td>Ch. 7</td>
+<td style="text-align: center;"><a href="./notes/lec10-mvn.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">Mon Oct 23</td>
+<td style="text-align: left;">full conditional review</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Oct 24</td>
+<td style="text-align: left;">mvn parameter estimation</td>
+<td>Ch. 7</td>
+<td style="text-align: center;"><a href="./notes/lec11-missing-data-mvn.html">💻</a>, <a href="./notes/missingDataOffline.pdf">📝</a></td>
+<td style="text-align: left;"><a href="./hw/hw06.html">hw 6</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Oct 26</td>
+<td style="text-align: left;">hierarchical modeling intro</td>
+<td>Ch. 8</td>
+<td style="text-align: center;"><a href="./notes/lec12-hierarchical-intro.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">Mon Oct 30</td>
+<td style="text-align: left;">traceplots and MCMC diagnostics</td>
+<td></td>
+<td style="text-align: center;"><a href="./slides/lab6-mcmc-d-practice.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Oct 31</td>
+<td style="text-align: left;">intro to Bayesian regression</td>
+<td>Ch. 9</td>
+<td style="text-align: center;"><a href="./notes/lec13-regression-intro.html">💻</a></td>
+<td style="text-align: left;"><a href="./hw/hw07.html">hw 7</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Nov 02</td>
+<td style="text-align: left;">Bayesian regression II</td>
+<td>Ch. 9</td>
+<td style="text-align: center;"><a href="./notes/lec14-BayesianRegression2.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">Mon Nov 06</td>
+<td style="text-align: left;">Hierarchical modeling and Gibbs sampling practice</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Nov 07</td>
+<td style="text-align: left;">Bayesian regression III <br> <em>Guest lecture:</em> Prof.&nbsp;Peter Hoff</td>
+<td>Ch. 9</td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"><a href="./hw/hw08.html">hw 8</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Nov 09</td>
+<td style="text-align: left;">NO CLASS: read <a href="./chapterSummaries.html">chapter summaries</a></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">Mon Nov 13</td>
+<td style="text-align: left;">exam practice</td>
+<td></td>
+<td style="text-align: center;"><a href="./slides/lab7-exam2-prep.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Nov 14</td>
+<td style="text-align: left;">review</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Nov 16</td>
+<td style="text-align: left;"><a href="./notes/exam-notes-2.pdf">Exam II</a></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">13</td>
+<td style="text-align: left;">Mon Nov 20</td>
+<td style="text-align: left;">NO LAB</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Nov 21</td>
+<td style="text-align: left;">Bayesian regression example + stan intro</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Nov 23</td>
+<td style="text-align: left;">NO CLASS</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">14</td>
+<td style="text-align: left;">Mon Nov 27</td>
+<td style="text-align: left;">rstanarm</td>
+<td></td>
+<td style="text-align: center;"><a href="./slides/lab8-rstan.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Nov 28</td>
+<td style="text-align: left;">intro to Metropolis algorithm</td>
+<td>Ch. 10</td>
+<td style="text-align: center;"><a href="./notes/Metropolis-intro.pdf">📝</a></td>
+<td style="text-align: left;"><a href="./hw/hw09.html">hw 9</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Nov 30</td>
+<td style="text-align: left;">Metropolis-Hastings</td>
+<td>Ch. 10</td>
+<td style="text-align: center;"><a href="./notes/lec15-MetropolisHastings.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">15</td>
+<td style="text-align: left;">Mon Dec 04</td>
+<td style="text-align: left;">MCMC practice</td>
+<td></td>
+<td style="text-align: center;"><a href="./slides/lab9-MH-MCMC.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Tue Dec 05</td>
+<td style="text-align: left;">MCMC and HMC</td>
+<td>Ch. 10</td>
+<td style="text-align: center;"><a href="./notes/lec16-MCMC-and-HMC.html">💻</a></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Thu Dec 07</td>
+<td style="text-align: left;">final review</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<!-- | Week | Date       | Topic                                  |              Notes              | Lab                      | Exam                                  | Project | -->
+<!-- |:----------|:----------|:----------|:---------:|:----------|:----------|:----------| -->
+<!-- | 0    | Fri Jan 13 | welcome                                |  [💻](/slides/01-welcome.html)  |                          |                                       |         | -->
+<!-- | 1    | Tue Jan 17 | git                                    | [💻](/slides/lab0-welcome.html) | [lab 0](/labs/lab0.html) |                                       |         | -->
+<!-- |      | Wed Jan 18 | control flow, loops and functions      |    [💻](/slides/lec02.html)     |                          |                                       |         | -->
+<!-- |      | Fri Jan 20 | NAs, lists, NULL and attributes        |    [💻](/slides/lec03.html)     |                          |                                       |         | -->
+<!-- | 2    | Tue Jan 24 | if it's a function, fix it             |                                 | [lab 1](/labs/lab1.html) |                                       |         | -->
+<!-- |      | Wed Jan 25 | object oriented programming            |    [💻](/slides/lec04.html)     |                          |                                       |         | -->
+<!-- |      | Fri Jan 27 | tidy data and dplyr                    |    [💻](/slides/lec05.html)     |                          |                                       |         | -->
+<!-- | 3    | Tue Jan 31 | computational masonry                  |                                 | [lab 2](/labs/lab2.html) |                                       |         | -->
+<!-- |      | Wed Feb 01 | subsetting                             |    [💻](/slides/lec06.html)     |                          |                                       |         | -->
+<!-- |      | Fri Feb 03 | ggplot2                                |    [💻](/slides/lec07.html)     |                          |                                       |         | -->
+<!-- | 4    | Tue Feb 07 | dream of plots                         |                                 | [lab 3](/labs/lab3.html) |                                       |         | -->
+<!-- |      | Wed Feb 08 | functional programming and purrr       |    [💻](/slides/lec08.html)     |                          |                                       |         | -->
+<!-- |      | Fri Feb 10 | regular expressions                    |    [💻](/slides/lec09.html)     |                          |                                       |         | -->
+<!-- | 5    | Tue Feb 14 | wrangling the written word             |                                 | [lab 4](/labs/lab4.html) |                                       |         | -->
+<!-- |      | Wed Feb 15 | catch-up                               |                                 |                          |                                       |         | -->
+<!-- |      | Fri Feb 17 | review / questions / exam              |                                 |                          | [exam 1 release](/exams/exam01.html) |         | -->
+<!-- | 6    | Tue Feb 21 | no lab: exam 1                         |                                 |                |   exam 1 due                                    |         | -->
+<!-- |      | Wed Feb 22 | complexity and parallelization |  [💻](/slides/lec10.html)                                |                          |                                       |         | -->
+<!-- |      | Fri Feb 24 | intro to optimization          |  [💻](/slides/lec11.html)                                |                          |                                       |         | -->
+<!-- | 7    | Tue Feb 28 | where's zero?                                       |                                 | [lab 5](/labs/lab5.html)                         |                                       |         | -->
+<!-- |      | Wed Mar 01 | Newton-Raphson                  |[💻](/slides/lec12.html)                                  |                          |                                       |         | -->
+<!-- |      | Fri Mar 03 | Newton-Raphson examples           |                                 |                          |                                       |         | -->
+<!-- | 8    | Tue Mar 07 |  continue lab                                      |                                 |                          |                                       |         | -->
+<!-- |      | Wed Mar 08 | MM principles   |   [💻](/slides/lec13.html)                              |                          |                                       |         | -->
+<!-- |      | Fri Mar 10 | MM example                        |   [💻](/slides/lec14.html)                              |                          |                                       |         | -->
+<!-- | 9    | Tue Mar 14 | NO CLASS: Spring break                 |                                 |                          |                                       |         | -->
+<!-- |      | Wed Mar 15 | NO CLASS: Spring break                 |                                 |                          |                                       |         | -->
+<!-- |      | Fri Mar 17 | NO CLASS: Spring break                 |                                 |                          |                                       |         | -->
+<!-- | 10   | Tue Mar 21 | ascend the likelihood                                      |                                 | [lab 6](/labs/lab6.html)                          |                                       |         | -->
+<!-- |      | Wed Mar 22 | EM algorithm                      | [💻](/slides/lec15.html)                                 |                          |                                       |         | -->
+<!-- |      | Fri Mar 24 | Monte Carlo integration                          |  [💻](/slides/lec16.html)                                |                          |                                       |         | -->
+<!-- | 11   | Tue Mar 28 | continue lab                                       |                                 |                          |                                       |         | -->
+<!-- |      | Wed Mar 29 | importance sampling                                 | [💻](/slides/lec17.html)                                 |                          |                                       |         | -->
+<!-- |      | Fri Mar 31 | review / questions / exam                          |                                 |                          |   [exam 2 release](/exams/exam02.html)                                     |          | -->
+<!-- | 12   | Tue Apr 04 |  no lab: exam 2                                       |                               |                          |  exam 2 due                                     |         | -->
+<!-- |      | Wed Apr 05 |  shiny I                 |  [💻](/slides/lec18.html)                                |                          |                                       |         | -->
+<!-- |      | Fri Apr 07 | shiny II              |                                 |                          |                                       |         | -->
+<!-- | 13   | Tue Apr 11 | shiny dashboard                                  |                                 |               [on GitHub](https://github.com/orgs/sta323-sp23/repositories)         |                                  |         | -->
+<!-- |      | Wed Apr 12 | SQL                 |                                 |                          |                                       |         | -->
+<!-- |      | Fri Apr 14 | project tips                          |                                 |                          |                                       |         | -->
+<!-- | 14   | Tue Apr 18 | project workday                                     |                                 |                          |                                       |         | -->
+<!-- |      | Wed Apr 19 | APIs                                   |   [💻](/slides/lec20.html)                               |                          |                                       |         | -->
+<!-- |      | Fri Apr 21 | covariance & PCA                                    | [💻](/slides/lec21.html)                                |                          |                                       |         | -->
+<!-- | 15   | Tue Apr 25 | project presentations              |                                 |                          |                                       |         | -->
+<!-- |      | Wed Apr 26 | special topic: cryptanalysis                         |  [💻](/slides/lec22.html)                               |                          |                                       |         | -->
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

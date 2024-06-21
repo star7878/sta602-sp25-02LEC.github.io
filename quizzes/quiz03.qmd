@@ -1,0 +1,30 @@
+---
+title: "Quiz 3"
+---
+
+To receive credit for this assignment, write at the top of your paper your name and Duke netID. For example, my netID is `aaf29`.
+
+### Exercise 1
+
+Write "posterior" or "prior" in the blank below:
+
+$\int p(\tilde{y}|\theta) p(\theta | y_1,\ldots y_n)d\theta$ is a ___ predictive distribution.
+
+### Exercise 2
+
+Expand $p(\theta | y)$ using Bayes' rule (include the normalization constant).
+
+### Exercise 3
+
+`TRUE` or `FALSE`
+
+Monte Carlo integration error scales $\mathcal{O}(\frac{1}{\sqrt{N}})$ where $N$ is the number of independent samples from the posterior.
+
+
+```{r}
+#| echo: false
+library(countdown)
+countdown(minutes = 3, font_size = "4em",
+          color_running_background = "#2774AE")
+```
+

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Alexander Fisher">
+
+<title>STA360 - Intro to regression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">STA360</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html">schedule</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html">syllabus</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../links.html">links</a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#background-review" id="toc-background-review" class="nav-link active" data-scroll-target="#background-review">Background review</a>
+  <ul class="collapse">
+  <li><a href="#linear-modeling-and-linear-regression" id="toc-linear-modeling-and-linear-regression" class="nav-link" data-scroll-target="#linear-modeling-and-linear-regression">Linear modeling and linear regression</a></li>
+  <li><a href="#notation" id="toc-notation" class="nav-link" data-scroll-target="#notation">Notation</a></li>
+  <li><a href="#common-convention" id="toc-common-convention" class="nav-link" data-scroll-target="#common-convention">Common convention</a></li>
+  <li><a href="#illustration-of-a-linear-model" id="toc-illustration-of-a-linear-model" class="nav-link" data-scroll-target="#illustration-of-a-linear-model">Illustration of a linear model</a></li>
+  <li><a href="#traditional-way-to-find-the-hyperplane" id="toc-traditional-way-to-find-the-hyperplane" class="nav-link" data-scroll-target="#traditional-way-to-find-the-hyperplane">Traditional way to find the hyperplane</a></li>
+  <li><a href="#normal-linear-regression-model" id="toc-normal-linear-regression-model" class="nav-link" data-scroll-target="#normal-linear-regression-model">Normal linear regression model</a></li>
+  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions">Assumptions</a></li>
+  </ul></li>
+  <li><a href="#bayesian-regression" id="toc-bayesian-regression" class="nav-link" data-scroll-target="#bayesian-regression">Bayesian regression</a>
+  <ul class="collapse">
+  <li><a href="#semi-conjugate-prior-specification" id="toc-semi-conjugate-prior-specification" class="nav-link" data-scroll-target="#semi-conjugate-prior-specification">semi-conjugate prior specification</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Intro to regression</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Alexander Fisher </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scatterplot3d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="background-review" class="level2">
+<h2 class="anchored" data-anchor-id="background-review">Background review</h2>
+<section id="linear-modeling-and-linear-regression" class="level3">
+<h3 class="anchored" data-anchor-id="linear-modeling-and-linear-regression">Linear modeling and linear regression</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imgs/regression-slide.png" class="img-fluid figure-img" width="300"></p>
+</figure>
+</div>
+<ul>
+<li>A <strong>generalized linear model</strong> states <span class="math inline">\(E[Y|X] = g(X\beta)\)</span>, for some invertible “link” function <span class="math inline">\(g\)</span>.</li>
+<li><strong>Linear regression</strong> is but a special case, <span class="math inline">\(E[Y|X] = X \beta\)</span>. This is what we will focus on today.</li>
+<li><strong>Least squares regression</strong> (otherwise termed “ordinary least squares” or “OLS”) refers to a particular method of estimating <span class="math inline">\(\beta\)</span>: minimize the sum of squared residuals.</li>
+</ul>
+</section>
+<section id="notation" class="level3">
+<h3 class="anchored" data-anchor-id="notation">Notation</h3>
+<ul>
+<li><span class="math inline">\(\mathbf{y} = \{y_1, \ldots y_n\}\)</span> is an <span class="math inline">\(n \times 1\)</span> vector <strong>outcomes</strong>. Also called the “response” or “dependent variable”. <span class="math inline">\(y_i\)</span> is an individual observed outcome.</li>
+<li><span class="math inline">\(\mathbf{x}_i\)</span> is a <span class="math inline">\(p \times 1\)</span> vector of <strong>predictors</strong> also called “regressors”, “independent variables”, “covariates”, or “features”.</li>
+<li><span class="math inline">\(X\)</span> is a <span class="math inline">\(n \times p\)</span> matrix of all covariates. This is often referred to as “the data matrix”.</li>
+<li><span class="math inline">\(\beta\)</span> is a <span class="math inline">\(p \times 1\)</span> vector of constants. These are referred to as <strong>parameters</strong>. These are fixed, but unknown numbers. Being Bayesian, we will describe our uncertainty about this population parameter vector using probability statements.</li>
+</ul>
+</section>
+<section id="common-convention" class="level3">
+<h3 class="anchored" data-anchor-id="common-convention">Common convention</h3>
+<p>The linear model</p>
+<p><span class="math display">\[
+E[Y | X\beta] = X \beta
+\]</span></p>
+<p>often has the hidden convention that the first column of <span class="math inline">\(X\)</span> is all 1s and <span class="math inline">\(\beta_1\)</span> is understood to be the intercept term. E.g.</p>
+<p><span class="math display">\[
+E [ Y | X ]  =
+  \begin{bmatrix}
+    1 &amp; x_{12} &amp; \ldots &amp; x_{1p} \\
+    1 &amp; x_{22} &amp; \ldots &amp; x_{2p} \\
+    \vdots &amp; \vdots &amp; &amp; \vdots\\
+    1 &amp; x_{n2} &amp; \ldots &amp; x_{np}
+  \end{bmatrix}
+    \begin{bmatrix}
+    \beta_1\\
+    \beta_2\\
+    \vdots\\
+    \beta_p
+  \end{bmatrix}
+\]</span></p>
+</section>
+<section id="illustration-of-a-linear-model" class="level3">
+<h3 class="anchored" data-anchor-id="illustration-of-a-linear-model">Illustration of a linear model</h3>
+<section id="example" class="level4">
+<h4 class="anchored" data-anchor-id="example">Example</h4>
+<p>Imagine we’ve collected 3 measurements on a number of penguins:</p>
+<ul>
+<li>body mass (g)</li>
+<li>bill length (mm)</li>
+<li>flipper length (mm)</li>
+</ul>
+<p>The first five entries of our data set are given below:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  body_mass_g bill_length_mm flipper_length_mm
+        &lt;int&gt;          &lt;dbl&gt;             &lt;int&gt;
+1        3750           39.1               181
+2        3800           39.5               186
+3        3250           40.3               195
+4        3450           36.7               193
+5        3650           39.3               190</code></pre>
+</div>
+</div>
+<p>In all, our data set contains the measurements of 342 penguins. Because we’ve collected <em>three</em> measurements, each individual penguin can be represented as a point in three dimensional space:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec13-regression-intro_files/figure-html/multiple-predictors-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now, imagine it’s hard to measure a penguin’s bodymass because it’s difficult to get them onto a scale. We wish to develop a linear model that uses bill length and flipper length to predict body mass,</p>
+<p><span class="math display">\[
+E[Y|X] = X \beta,
+\]</span></p>
+<p>where</p>
+<ul>
+<li><span class="math inline">\(Y\)</span> is the body mass of the penguins and</li>
+<li><span class="math inline">\(X\)</span> contains covariates bill length and flipper length.</li>
+</ul>
+<p>What does our linear model look like?</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec13-regression-intro_files/figure-html/3d-linear-model-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In general, for <span class="math inline">\(D\)</span> measurements, a linear model is a <span class="math inline">\(D-1\)</span> dimensional hyperplane!</p>
+</section>
+</section>
+<section id="traditional-way-to-find-the-hyperplane" class="level3">
+<h3 class="anchored" data-anchor-id="traditional-way-to-find-the-hyperplane">Traditional way to find the hyperplane</h3>
+<p>To “fit” a linear regression model means to estimate <span class="math inline">\(\beta\)</span>. One way to do this is to minimize some objective function. A really common function to minimize is the sum of square residuals <strong>SSR</strong>.</p>
+<p>A residual is defined as the distance our mean is from the true value:</p>
+<p><span class="math display">\[
+\begin{aligned}
+r_i &amp;= y_i - E[y_i | \mathbf{x}\beta]\\
+&amp;= y_i - \beta^T\mathbf{x}_i
+\end{aligned}
+\]</span></p>
+<p>Thus the sum of square residuals is:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum_{i=1}^n r_i^2 &amp;= \sum_{i=1}^n (y_i - \beta^T \mathbf{x}_i)^2\\
+&amp;= (\mathbf{y} -X\beta)^T(\mathbf{y} -X\beta)\\
+&amp;= \mathbf{y}^T \mathbf{y} - 2\beta^T X^T\mathbf{y} + \beta^TX^TX\beta)
+\end{aligned}
+\]</span></p>
+<p>Exercise 1: what other objective functions could we optimize?</p>
+<p>The ordinary least squares (OLS) estimate is</p>
+<p><span class="math display">\[
+\hat{\beta}_{OLS} = (X^TX)^{-1}X^T \mathbf{y}
+\]</span></p>
+<ul>
+<li>See the <a href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">matrix cookbook</a> by Petersen and Petersen for all your matrix algebra needs.</li>
+</ul>
+<p>Exercise 2: is <span class="math inline">\(\hat{\beta}_{OLS}\)</span> biased?</p>
+</section>
+<section id="normal-linear-regression-model" class="level3">
+<h3 class="anchored" data-anchor-id="normal-linear-regression-model">Normal linear regression model</h3>
+<p>So far, we had not made any distributional assumptions, we only made an assumption about the expectation. Now for the normal linear regression model,</p>
+<p><span class="math display">\[
+Y = X \beta + \epsilon
+\]</span></p>
+<p>and <span class="math inline">\(\epsilon \sim N(0, \sigma^2 I)\)</span> where <span class="math inline">\(I\)</span> is a <span class="math inline">\(n \times n\)</span> identity matrix. This is a way of saying <span class="math inline">\(\epsilon_i \sim_{iid} N(0, \sigma^2)\)</span>.</p>
+<p>Therefore,</p>
+<p><span class="math display">\[
+\mathbf{y} | X, \beta, \sigma^2 \sim MVN(X\beta, \sigma^2 I)
+\]</span></p>
+<p>Exercise 3: What is <span class="math inline">\(Var(\hat{\beta}_{OLS})\)</span> under the normal model?</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Hint
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(z\)</span> be a random vector. <span class="math inline">\(Var[Az] = A Var(z) A^T\)</span>.</p>
+</div>
+</div>
+<p>Exercise 4: What is <span class="math inline">\(\hat{\beta}_{MLE}\)</span>?</p>
+</section>
+<section id="assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="assumptions">Assumptions</h3>
+<p>A brief reminder about the flexibility and limitations of classical linear regression.</p>
+<section id="limitations-so-far" class="level4">
+<h4 class="anchored" data-anchor-id="limitations-so-far">Limitations so far:</h4>
+<ul>
+<li><p>the mean may not be a good summary of the conditional relationship, e.g.&nbsp;if <span class="math inline">\(p(y|x)\)</span> is skewed, multimodal, or has heavy tails.</p></li>
+<li><p>error may not be iid. In other words, the conditional variance of <span class="math inline">\(Y\)</span> may change with the <span class="math inline">\(\mathbf{x}\)</span>s.</p></li>
+</ul>
+</section>
+<section id="flexibility" class="level4">
+<h4 class="anchored" data-anchor-id="flexibility">Flexibility</h4>
+<p>Is this an example of linear regression?</p>
+<p><span class="math display">\[
+y_i = \beta_1 + \beta_2x_1 + \beta_3 x_1^2 + \beta_4 \log x_1 + \beta_5 x_2 + \beta_6 x_1 x_2 + \epsilon_i
+\]</span></p>
+<p>What’s linear about linear regression? The parameters!</p>
+<p>This is powerful, because nonlinear relationships between <span class="math inline">\(X\)</span> and <span class="math inline">\(\mathbf{y}\)</span> can often be corrected by a power transformation of <span class="math inline">\(X\)</span>, <span class="math inline">\(\mathbf{y}\)</span> or of both variables.</p>
+</section>
+</section>
+</section>
+<section id="bayesian-regression" class="level2">
+<h2 class="anchored" data-anchor-id="bayesian-regression">Bayesian regression</h2>
+<p>Let’s assume the normal sampling model (i.e.&nbsp;normal data generative process, aka normal likelihood),</p>
+<p><span class="math display">\[
+\mathbf{y} | X, \beta, \sigma^2 \sim MVN(X\beta, \sigma^2I).
+\]</span></p>
+<p>To make inference about our model parameters, we will construct a posterior distribution,</p>
+<p><span class="math display">\[
+p(\beta, \sigma^2 | \mathbf{y}, X) \propto \underbrace{ p(\mathbf{y}|X, \beta, \sigma^2)}_{likelihood} \underbrace{p(\beta, \sigma^2)}_{prior}
+\]</span></p>
+<section id="semi-conjugate-prior-specification" class="level3">
+<h3 class="anchored" data-anchor-id="semi-conjugate-prior-specification">semi-conjugate prior specification</h3>
+<p>To setup Gibbs sampling, let’s consider independent semi-conjugate priors, i.e.&nbsp;assume <span class="math inline">\(p(\beta, \sigma^2) = p(\beta) p(\sigma^2)\)</span></p>
+<p>Before reading ahead, what do you think semi-conjugate priors will be for the parameters under the normal linear regression model?</p>
+<section id="semi-conjuate-prior-on-beta" class="level4">
+<h4 class="anchored" data-anchor-id="semi-conjuate-prior-on-beta">semi-conjuate prior on <span class="math inline">\(\beta\)</span></h4>
+<p>If</p>
+<p><span class="math display">\[
+\beta \sim MVN(\beta_0, \Sigma_0)
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(\beta|\mathbf{y}, X, \sigma^2) &amp;\propto
+p( \mathbf{y} | X, \beta, \sigma^2) p(\beta)\\
+&amp;\propto MVN(\mathbf{m}, V)
+\end{aligned}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\begin{aligned}
+V = Var[\beta | \mathbf{y}, X, \sigma^2] &amp;=
+(\Sigma_0^{-1} + X^TX / \sigma^2)^{-1}\\
+\mathbf{m} = E[\beta | \mathbf{y}, X, \sigma^2] &amp;= (\Sigma_0^{-1} + X^T X/ \sigma^2)^{-1}(\Sigma_0^{-1} \beta_0 + X^T\mathbf{y} / \sigma^2)
+\end{aligned}
+\]</span></p>
+</section>
+<section id="semi-conjugate-prior-on-sigma2" class="level4">
+<h4 class="anchored" data-anchor-id="semi-conjugate-prior-on-sigma2">semi-conjugate prior on <span class="math inline">\(\sigma^2\)</span></h4>
+<p>Let’s re-parameterize. Let <span class="math inline">\(\gamma = 1/\sigma^2\)</span>.</p>
+<p>If</p>
+<p><span class="math display">\[
+\gamma \sim \text{gamma}(\nu_0 /2, \nu_0 \sigma_0^2 / 2)
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(\gamma | \mathbf{y}, X, \beta) &amp;\propto p( \mathbf{y} | X, \beta, \sigma^2) p(\gamma)\\
+&amp;\propto
+\text{gamma}([\nu_0 + n]/2, [\nu_0 \sigma_0^2 + SSR(\beta)]/2)
+\end{aligned}
+\]</span></p>
+<p>Exercise 5: write out the pseudo-code of a Gibbs sampler that samples from <span class="math inline">\(p(\beta, \sigma^2| \mathbf{y}, X)\)</span>.</p>
+<div class="cell">
+
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

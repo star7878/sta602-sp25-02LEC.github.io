@@ -1,0 +1,25 @@
+---
+title: "Full conditionals"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# Full conditionals
+
+## Full conditionals are proportional to the joint
+
+Suppose $X, Y, Z, \theta, \phi$ are random variables,
+
+
+
+$$
+\begin{aligned}
+p(x| y, z, \theta, \phi) &= 
+\frac{p(x, y, z, \theta, \phi)}{\int p(x,y,z,\theta, \phi) dx}\\
+&\propto_x p(x| y, z, \theta, \phi)
+\end{aligned}
+$$
+
+Similarly, *each full conditional is proportional to the joint distribution*.

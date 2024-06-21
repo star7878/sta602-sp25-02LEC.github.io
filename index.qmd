@@ -1,0 +1,190 @@
+---
+title: "Bayesian methods and modern statistics"
+subtitle: "Fall 2023"
+mainfont: Lato
+format:
+   html: 
+    page-layout: full
+    toc: false
+---
+
+# Schedule
+
+```{r load-libraries, echo = F, message = F, eval = F}
+library(tidyverse)
+library(knitr)
+library(emo)
+```
+
+```{r smart-date-setup, echo = F, message = F, eval = F}
+# set these:
+firstDay = as.Date("2023-08-28")
+firstDayID = "Mon"
+lastDay = as.Date("2023-12-08")
+lectureDays = c("Tue", "Thu")
+labDays = c("Mon")
+holidays = as.Date(c("2023-09-04", "2023-10-16", "2023-10-17", "2023-11-22", "2023-11-23", "2023-11-24"))
+
+### render table
+allDates = seq(from = firstDay, to = lastDay, by = 'day')
+schedule = data.frame(allDates,
+                        dayOfWeek = weekdays(allDates, abbreviate=T)) %>%
+  filter(dayOfWeek %in% c(lectureDays, labDays))
+schedule = schedule %>%
+  mutate(lab = ifelse(dayOfWeek %in% labDays, TRUE, FALSE)) %>%
+  mutate(Topic = ifelse(allDates %in% holidays, "NO CLASS", "")) %>%
+  mutate(Date = format(allDates, format = "%b %d")) %>%
+  mutate(Date = paste(dayOfWeek, Date)) %>%
+  mutate(Week = rep("", nrow(schedule))) %>%
+  mutate(Prepare = rep("", nrow(schedule))) %>%
+  mutate(AE = rep("", nrow(schedule))) %>%
+  mutate(Assignment = rep("", nrow(schedule))) %>%
+  mutate(Exam = rep("", nrow(schedule))) %>%
+  mutate(Project = rep("", nrow(schedule))) %>%
+  select(Week, Date, Topic, Prepare, AE, Assignment, Exam, Project)
+# to be pasted into console then pasted into markdown:
+schedule %>%
+  kable(format = "markdown")
+```
+
+| Week | Date       | Topic                                          | Reading |                                    Notes                                     | Assignment                  |
+|:-----------|:-----------|:-----------|------------|:----------:|:-----------|
+| 1    | Mon Aug 28 | lab: welcome                                   |         |                       [💻](/slides/lab0-welcome.html)                        | [hello R](/labs/lab0.html)  |
+|      | Tue Aug 29 | intro, history, notation                       | Ch. 2   |                                                                              | [hw 0](/hw/hw00.html)       |
+|      | Thu Aug 31 | probability, exchangeability                   | Ch. 2   |                     [💻](/notes/lec01-probability.html)                      | [hw 1](/hw/hw01.html)       |
+| 2    | Mon Sep 04 | NO LAB                                         |         |                                                                              |                             |
+|      | Tue Sep 05 | single parameter estimation                    | Ch. 3   |                      [💻](/notes/lec02-estimation.html)                      |                             |
+|      | Thu Sep 07 | Poisson model and conjugacy                    | Ch. 3   |                                                                              | [hw 2](/hw/hw02.html)       |
+| 3    | Mon Sep 11 | lab: MLE and MAP estimator                     |         |                           [💻](/slides/lab1.html)                            |                             |
+|      | Tue Sep 12 | reliability, exp. families                     | Ch. 3   | [💻](/notes/lec03-reliability.html), [📝](/notes/ReliabilityExpFamilies.pdf) |                             |
+|      | Thu Sep 14 | prediction, Monte Carlo intro                  | Ch. 4   |    [💻](/notes/lec04-prediction.html), [📝](/notes/predictionOffline.pdf)    | [hw 3](/hw/hw03.html)       |
+| 4    | Mon Sep 18 | lab: prior sensitivity and change of variables |         |                           [💻](/slides/lab2.html)                            |                             |
+|      | Tue Sep 19 | Monte Carlo integration                        | Ch. 4   |                      [💻](/notes/lec05-MonteCarlo.html)                      |                             |
+|      | Thu Sep 21 | the normal model                               | Ch. 5   |                     [💻](/notes/lec06-normalModel.html)                      |                             |
+| 5    | Mon Sep 25 | practice and review                            |         |                        [💻](/slides/lab3-review.html)                        |                             |
+|      | Tue Sep 26 | catch up / review                              |         |                                                                              |                             |
+|      | Thu Sep 28 | [Exam I](/notes/exam-notes.html)               |         |                                                                              |                             |
+| 6    | Mon Oct 02 | NO LAB                                         |         |                                                                              |                             |
+|      | Tue Oct 03 | the normal model II                            | Ch. 5   |                                                                              | [hw 4](/hw/hw04.html)       |
+|      | Thu Oct 05 | estimators                                     | Ch. 5   |     [💻](/notes/lec07-estimators.html), [📝](/notes/estimator-notes.pdf)     |                             |
+| 7    | Mon Oct 09 | lab: predictive checks and bias                |         |                           [💻](/slides/lab4.html)                            |                             |
+|      | Tue Oct 10 | Gibbs sampling                                 | Ch. 6   |                        [💻](/notes/lec08-gibbs.html)                         | [ec](/hw/extra-credit.html) |
+|      | Thu Oct 12 | MCMC diagnostics                               | Ch. 6   |                   [💻](/notes/lec09-mcmc-diagnostics.html)                   | [hw 5](/hw/hw05.html)       |
+| 8    | Mon Oct 16 | NO LAB                                         |         |                                                                              |                             |
+|      | Tue Oct 17 | NO CLASS                                       |         |                                                                              |                             |
+|      | Thu Oct 19 | multivariate normal (mvn)                      | Ch. 7   | [💻](/notes/lec10-mvn.html)                                                                              |                             |
+| 9    | Mon Oct 23 | full conditional review                                               |         |                                                                              |                             |
+|      | Tue Oct 24 | mvn parameter estimation                       | Ch. 7   |  [💻](/notes/lec11-missing-data-mvn.html), [📝](/notes/missingDataOffline.pdf)                                                                             | [hw 6](/hw/hw06.html)                        |
+|      | Thu Oct 26 | hierarchical modeling intro                    | Ch. 8   | [💻](/notes/lec12-hierarchical-intro.html)                                                                            |                             |
+| 10   | Mon Oct 30 | traceplots and MCMC diagnostics                                              |         | [💻](/slides/lab6-mcmc-d-practice.html)                                                                               |                             |
+|      | Tue Oct 31 | intro to Bayesian regression                       | Ch. 9   | [💻](/notes/lec13-regression-intro.html)                                                                                |    [hw 7](/hw/hw07.html)                     |
+|      | Thu Nov 02 | Bayesian regression II                          | Ch. 9   | [💻](/notes/lec14-BayesianRegression2.html)                                                                              |                            |
+| 11   | Mon Nov 06 | Hierarchical modeling and Gibbs sampling practice                                              |         |                                                                              |                             |
+|      | Tue Nov 07 | Bayesian regression III <br> *Guest lecture:* Prof. Peter Hoff                     | Ch. 9   |                                                                              | [hw 8](/hw/hw08.html)                        |
+|      | Thu Nov 09 | NO CLASS: read [chapter summaries](/chapterSummaries.html)                                               |         |                                                                              |                             |
+| 12   | Mon Nov 13 |  exam practice                                              |         |                [💻](/slides/lab7-exam2-prep.html)                                                                |                             |
+|      | Tue Nov 14 | review                                         |         |                                                                              |                             |
+|      | Thu Nov 16 |  [Exam II](/notes/exam-notes-2.pdf)                                       |         |                                                                              |                             |
+| 13   | Mon Nov 20 | NO LAB                                         |         |                                                                              |                             |
+|      | Tue Nov 21 |  Bayesian regression example + stan intro                                          |       |                                                                           |                             |
+|      | Thu Nov 23 | NO CLASS                                       |         |                                                                              |                             |
+| 14   | Mon Nov 27 |  rstanarm                                            |         |                                               [💻](/slides/lab8-rstan.html)                                 |                             |
+|      | Tue Nov 28 | intro to Metropolis algorithm                                             |   Ch. 10      | [📝](/notes/Metropolis-intro.pdf)                                                                             | [hw 9](/hw/hw09.html)                        |
+|      | Thu Nov 30 |  Metropolis-Hastings                                              |  Ch. 10        |  [💻](/notes/lec15-MetropolisHastings.html)                                                                         |                             |
+| 15   | Mon Dec 04 | MCMC practice                                             |         |       [💻](/slides/lab9-MH-MCMC.html)                                                                       |                             |
+|      | Tue Dec 05 | MCMC and HMC                                              | Ch. 10         |   [💻](/notes/lec16-MCMC-and-HMC.html)                                                                              |                             |
+|      | Thu Dec 07 |   final review                                             |         |                                                                              |                             |
+
+<!-- | Week | Date       | Topic                                  |              Notes              | Lab                      | Exam                                  | Project | -->
+
+<!-- |:----------|:----------|:----------|:---------:|:----------|:----------|:----------| -->
+
+<!-- | 0    | Fri Jan 13 | welcome                                |  [💻](/slides/01-welcome.html)  |                          |                                       |         | -->
+
+<!-- | 1    | Tue Jan 17 | git                                    | [💻](/slides/lab0-welcome.html) | [lab 0](/labs/lab0.html) |                                       |         | -->
+
+<!-- |      | Wed Jan 18 | control flow, loops and functions      |    [💻](/slides/lec02.html)     |                          |                                       |         | -->
+
+<!-- |      | Fri Jan 20 | NAs, lists, NULL and attributes        |    [💻](/slides/lec03.html)     |                          |                                       |         | -->
+
+<!-- | 2    | Tue Jan 24 | if it's a function, fix it             |                                 | [lab 1](/labs/lab1.html) |                                       |         | -->
+
+<!-- |      | Wed Jan 25 | object oriented programming            |    [💻](/slides/lec04.html)     |                          |                                       |         | -->
+
+<!-- |      | Fri Jan 27 | tidy data and dplyr                    |    [💻](/slides/lec05.html)     |                          |                                       |         | -->
+
+<!-- | 3    | Tue Jan 31 | computational masonry                  |                                 | [lab 2](/labs/lab2.html) |                                       |         | -->
+
+<!-- |      | Wed Feb 01 | subsetting                             |    [💻](/slides/lec06.html)     |                          |                                       |         | -->
+
+<!-- |      | Fri Feb 03 | ggplot2                                |    [💻](/slides/lec07.html)     |                          |                                       |         | -->
+
+<!-- | 4    | Tue Feb 07 | dream of plots                         |                                 | [lab 3](/labs/lab3.html) |                                       |         | -->
+
+<!-- |      | Wed Feb 08 | functional programming and purrr       |    [💻](/slides/lec08.html)     |                          |                                       |         | -->
+
+<!-- |      | Fri Feb 10 | regular expressions                    |    [💻](/slides/lec09.html)     |                          |                                       |         | -->
+
+<!-- | 5    | Tue Feb 14 | wrangling the written word             |                                 | [lab 4](/labs/lab4.html) |                                       |         | -->
+
+<!-- |      | Wed Feb 15 | catch-up                               |                                 |                          |                                       |         | -->
+
+<!-- |      | Fri Feb 17 | review / questions / exam              |                                 |                          | [exam 1 release](/exams/exam01.html) |         | -->
+
+<!-- | 6    | Tue Feb 21 | no lab: exam 1                         |                                 |                |   exam 1 due                                    |         | -->
+
+<!-- |      | Wed Feb 22 | complexity and parallelization |  [💻](/slides/lec10.html)                                |                          |                                       |         | -->
+
+<!-- |      | Fri Feb 24 | intro to optimization          |  [💻](/slides/lec11.html)                                |                          |                                       |         | -->
+
+<!-- | 7    | Tue Feb 28 | where's zero?                                       |                                 | [lab 5](/labs/lab5.html)                         |                                       |         | -->
+
+<!-- |      | Wed Mar 01 | Newton-Raphson                  |[💻](/slides/lec12.html)                                  |                          |                                       |         | -->
+
+<!-- |      | Fri Mar 03 | Newton-Raphson examples           |                                 |                          |                                       |         | -->
+
+<!-- | 8    | Tue Mar 07 |  continue lab                                      |                                 |                          |                                       |         | -->
+
+<!-- |      | Wed Mar 08 | MM principles   |   [💻](/slides/lec13.html)                              |                          |                                       |         | -->
+
+<!-- |      | Fri Mar 10 | MM example                        |   [💻](/slides/lec14.html)                              |                          |                                       |         | -->
+
+<!-- | 9    | Tue Mar 14 | NO CLASS: Spring break                 |                                 |                          |                                       |         | -->
+
+<!-- |      | Wed Mar 15 | NO CLASS: Spring break                 |                                 |                          |                                       |         | -->
+
+<!-- |      | Fri Mar 17 | NO CLASS: Spring break                 |                                 |                          |                                       |         | -->
+
+<!-- | 10   | Tue Mar 21 | ascend the likelihood                                      |                                 | [lab 6](/labs/lab6.html)                          |                                       |         | -->
+
+<!-- |      | Wed Mar 22 | EM algorithm                      | [💻](/slides/lec15.html)                                 |                          |                                       |         | -->
+
+<!-- |      | Fri Mar 24 | Monte Carlo integration                          |  [💻](/slides/lec16.html)                                |                          |                                       |         | -->
+
+<!-- | 11   | Tue Mar 28 | continue lab                                       |                                 |                          |                                       |         | -->
+
+<!-- |      | Wed Mar 29 | importance sampling                                 | [💻](/slides/lec17.html)                                 |                          |                                       |         | -->
+
+<!-- |      | Fri Mar 31 | review / questions / exam                          |                                 |                          |   [exam 2 release](/exams/exam02.html)                                     |          | -->
+
+<!-- | 12   | Tue Apr 04 |  no lab: exam 2                                       |                               |                          |  exam 2 due                                     |         | -->
+
+<!-- |      | Wed Apr 05 |  shiny I                 |  [💻](/slides/lec18.html)                                |                          |                                       |         | -->
+
+<!-- |      | Fri Apr 07 | shiny II              |                                 |                          |                                       |         | -->
+
+<!-- | 13   | Tue Apr 11 | shiny dashboard                                  |                                 |               [on GitHub](https://github.com/orgs/sta323-sp23/repositories)         |                                  |         | -->
+
+<!-- |      | Wed Apr 12 | SQL                 |                                 |                          |                                       |         | -->
+
+<!-- |      | Fri Apr 14 | project tips                          |                                 |                          |                                       |         | -->
+
+<!-- | 14   | Tue Apr 18 | project workday                                     |                                 |                          |                                       |         | -->
+
+<!-- |      | Wed Apr 19 | APIs                                   |   [💻](/slides/lec20.html)                               |                          |                                       |         | -->
+
+<!-- |      | Fri Apr 21 | covariance & PCA                                    | [💻](/slides/lec21.html)                                |                          |                                       |         | -->
+
+<!-- | 15   | Tue Apr 25 | project presentations              |                                 |                          |                                       |         | -->
+
+<!-- |      | Wed Apr 26 | special topic: cryptanalysis                         |  [💻](/slides/lec22.html)                               |                          |                                       |         | -->

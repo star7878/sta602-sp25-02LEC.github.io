@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>STA360 - STA 360: Bayesian methods and modern statistics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">STA360</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html">schedule</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./syllabus.html" aria-current="page">syllabus</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./links.html">links</a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#syllabus" id="toc-syllabus" class="nav-link active" data-scroll-target="#syllabus">Syllabus</a>
+  <ul class="collapse">
+  <li><a href="#course-description" id="toc-course-description" class="nav-link" data-scroll-target="#course-description">Course description</a></li>
+  <li><a href="#logistics" id="toc-logistics" class="nav-link" data-scroll-target="#logistics">Logistics</a></li>
+  <li><a href="#course-material" id="toc-course-material" class="nav-link" data-scroll-target="#course-material">Course material</a></li>
+  <li><a href="#schedule-of-topics" id="toc-schedule-of-topics" class="nav-link" data-scroll-target="#schedule-of-topics">Schedule of topics</a></li>
+  <li><a href="#evaluation" id="toc-evaluation" class="nav-link" data-scroll-target="#evaluation">Evaluation</a></li>
+  <li><a href="#policies" id="toc-policies" class="nav-link" data-scroll-target="#policies">Policies</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">STA 360: Bayesian methods and modern statistics</h1>
+<p class="subtitle lead">Fall 2023</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="syllabus" class="level1">
+<h1>Syllabus</h1>
+<section id="course-description" class="level3">
+<h3 class="anchored" data-anchor-id="course-description">Course description</h3>
+<p>This course introduces Bayesian modeling and inference, motivated by real world examples. Course topics include Bayes’ theorem, exchangeability, conjugate priors, Markov chain Monte Carlo (MCMC) approximation, Gibbs sampling, hierarchical modeling, Bayesian regression and generalized linear models. We compare and contrast Bayesian methods to the frequentist paradigm. By the end of this course students should feel comfortable (1) writing Bayesian models and, when appropriate, (2) sampling from the posterior using MCMC to make inference.</p>
+</section>
+<section id="logistics" class="level3">
+<h3 class="anchored" data-anchor-id="logistics">Logistics</h3>
+<section id="teaching-team-office-hours" class="level4">
+<h4 class="anchored" data-anchor-id="teaching-team-office-hours">Teaching team &amp; office hours</h4>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Contact</th>
+<th>Office hours</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dr.&nbsp;Alexander Fisher</td>
+<td><a href="aaf29@duke.edu">aaf29@duke.edu</a></td>
+<td>Tu: 11:30am-1:30pm</td>
+<td>Old Chem 207</td>
+</tr>
+<tr class="even">
+<td>Carol Wang</td>
+<td><a href="zhuoqun.wang@duke.edu">zhuoqun.wang@duke.edu</a></td>
+<td>Mo: 6:00pm-8:00pm</td>
+<td>Zoom</td>
+</tr>
+<tr class="odd">
+<td>Manny Mokel</td>
+<td><a href="emmanuel.mokel@duke.edu">emmanuel.mokel@duke.edu</a></td>
+<td>Th: 3:00pm-5:00pm</td>
+<td>Old Chem 203B</td>
+</tr>
+<tr class="even">
+<td>Caitrin Murphy</td>
+<td><a href="caitrin.murphy@duke.edu">caitrin.murphy@duke.edu</a></td>
+<td>We: 4:30pm-6:30pm</td>
+<td>Old Chem 025</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="meetings" class="level4">
+<h4 class="anchored" data-anchor-id="meetings">Meetings</h4>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td>Lecture</td>
+<td>Tu/Th 10:05 - 11:20am</td>
+<td>Old Chemistry 116</td>
+</tr>
+<tr class="even">
+<td>Lab 01</td>
+<td>M 3:05pm - 4:20pm</td>
+<td>Perkins LINK 087 (Classroom 3)</td>
+</tr>
+<tr class="odd">
+<td>Lab 02</td>
+<td>M 4:40pm - 5:55pm</td>
+<td>Social Sciences 124</td>
+</tr>
+</tbody>
+</table>
+<p>Course website: <a href="https://sta360-fa23.github.io/">sta360-fa23.github.io</a></p>
+<!-- - Dr. Alexander Fisher (lecturer), office hours Old Chem 207 -->
+<!--   - Lecture:  -->
+<!-- - TBD (TA) -->
+<!--   - Lab:  -->
+<!-- - TBD (TA) -->
+<!--   - Lab:  -->
+</section>
+</section>
+<section id="course-material" class="level3">
+<h3 class="anchored" data-anchor-id="course-material">Course material</h3>
+<ul>
+<li><p><a href="https://pdhoff.github.io/book/">A First Course in Bayesian Statistical Methods</a>. As a Duke student, an electronic version of the book is freely available to you on Springer link. Check the errata at the link above.</p></li>
+<li><p><a href="./chapterSummaries.html">Chapter summaries</a>. I compile major take-away points from each section. Review these to help prepare for exams.</p></li>
+<li><p>We will use the statistical software package R on homework asignments in this course. R is freely available at <a href="http://www.r-project.org/">http://www.r-project.org/</a>. RStudio, the popular IDE for R, is freely available at <a href="https://posit.co/downloads/">https://posit.co/downloads/</a>.</p></li>
+</ul>
+</section>
+<section id="schedule-of-topics" class="level3">
+<h3 class="anchored" data-anchor-id="schedule-of-topics">Schedule of topics</h3>
+<p>Part I: The Bayesian modeling toolkit</p>
+<ol type="1">
+<li>Review of probability</li>
+<li>Conjugate statistical models</li>
+<li>Semi-conjugate models and Gibbs sampling</li>
+</ol>
+<p>Part II: Statistical model building and analysis</p>
+<ol type="1">
+<li>Multilevel models</li>
+<li>Linear regression</li>
+<li>Generalized linear models</li>
+<li>Density estimation and classification</li>
+</ol>
+</section>
+<section id="evaluation" class="level3">
+<h3 class="anchored" data-anchor-id="evaluation">Evaluation</h3>
+<table class="table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 63%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Assignment</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Homework (40%)</td>
+<td>Individual take-home assignments, submitted to Gradescope.</td>
+</tr>
+<tr class="even">
+<td>Midterms (30%)</td>
+<td>Two in-class exams.</td>
+</tr>
+<tr class="odd">
+<td>Final exam (25%)</td>
+<td>Cumulative final during final’s week.</td>
+</tr>
+<tr class="even">
+<td>Quizzes (5%)</td>
+<td>In-class pop quizzes.</td>
+</tr>
+</tbody>
+</table>
+<p>A <span class="math inline">\(&gt;= 93\)</span>, A- <span class="math inline">\(&lt; 93\)</span>, B+ <span class="math inline">\(&lt; 90\)</span>, B <span class="math inline">\(&lt; 87\)</span>, B- <span class="math inline">\(&lt; 83\)</span>, C+ <span class="math inline">\(&lt;80\)</span>, C <span class="math inline">\(&lt; 77\)</span>, C- <span class="math inline">\(&lt; 73\)</span>, D+ <span class="math inline">\(&lt; 70\)</span>, D <span class="math inline">\(&lt; 67\)</span>, D- <span class="math inline">\(&lt; 63\)</span>, F <span class="math inline">\(&lt; 60\)</span></p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+A note on quizzes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On random class days, there will be a brief quiz on the previous lectures. If you score <span class="math inline">\(&gt;60\%\)</span> cumulatively on your final quiz grade, you will receive full participation credit. Your lowest <strong>two</strong> quizzes will also be dropped.</p>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+A note on exams
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you miss either midterm 1 or midterm 2, <strong>and have an excused absence</strong>, your missing midterm grade will be replaced by your final exam grade. You must take at least 1 midterm and the final exam to pass the course.</p>
+</div>
+</div>
+<!-- ::: {.callout-important} -->
+<!-- # Late work -->
+<!-- Late homework may be submitted with 48 hours of the assignment deadline. Late homework submitted within 24 hours (even 1 minute late) will receive a 5% late penalty. Late work submitted between 24 to 48 hours of the deadline will receive a 10% late penalty. Work submitted after 48 hours will not be accepted. Exams cannot be turned in late and can only be excused under exceptional circumstances. The Duke policy for illness requires a short-term illness report or a letter from the Dean; except in emergencies, all other absenteeism must be approved in advance (e.g., an athlete who must miss class may be excused by prior arrangement for specific days). For emergencies, email notification is needed at the first reasonable time. -->
+<!-- ::: -->
+</section>
+<section id="policies" class="level3">
+<h3 class="anchored" data-anchor-id="policies">Policies</h3>
+<p><strong>Academic integrity</strong></p>
+<p>By enrolling in this course, you commit to upholding Duke’s community standard reproduced as follows:</p>
+<blockquote class="blockquote">
+<p>I will not lie, cheat, or steal in my academic endeavors;</p>
+<p>I will conduct myself honorably in all my endeavors; and</p>
+<p>I will act if the Standard is compromised.</p>
+</blockquote>
+<p>Any violations of academic integrity will automatically result in a 0 for the assignment and will be reported to the Office of Student Conduct for further action. For the Exams and Quizzes, students are required to work alone. For the Homework assignments, students may work with a study group but each student must write up and submit their own answers.</p>
+<p><strong>Late work</strong></p>
+<p>Late homework may be submitted within 48 hours of the assignment deadline. Late homework submitted within 24 hours (even 1 minute late) will receive a 5% late penalty. Late work submitted between 24 to 48 hours of the deadline will receive a 10% late penalty. Work submitted after 48 hours will not be accepted. Exams cannot be turned in late and can only be excused under exceptional circumstances. The Duke policy for illness requires a short-term illness report or a letter from the Dean; except in emergencies, all other absenteeism must be approved in advance (e.g., an athlete who must miss class may be excused by prior arrangement for specific days). For emergencies, email notification is needed at the first reasonable time.</p>
+<p><strong>Errors in grading</strong></p>
+<p>Errors in grading must be brought to the attention of the TA or instructor during office hours within 1 week of receiving the grade.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

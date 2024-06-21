@@ -1,0 +1,14 @@
+---
+title: "Optional readings on linear regression"
+# mainfont: Lato
+format: 
+  html
+---
+
+Find downloadable pdfs in Sakai.
+
+For going beyond the ridge regression discussed in class, see [this discussion](https://people.eecs.berkeley.edu/~jordan/courses/260-spring09/other-readings/park-casella.pdf) of the Bayesian Lasso by Park and Casella (2008) that places Bayesian ridge within the broader class of exponential power priors.
+
+For additional discussion of rstanarm, see [continuous data in rstanarm](https://mc-stan.org/rstanarm/articles/continuous.html). This is an introductory tutorial to using stan within the rstanarm package.
+
+Fox-Ch12 - some pages from Ch12 of John Fox's Applied Regression Analysis and GLMs (a favorite book of mine) on assessing the standard assumptions of linear regression, and specifically how residual plots help. This is very relevant to Ex4 of HW8, but again, the bare minimum you need for this exercise is a residual plot and a QQ plot + discussion.

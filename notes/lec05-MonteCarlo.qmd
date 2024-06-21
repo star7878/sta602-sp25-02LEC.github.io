@@ -1,0 +1,268 @@
+---
+title: "Monte Carlo Integration"
+author: "Dr. Alexander Fisher"
+# mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+```{r}
+#| warning: false
+#| message: false
+# load packages
+library(tidyverse)
+library(latex2exp)
+```
+
+## Monte Carlo error
+
+
+#### How many values should we simulate?
+
+Recall: expected values are integrals, and integrals are expected values. Since central limit theorem (CLT) deals with expected values...
+
+Recall: CLT states that if $\theta_i |\vec{y}$ iid with mean $\theta$ and finite variance $\sigma^2$, for $i \in \{1, \ldots, N\}$, then the sample mean
+
+$$
+\bar{\theta} \sim N(\theta, \frac{\sigma^2}{N} ).
+$$
+
+- How to remember this/show this? Offline notes.
+
+So to estimate $\theta$, we can generate $\bar{\theta}$ by Monte Carlo simulation and report a confidence interval using quantiles of the normal given above in conjunction with the Monte Carlo standard error $\frac{\hat{\sigma}}{\sqrt{N}}$
+
+This means we get convergence at the rate $\mathcal{O}\left(\frac{1}{\sqrt{N}}\right)$ regardless of the dimension of the integral!
+
+Recall: 
+
+```{r}
+sd1 = pnorm(1) - pnorm(-1)
+sd2 = pnorm(2) - pnorm(-2)
+sd3 = pnorm(3) - pnorm(-3)
+```
+
+- a `r sd1`% confidence interval can be obtained using $\pm 1\cdot \hat{\sigma}/\sqrt{N}$
+- a `r sd2`% confidence interval can be obtained using $\pm 2\cdot \hat{\sigma}/\sqrt{N}$
+- a `r sd3`% confidence interval can be obtained using $\pm 3\cdot \hat{\sigma}/\sqrt{N}$
+
+### Example
+
+```{r}
+# Let theta be "x" in the code below
+set.seed(123)
+
+# binomial(n, p)
+n = 20
+p = 0.4
+
+# mean, variance, sd of a binomial(n, p)
+EX = n*p # 20*.4 = 8
+VarX = n*p*(1-p) # 20*.4*.6 = 4.8
+sdX = sqrt(VarX) # 2.19089
+
+# Monte Carlo sample of size N
+N = 100
+xSamples = rbinom(N, size = n, prob = p) 
+
+# sample mean, var, sd
+xbar = mean(xSamples)
+xvar = var(xSamples)
+xsigma = sd(xSamples) # = sqrt(sum((xSamples - xbar)^2) / (N -1))
+
+se = xsigma / sqrt(N)
+
+lb = round(xbar - (2*se), 3)
+ub = round(xbar + (2*se), 3)
+```
+
+For `r paste("N = ", N)` Monte Carlo samples, The posterior mean of $\theta$ is $\bar{\theta} =$ `r xbar` with 95% confidence interval (`r paste(lb, ub)`).
+
+::: callout-important
+## Exercise
+
+Above we estimate $Var(\theta)$ to be `r round(xvar, 3)` and the standard error for $N = 100$ was `r round(se, 3)`.
+
+If you wanted to state $p(\theta \in (\hat{\theta} \pm 0.01)) = 0.95$, how large would $N$ have to be? 
+
+Check your answer by adjusting $N$ above.
+:::
+
+## Monte Carlo prediction
+
+### Prior predictive distribution
+
+We can use Monte Carlo to sample new observation, $\tilde{y}$, from the **prior predictive distribution**
+
+$$
+p(\tilde{y}) = \int p(\tilde{y}|\theta)p(\theta) d\theta,
+$$
+
+
+where we proceed by following the iterative procedure below
+
+```
+1. sample theta_i from the prior p(theta)
+2. sample ytilde from p(ytilde | theta_i)
+3. repeat steps 1 and 2
+```
+
+- this can be useful to see if a prior for $p(\theta)$ actually translate to reasonable prior beliefs about the data.
+
+::: callout-important
+## Exercise
+For $p(\theta) = \text{gamma}(8,2)$, plot $p(\tilde{y})$ assuming $\tilde{y} | \theta \sim \text{Poisson}(\theta)$.
+:::
+
+```{r}
+#| eval: false
+#| echo: false
+
+N = 10000
+
+theta.mc = rgamma(N, 8, 2)
+ytilde.mc = rpois(N, theta.mc)
+hist(ytilde.mc)
+```
+
+
+### Posterior predictive distribution
+
+We can also sample $\tilde{y}$ from the **posterior predictive distribution**,
+
+$$
+p(\tilde{y} | y_1, \ldots y_n) = \int p(\tilde{y}|\theta) p(\theta|y_1, \ldots, y_n)d\theta,
+$$
+
+where the procedure is the same as before, except step 1 is replace with sampling $\theta$ from the posterior $p(\theta | y_1,\ldots, y_n)$.
+
+The resulting sequence $(\theta^{(1)}, \tilde{y}^{(1)}), \ldots, (\theta^{(N)}, \tilde{y}^{(N)})$ constitutes $N$ independent samples from the joint posterior of $(\theta, \tilde{Y})$. The sequence $\tilde{y}^{(1)}, \ldots, \tilde{y}^{(N)})$ constitutes $N$ independent samples from the marginal posterior distribution of $\tilde{Y}$, aka the posterior predictive distribution.
+
+## Posterior predictive model checking
+
+We can assess the fit of a model by comparing the posterior predictive distribution to the empirical distribution.
+
+### Example: is our Poisson model flawed?
+
+```{r}
+#| warning: false
+# load general social survey data
+gss = read_csv("https://sta360-fa23.github.io/data/gss.csv")
+```
+
+
+```{r}
+y1 = gss$CHILDS[gss$FEMALE == 1 &  gss$YEAR >= 1990  & gss$AGE == 40 & 
+                   gss$DEGREE < 3 ]
+y1 = y1[!is.na(y1)]
+n = length(y1)
+```
+
+We are examining the number of children $Y_i$ belonging to $n=$ `r n` 40 year old women surveyed 1990 or later without a bachelor's. These data come from the general social survey.
+
+Suppose
+
+$$
+\begin{aligned}
+Y_i & \sim \text{Poisson}(\theta)\\
+\theta & \sim \text{gamma}(2, 1).
+\end{aligned}
+$$
+The empirical and predictive distributions of the data are both plotted below.
+
+::: panel-tabset
+
+## plot
+
+```{r}
+#| echo: false
+#| warning: false
+
+set.seed(123)
+
+# posterior predictive distribution
+ytotal = sum(y1)
+a = 2 ; b = 1
+N = 10000
+theta.post.mc = rgamma(N, ytotal + a, b + n)
+y1.mc = rpois(N, theta.post.mc)
+
+# data
+df = data.frame(y1) # empirical
+df2 = data.frame(y1.mc) # post predictive
+  
+# make plot
+df %>%
+  ggplot(aes(x = y1)) +
+  geom_bar(aes(x = y1 + .15, y = (..count..)/sum(..count..),
+               fill = "empirical"), alpha = 0.6, width = 0.3) +
+  geom_bar(data = df2, 
+                 aes(x = y1.mc -.15, y = (..count..) / sum(..count..),
+                     fill = "predictive"), alpha = 0.6, width = 0.3) +
+  labs(x = "number of children", 
+       y = TeX("$p(Y_i = y_i)$"),
+       fill = "") +
+  scale_x_continuous(breaks = c(0:7), labels = c(0:7),
+                     limits = c(-.5,7.5)) +
+  
+  theme_bw()
+```
+
+## code
+
+```{r}
+#| eval: false
+set.seed(123)
+
+# posterior predictive distribution
+ytotal = sum(y1)
+a = 2 ; b = 1
+N = 10000
+theta.post.mc = rgamma(N, ytotal + a, b + n)
+y1.mc = rpois(N, theta.post.mc)
+
+# data
+df = data.frame(y1) # empirical
+df2 = data.frame(y1.mc) # post predictive
+  
+# make plot
+df %>%
+  ggplot(aes(x = y1)) +
+  geom_bar(aes(x = y1 + .15, y = (..count..)/sum(..count..),
+               fill = "empirical"), alpha = 0.6, width = 0.3) +
+  geom_bar(data = df2, 
+                 aes(x = y1.mc -.15, y = (..count..) / sum(..count..),
+                     fill = "predictive"), alpha = 0.4, width = 0.3) +
+  labs(x = "number of children", 
+       y = TeX("$p(Y_i = y_i)$"),
+       fill = "") +
+  scale_x_continuous(breaks = c(0:7), labels = c(0:7),
+                     limits = c(-.5,7.5)) +
+  
+  theme_bw()
+```
+
+:::
+
+::: callout-important
+## Exercise
+Let $\mathbf{y}$ be a vector of length 111. Let $t(\mathbf{y})$ be the ratio of $2$s to $1$s in $\mathbf{y}$. For our observed data, this test statistic $t(\mathbf{y}_{obs}) = 38 / 19 = 2$. What is the tail probability $p(t(\tilde{\mathbf{Y}}) \geq t(\mathbf{y}_{obs}))$ under the posterior predictive distribution?
+:::
+
+```{r}
+#| echo: false
+#| eval: false
+
+set.seed(123)
+
+t.mc = NULL
+for (i in 1:10000) {
+  theta1 = rgamma(1, ytotal + a, b + n) # draw 1 theta from posterior
+  y1.mc = rpois(n, theta1) # draw y from post pred of n = 111
+  t.mc = c(t.mc,
+           sum(y1.mc == 2) / sum(y1.mc == 1))# compute t
+}
+hist(t.mc)
+mean(t.mc >= 2)
+```
+

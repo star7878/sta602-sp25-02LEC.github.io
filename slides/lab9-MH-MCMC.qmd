@@ -1,0 +1,101 @@
+---
+title: "MCMC Practice"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# Metropolis algorithm
+
+## Exercise
+
+Suppose the target distribution we wish to sample from is given by probability mass function
+
+$$
+\pi(\theta) = \theta / w \text{ for } \theta \in \{1, 2, \ldots 6\}
+$$
+
+in words, we wish to roll a die with probability $1/w$ of landing on face 1, $2/w$ of landing on face 2, etc. 
+
+- Write a Metropolis algorithm to approximate the target distribution using a proposal $J(\theta = j | \theta^{(s)} = i) = 1/6$ for all $j$, i.e. propose a new state $j$ uniformly. Run your Markov chain for $S=10000$ states.
+
+- The Metropolis algorithm requires a symmetric proposal $J$. Explain why this proposal is symmetric. 
+
+- Plot a histogram of the output. Does the plot match your intuition? 
+
+- Compare the estimated probabilities of each outcome to the truth (compute $w$).
+
+# Metropolis-Hastings
+
+## Exercise
+
+Metropolis-Hastings lets us work with non-symmetric proposals. Re-write the algorithm of the previous exercise using the non-symmetric proposal $J(\theta = j  | \theta^{(s)} = i)$ such that
+
+$$
+\theta  = \begin{cases}
+1 & \text{ with prob } & 0.05\\
+2 & \text{ with prob } & 0.15\\
+3 & \text{ with prob } & 0.2\\
+4 & \text{ with prob } & 0.15\\
+5 & \text{ with prob } & 0.15\\
+6 & \text{ with prob } & 0.3\\
+\end{cases}
+$$
+- compare your results to that those of the previous exercise. In particular, compare the ESS of $\theta$ in each chain. Which do you prefer? How might you explain this difference in ESS?
+
+```{r}
+#| echo: false
+#| eval: false
+library(tidyverse)
+library(coda)
+#### Exercise 1 Metropolis Algo.
+theta = 3
+S = 10000
+THETA = NULL
+
+for (s in 1:S) {
+  proposal = sample(1:6, 1)
+  r = min(1, proposal / theta)
+  if(runif(1) < r) {
+    theta = proposal
+  }
+  THETA = c(THETA, theta)
+}
+
+hist(THETA)
+
+df = data.frame(theta = THETA)
+w = sum(THETA[THETA == 1]) / S
+df %>%
+  count(theta) %>%
+  mutate(prop = n / S) %>%
+  mutate(truth = theta / sum(1:6))
+
+#### Exercise 2 MH algorithm
+
+theta = 3
+prob_set = c(0.05, 0.15, 0.2, 0.15, 0.15, 0.3)
+S = 10000
+THETA_MH = NULL
+
+for (s in 1:S) {
+  proposal = sample(x = 1:6, size = 1, prob = prob_set)
+  posteriorRatio = proposal / theta
+  proposalRatio = prob_set[theta] / prob_set[proposal]
+  r = min(1, posteriorRatio * proposalRatio)
+  if(runif(1) < r) {
+    theta = proposal
+  }
+  THETA_MH = c(THETA_MH, theta)
+}
+
+hist(THETA_MH)
+effectiveSize(THETA_MH)
+effectiveSize(THETA)
+
+# THETA_MH has better ESS because it downweights 
+# #1 and upweights #6 proposals,
+# which is closer to the truth
+```
+

@@ -1,0 +1,303 @@
+---
+title: "Probability"
+author: "Dr. Alexander Fisher"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+This is foundational material. Most of it is background you will have
+learned in STA230/240. While dry, we must soldier on to get to the
+exciting stuff.
+
+## Review: set theory
+
+::: callout-note
+## Definition
+
+**set**: a collection of elements, denoted by {}
+
+Examples
+
+-   $\phi$ = {} "the empty set"
+-   A = {1, 2, 3}
+-   B = {taken STA199, has not taken STA199}
+-   C = {{1,2,3}, {4, 5}}
+:::
+
+::: callout-note
+## Definition
+
+**subset**: denoted by $\subset$, $A \subset B$ iff
+$a \in A \implies a \in B$
+
+Examples
+
+Using the previously examples of A, B and C above,
+
+-   $A \subset C$
+-   $A \not\subset B$
+:::
+
+Recall:
+
+-   $\cup$ means "union", "or"
+-   $\cap$ means "intersection", "and"
+
+::: callout-note
+## Definition
+
+**partition**: {$H_1, H_2, ... H_n$} = $\{H_i\}_{i = 1}^n$ is a
+partition of $\mathcal{H}$ if
+
+1.  the union of sets is $\mathcal{H}$ i.e.
+    $\cup_{i = 1}^n H_i = \mathcal{H}$
+
+2.  the sets are disjoint i.e. $H_i \cap H_j = \phi$ for all $i \neq j$
+:::
+
+::: callout-note
+## Definition
+
+**sample space**: $\mathcal{H}$, the set of all possible data sets
+(outcomes)
+
+**event**: a set of one or more outcomes
+
+Note: p($\mathcal{H}$) = 1
+
+Examples
+
+-   Roll a six-sided die once. The sample space
+    $\mathcal{H} = \{1, 2, 3, 4, 5, 6\}$.
+-   Let $A$ be the event that the die lands on an even number.
+    $A = \{2, 4, 6 \}$
+:::
+
+## Axioms of probability (in words)
+
+P1. Probabilities are between 0 and 1, importantly p($\neg$H\|H) = 0 and
+p(H\|H) = 1.
+
+P2. If two events A and B are disjoint, then p(A or B) = p(A) + p(B)
+
+P3. The joint probability of two events may be broken down stepwise:
+p(A,B) = p(A\|B)p(B)
+
+--
+
+It follows that
+
+-   for any partition $\{H_i\}_{i = 1}^n$, $\sum_{i=1}^n p(H_i) = 1$
+    (rule of total probability)
+    -   note: simplest partition $p(A) + p(\neg A) = 1$
+-   $p(A) = \sum_{i=1}^n p(A, H_i)$ (rule of marginal probability)
+    -   note: P3 implies that equivalently,
+        $p(A) = \sum_{i=1}^n p(A | H_i) p(H_i)$
+-   p(A\|B) = p(A,B) / p(B) when p(B) $\neq 0$
+    -   note: these statements can also be made where each term is
+        additionally conditioned on another event C
+
+::: callout-important
+## Exercise
+
+Derive Bayes' rule:
+
+$p(H_i|X) = \frac{p(X|H_i)p(H_i)}{\sum_k p(X|H_k)p(H_k)}$
+
+using the axioms of probability.
+:::
+
+Bayes' rule tells us how to update beliefs about $\{H_i \}_{i = 1}^n$
+given data $X$.
+
+## Independence
+
+::: callout-note
+## Definition
+
+Two events $F$ and $G$ are **conditionally independent** given $H$ if
+$p(F, G | H) = p(F | H) p(G | H)$
+:::
+
+::: callout-important
+## Exercise
+
+Show conditional independence implies
+
+$p(F | H, G) = p(F | H)$
+:::
+
+This means that if we know H, then G does not supply any additional
+information about F.
+
+## Random variables
+
+::: callout-note
+## Definition
+
+In Bayesian inference, a **random variable** is an unknown numerical
+quantity about which we make probability statements.
+
+Examples
+
+-   Data. E.g. the amount of a wheat a field will yield later this year.
+    Since this data has not yet been generated, the quantity is unknown.
+-   A population parameter. E.g. the true mean resting heart rate of
+    Duke students. Note: this is a *fixed* (non-random) quantity, but it
+    is also *unknown*. We use probability to describe our uncertainty in
+    this quantity.
+:::
+
+::: callout-note
+## Definition
+
+**discrete** random variable: a random variable that takes countably
+many values. Y is discrete if its possible outcomes can be enumerated
+$\mathcal{Y} = \{y_1, y_2, \ldots \}$.
+
+Note: discrete does not mean finite. There may be infinitely many
+outcomes!
+
+Examples
+
+-   Y = the number of children of a randomly sampled person
+-   Y = the number of visible stars in the sky on a randomly sampled
+    night of the year
+
+For each $y \in \mathcal{Y}$, let p(Y) = probability(Y = y). Then p is
+the **probability mass function** (pmf) of the random variable Y.
+
+Examples
+
+-   Binomial pmf: the probability of $y$ successes in $n$ trials, where
+    each trial has an individual probability of success $\theta$.
+    $$p(y | \theta) = {n \choose y} \theta ^y (1-\theta)^y \text{ for } y \in \{0, 1, \ldots n \}$$
+    -   support: $y \in \{0, 1, 2, \ldots n\}$
+    -   success probability $\theta \in [0, 1]$
+    -   `dbinom(y, n, theta)` computes this pmf in R
+-   Poisson pmf: probability of $y$ events occurring during a fixed
+    interval at a mean rate $\theta$
+    $$p(y | \theta) = \frac{\theta^y e^{-\theta}}{y!}$$
+    -   support: $y \in \{0, 1, 2, \ldots \}$
+    -   rate $\theta \in \mathbb{R}^+$
+    -   `dpois(y, theta)` computes this pmf in R
+:::
+
+::: callout-note
+## Definition
+
+**continuous** random variable: a random variable that takes
+*uncountably* many values.
+
+The **probability density function** (pdf) of a continuous random
+variable, X is defined
+
+$pdf(x) = \lim_{\Delta x \rightarrow 0} \frac{p(x < X < x + \Delta x)}{\Delta x}$
+
+and the probability X is in some interval,
+
+$p(x_1 < X < x_2) = \int_{x_1}^{x_2} pdf(x) dx$
+
+Examples
+
+-   Normal pdf $$
+    p(x | \mu, \sigma) = (2\pi \sigma^2)^{-\frac{1}{2}}e^{-\frac{1}{2\sigma^2}(x-\mu)^2}
+    $$
+
+-   Uniform pdf $$p(x|a,b) = 
+    \begin{cases}
+    \frac{1}{b - a} \hspace{.6cm}\text{ for } x \in [a, b]\\
+    0 \hspace{1cm}\text{ otherwise }
+    \end{cases}$$
+:::
+
+Note: we will often abuse notation and use $p(x)$ in place of $pmf(x)$
+and $pdf(x)$ and prob(event), where only the context makes meaning
+clear.
+
+For pmfs
+
+$$
+\begin{aligned}
+0 \leq p(y) \leq 1\\
+\sum_{y \in \mathcal{Y}} p(y) = 1
+\end{aligned}
+$$
+
+Similarly, for pdfs, 
+
+$$
+\begin{aligned}
+0 \leq p(y) \ \text{and} \\
+\int_{y \in \mathcal{Y}} p(y) = 1
+\end{aligned}
+$$
+
+Note: For a *continuous random variable* Y, p(y) can be larger than 1
+and p(y) is **not** p(Y = y), which equals 0.
+
+::: callout-note
+## Definition
+
+The part of the density/mass function that depends on the variable is
+called the **kernel**.
+
+Example
+
+-   the kernel of the normal pdf is $e^{-\frac{(x-\mu)^2}{2\sigma^2}}$
+:::
+
+::: callout-important
+## Exercise
+
+What's the kernel of a gamma random variable X?
+
+Recall: the pdf of a gamma distribution:
+
+$$
+p(x | \alpha, \beta) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}x^{\alpha - 1} e^{-\beta x}
+$$
+:::
+
+## Moments
+
+For a random variable X, the $n$th moment is defined as E($X^n$).
+
+Recall, the expected value is defined for discrete random variable X, 
+
+$$
+E(X) = \sum_{x \in \mathcal{X}} x p(x)
+$$ 
+
+and for continuous random variable Y,
+
+$$
+E(Y) = \int_{-\infty}^{\infty} y p(y) dy
+$$ 
+
+The variance of a random variable, is also known as the *second
+central moment* and is defined
+
+$$
+E(X - E(X))^2
+$$ or equivalently,
+
+$$
+E(X^2) - E(X)^2
+$$ 
+
+More generally, the covariance between two random variables X and Y
+is defined
+
+$$
+E[(X - E[X])(Y - E[Y])]
+$$
+
+## Exchangeability
+
+-   offline notes

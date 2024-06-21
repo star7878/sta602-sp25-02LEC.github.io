@@ -1,0 +1,44 @@
+---
+title: "Homework 4"
+subtitle: "Due Thursday October 12th at 5:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Exercise 1
+
+Let 
+
+$$
+\begin{aligned}
+Y | \theta, \sigma^2 &\sim N(\theta, 1/\gamma)\\
+\theta | \sigma^2 &\sim N(\mu_0, 1/\gamma \kappa_0)\\
+\gamma &\sim \text{gamma}(a, b)
+\end{aligned}
+$$
+so $\gamma$ is the precision (inverse-variance) of the normal distribution.
+
+a. Derive and simplify the joint pdf $p(y_1, \ldots y_n | \theta, \gamma)$
+
+b. Derive the posterior of the precision, $p(\gamma| y_1, \ldots y_n)$.
+
+c. Derive the posterior of $\theta$, $p(\theta | y_1, \ldots y_n)$
+
+
+## Exercise 2
+
+Exercise 5.1 from Hoff. You can read in the data from the three schools with the R code below. Hint: the problem specification is the same as exercise 1, except $a = \nu_0/2$ and $b = \nu_0 \sigma_0^2/2$.
+
+```{r}
+#| eval: false
+library(tidyverse)
+school1 = read_csv("https://sta360-fa23.github.io/data/school1.csv")
+school2 = read_csv("https://sta360-fa23.github.io/data/school2.csv")
+school3 = read_csv("https://sta360-fa23.github.io/data/school3.csv")
+```
+
+## Exercise 3
+
+3.12 from Hoff.

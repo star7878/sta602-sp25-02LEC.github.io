@@ -1,0 +1,70 @@
+---
+title: "Homework 7"
+subtitle: "Due Friday November 10th at 5:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Exercise 1
+
+7.3 from Hoff.
+
+Run the code below to load the data.
+
+```{r}
+#| eval: false
+#| echo: false
+
+library(tidyverse)
+x = read.table("http://www2.stat.duke.edu/~pdh10/FCBS/Exercises/bluecrab.dat")
+y = data.frame(bodyDepth = x$V1, rearWidth = x$V2)
+write_csv(y, "../data/bluecrab.csv") 
+
+x = read.table("http://www2.stat.duke.edu/~pdh10/FCBS/Exercises/orangecrab.dat")
+y = data.frame(bodyDepth = x$V1, rearWidth = x$V2)
+write_csv(y, "../data/orangecrab.csv") 
+
+```
+
+
+```{r}
+#| eval: false
+library(readr)
+bluecrab = read_csv("https://sta360-fa23.github.io/data/bluecrab.csv")
+orangecrab = read_csv("https://sta360-fa23.github.io/data/orangecrab.csv")
+```
+
+
+## Exercise 2
+
+8.1 from Hoff. **Note there is a typo in this exercise**. Every $\theta_i$ in the exercise prompt should be replaced by $\theta_j$.
+
+## Exercise 3
+
+```{r}
+#| echo: false
+#| eval: false
+
+x = read.table("http://www2.stat.duke.edu/~pdh10/FCBS/Exercises/school8.dat")
+y = data.frame(hours = x$V1)
+write_csv(y, "../data/school8.csv")
+```
+
+
+8.3 from Hoff
+
+Run the code below to load the data.
+
+```{r}
+#| eval: false
+library(readr)
+library(glue)
+
+for(i in 1:8) {
+assign(paste0("school", i), 
+       read_csv(glue("https://sta360-fa23.github.io/data/school{i}.csv")))
+}
+```
+

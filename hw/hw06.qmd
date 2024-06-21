@@ -1,0 +1,80 @@
+---
+title: "Homework 6"
+subtitle: "Due Wednesday November 1st at 5:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Exercise 1
+
+6.3 from Hoff. You can simulate from a constrained normal distribution with mean `mean` and standard deviation `sd`, constrained to lie in the interval $(a,b)$ using the following function:
+
+```{r}
+rcnorm<-function(n, mean=0, sd=1, a=-Inf, b=Inf){
+  u = runif(n, pnorm((a - mean) / sd), pnorm((b - mean) / sd))
+  mean + (sd * qnorm(u))
+}
+```
+
+Note that you can use this function to simulate a vector of constrained normal random variables, each with a potentially different mean, standard deviation, and constraints.
+
+To load the data for this exercise, run the code below
+
+```{r}
+#| eval: false
+divorce = readr::read_csv("https://sta360-fa23.github.io/data/divorce.csv")
+```
+
+
+## Exercise 2
+
+Show that if $W \sim \text{Wishart}(m, S)$ then $E[W] = mS$.
+
+## Exercise 3
+
+Suppose $Y$ is a random normal vector $Y \sim N_p(\theta, \Sigma)$. Let $Y_A$ be the first $p_1$ elements of $Y$ and $Y_B$ be the last $p_2 = p - p_1$ elements, so that $Y = (Y_A, Y_B)$. Similarly, write $\theta = (\theta_A, \theta_B)$. Finally, let 
+
+$$
+\Sigma^{-} \equiv \Psi = \left[ {\begin{array}{cc}
+   \Psi_{AA} & \Psi_{AB} \\
+   \Psi_{BA} & \Psi_{BB} \\
+  \end{array} } \right]
+$$
+and note that $\Psi_{AB} = \Psi_{BA}^T$. Find the conditional distribution of $Y_B$ given $Y_A$ in terms of $\theta_A$, $\theta_B$ and components of $\Psi$. Try to interpret how $E[Y_B|Y_A]$ differs from $E[Y_B]$ and how $V[Y_B|Y_A]$ differs from $V[Y_B]$.
+
+### Identities for exercise 3
+
+Some of the following identities will be helpful for *interpretation*.
+
+Let 
+
+$$
+\Sigma = \left[ {\begin{array}{cc}
+   \Sigma_{AA} & \Sigma_{AB} \\
+   \Sigma_{BA} & \Sigma_{BB} \\
+  \end{array} } \right]
+$$
+
+and
+
+$$
+\Psi = \left[ {\begin{array}{cc}
+   \Psi_{AA} & \Psi_{AB} \\
+   \Psi_{BA} & \Psi_{BB} \\
+  \end{array} } \right].
+$$
+
+Then 
+
+$$
+\begin{aligned}
+\Psi_{AA}^- &= \Sigma_{AA} - \Sigma_{AB} \Sigma_{BB}^- \Sigma_{BA}\\
+\Psi_{BB}^- &= \Sigma_{BB} - \Sigma_{BA} \Sigma_{AA}^- \Sigma_{AB}\\
+\Psi_{AB} &= -\Psi_{AA} \Sigma_{AB} \Sigma_{BB}^-\\
+\Psi_{BA} &= -\Psi_{BB} \Sigma_{BA} \Sigma_{AA}^-,
+\end{aligned}
+$$
+
+and note that $\Sigma_{AB} = \Sigma_{BA}^T$ and $\Psi_{AB} = \Psi_{BA}^T$.

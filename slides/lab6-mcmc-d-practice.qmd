@@ -1,0 +1,112 @@
+---
+title: "MCMC diagnostics practice"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# Exercises
+
+## Exercise 1
+
+Let $p(\theta_1, \theta_2 | \mathbf{y})$ be our **target distribution**, i.e. the distribution we are interested in sampling.
+
+We construct a Gibbs sampler and look at the trace plots of $\theta_1$ and $\theta_2$, produced below. Chat with your neighbor, describe what you observe. Has the chain **converged** for each parameter? How well is the sampler **mixing**? Do you think the parameters are correlated or uncorrelated? 
+
+Write down a description of the plots below, in 2 paragraphs or less, for a reader who has **not taken this class**. You may assume the reader has taken a course on probability (e.g. similar to STA230/240).
+
+
+```{r}
+#| echo: false
+#| warning: false
+library(tidyverse)
+library(latex2exp)
+library(patchwork)
+theta1 = c(rnorm(750, mean = 10, sd = 1), rnorm(250, mean = 50, sd = 4))
+theta2 = c(rnorm(750, mean = 45, sd = 2), rnorm(250, mean = 53, sd = 1))
+
+df = data.frame(theta1, theta2)
+p1 = df %>%
+ggplot(aes(x = 1:1000)) +
+  geom_line(aes(y = theta1)) +
+  theme_bw() +
+  labs(y = TeX("$\\theta_1$"), x = "iteration")
+
+p2 = df %>%
+ggplot(aes(x = 1:1000)) +
+  geom_line(aes(y = theta2)) +
+  theme_bw() +
+  labs(y = TeX("$\\theta_2$"), x = "iteration")
+
+p1 + p2
+```
+
+## Exercise 2
+
+Based on the first 1000 iterations of your Gibbs sampler shown on the previous slide, which of the following joint densities is the most plausible for $\theta_1, \theta_2 | \mathbf{y}$? Why? Hint: it may help to think about where your sampler starts and imagine a particle moving through space according to conditional updates.
+
+```{r}
+#| echo: false
+#| warning: false
+
+theta1_true = c(rnorm(3000, mean = 10, sd = 1), rnorm(1000, mean = 50, sd = 4))
+theta2_true = c(rnorm(3000, mean = 45, sd = 2), rnorm(1000, mean = 53, sd = 1))
+
+theta1_base =  c(rnorm(2000, mean = 10, sd = 1), rnorm(1000, mean = 50, sd = 4),
+                 rnorm(1000, mean = 80, sd = 3))
+
+theta2_base = c(rnorm(2000, mean = 45, sd = 2), rnorm(1000, mean = 53, sd = 1),
+                rnorm(1000, mean = 35, sd = 2))
+  
+
+df_base = data.frame(theta1 = theta1_base, theta2 = theta2_base)
+df_true = data.frame(theta1 = theta1_true, theta2 = theta2_true)
+
+p1 = df_true %>%
+  mutate(theta1 = theta1 / 10,
+         theta2 = theta2 / 10) %>%
+  ggplot(aes(x = theta1, y = theta2)) + 
+  geom_bin2d(bins = 25) +
+  theme_bw() + 
+  labs(y = TeX("$\\theta_2$"), 
+       x = TeX("$\\theta_1$"))
+
+df2 = df_base
+
+df2$theta1 = rnorm(4000, mean = 50, sd = 4)
+
+p2 = df2 %>%
+  ggplot(aes(x = theta1, y = theta2)) +
+  geom_bin2d(bins = 25) +
+  theme_bw() +
+  labs(y = TeX("$\\theta_2$"),
+       x = TeX("$\\theta_1$"))
+
+df3 = df_base
+df3$theta1 = rnorm(4000, mean = 35, sd = 15)
+df3$theta2 = rnorm(4000, mean = 48, sd = 10)
+
+
+p3 = df3 %>%
+  ggplot(aes(x = theta1, y = theta2)) +
+  geom_bin2d(bins = 25) +
+  theme_bw() +
+  labs(y = TeX("$\\theta_2$"),
+       x = TeX("$\\theta_1$"))
+
+df4 = df_base
+
+p4 = df4 %>%
+  ggplot(aes(x = theta1, y = theta2)) +
+  geom_bin2d(bins = 25) +
+  theme_bw() +
+  labs(y = TeX("$\\theta_2$"),
+       x = TeX("$\\theta_1$"))
+
+
+(p1 + p2) / (p3 + p4) +
+  plot_annotation(title = "Joint densities", tag_levels = c("A"))
+```
+
+

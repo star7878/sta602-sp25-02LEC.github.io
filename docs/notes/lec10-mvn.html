@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Alexander Fisher">
+
+<title>STA360 - Multivariate normal</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="../site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="../site_libs/plotly-binding-4.10.2/plotly.js"></script>
+<script src="../site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="../site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="../site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="../site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">STA360</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html">schedule</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html">syllabus</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../links.html">links</a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-multivariate-normal-mvn" id="toc-the-multivariate-normal-mvn" class="nav-link active" data-scroll-target="#the-multivariate-normal-mvn">The multivariate normal (MVN)</a>
+  <ul class="collapse">
+  <li><a href="#motivating-examples" id="toc-motivating-examples" class="nav-link" data-scroll-target="#motivating-examples">Motivating examples</a></li>
+  <li><a href="#density" id="toc-density" class="nav-link" data-scroll-target="#density">Density</a></li>
+  <li><a href="#key-facts" id="toc-key-facts" class="nav-link" data-scroll-target="#key-facts">Key facts</a></li>
+  </ul></li>
+  <li><a href="#matrix-algebra-fundamentals" id="toc-matrix-algebra-fundamentals" class="nav-link" data-scroll-target="#matrix-algebra-fundamentals">Matrix algebra fundamentals</a>
+  <ul class="collapse">
+  <li><a href="#matrix-facts" id="toc-matrix-facts" class="nav-link" data-scroll-target="#matrix-facts">matrix facts</a></li>
+  <li><a href="#matrix-operations-in-r" id="toc-matrix-operations-in-r" class="nav-link" data-scroll-target="#matrix-operations-in-r">matrix operations in R</a></li>
+  </ul></li>
+  <li><a href="#semiconjugate-priors" id="toc-semiconjugate-priors" class="nav-link" data-scroll-target="#semiconjugate-priors">Semiconjugate priors</a>
+  <ul class="collapse">
+  <li><a href="#semiconjugate-prior-for-boldsymboltheta" id="toc-semiconjugate-prior-for-boldsymboltheta" class="nav-link" data-scroll-target="#semiconjugate-prior-for-boldsymboltheta">semiconjugate prior for <span class="math inline">\(\boldsymbol{\theta}\)</span></a></li>
+  <li><a href="#semiconjugate-prior-for-sigma" id="toc-semiconjugate-prior-for-sigma" class="nav-link" data-scroll-target="#semiconjugate-prior-for-sigma">semiconjugate prior for <span class="math inline">\(\Sigma\)</span></a></li>
+  <li><a href="#the-inverse-wishart" id="toc-the-inverse-wishart" class="nav-link" data-scroll-target="#the-inverse-wishart">the inverse-Wishart</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Multivariate normal</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Alexander Fisher </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="the-multivariate-normal-mvn" class="level2">
+<h2 class="anchored" data-anchor-id="the-multivariate-normal-mvn">The multivariate normal (MVN)</h2>
+<section id="motivating-examples" class="level3">
+<h3 class="anchored" data-anchor-id="motivating-examples">Motivating examples</h3>
+<div class="cell">
+
+</div>
+<p>Example 1: Twenty two students take a reading comprehension test before and after receiving an instructional method. The result for each student is a bivariate vector <span class="math inline">\(Y_i\)</span> that includes a pre- and post- instructional score.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec10-mvn_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Example 2: We measure three features of Gentoo penguins: bill length, bill depth and body mass. For each penguin we record <span class="math inline">\(Y_i\)</span>, a three-dimensional vector of trait measurements.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-efd07531f021030c44f5" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-efd07531f021030c44f5">{"x":{"visdat":{"5bab153800dc":["function () ","plotlyVisDat"]},"cur_data":"5bab153800dc","attrs":{"5bab153800dc":{"x":[46.100000000000001,50,48.700000000000003,50,47.600000000000001,46.5,45.399999999999999,46.700000000000003,43.299999999999997,46.799999999999997,40.899999999999999,49,45.5,48.399999999999999,45.799999999999997,49.299999999999997,42,49.200000000000003,46.200000000000003,48.700000000000003,50.200000000000003,45.100000000000001,46.5,46.299999999999997,42.899999999999999,46.100000000000001,44.5,47.799999999999997,48.200000000000003,50,47.299999999999997,42.799999999999997,45.100000000000001,59.600000000000001,49.100000000000001,48.399999999999999,42.600000000000001,44.399999999999999,44,48.700000000000003,42.700000000000003,49.600000000000001,45.299999999999997,49.600000000000001,50.5,43.600000000000001,45.5,50.5,44.899999999999999,45.200000000000003,46.600000000000001,48.5,45.100000000000001,50.100000000000001,46.5,45,43.799999999999997,45.5,43.200000000000003,50.399999999999999,45.299999999999997,46.200000000000003,45.700000000000003,54.299999999999997,45.799999999999997,49.799999999999997,46.200000000000003,49.5,43.5,50.700000000000003,47.700000000000003,46.399999999999999,48.200000000000003,46.5,46.399999999999999,48.600000000000001,47.5,51.100000000000001,45.200000000000003,45.200000000000003,49.100000000000001,52.5,47.399999999999999,50,44.899999999999999,50.799999999999997,43.399999999999999,51.299999999999997,47.5,52.100000000000001,47.5,52.200000000000003,45.5,49.5,44.5,50.799999999999997,49.399999999999999,46.899999999999999,48.399999999999999,51.100000000000001,48.5,55.899999999999999,47.200000000000003,49.100000000000001,47.299999999999997,46.799999999999997,41.700000000000003,53.399999999999999,43.299999999999997,48.100000000000001,50.5,49.799999999999997,43.5,51.5,46.200000000000003,55.100000000000001,44.5,48.799999999999997,47.200000000000003,null,46.799999999999997,50.399999999999999,45.200000000000003,49.899999999999999],"y":[13.199999999999999,16.300000000000001,14.1,15.199999999999999,14.5,13.5,14.6,15.300000000000001,13.4,15.4,13.699999999999999,16.100000000000001,13.699999999999999,14.6,14.6,15.699999999999999,13.5,15.199999999999999,14.5,15.1,14.300000000000001,14.5,14.5,15.800000000000001,13.1,15.1,14.300000000000001,15,14.300000000000001,15.300000000000001,15.300000000000001,14.199999999999999,14.5,17,14.800000000000001,16.300000000000001,13.699999999999999,17.300000000000001,13.6,15.699999999999999,13.699999999999999,16,13.699999999999999,15,15.9,13.9,13.9,15.9,13.300000000000001,15.800000000000001,14.199999999999999,14.1,14.4,15,14.4,15.4,13.9,15,14.5,15.300000000000001,13.800000000000001,14.9,13.9,15.699999999999999,14.199999999999999,16.800000000000001,14.4,16.199999999999999,14.199999999999999,15,15,15.6,15.6,14.800000000000001,15,16,14.199999999999999,16.300000000000001,13.800000000000001,16.399999999999999,14.5,15.6,14.6,15.9,13.800000000000001,17.300000000000001,14.4,14.199999999999999,14,17,15,17.100000000000001,14.5,16.100000000000001,14.699999999999999,15.699999999999999,15.800000000000001,14.6,14.4,16.5,15,17,15.5,15,13.800000000000001,16.100000000000001,14.699999999999999,15.800000000000001,14,15.1,15.199999999999999,15.9,15.199999999999999,16.300000000000001,14.1,16,15.699999999999999,16.199999999999999,13.699999999999999,null,14.300000000000001,15.699999999999999,14.800000000000001,16.100000000000001],"z":[4500,5700,4450,5700,5400,4550,4800,5200,4400,5150,4650,5550,4650,5850,4200,5850,4150,6300,4800,5350,5700,5000,4400,5050,5000,5100,4100,5650,4600,5550,5250,4700,5050,6050,5150,5400,4950,5250,4350,5350,3950,5700,4300,4750,5550,4900,4200,5400,5100,5300,4850,5300,4400,5000,4900,5050,4300,5000,4450,5550,4200,5300,4400,5650,4700,5700,4650,5800,4700,5550,4750,5000,5100,5200,4700,5800,4600,6000,4750,5950,4625,5450,4725,5350,4750,5600,4600,5300,4875,5550,4950,5400,4750,5650,4850,5200,4925,4875,4625,5250,4850,5600,4975,5500,4725,5500,4700,5500,4575,5500,5000,5950,4650,5500,4375,5850,4875,6000,4925,null,4850,5750,5200,5400],"mode":"markers","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"bill length (mm)"},"yaxis":{"title":"bill depth (mm)"},"zaxis":{"title":"body mass (g)"}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[46.100000000000001,50,48.700000000000003,50,47.600000000000001,46.5,45.399999999999999,46.700000000000003,43.299999999999997,46.799999999999997,40.899999999999999,49,45.5,48.399999999999999,45.799999999999997,49.299999999999997,42,49.200000000000003,46.200000000000003,48.700000000000003,50.200000000000003,45.100000000000001,46.5,46.299999999999997,42.899999999999999,46.100000000000001,44.5,47.799999999999997,48.200000000000003,50,47.299999999999997,42.799999999999997,45.100000000000001,59.600000000000001,49.100000000000001,48.399999999999999,42.600000000000001,44.399999999999999,44,48.700000000000003,42.700000000000003,49.600000000000001,45.299999999999997,49.600000000000001,50.5,43.600000000000001,45.5,50.5,44.899999999999999,45.200000000000003,46.600000000000001,48.5,45.100000000000001,50.100000000000001,46.5,45,43.799999999999997,45.5,43.200000000000003,50.399999999999999,45.299999999999997,46.200000000000003,45.700000000000003,54.299999999999997,45.799999999999997,49.799999999999997,46.200000000000003,49.5,43.5,50.700000000000003,47.700000000000003,46.399999999999999,48.200000000000003,46.5,46.399999999999999,48.600000000000001,47.5,51.100000000000001,45.200000000000003,45.200000000000003,49.100000000000001,52.5,47.399999999999999,50,44.899999999999999,50.799999999999997,43.399999999999999,51.299999999999997,47.5,52.100000000000001,47.5,52.200000000000003,45.5,49.5,44.5,50.799999999999997,49.399999999999999,46.899999999999999,48.399999999999999,51.100000000000001,48.5,55.899999999999999,47.200000000000003,49.100000000000001,47.299999999999997,46.799999999999997,41.700000000000003,53.399999999999999,43.299999999999997,48.100000000000001,50.5,49.799999999999997,43.5,51.5,46.200000000000003,55.100000000000001,44.5,48.799999999999997,47.200000000000003,46.799999999999997,50.399999999999999,45.200000000000003,49.899999999999999],"y":[13.199999999999999,16.300000000000001,14.1,15.199999999999999,14.5,13.5,14.6,15.300000000000001,13.4,15.4,13.699999999999999,16.100000000000001,13.699999999999999,14.6,14.6,15.699999999999999,13.5,15.199999999999999,14.5,15.1,14.300000000000001,14.5,14.5,15.800000000000001,13.1,15.1,14.300000000000001,15,14.300000000000001,15.300000000000001,15.300000000000001,14.199999999999999,14.5,17,14.800000000000001,16.300000000000001,13.699999999999999,17.300000000000001,13.6,15.699999999999999,13.699999999999999,16,13.699999999999999,15,15.9,13.9,13.9,15.9,13.300000000000001,15.800000000000001,14.199999999999999,14.1,14.4,15,14.4,15.4,13.9,15,14.5,15.300000000000001,13.800000000000001,14.9,13.9,15.699999999999999,14.199999999999999,16.800000000000001,14.4,16.199999999999999,14.199999999999999,15,15,15.6,15.6,14.800000000000001,15,16,14.199999999999999,16.300000000000001,13.800000000000001,16.399999999999999,14.5,15.6,14.6,15.9,13.800000000000001,17.300000000000001,14.4,14.199999999999999,14,17,15,17.100000000000001,14.5,16.100000000000001,14.699999999999999,15.699999999999999,15.800000000000001,14.6,14.4,16.5,15,17,15.5,15,13.800000000000001,16.100000000000001,14.699999999999999,15.800000000000001,14,15.1,15.199999999999999,15.9,15.199999999999999,16.300000000000001,14.1,16,15.699999999999999,16.199999999999999,13.699999999999999,14.300000000000001,15.699999999999999,14.800000000000001,16.100000000000001],"z":[4500,5700,4450,5700,5400,4550,4800,5200,4400,5150,4650,5550,4650,5850,4200,5850,4150,6300,4800,5350,5700,5000,4400,5050,5000,5100,4100,5650,4600,5550,5250,4700,5050,6050,5150,5400,4950,5250,4350,5350,3950,5700,4300,4750,5550,4900,4200,5400,5100,5300,4850,5300,4400,5000,4900,5050,4300,5000,4450,5550,4200,5300,4400,5650,4700,5700,4650,5800,4700,5550,4750,5000,5100,5200,4700,5800,4600,6000,4750,5950,4625,5450,4725,5350,4750,5600,4600,5300,4875,5550,4950,5400,4750,5650,4850,5200,4925,4875,4625,5250,4850,5600,4975,5500,4725,5500,4700,5500,4575,5500,5000,5950,4650,5500,4375,5850,4875,6000,4925,4850,5750,5200,5400],"mode":"markers","type":"scatter3d","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="density" class="level3">
+<h3 class="anchored" data-anchor-id="density">Density</h3>
+<p>We say a <span class="math inline">\(p\)</span> dimensional vector <span class="math inline">\(\boldsymbol{Y}\)</span> has a multivariate normal distribution if its sampling density is given by</p>
+<p><span class="math display">\[
+p(\boldsymbol{y}| \boldsymbol{\theta}, \Sigma) = (2\pi)^{-p/2} |\Sigma|^{-1/2} \exp\{
+-\frac{1}{2}(\boldsymbol{y}-\boldsymbol{\theta})^T \Sigma^{-1} (\boldsymbol{y}- \boldsymbol{\theta})
+\}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\boldsymbol{y}=  \left[ {\begin{array}{cc}
+   y_1 \\
+   y_2\\
+   \vdots\\
+   y_p
+  \end{array} } \right]
+  ~~~
+   \boldsymbol{\theta}= \left[ {\begin{array}{cc}
+   \theta_1 \\
+   \theta_2\\
+   \vdots\\
+   \theta_p
+  \end{array} } \right]
+  ~~~
+  \Sigma =
+  \left[ {\begin{array}{cc}
+   \sigma_1^2 &amp; \sigma_{12}&amp; \ldots &amp; \sigma_{1p}\\
+   \sigma_{12} &amp; \sigma_2^2 &amp;\ldots &amp; \sigma_{2p}\\
+   \vdots &amp; \vdots &amp; &amp; \vdots\\
+   \sigma_{1p} &amp; \ldots &amp; \ldots &amp; \sigma_p^2
+  \end{array} } \right].
+\]</span></p>
+</section>
+<section id="key-facts" class="level3">
+<h3 class="anchored" data-anchor-id="key-facts">Key facts</h3>
+<ul>
+<li><span class="math inline">\(\boldsymbol{y}\in \mathbb{R}^p\)</span> ; <span class="math inline">\(\boldsymbol{\theta}\in \mathbb{R}^p\)</span>; <span class="math inline">\(\Sigma &gt; 0\)</span></li>
+<li><span class="math inline">\(E[\boldsymbol{y}] = \boldsymbol{\theta}\)</span></li>
+<li><span class="math inline">\(V[\boldsymbol{y}] = E[(\boldsymbol{y}- \boldsymbol{\theta})(\boldsymbol{y}- \boldsymbol{\theta})^T] = \Sigma\)</span></li>
+<li>Marginally, <span class="math inline">\(y_i \sim N(\theta_i, \sigma_i^2)\)</span>.</li>
+<li>If <span class="math inline">\(\boldsymbol{\theta}\)</span> is a MVN random vector, then the kernel is <span class="math inline">\(\exp\{-\frac{1}{2} \boldsymbol{\theta}^T A \boldsymbol{\theta}+ \boldsymbol{\theta}^T \boldsymbol{b} \}\)</span>. The mean is <span class="math inline">\(A^{-1}\boldsymbol{b}\)</span> and the covariance is <span class="math inline">\(A^{-1}\)</span>.</li>
+</ul>
+<section id="sampling-from-a-mvt-norm" class="level4">
+<h4 class="anchored" data-anchor-id="sampling-from-a-mvt-norm">sampling from a mvt norm</h4>
+<p><code>library(mvtnorm)</code> contains functions we need.</p>
+<ul>
+<li><code>rmvnorm()</code> to sample from a multivariate normal</li>
+<li><code>dmvnorm()</code> to compute the density</li>
+<li><code>pmvnorm()</code> to compute the distribution function</li>
+<li><code>qmvnorm()</code> to compute quantiles of the multivariate normal</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="matrix-algebra-fundamentals" class="level2">
+<h2 class="anchored" data-anchor-id="matrix-algebra-fundamentals">Matrix algebra fundamentals</h2>
+<section id="matrix-facts" class="level3">
+<h3 class="anchored" data-anchor-id="matrix-facts">matrix facts</h3>
+<ul>
+<li>matrix multiplication proceeds row <span class="math inline">\(\times\)</span> column, so if we have the product <span class="math inline">\(AB\)</span>, <span class="math inline">\(A\)</span> must have the same number of ___ as B has ___.</li>
+<li>the determinant of a matrix, <span class="math inline">\(|A|\)</span>, measures the size of the matrix</li>
+<li>the identity matrix is the matrix multiplicative identity. It is represented by <span class="math inline">\(\boldsymbol{I}\)</span>, in general <span class="math inline">\(\boldsymbol{I}_p\)</span> is a <span class="math inline">\(p \times p\)</span> matrix with 1 on each diagonal and 0 on every off-diagonal. <span class="math inline">\(\boldsymbol{I}A = A \boldsymbol{I}= A\)</span>.</li>
+<li>the inverse of a matrix <span class="math inline">\(A^{-1}\)</span> works as follows: <span class="math inline">\(A A^{-1} = A^{-1}A = \boldsymbol{I}\)</span>.</li>
+<li>the trace of a matrix, tr(A), is the sum of its diagonal elements</li>
+<li>order matters: <span class="math inline">\(AB \neq BA\)</span> in general.</li>
+<li><span class="math inline">\(\Sigma &gt; 0\)</span> is shorthand for saying the matrix is positive definite. This means that for all vectors <span class="math inline">\(\boldsymbol{x}\)</span>, the quadratic form <span class="math inline">\(\boldsymbol{x}^T \Sigma \boldsymbol{x} &gt; 0\)</span>. <span class="math inline">\(Sigma &gt; 0 \iff\)</span> all eigenvalues of <span class="math inline">\(\Sigma\)</span> are positive.</li>
+</ul>
+<p>Exercise:</p>
+<ul>
+<li><span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{b}\)</span> are <span class="math inline">\(p \times 1\)</span> vectors, <span class="math inline">\(A\)</span> is a symmetric matrix. Simplify <span class="math inline">\(\boldsymbol{b}^T A \boldsymbol{\theta}+ \boldsymbol{\theta}^T A \boldsymbol{b}\)</span> what is the dimension of the result?</li>
+<li>what’s the dimension of <span class="math inline">\(V[\boldsymbol{y}]\)</span>?</li>
+</ul>
+</section>
+<section id="matrix-operations-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="matrix-operations-in-r">matrix operations in R</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a matrix A</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,.<span class="dv">2</span>, .<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]  1.0  0.2
+[2,]  0.2  2.0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># invert A (expensive for large matrices)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Ainv <span class="ot">=</span> <span class="fu">solve</span>(A)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># matrix multiplication</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>Ainv <span class="sc">%*%</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1    0
+[2,]    0    1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determinant of A</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">det</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.96</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trace of A</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">diag</span>(A))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a vector b</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]
+[1,]    1
+[2,]    2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transpose the vector b</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1    2</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>b <span class="sc">%*%</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in b %*% A: non-conformable arguments</code></pre>
+</div>
+</div>
+<ul>
+<li>What went wrong in the code above?</li>
+</ul>
+</section>
+</section>
+<section id="semiconjugate-priors" class="level2">
+<h2 class="anchored" data-anchor-id="semiconjugate-priors">Semiconjugate priors</h2>
+<section id="semiconjugate-prior-for-boldsymboltheta" class="level3">
+<h3 class="anchored" data-anchor-id="semiconjugate-prior-for-boldsymboltheta">semiconjugate prior for <span class="math inline">\(\boldsymbol{\theta}\)</span></h3>
+<p>If</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{y}| \boldsymbol{\theta}, \Sigma &amp;\sim MVN(\boldsymbol{\theta}, \Sigma),\\
+\boldsymbol{\theta}&amp;\sim MVN(\mu_0, \Lambda_0),
+\end{aligned}
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+\boldsymbol{\theta}| \boldsymbol{y}, \Sigma \sim MVN(\boldsymbol{\mu_n}, \Lambda_n),
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\begin{aligned}
+\Lambda_n &amp;= (\Lambda_0^{-1} + n \Sigma^{-1} )^{-1},\\
+\boldsymbol{\mu_n} &amp;= (\Lambda_0^{-1} + n \Sigma^{-1} )^{-1}(\Lambda_0^{-1} \boldsymbol{\mu}_0 + n \Sigma^{-1} \bar{\boldsymbol{y}}).
+\end{aligned}
+\]</span></p>
+<p>Exercise: interpret <span class="math inline">\(E[\boldsymbol{\theta}| \boldsymbol{y}_1, \ldots \boldsymbol{y}_n, \Sigma]\)</span> and <span class="math inline">\(Cov[\boldsymbol{\theta}| \boldsymbol{y}_1, \ldots \boldsymbol{y}_n, \Sigma]\)</span>.</p>
+</section>
+<section id="semiconjugate-prior-for-sigma" class="level3">
+<h3 class="anchored" data-anchor-id="semiconjugate-prior-for-sigma">semiconjugate prior for <span class="math inline">\(\Sigma\)</span></h3>
+<p>If</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{y}| \boldsymbol{\theta}, \Sigma &amp;\sim MVN(\boldsymbol{\theta}, \Sigma),\\
+\Sigma &amp;\sim \text{inverse-Wishart}(\nu_0, S_0^{-1}),
+\end{aligned}
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+\Sigma | \boldsymbol{y}, \boldsymbol{\theta}\sim \text{inverse-Wishart} (\nu_0 + n, (S_0 + S_{\theta})^{-1}),
+\]</span></p>
+<p>where <span class="math inline">\(S_\theta = \sum_{i=1}^n (\boldsymbol{y}_i - \boldsymbol{\theta})(\boldsymbol{y}_i - \boldsymbol{\theta})^T\)</span> is the residual sum of squares matrix for the vectors <span class="math inline">\(\boldsymbol{y}_1, \ldots \boldsymbol{y}_n\)</span> if the population mean is <span class="math inline">\(\boldsymbol{\theta}\)</span>.</p>
+<hr>
+</section>
+<section id="the-inverse-wishart" class="level3">
+<h3 class="anchored" data-anchor-id="the-inverse-wishart">the inverse-Wishart</h3>
+<p>the inverse-Wishart<span class="math inline">\((\nu_0, S_0^{-1})\)</span> density is given by</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(\Sigma | \nu_0, S_0^{-1}) = \left[
+2^{\nu_0 p / 2} \pi^{{p \choose 2}/2} |S_0|^{-\nu_0/2} \prod_{j = 1}^p \Gamma([\nu_0 + 1 - j]/2)
+\right]^{-1} \times\\
+|\Sigma|^{-(\nu_0 + p + 1)/2} \times \exp \{ -\frac{1}{2}tr(S_0 \Sigma^{-1})\}.
+\end{aligned}
+\]</span></p>
+<section id="key-facts-1" class="level4">
+<h4 class="anchored" data-anchor-id="key-facts-1">Key facts</h4>
+<ul>
+<li>notice that the first line is the normalizing constant of the density</li>
+<li>the support is <span class="math inline">\(\Sigma &gt; 0\)</span> and <span class="math inline">\(\Sigma\)</span> symmetric <span class="math inline">\(p \times p\)</span> matrix. <span class="math inline">\(\nu_0 \in \mathbb{N}^+\)</span> and <span class="math inline">\(\nu_0 \geq p\)</span>. <span class="math inline">\(S_0\)</span> is a <span class="math inline">\(p \times p\)</span> symmetric positive definite matrix.</li>
+<li>if <span class="math inline">\(\Sigma\)</span> is inv-Wishart<span class="math inline">\((\nu_0, S_0^{-1})\)</span> then <span class="math inline">\(\Sigma^{-1}\)</span> is Wishart<span class="math inline">\((\nu_0, S_0^{-1})\)</span>.</li>
+<li><span class="math inline">\(E[\Sigma^{-1}] = \nu_0 S_0^{-1}\)</span> and <span class="math inline">\(E[\Sigma] = \frac{1}{\nu_0 - p - 1} S_0\)</span>.</li>
+<li>intuition: <span class="math inline">\(\nu_0\)</span> is prior sample size. <span class="math inline">\(S_0\)</span> is a prior guess of the covariance matrix.</li>
+</ul>
+</section>
+<section id="sampling-from-the-inverse-wishart" class="level4">
+<h4 class="anchored" data-anchor-id="sampling-from-the-inverse-wishart">sampling from the inverse-Wishart</h4>
+<ol start="0" type="1">
+<li>pick <span class="math inline">\(\nu_0 &gt; p\)</span>, pick <span class="math inline">\(S_0\)</span></li>
+<li>sample <span class="math inline">\(\boldsymbol{z}_1, \ldots \boldsymbol{z}_{\nu_0} \sim \text{ i.i.d. } MVN(\boldsymbol{0}, S_0^{-1})\)</span></li>
+<li>calculate <span class="math inline">\(\boldsymbol{Z}^T \boldsymbol{Z} = \sum_{i = 1}^{\nu_0} \boldsymbol{z}_i \boldsymbol{z}^T\)</span></li>
+<li>set <span class="math inline">\(\Sigma = (\boldsymbol{Z}^T \boldsymbol{Z})^{-1}\)</span></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm) <span class="co"># contains function rmvnorm</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2x2 example: generating 1 sample from an inv-Wishart</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>nu0 <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>S0 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">1</span>, .<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>S0inv <span class="ot">=</span> <span class="fu">solve</span>(S0)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">=</span> <span class="fu">rmvnorm</span>(<span class="at">n =</span> nu0, <span class="co"># number of observations of the 2D vector Z</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean =</span> <span class="fu">rep</span>(<span class="dv">0</span>, p), <span class="co"># mean 0</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">sigma =</span> S0inv) <span class="co"># prior variance</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">=</span> <span class="fu">solve</span>(<span class="fu">t</span>(Z) <span class="sc">%*%</span> Z)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(Sigma)<span class="sc">$</span>values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7821737 0.4174527</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]      [,2]
+[1,]  0.5271834 -0.167273
+[2,] -0.1672730  0.672443</code></pre>
+</div>
+</div>
+<p>Exercise/show offline: why does this work? Hint: what is <span class="math inline">\(cov[\boldsymbol{z}]\)</span>?</p>
+<p>We can also use the <code>monomvn</code> package to simulate from a Wishart more succinctly,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(monomvn)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">=</span> <span class="fu">solve</span>(<span class="fu">rwish</span>(nu0, S0inv))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(Sigma)<span class="sc">$</span>values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.692529 0.160428</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]      [,2]
+[1,] 0.1899212 0.1217519
+[2,] 0.1217519 0.6630358</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

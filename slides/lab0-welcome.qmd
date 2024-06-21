@@ -1,0 +1,62 @@
+---
+title: "Welcome to Lab"
+format: revealjs
+---
+
+## Introductions
+
+```{r}
+#| echo: false
+#| warning: false
+library(countdown)
+```
+
+-   Meet the TA!
+
+-   Introduce yourself (icebreaker)
+
+-   Follow along these slides on the course website (under slides): [sta360-fa23.github.io](https://sta360-fa23.github.io)
+
+-   Bookmark this!
+    It's the course website.
+
+## What to expect in labs
+
+-   Discussion
+-   Practice problems
+-   Assistance on computing portion of homeworks
+
+## Tips
+
+-   Show up.
+-   Make use of [office hours](sta360-fa23.github.io/syllabus.html). Before you need help!
+
+
+## Beginnings
+
+While this is not a computing class, computers are the workhorse of Bayesian statistics and we will use R to both enhance understanding of fundamental course material as well as to implement models to learn about real data sets.
+
+## Set up RStudio
+
+### Option 1 (easiest): RStudio container
+
+- Go to [https://cmgr.oit.duke.edu/containers](https://cmgr.oit.duke.edu/containers) and login with your Duke NetID and Password.
+- Click `RStudio` to log into the Docker container. You should now see the RStudio environment.
+
+If you haven't previously done so, you will need to reserve a container for `RStudio` first.
+
+
+## Set up RStudio
+
+### Option 2: RStudio on your computer
+
+- Download `R` from [http://www.r-project.org/](http://www.r-project.org/).
+
+- Download RStudio, the popular IDE for R, from [https://posit.co/downloads/](https://posit.co/downloads/).
+
+- (optionally) download Quarto from [https://quarto.org/docs/get-started/](https://quarto.org/docs/get-started/)
+
+## Demo
+
+Next, check your familarity with R/RStudio fundamentals [here](/labs/lab0.html). You can also find a link to this from the [course schedule](/index.html) under "Assignment".
+

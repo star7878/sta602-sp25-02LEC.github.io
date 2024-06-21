@@ -1,0 +1,89 @@
+---
+title: "Posterior summaries and reliability"
+author: "Dr. Alexander Fisher"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Laplace approximation
+
+**Posterior mode**: sometimes called "MAP" or "maximum a posteriori" estimate, this quantity is given by $\hat{\theta} = \arg \max_{\theta} p(\theta | y)$.
+
+- Notice this unwinds to be $\hat{\theta} = \arg \max_{\theta} p(y | \theta) p(\theta)$. 
+
+::: callout-important
+## Exercise
+- Show that, for the uniform prior, $\hat{\theta} = y / n$
+- Compare to maximum likelihood estimate (MLE); see [notes on likelihoods](https://sta323-sp23.github.io/slides/lec11.html#/example-normal-likelihood)
+::: 
+
+One way to report the reliability of the posterior mode is to look at the width of the posterior near the mode, which we can sometimes approximate with a Gaussian distribution:
+
+$$
+p(\theta | y) \approx C e^{\frac{1}{2} \frac{d^2L}{d\theta^2}|_{\hat{\theta}} (\theta - \hat{\theta})^2}
+$$
+where $C$ is a normalization constant and $L$ is the log-posterior, $\log p(\theta | y)$.
+
+Taken together, the fitted Gaussian with a mean equal to the posterior mode is called the **Laplace approximation**.
+
+- Let's derive the Laplace approximation offline
+
+## Confidence regions
+
+::: callout-note
+## Definition
+Let $\Phi$ be the support of $\theta$.
+An interval $(l(y), u(y)) \subset \Phi$ has 95% **posterior coverage** if 
+
+$$
+p(l(y) < \theta < u(y) | y ) = 0.95
+$$
+
+Interpretation: after observing $Y = y$, our probability that $\theta \in (l(y), u(y))$ is 95%.
+
+Such an interval is called 95% posterior confidence interval (CI). It may also sometimes be referred to as a 95% "credible interval" to distinguish it from a frequentist CI.
+:::
+
+Contrast posterior coverage to frequentist coverage:
+
+:::callout-note
+## Definition
+
+A random interval $(l(Y), u(Y)$) has 95% frequentist coverage for $\theta$ if before data are observed, 
+
+$$
+p(l(Y) < \theta < u(Y) | \theta) = 0.95
+$$
+
+Interpretation: if $Y \sim P_\theta$ then the probability that $(l(Y), u(Y)$ will cover $\theta$ is 0.95.
+:::
+
+In practice, for many applied problems 
+
+$$
+p(l(y) < \theta < u(y) | y ) \approx p(l(Y) < \theta < u(Y) | \theta)
+$$
+
+see section 3.1.2. in the book.
+
+## High posterior density
+
+::: callout-note
+## Definition
+
+A $100 \times (1-\alpha)$% **high posterior density** (HPD) region is a set $s(y) \subset \Theta$ such that 
+
+
+1. $p(\theta \in s(y) | Y = y) = 1 - \alpha$
+
+2. If $\theta_a \in s(y)$ and $\theta_b \not\in s(y)$, then $p(\theta_a | Y = y) > p(\theta_b | Y = y)$
+:::
+
+- Note: all points inside an HPD region have higher posterior density than points outside the region.
+
+::: callout-important
+## Exercise
+Is the HPD region always an interval?
+:::

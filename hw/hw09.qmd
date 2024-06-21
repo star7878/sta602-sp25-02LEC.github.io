@@ -1,0 +1,87 @@
+---
+title: "Homework 9"
+subtitle: "Due Friday December 8 at 5:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Exercise 1
+
+To load the data for this exercise, run the code below.
+
+```{r}
+#| echo: false
+#| eval: false
+set.seed(360)
+yX = readr::read_csv("https://sta360-fa23.github.io/data/azdiabetes.csv")
+indices = sample(1:532, 100)
+azdiabetes.test = yX[indices,]
+azdiabetes.train = yX[-indices,]
+```
+
+
+```{r}
+#| eval: false
+yX = readr::read_csv("https://sta360-fa23.github.io/data/azdiabetes-train.csv")
+yX.test = readr::read_csv("https://sta360-fa23.github.io/data/azdiabetes-test.csv")
+```
+
+The file `azdiabetes-train.csv` contains data on health-related variables of a population of 432 women. In this exercise we will be modeling the conditional distribution of glucose level (`glu`) as a linear combination of the other variables, **excluding** the variable diabetes.
+
+(a) Fit a regression model using the g-prior with $g = n$, $\nu_0 = 2$ and $\sigma_0^2 = 1$. Obtain 95% posterior confidence intervals for all of the parameters. Note: you do not need a Gibbs sampler for this problem, see p 159 of Hoff.
+
+(b) Fit a MVN linear model using `rstanarm` with priors $\beta_i \sim N(0, 1)$ and a flat prior on $\sigma$. Report the posterior mean and 95% confidence intervals for all parameters.
+
+(c) Perform the model selection and averaging procedure described in section 9.3. See secton 9.3.1 for the model and pg 168 for sample code to sample $\mathbf{z}$. Obtain $Pr(\beta_j \neq 0 | y)$, as well as posterior confidence intervals for all of the parameters. Compare to the results in part (a) and (b). Additionally, compare the average squared error of predictions using the data set `azdiabetes-test.csv` under all three fitted models.
+
+## Exercise 2
+
+Exercise 10.2 from Hoff.
+
+To load the data for this exercise, run the code below,
+
+```{r}
+#| eval: false
+yXsparrow = readr::read_csv("https://sta360-fa23.github.io/data/yXsparrow.csv")
+```
+
+Instead of `1000`, please run your chain until you reach at least `100` effective sample size.
+
+## Exercise 3
+
+Code for this exercise is provided below,
+
+```{r}
+#| eval: false
+# load the data
+trans.prob.mat = readRDS(url("https://sta360-fa23.github.io/data/trans-prob-mat.rds"))
+cipher_text = readLines("https://sta360-fa23.github.io/data/ciphertext.txt")
+
+pl = function(decoded) {
+  logprob = 0
+  prevletter = "SPACE"
+  for (i in 1:nchar(decoded)) {
+    curletter = substring(decoded, i, i)
+    if(curletter == " ") {
+      curletter = "SPACE"
+    }
+    logprob = logprob + log(trans.prob.mat[rownames(trans.prob.mat) == prevletter,
+                                             colnames(trans.prob.mat) == curletter])
+    prevletter = curletter
+  }
+  return(logprob)
+} 
+```
+
+
+In this exercise we will re-create the cryptanalysis tool described [here](../readings/MCMCRev.pdf) to decrypt a secret message. Read pages 1-3 of the article by Persi Diaconis linked above.
+
+(a) Load the object `trans.prob.matrix` using the code above and examine. Based on your reading of the article, how can you interpret the entries of this matrix? Is it symmetric or not? Why does this make sense? The function `pl()`, given above, computes the "plausibility" score for a given decoding. Explain in detail what the code comprising `pl()` does. 
+
+(b) Follow the pseudo-code outlined on page 2 of the article to write a MCMC algorithm and decrypt the secret message. Run your Markov chain for at least 1000 iterations and report the decoding with the highest plausibility score. 
+
+
+
+

@@ -1,0 +1,10 @@
+---
+title: "Hamiltonian Monte Carlo"
+author: "Dr. Alexander Fisher"
+# mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+Often we are interested in some summary (usually an integral) of the target distribution. To evaluate the quantity of interest, we need samples from the typical set.

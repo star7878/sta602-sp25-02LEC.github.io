@@ -1,0 +1,370 @@
+---
+title: "Chapter summaries"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Chapter 2
+
+*Axioms of probability*
+
+For all sets $F$, $G$ and $H$,
+
+- $0 = Pr(\neg H | H) \leq Pr(F | H) \leq Pr(H | H) = 1$
+- $Pr(F \cup G | H) = Pr(F|H) + Pr(G|H) \text{ if } F \cap G = \emptyset$
+- $Pr(F \cap G | H) = Pr(G | H) Pr(F | G \cap H)$
+
+*Partitions and probability*
+
+Suppose $\{ H_1, \ldots, H_K\}$ is a partition of $\mathcal{H}$, $Pr(\mathcal{H}) = 1$ and $E$ is some specific event. From the axioms of probability one may prove:
+
+- *Rule of total probability*: 
+
+\begin{equation}
+\sum_{k = 1}^K Pr(H_k) = 1
+\end{equation}
+
+- *Rule of marginal probability*:
+
+\begin{equation}
+\begin{aligned} 
+Pr(E) &= \sum_{k = 1}^K Pr(E \cap H_k)\\ &= \sum_{k = 1}^K Pr(E | H_k) Pr(H_k) 
+\end{aligned}
+\end{equation}
+
+- *Bayes' theorem*: 
+
+\begin{equation}
+Pr(H_j | E) = \frac{Pr(E|H_j) Pr(H_j)}{Pr(E)}
+\end{equation}
+
+Note it is often useful to replace the denominator, $Pr(E)$, using the rule of marginal probability.
+
+*Independence*
+
+Two events $F$ and $G$ are conditionally independent given $H$ if $Pr(F \cap G |H) = Pr(F|H) Pr(G|H)$.
+
+
+### Additional related content (Ch2)
+
+- *Law of total expectation* $E(X) = E(E(X|Y))$ 
+- *Law of total variance* $Var(X) = E(Var(X|Y)) + Var(E(X|Y))$
+
+::: callout-note
+Remember we can always add conditioning statements e.g.
+
+- *Law of total expectation* $E(X|Z) = E(E(X|Y)|Z)$ 
+- *Law of total variance* $Var(X|Z) = E(Var(X|Y)|Z) + Var(E(X|Y)|Z)$
+
+:::
+
+## Chapter 3
+
+### Definitions and conjugacy
+
+- Be able to define **likelihood**, **prior**, **posterior**, **normalizing constant**
+
+::: callout-note
+## Definition
+A prior $p(\theta)$ is said to be **conjugate** to the data generative model $p(y|\theta)$ if the family of the posterior is necessarily in the same family as the prior. In math,  $p(\theta)$ is conjugate to $p(y|\theta)$ if
+
+$$
+p(\theta) \in \mathcal{P} \implies p(\theta | y) \in \mathcal{P}
+$$
+:::
+
+- Examples of conjugate models: beta-binomial, gamma-Poisson.
+
+### Reliability 
+
+::: callout-note
+## Definition
+Let $\Phi$ be the support of $\theta$.
+An interval $(l(y), u(y)) \subset \Phi$ has 95% **posterior coverage** if 
+
+$$
+p(l(y) < \theta < u(y) | y ) = 0.95
+$$
+
+Interpretation: after observing $Y = y$, our probability that $\theta \in (l(y), u(y))$ is 95%.
+
+Such an interval is called 95% posterior confidence interval (CI). It may also sometimes be referred to as a 95% "credible interval" to distinguish it from a frequentist CI.
+:::
+
+::: callout-note
+## Definition
+
+A $100 \times (1-\alpha)$% **high posterior density** (HPD) region is a set $s(y) \subset \Theta$ such that 
+
+
+1. $p(\theta \in s(y) | Y = y) = 1 - \alpha$
+
+2. If $\theta_a \in s(y)$ and $\theta_b \not\in s(y)$, then $p(\theta_a | Y = y) > p(\theta_b | Y = y)$
+:::
+
+### Exponential families
+
+If density $p(y|\theta)$ can be written $h(y) c(\phi) e^{\phi t(y)}$ for some transform $\phi = f(\theta)$ we can say $p(y|\theta)$ belongs in the exponential family, and the conjugate prior is $p(\phi | n_0, t_0) =c(\phi)^{n_0} e^{n_0 t_0 \phi}$. Note: the conjugate prior is given over $\phi$ and we'd have to transform back if we care about $p(\theta)$.
+
+## Chapter 4
+
+### Predictive distributions
+
+The posterior predictive distribution,
+
+$$
+p(\tilde{y} | y_1, \ldots y_n) = \int p(\tilde{y}|\theta) p(\theta|y_1, \ldots, y_n)d\theta
+$$
+
+when $Y | \theta$ conditionally iid.
+
+The prior predictive distribution,
+
+$$
+p(\tilde{y}) = \int p(\tilde{y}|\theta) p(\theta)d\theta.
+$$
+
+Notice both the posterior and prior predictive distributions are represented as **integrals**. Integrals are expectations. This means we can use Monte Carlo integration to approximate.
+
+To approximate the posterior predictive distribution:
+
+1. sample from the posterior of theta, $p(\theta|y_1,\ldots y_n)$
+2. sample from data generative model $p(\tilde{y}|\theta)$ for the values of theta sampled in (1).
+
+To approximate the prior predictive distribution:
+
+1. sample from the prior of theta, $p(\theta)$
+2. sample from the data generative model $p(\tilde{y}|\theta)$ for the values of theta sampled in (1).
+
+### Monte Carlo error
+
+Since Monte Carlo approximation can be viewed as a sample mean approximating an expected value, CLT applies. 
+
+More specifically, if $\theta_i |\vec{y}$ iid with mean $\theta$ and finite variance $\sigma^2$, for $i \in \{1, \ldots, N\}$, then the sample mean
+
+$$
+\bar{\theta} \sim N(\theta, \frac{\sigma^2}{N} ).
+$$
+
+and Monte Carlo estimates converge at a rate $\mathcal{O}\left(\frac{1}{\sqrt{N}}\right)$ regardless of the dimension of the integral!
+
+### The sampling view
+
+If we have a posterior $p(\theta | y_1, \ldots y_n)$ that we can sample from and we want some summary of the posterior... e.g. we want
+
+- $p(\theta < a)$
+- quantiles of the posterior , or 
+- the posterior of some transform $f(\theta)$, 
+
+then we can simply sample from the posterior to obtain an empirical approximation of the posterior and then report the empirical quantity of interest. This is also called Monte Carlo approximation.
+
+The procedure can be written:
+
+1. sample from the posterior $p(\theta |y_1, \ldots y_n)$ some large number of times and then 
+2. compute the quantity of interest
+
+
+## Chapter 5
+
+### Conjugate prior to the normal model
+
+If 
+
+$$
+\begin{aligned}
+Y_i | \theta, \sigma^2 &\sim N(\theta, \sigma^2)\\
+\theta | \sigma^2 & \sim N(\mu_0, \sigma^2/\kappa_0)\\
+\frac{1}{\sigma^2} &\sim \text{gamma}(\frac{\nu_0}{2}, \frac{\nu_0}{2} \sigma_0^2)
+\end{aligned}
+$$
+then 
+
+$$
+\begin{aligned}
+\theta | \sigma^2, y_1,\ldots y_n &\sim \text{normal}\\
+\sigma^2 | y_1,\ldots y_n &\sim \text{gamma}
+\end{aligned}
+$$
+
+and since
+
+$$
+\begin{aligned}
+p(\theta, \sigma^2 | y_1, \ldots y_n) &= p(\theta |\sigma^2, y_1,\ldots y_n) p(\sigma^2 | y_1,\ldots y_n),
+\end{aligned}
+$$
+we can sample **directly** from the joint posterior by sampling from $p(\sigma^2 | y_1,\ldots y_n)$ and then from $p(\theta | \sigma^2, y_1,\ldots y_n)$.
+
+### Estimators
+
+Be able to define and compute the bias, variance and MSE of an estimator.
+
+::: callout-note
+## Definition
+
+**Bias** is the the difference between the expected value of the estimator and the true value of the parameter.
+
+- $E[\hat{\theta} | \theta = \theta_ 0] - \theta_0$ is the bias of $\hat{\theta}$.
+
+- If $E[\hat{\theta} | \theta = \theta_0] = \theta_0$, then we say $\hat{\theta}$ is an **unbiased estimator** of $\theta$.
+- If $E[\hat{\theta} | \theta = \theta_0] \neq \theta_0$, then we say $\hat{\theta}$ is a **biased estimator** of $\theta$.
+
+:::
+
+::: callout-note
+## Definition
+Recall: **variance** is average squared distance from the mean. In this context, the variance of an estimator refers to the variance of the sampling distribution of $\hat{\theta}$. We write this mathematically, 
+
+$$
+Var[\hat{\theta} | \theta_0] = E[(\hat{\theta} - m)^2 |\theta_0]
+$$
+where $m = E[\hat{\theta}|\theta_0]$.
+
+:::
+
+::: callout-note
+## Definition
+**Mean squared error** (MSE) is (as the name suggests) the expected value of the squared difference between the estimator and true parameter value. Equivalently, MSE is the variance plus the square bias of the estimator.
+
+$$
+\begin{aligned}
+MSE[\hat{\theta}|\theta_0] &= E[(\hat{\theta} - \theta_0)^2 | \theta_0]\\
+&= Var[\hat{\theta} | \theta_0] + Bias^2[\hat{\theta}|\theta_0]
+\end{aligned}
+$$
+:::
+
+## Chapter 6
+
+### Gibbs sampling procedure
+
+How can we look at a joint posterior, e.g. $p(\theta_1,\ldots \theta_p | y_1,\ldots y_n)$, if we have non-conjugate priors?
+
+Well if we *do* have the full conditionals, $p(\theta_i | \theta_{-i}, y_1,\ldots y_n)$ then we can sample from the joint posterior via Gibbs sampling. Note: $\theta_{-i}$ denotes $\{\theta\} \backslash \theta_i$, i.e. the set of all theta except $\theta_i$.
+
+Gibbs sampling proceeds:
+
+Pick a starting point $\theta_2^{(0)}, \ldots \theta_p^{(0)}$, then for s in 1:S,
+
+1. Sample $\theta_1^{(s)} \sim p(\theta_1 | \theta_{2}^{(s-1)}, \ldots, \theta_{p}^{(s-1)}, y_1,\ldots y_n)$
+
+2. Sample $\theta_2^{(s)} \sim p(\theta_2 | \theta_{1}^{(s)}, \theta_{3}^{(s-1)} \ldots, \theta_{p}^{(s-1)}, y_1,\ldots y_n)$
+
+$\vdots$
+
+p. Sample $\theta_p^{(s)} \sim p(\theta_2 | \theta_{1}^{(s)}, \ldots, \theta_{p-1}^{(s)}, y_1,\ldots y_n)$
+
+
+It follows that we have a sequence of *dependent* samples from the joint posterior. The sequence $\{\theta^{(s)}\}$ is called a Markov chain.
+
+$$
+\frac{1}{S} \sum_{s=1}^S g(\theta^{(s)})  \rightarrow E[g(\theta)]
+$$
+Gibbs sampling is a form of Markov chain Monte Carlo (MCMC).
+
+### MCMC diagnostics
+
+Effective sample size (ESS), autocorrelation, and traceplots are diagnostic tools we use to assess how well our Markov chain approximates the posterior. You should be able to define these terms and interpret their output. See [this lecture](/notes/lec09-mcmc-diagnostics.html) for details.
+
+Specifically, ESS is the number of independent Monte Carlo samples necessary to give the same precision as the MCMC samples. Typically, ESS is a criterion used to figure out how many samples to generate, i.e. how long to run your Markov chain.
+
+## Chapter 7
+
+\newcommand{\bt}{\boldsymbol{\theta}}
+\newcommand{\by}{\boldsymbol{y}}
+\newcommand{\identity}{\boldsymbol{I}}
+\newcommand{\bz}{\boldsymbol{z}}
+
+### Density
+
+We say a $p$ dimensional vector $\boldsymbol{Y}$ has a multivariate normal distribution if its sampling density is given by
+
+$$
+p(\by | \bt, \Sigma) = (2\pi)^{-p/2} |\Sigma|^{-1/2} \exp\{
+-\frac{1}{2}(\by -\bt)^T \Sigma^{-1} (\by - \bt)
+\}
+$$
+
+where
+
+$$
+\by =  \left[ {\begin{array}{cc}
+   y_1 \\
+   y_2\\
+   \vdots\\
+   y_p 
+  \end{array} } \right]
+  ~~~
+   \bt = \left[ {\begin{array}{cc}
+   \theta_1 \\
+   \theta_2\\
+   \vdots\\
+   \theta_p 
+  \end{array} } \right]
+  ~~~
+  \Sigma =
+  \left[ {\begin{array}{cc}
+   \sigma_1^2 & \sigma_{12}& \ldots & \sigma_{1p}\\
+   \sigma_{12} & \sigma_2^2 &\ldots & \sigma_{2p}\\
+   \vdots & \vdots & & \vdots\\
+   \sigma_{1p} & \ldots & \ldots & \sigma_p^2
+  \end{array} } \right].
+$$
+
+#### Key facts
+
+- $\by \in \mathbb{R}^p$ ; $\bt \in \mathbb{R}^p$; $\Sigma > 0$
+- $E[\by] = \bt$
+- $V[\by] = E[(\by - \bt)(\by - \bt)^T] =  \Sigma$
+- Marginally, $y_i \sim N(\theta_i, \sigma_i^2)$.
+- If $\bt$ is a MVN random vector, then the kernel is $\exp\{-\frac{1}{2} \bt^T A \bt + \bt^T \boldsymbol{b} \}$. The mean is $A^{-1}\boldsymbol{b}$ and the covariance is $A^{-1}$.
+
+### semi-conjugate prior for $\bt$
+
+If
+
+$$
+\begin{aligned}
+\by | \bt, \Sigma &\sim MVN(\bt, \Sigma),\\
+\bt &\sim MVN(\mu_0, \Lambda_0),
+\end{aligned}
+$$
+
+then
+
+$$
+\bt | \by, \Sigma \sim MVN
+$$
+
+
+### semiconjugate prior for $\Sigma$
+
+If
+
+$$
+\begin{aligned}
+\by | \bt, \Sigma &\sim MVN(\bt, \Sigma),\\
+\Sigma &\sim \text{inverse-Wishart}(\nu_0, S_0^{-1}),
+\end{aligned}
+$$
+
+then
+
+$$
+\Sigma | \by, \bt \sim \text{inverse-Wishart}
+$$
+
+### Wishart as sum of squares matrix
+
+For a given $\nu_0$ and and a $p \times p$ covariance matrix $S_0$, we can generate samples from a MVN by the following procedure:
+
+1. sample $\bz_1, \ldots \bz_{\nu_0} \sim \text{ i.i.d. } MVN(\mathbf{0}, S_0)$
+2. calculate $\mathbf{Z}^T \mathbf{Z} = \sum_{i =1}^{\nu_0} \bz_i \bz_i^T$.
+
+It follows that $\mathbf{Z}^T \mathbf{Z} > 0$ and symmetric. $E[\mathbf{Z}^T \mathbf{Z}] = \nu_0 S_0$
+
+## Chapter 8
+
+Be able to write a hierarchical model. Review and be able to explain all aspects of the example [here](/notes/lec12-hierarchical-intro.html).

@@ -1,0 +1,62 @@
+---
+title: "Additional regression notes"
+author: "Dr. Alexander Fisher"
+# mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bX}{\mathbf{X}}
+
+## Model selection
+
+Setup:
+
+$$
+y_i = z_1 \beta_1 x_{i, 1} + \cdots + z_p \beta_p x_{i, p} + \epsilon_i
+$$
+
+- $y_i \in \mathbb{R}$
+- $\beta_i \in \mathbb{R}$
+- $z_i \in \{0, 1\}$
+
+The $z_j$'s indicate which regression coefficients are non-zero. 
+
+:::callout-note
+Notice that every set of values $\mathbf{z} = \{z_1, \ldots z_p \}$ corresponds to a different model. So a prior $p(z)$ may be thought of as a prior distribution over models. 
+:::
+
+Bayesian model selection proceeds by obtaining a posterior distribution for $\mathbf{z}$: 
+
+$$
+p(\bz | \by, \bX) = \frac{p(\bz) p(\by | \bX, \bz)}{\sum_\mathbf{\tilde{z}} p(\mathbf{\tilde{z}}) p(\by | \bX, \mathbf{\tilde{z}})}
+$$
+
+Alternatively, we may prefer to compare any two models with the posterior odds:
+
+$$
+\text{odds}(\bz_a, \bz_b | \by, \bX) = \frac{p(\bz_a | \by, \bX)}{p(\bz_b | \by, \bX)} = \frac{p(\bz_a)}{p(\bz_b)} \times \frac{p(\by | \bX, \bz_a)}{p(\by | \bX, \bz_b)}
+$$
+Notice that when examining the odds of one model vs another, we avoid computing the denominator of $p(\bz | \by, \bX)$, and thereby exhaustively computing the probability of every model.
+
+
+:::callout-note
+## Definitions
+
+- $\frac{p(\bz_a)}{p(\bz_b)}$ is called the "prior odds".
+- $\frac{p(\by | \bX, \bz_a)}{p(\by | \bX, \bz_b)}$ is called the "Bayes factor" i.e. how much the data favor model $\bz_a$ over model $\bz_b$. 
+:::
+
+This formulation above elicits a need to compute $p(\by| \bX, \bz)$. To compute this in closed form, we will choose a few special priors (given a MVN data generative process).
+
+$$
+\begin{aligned}
+\by | \bX, \bz, \sigma^2 &\sim MVN(X \text{diag}(\bz)\beta, \sigma^2 I)\\
+\beta_z | \bX_z, \sigma^2 &\sim MVN(\boldsymbol{0}, g\sigma^2 [\bX_z^T \bX_z]^{-1})\\
+1/\sigma^2 &\sim \text{gamma}(\nu_0/2, \nu_0 \sigma_0^2 /2)
+\end{aligned}
+$$
+

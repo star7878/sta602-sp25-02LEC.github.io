@@ -1,0 +1,40 @@
+---
+title: "Quiz 1"
+---
+
+To receive credit for this assignment, write at the top of your paper your name and Duke netID. For example, my netID is `aaf29`.
+
+### Exercise 1
+
+`TRUE` or `FALSE`: The beta prior is conjugate to a binomial likelihood.
+
+### Exercise 2
+
+`TRUE` or `FALSE`: $p(y|\theta)$ is the marginal likelihood.
+
+### Exercise 3
+
+In Bayes' theorem (written below), which term is the "normalizing constant"?
+
+$$
+p(\theta | y) = \frac{p(y |\theta) p(\theta)}{\int p(y, \theta) d\theta}
+$$
+
+
+### Exercise 4
+
+$$
+\begin{aligned}
+X &\sim gamma(k, \theta)\\
+p(x) &= \frac{1}{\Gamma(k) \theta^k}x^{k-1}e^{-x/\theta}
+\end{aligned}
+$$
+The kernel of the distribution is ___.
+
+```{r}
+#| echo: false
+library(countdown)
+countdown(minutes = 4, font_size = "4em",
+          color_running_background = "#2774AE")
+```
+
