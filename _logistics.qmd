@@ -1,16 +1,17 @@
 #### Teaching team & office hours
 
 |                      | Contact                                             | Office hours       | Location      |
-|---------------|---------------|---------------|---------------|
-| Dr. Alexander Fisher | [aaf29\@duke.edu](aaf29@duke.edu)                   | Tu: 11:30am-1:30pm | Old Chem 207  |
-| Carol Wang           | [zhuoqun.wang\@duke.edu](zhuoqun.wang@duke.edu)     | Mo: 6:00pm-8:00pm    | Zoom          |
-| Manny Mokel          | [emmanuel.mokel\@duke.edu](emmanuel.mokel@duke.edu) | Th: 3:00pm-5:00pm  | Old Chem 203B |
-| Caitrin Murphy       | [caitrin.murphy\@duke.edu](caitrin.murphy@duke.edu) | We: 4:30pm-6:30pm  | Old Chem 025  |
+|------------------|------------------|------------------|------------------|
+| Dr. Alexander Fisher | [aaf29\@duke.edu](aaf29@duke.edu)                   | Tu/Th: 3:00-4:00pm | Old Chem 223B  |
+| Shuo Wang            | [shuo.wang717\@duke.edu](shuo.wang717@duke.edu)     | Tu: 4:30pm-6:30pm  | Old Chem 203B |
+| Bo Liu               | [bo.liu1997@duke.edu](bo.liu1997@duke.edu) | TBD                | Old Chem 203B |
+| Minh-Anh To          | [minhanh.to@duke.edu](minhanh.to@duke.edu)                                                    |  TBD                  | TBD              |
+| Matt O'Donnell       | [matthew.l.odonnell@duke.edu](matthew.l.odonnell@duke.edu) | TBD  | TBD  |
 
 #### Meetings
 
 |         |                       |                                |
 |---------|-----------------------|--------------------------------|
-| Lecture | Tu/Th 10:05 - 11:20am | Old Chemistry 116              |
+| Lecture | Tu/Th 10:05 - 11:20am | Reuben-Cooke Building 130            |
 | Lab 01  | M 3:05pm - 4:20pm     | Perkins LINK 087 (Classroom 3) |
 | Lab 02  | M 4:40pm - 5:55pm     | Social Sciences 124            |

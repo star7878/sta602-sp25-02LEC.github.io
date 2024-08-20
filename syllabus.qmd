@@ -1,11 +1,14 @@
 ---
 title: "STA 360: Bayesian methods and modern statistics"
-subtitle: "Fall 2023"
-mainfont: Lato
-format: 
-   html: 
-    page-layout: full
-    toc: true
+subtitle: "Fall 2024"
+# mainfont: Lato
+format:
+  html: default
+  # pdf: default
+# format: 
+#    html: 
+#     page-layout: full
+#     toc: true
 ---
 
 # Syllabus
@@ -21,14 +24,15 @@ By the end of this course students should feel comfortable (1) writing Bayesian 
 
 {{< include _logistics.qmd >}}
 
-Course website: [sta360-fa23.github.io](https://sta360-fa23.github.io/)
+Course website: [sta360-fa24.github.io](https://sta360-fa24.github.io/)
 
-<!-- - Dr. Alexander Fisher (lecturer), office hours Old Chem 207 -->
-<!--   - Lecture:  -->
-<!-- - TBD (TA) -->
-<!--   - Lab:  -->
-<!-- - TBD (TA) -->
-<!--   - Lab:  -->
+<!-- Instructor: Dr. Alexander Fisher   -->
+<!-- TA: TBD   -->
+<!-- TA: TBD -->
+
+<!-- - Lecture: Monday, Wednesday 3:05-4:20pm in Reuben-Cooke Building 130   -->
+<!-- - Lab 01: Thursday 1:25-2:40pm in LSRC A155   -->
+<!-- - Lab 02: Thursday 3:05-4:20pm in Old Chem 003 -->
 
 ### Course material
 
