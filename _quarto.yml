@@ -3,6 +3,10 @@ project:
   output-dir: docs
   resources:
     - data/
+    - hw-solutions
+  render:
+  - "*.qmd"
+  - "!/teaching-materials"
 
 website:
   title: "STA360"
