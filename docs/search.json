@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Bayesian methods and modern statistics",
     "section": "",
-    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\n\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\n\n\n\n\n\n\nThu Aug 29\nlab: welcome\n\n\n\n\n\n2\nMon Sep 02\nNO CLASS\n\n\n\n\n\n\nWed Sep 04\nsingle parameter estimation\n\n\n\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n\n\n\n\n3\nMon Sep 09\n\n\n\n\n\n\n\nWed Sep 11\n\n\n\n\n\n\n\nThu Sep 12\n\n\n\n\n\n\n4\nMon Sep 16\n\n\n\n\n\n\n\nWed Sep 18\n\n\n\n\n\n\n\nThu Sep 19\n\n\n\n\n\n\n5\nMon Sep 23\n\n\n\n\n\n\n\nWed Sep 25\n\n\n\n\n\n\n\nThu Sep 26\n\n\n\n\n\n\n6\nMon Sep 30\n\n\n\n\n\n\n\nWed Oct 02\n\n\n\n\n\n\n\nThu Oct 03\n\n\n\n\n\n\n7\nMon Oct 07\n\n\n\n\n\n\n\nWed Oct 09\n\n\n\n\n\n\n\nThu Oct 10\n\n\n\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\n\n\n\n\n\n\n\nThu Oct 17\n\n\n\n\n\n\n9\nMon Oct 21\n\n\n\n\n\n\n\nWed Oct 23\n\n\n\n\n\n\n\nThu Oct 24\n\n\n\n\n\n\n10\nMon Oct 28\n\n\n\n\n\n\n\nWed Oct 30\n\n\n\n\n\n\n\nThu Oct 31\n\n\n\n\n\n\n11\nMon Nov 04\n\n\n\n\n\n\n\nWed Nov 06\n\n\n\n\n\n\n\nThu Nov 07\n\n\n\n\n\n\n12\nMon Nov 11\n\n\n\n\n\n\n\nWed Nov 13\n\n\n\n\n\n\n\nThu Nov 14\n\n\n\n\n\n\n13\nMon Nov 18\n\n\n\n\n\n\n\nWed Nov 20\n\n\n\n\n\n\n\nThu Nov 21\n\n\n\n\n\n\n14\nMon Nov 25\n\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\n\n\n\n\n\n\n\nWed Dec 04\n\n\n\n\n\n\n\nThu Dec 05"
+    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\n\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\n\n\n\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\n\n\n\n\n\n\nWed Sep 04\nsingle parameter estimation\n\n\n\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n\n\n\n\n3\nMon Sep 09\n\n\n\n\n\n\n\nWed Sep 11\n\n\n\n\n\n\n\nThu Sep 12\n\n\n\n\n\n\n4\nMon Sep 16\n\n\n\n\n\n\n\nWed Sep 18\n\n\n\n\n\n\n\nThu Sep 19\n\n\n\n\n\n\n5\nMon Sep 23\n\n\n\n\n\n\n\nWed Sep 25\n\n\n\n\n\n\n\nThu Sep 26\n\n\n\n\n\n\n6\nMon Sep 30\n\n\n\n\n\n\n\nWed Oct 02\n\n\n\n\n\n\n\nThu Oct 03\n\n\n\n\n\n\n7\nMon Oct 07\n\n\n\n\n\n\n\nWed Oct 09\n\n\n\n\n\n\n\nThu Oct 10\n\n\n\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\n\n\n\n\n\n\n\nThu Oct 17\n\n\n\n\n\n\n9\nMon Oct 21\n\n\n\n\n\n\n\nWed Oct 23\n\n\n\n\n\n\n\nThu Oct 24\n\n\n\n\n\n\n10\nMon Oct 28\n\n\n\n\n\n\n\nWed Oct 30\n\n\n\n\n\n\n\nThu Oct 31\n\n\n\n\n\n\n11\nMon Nov 04\n\n\n\n\n\n\n\nWed Nov 06\n\n\n\n\n\n\n\nThu Nov 07\n\n\n\n\n\n\n12\nMon Nov 11\n\n\n\n\n\n\n\nWed Nov 13\n\n\n\n\n\n\n\nThu Nov 14\n\n\n\n\n\n\n13\nMon Nov 18\n\n\n\n\n\n\n\nWed Nov 20\n\n\n\n\n\n\n\nThu Nov 21\n\n\n\n\n\n\n14\nMon Nov 25\n\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\n\n\n\n\n\n\n\nWed Dec 04\n\n\n\n\n\n\n\nThu Dec 05"
   },
   {
     "objectID": "notes/lec02-estimation.html",
@@ -445,7 +445,7 @@
     "href": "slides/lab0-welcome.html#introductions",
     "title": "Welcome to Lab",
     "section": "Introductions",
-    "text": "Introductions\n\n\n\n\nMeet the TA!\nIntroduce yourself (icebreaker)\nFollow along these slides on the course website (under slides): sta360-fa23.github.io\nBookmark this! It’s the course website."
+    "text": "Introductions\n\n\n\n\nMeet the TA!\nIntroduce yourself (icebreaker)\nFollow along these slides on the course website (under slides): sta360-fa24.github.io\nBookmark this! It’s the course website."
   },
   {
     "objectID": "slides/lab0-welcome.html#what-to-expect-in-labs",
@@ -487,7 +487,7 @@
     "href": "slides/lab0-welcome.html#demo",
     "title": "Welcome to Lab",
     "section": "Demo",
-    "text": "Demo\nNext, check your familarity with R/RStudio fundamentals here. You can also find a link to this from the course schedule under “Assignment”.\n\n\n🔗 sta360-fa23.github.io"
+    "text": "Demo\nNext, check your familarity with R/RStudio fundamentals here. You can also find a link to this from the course schedule under “Assignment”.\n\n\n🔗 sta360-fa24.github.io"
   },
   {
     "objectID": "slides/lab1.html#example-normal-likelihood",
@@ -670,5 +670,47 @@
     "title": "Links",
     "section": "",
     "text": "RStudio containers\n\nResources\n\n\n\nGradescope\n\nTextbook\n\nA First Course in Bayesian Statistical Methods by Peter Hoff\nErrata to the textbook"
+  },
+  {
+    "objectID": "labs/lab0.html",
+    "href": "labs/lab0.html",
+    "title": "Hello R.",
+    "section": "",
+    "text": "This ‘lab 0’ will introduce you to the course computing workflow. The main goal of today is to get you setup in RStudio and play around with a few fundamental skills."
+  },
+  {
+    "objectID": "labs/lab0.html#r-and-r-studio",
+    "href": "labs/lab0.html#r-and-r-studio",
+    "title": "Hello R.",
+    "section": "R and R Studio",
+    "text": "R and R Studio\nBelow are the components of the RStudio IDE.\n\nBelow are the components of a Quarto (.qmd) file. Note: this is essentially the same as an Rmarkdown (.Rmd) file, with a couple built-in quality of life additions."
+  },
+  {
+    "objectID": "labs/lab0.html#yaml",
+    "href": "labs/lab0.html#yaml",
+    "title": "Hello R.",
+    "section": "YAML",
+    "text": "YAML\nThe top portion of your Quarto or R markdown file (between the three dashed lines) is called YAML. It stands for “YAML Ain’t Markup Language”. It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.\n\n\n\n\n\n\nImportant\n\n\n\nGo to file > new file, Quarto document. Input title “Lab 0”, and change the author name to your name. Select pdf output and press Create. Render the document. Examine the rendered document."
+  },
+  {
+    "objectID": "labs/lab0.html#latex",
+    "href": "labs/lab0.html#latex",
+    "title": "Hello R.",
+    "section": "LaTeX",
+    "text": "LaTeX\nAssignments in this course are not required to be written in LaTeX. You may write equations by hand and scan them as a pdf to submit to Gradescope. However, LaTeX is the typesetting system to communicate statistics and mathematics professionally. It’s worthwhile to use. Moreover, it’s fully supported within .Rmd and .qmd files.\nIf you’re using R on your local machine, you may need to install\n\nMiKTeX (if you’re using windows): https://miktex.org/\nMacTeX (if you’re using macOS): https://www.tug.org/mactex/\nTeXLive (if you’re using linux): https://tug.org/texlive/\n\nTo write a LaTeX equation within your markdown document, simply use $$ to surround blocks of math and $ to surround in-line math.\nExample: copy and paste the following and then render.\nWe can see that $\\beta_0 = 2 and \\beta_1 = 3$ is the OLS solution under our model\n\n$$\ny = \\beta_0 + \\beta_1 x\n$$\n\n\n\n\n\n\n\n\nNote\n\n\n\nThere is no space between $ and math. Whitespace may cause the document to fail to render.\n\n\nCheck out this LaTeX cheatsheet to typeset a variety of math."
+  },
+  {
+    "objectID": "labs/lab0.html#exercises",
+    "href": "labs/lab0.html#exercises",
+    "title": "Hello R.",
+    "section": "Exercises",
+    "text": "Exercises\nThe following exercises are designed to help you gain basic familiarity with R as well as the quirks of floating point arithmetic.\n\nFloating point algebra.\n\nDo floating point numbers obey the rules of algebra? For example, one of the rules of algebra is additive association. (x + y) + z == x + (y + z). Check if this is true in R using \\(x = 0.1\\), \\(y = 0.1\\) and \\(z = 1\\). Explain what you find.\n\nAdditional examples of floating point pecularity are provided below.\n\n# example 1\n0.2 == 0.6 / 3\n# example 2\npoint3 <- c(0.3, 0.4 - 0.1, 0.5 - 0.2, 0.6 - 0.3, 0.7 - 0.4)\npoint3\npoint3 == 0.3\n\nTo work around these issues, you could use all.equal() for checking the equality of two double quantities in R. What does all.equal() do?\n\n# example 1, all.equal()\nall.equal(0.2, 0.6 / 3)\n# example 2, all.equal()\npoint3 <- c(0.3, 0.4 - 0.1, 0.5 - 0.2, 0.6 - 0.3, 0.7 - 0.4)\npoint3\nall.equal(point3, rep(.3, length(point3)))\n\n\nWhat do these functions do?\n\nUse ?rnorm to read the documentation and explain the output of each of the following:\n\nrnorm(10, mean = 1, sd = 2)\npnorm(0)\ndnorm(0.5)\nqnorm(0.5)\n\nHow is dnorm(0.5) computed? Can you compute it manually?\n\nShow it numerically\n\n\\(X \\sim N(\\mu, \\sigma^2)\\) means that \\(X\\) is normally distributed with mean \\(\\mu\\) and variance \\(\\sigma^2\\). Show, using rnorm that if \\(X \\sim N(0, 1)\\) and \\(Y \\sim N(1, 2)\\) that \\(\\mathbb{E}(X + Y) = 1\\) and \\(\\mathbb{V}(X + Y) = 3\\)\n\n\n\n\nControl flow\n\n\n# for loop example\nfor (i in 1:5) {\n  cat(\"Hello\", i, \"\\n\")\n}\n\n# if else example\nx = 1\nif(x > 0) {\n  print(\"I'm positive x is greater than 0.\")\n} else {\n  print(\"I'm not so positive about x being positive\")\n}\n\nAssume there are 50 days of class. Suppose that, on any given day, there is a \\(X_i\\) probability student \\(i\\) will come to class. Every day you come to class, you obtain Y points towards your final grade. Every day that you don’t come to class, you obtain Z points towards your final grade.\nAssume \\(Y \\sim Uniform(1.9, 2)\\) and \\(Z \\sim Uniform(1, 2)\\).\nAssume student A has a 95% chance of coming to class any given day (X = 0.95) and student B has a 70% of coming to class any given day (X = 0.7). While there are more efficient ways to do this, practice using a for loop, a conditional if statement, rbinom and runif to simulate one possible final grade for each student."
+  },
+  {
+    "objectID": "labs/lab0.html#style-guidelines",
+    "href": "labs/lab0.html#style-guidelines",
+    "title": "Hello R.",
+    "section": "Style guidelines",
+    "text": "Style guidelines\nAlthough coding is not the primary focus of this course, there are a short list below of fundamental principles we will follow. Note: some of these stylistic principles may not be followed in the text!\nFirst, it’s easy to write code that runs off the page when you render to pdf. This happens when you write more than 80 characters in a single line of code. To ensure this doesn’t happen, make sure your code doesn’t have 80 characters in a single line. To enable a vertical line in the RStudio IDE that helps you visually see the limit, go to Tools > Global Options > Code > Display > Show margin > 80. This will enable a vertical line in your .qmd files that shows you where the 80 character cutoff is for code chunks. Instructions may vary slightly for local installs of RStudio.\n\nAll binary operators should be surrounded by space. For example x + y is appropriate. x+y is not.\nAny and all pipes %>% or |> as well as ggplot layers + should be followed by a new line.\nYou should be consistent with stylistic choices, e.g. only use 1 of = vs <- and %>% vs |>\nYour name should be at the top (in the YAML) of each document under “author:”\n\nIf you have any questions about style, please ask a member of the teaching team."
   }
 ]

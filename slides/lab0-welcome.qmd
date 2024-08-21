@@ -15,7 +15,7 @@ library(countdown)
 
 -   Introduce yourself (icebreaker)
 
--   Follow along these slides on the course website (under slides): [sta360-fa23.github.io](https://sta360-fa23.github.io)
+-   Follow along these slides on the course website (under slides): [sta360-fa24.github.io](https://sta360-fa24.github.io)
 
 -   Bookmark this!
     It's the course website.
@@ -29,7 +29,7 @@ library(countdown)
 ## Tips
 
 -   Show up.
--   Make use of [office hours](sta360-fa23.github.io/syllabus.html). Before you need help!
+-   Make use of [office hours](https://sta360-fa24.github.io/syllabus.html). Before you need help!
 
 
 ## Beginnings

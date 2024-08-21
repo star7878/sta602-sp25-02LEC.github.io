@@ -51,7 +51,7 @@ schedule %>%
 |:-----|:-----------|:-----------------------------|---------|:-----:|:-----------|
 | 1    | Mon Aug 26 | intro, history, notation     |         |       | [hw 0](/hw/hw00.html)           |
 |      | Wed Aug 28 | probability, exchangeability |         |       |            |
-|      | Thu Aug 29 | lab: welcome                 |         |       |            |
+|      | Thu Aug 29 | lab: welcome                 |         | [💻](/slides/lab0-welcome.html)      |  [hello R](/labs/lab0.html)          |
 | 2    | Mon Sep 02 | NO CLASS                     |         |       |            |
 |      | Wed Sep 04 | single parameter estimation  |         |       |            |
 |      | Thu Sep 05 | lab: MLE and MAP estimator   |         |       |            |
