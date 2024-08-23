@@ -13,8 +13,8 @@ Code
 
 Resources
 
-<!-- - [Sakai website](https://sakai.duke.edu/x/9NpNkv) -->
-<!--   - lectures and solutions uploaded here under "Resources" tab on the left hand side -->
+  - [Canvas website](https://sakai.duke.edu/x/9NpNkv)
+  - announcements, grades, and solutions uploaded here under "Files" tab on the left hand side
 
 - [Gradescope](https://www.gradescope.com/)
 

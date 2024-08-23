@@ -70,4 +70,8 @@ In your own words, the "support" of random variable is...
 
 TRUE/FALSE: The product of two uniform[0, 1] random variables is uniform[0, 1].
 
+## Exercise 10 
 
+$X_1, \ldots X_n$ i.i.d. with pdf $p(x)$. For all $i$, $E(X_i) = \mu$ and $Var(X_i) = \sigma^2 < \infty$.
+
+Compare $\text{Var}(\frac{1}{n}\sum X_i)$ to $\text{Var}(X_1)$. Which is smaller?

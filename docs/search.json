@@ -669,7 +669,7 @@
     "href": "links.html",
     "title": "Links",
     "section": "",
-    "text": "RStudio containers\n\nResources\n\n\n\nGradescope\n\nTextbook\n\nA First Course in Bayesian Statistical Methods by Peter Hoff\nErrata to the textbook"
+    "text": "RStudio containers\n\nResources\n\nCanvas website\nannouncements, grades, and solutions uploaded here under “Files” tab on the left hand side\nGradescope\n\nTextbook\n\nA First Course in Bayesian Statistical Methods by Peter Hoff\nErrata to the textbook"
   },
   {
     "objectID": "labs/lab0.html",
@@ -712,5 +712,89 @@
     "title": "Hello R.",
     "section": "Style guidelines",
     "text": "Style guidelines\nAlthough coding is not the primary focus of this course, there are a short list below of fundamental principles we will follow. Note: some of these stylistic principles may not be followed in the text!\nFirst, it’s easy to write code that runs off the page when you render to pdf. This happens when you write more than 80 characters in a single line of code. To ensure this doesn’t happen, make sure your code doesn’t have 80 characters in a single line. To enable a vertical line in the RStudio IDE that helps you visually see the limit, go to Tools > Global Options > Code > Display > Show margin > 80. This will enable a vertical line in your .qmd files that shows you where the 80 character cutoff is for code chunks. Instructions may vary slightly for local installs of RStudio.\n\nAll binary operators should be surrounded by space. For example x + y is appropriate. x+y is not.\nAny and all pipes %>% or |> as well as ggplot layers + should be followed by a new line.\nYou should be consistent with stylistic choices, e.g. only use 1 of = vs <- and %>% vs |>\nYour name should be at the top (in the YAML) of each document under “author:”\n\nIf you have any questions about style, please ask a member of the teaching team."
+  },
+  {
+    "objectID": "hw/hw00.html",
+    "href": "hw/hw00.html",
+    "title": "Homework 0",
+    "section": "",
+    "text": "This math assessment is meant to help both you and the instructor identify gaps in background knowledge both at the class and individual level."
+  },
+  {
+    "objectID": "hw/hw00.html#exercise-1",
+    "href": "hw/hw00.html#exercise-1",
+    "title": "Homework 0",
+    "section": "Exercise 1",
+    "text": "Exercise 1\nSimplify\n\\[\n\\log(e^{a_1} e^{a_2} e^{a_3} \\cdots e^{a_n})\n\\]"
+  },
+  {
+    "objectID": "hw/hw00.html#exercise-2",
+    "href": "hw/hw00.html#exercise-2",
+    "title": "Homework 0",
+    "section": "Exercise 2",
+    "text": "Exercise 2\nFind the derivative.\n\\[\n\\frac{d}{dx} \\left( \\frac{x}{\\log x} \\right)\n\\]"
+  },
+  {
+    "objectID": "hw/hw00.html#exercise-3",
+    "href": "hw/hw00.html#exercise-3",
+    "title": "Homework 0",
+    "section": "Exercise 3",
+    "text": "Exercise 3\nWhat is the ordinary least squares estimator of \\(\\beta\\) (1-dimensional) in the linear regression \\(y = x \\beta + \\epsilon\\) with iid errors?"
+  },
+  {
+    "objectID": "hw/hw00.html#exercise-4",
+    "href": "hw/hw00.html#exercise-4",
+    "title": "Homework 0",
+    "section": "Exercise 4",
+    "text": "Exercise 4\nWhat is the ordinary least squares estimator of \\(\\beta\\) (p-dimensional) in the linear regression \\(y = X \\beta + \\epsilon\\) with iid errors?"
+  },
+  {
+    "objectID": "hw/hw00.html#exercise-5",
+    "href": "hw/hw00.html#exercise-5",
+    "title": "Homework 0",
+    "section": "Exercise 5",
+    "text": "Exercise 5\nIn linear regression with p-dimensional β, what is the interpretation of the estimate for the jth coefficient?"
+  },
+  {
+    "objectID": "hw/hw00.html#exercise-6",
+    "href": "hw/hw00.html#exercise-6",
+    "title": "Homework 0",
+    "section": "Exercise 6",
+    "text": "Exercise 6\nCompute the integral,\n\\[\n\\int_{-\\infty}^{\\infty} e^{-x^2} dx\n\\]"
+  },
+  {
+    "objectID": "hw/hw00.html#exercise-7",
+    "href": "hw/hw00.html#exercise-7",
+    "title": "Homework 0",
+    "section": "Exercise 7",
+    "text": "Exercise 7\n\\(X \\sim N(\\mu, \\sigma^2)\\) reads “X is normally distributed with mean \\(\\mu\\) and variance \\(\\sigma^2\\).\nLet\n\\[\n\\begin{aligned}\nX &\\sim N(0, 1),\\\\\nY &\\sim N(3, 2),\\\\\nZ &= X + Y\n\\end{aligned}\n\\]\nWhat is the distribution of \\(Z\\)? What is \\(\\mathbb{E}[Z]\\) and \\(Var(Z)\\)?"
+  },
+  {
+    "objectID": "hw/hw00.html#exercise-8",
+    "href": "hw/hw00.html#exercise-8",
+    "title": "Homework 0",
+    "section": "Exercise 8",
+    "text": "Exercise 8\nIn your own words, the “support” of random variable is…"
+  },
+  {
+    "objectID": "hw/hw00.html#exercise-9",
+    "href": "hw/hw00.html#exercise-9",
+    "title": "Homework 0",
+    "section": "Exercise 9",
+    "text": "Exercise 9\nTRUE/FALSE: The product of two uniform[0, 1] random variables is uniform[0, 1]."
+  },
+  {
+    "objectID": "hw/hw00.html#exercise-10",
+    "href": "hw/hw00.html#exercise-10",
+    "title": "Homework 0",
+    "section": "Exercise 10",
+    "text": "Exercise 10\n\\(X_1, \\ldots X_n\\) i.i.d. with pdf \\(p(x)\\). For all \\(i\\), \\(E(X_i) = \\mu\\) and \\(Var(X_i) = \\sigma^2 < \\infty\\).\nCompare \\(\\text{Var}(\\frac{1}{n}\\sum X_i)\\) to \\(\\text{Var}(X_1)\\). Which is smaller?"
+  },
+  {
+    "objectID": "notes/dynamicalSystems.html",
+    "href": "notes/dynamicalSystems.html",
+    "title": "Parameter Estimation in Dynamical Systems",
+    "section": "",
+    "text": "\\[\n\\frac{dN}{dt} = rN ( 1 - \\frac{N}{K})\n\\]\nwhere \\(N(t)\\) is the number of individuals at time \\(t\\), \\(r\\) is the per capita growth rate, and \\(K\\) is the carrying capacity.\nThis toy example can be solved analytically,\n\\[\nN(t) = N_0 f(t)\n\\]\nLet true parameter values \\(r = 1\\), \\(N_0 = 10\\), \\(K = 50\\).\n\n# https://en.wikipedia.org/wiki/Population_growth\ngrowth = function(K, r, N0, t) {\n  A = (K - N0) / N0\n  K / (1 + (A * exp(-r * t)))\n}\n\ntVector = c(0.5, 1, 2, 3, 3.5, 4)\n\nY = round(growth(K = 50, r = 1, N0 = 10, t = tVector))\nY\n\n[1] 15 20 32 42 45 47\n\n\nAssume we start observing this system at \\(t=0\\), \\(N = 15\\). The terms \\(r\\) and \\(K\\) are unknown.\n\n# start at some arbitrary starting point\nr0 = 2\nK = 100\n\nround(growth(K = K, r = r0, N0 = Y[1], t = tVector))\n\n[1]  32  57  91  99  99 100"
   }
 ]
