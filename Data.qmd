@@ -3,7 +3,9 @@ title: "STA 360: Data sets"
 subtitle: "Fall 2024"
 listing:
   contents:
-    - "data/*"
+    - "/data/*"
+  sort:
+    - "title desc"
 format:
   html: default
 ---
