@@ -1,0 +1,9 @@
+---
+title: "STA 360: Data sets"
+subtitle: "Fall 2024"
+listing:
+  contents:
+    - "*"
+format:
+  html: default
+---
