@@ -1,12 +1,12 @@
 #### Teaching team & office hours
 
-|                      | Contact                                                     | Office hours         | Location      |
+|                      | Contact                                                     | Office hours         | Location                   |
 |------------------|------------------|------------------|------------------|
-| Dr. Alexander Fisher | [aaf29\@duke.edu](aaf29@duke.edu)                           | Mo/We: 10:30-11:30am | Old Chem 223B |
-| Shuo Wang            | [shuo.wang717\@duke.edu](shuo.wang717@duke.edu)             | Tu: 4:30-6:30pm      | Old Chem 203B |
-| Bo Liu               | [bo.liu1997\@duke.edu](bo.liu1997@duke.edu)                 | We: 1:00-3:00pm      | Old Chem 203B |
-| Minh-Anh To          | [minhanh.to\@duke.edu](minhanh.to@duke.edu)                 | Fr: 3:00-5:00pm      | Old Chem 203B |
-| Matt O'Donnell       | [matthew.l.odonnell\@duke.edu](matthew.l.odonnell@duke.edu) | Mo: 5:00-7:00pm      | Old Chem 203B |
+| Dr. Alexander Fisher | [aaf29\@duke.edu](aaf29@duke.edu)                           | Mo/We: 10:30-11:30am | Old Chem 223B              |
+| Matt O'Donnell       | [matthew.l.odonnell\@duke.edu](matthew.l.odonnell@duke.edu) | Mo: 5:00-7:00pm      | Old Chem 203B              |
+| Shuo Wang            | [shuo.wang717\@duke.edu](shuo.wang717@duke.edu)             | Tu: 4:30-6:30pm      | Old Chem 203B              |
+| Bo Liu               | [bo.liu1997\@duke.edu](bo.liu1997@duke.edu)                 | We: 1:00-3:00pm      | Old Chem 203B              |
+| Minh-Anh To          | [minhanh.to\@duke.edu](minhanh.to@duke.edu)                 | Fr: 3:00-5:00pm      | Zoom (link on Canvas) |
 
 #### Meetings
 
