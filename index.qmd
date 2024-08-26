@@ -13,7 +13,6 @@ format:
 ```{r load-libraries, echo = F, message = F, eval = F}
 library(tidyverse)
 library(knitr)
-library(emo)
 ```
 
 ```{r smart-date-setup, echo = F, message = F, eval = F}
@@ -47,53 +46,53 @@ schedule %>%
   kable(format = "markdown")
 ```
 
-| Week | Date       | Topic                        | Reading | Notes | Assignment |
-|:-----|:-----------|:-----------------------------|---------|:-----:|:-----------|
-| 1    | Mon Aug 26 | intro, history, notation     |         |       | [hw 0](/hw/hw00.html)           |
-|      | Wed Aug 28 | probability, exchangeability |         |       |            |
-|      | Thu Aug 29 | lab: welcome                 |         | [💻](/slides/lab0-welcome.html)      |  [hello R](/labs/lab0.html)          |
-| 2    | Mon Sep 02 | NO CLASS                     |         |       |            |
-|      | Wed Sep 04 | single parameter estimation  |         |       |            |
-|      | Thu Sep 05 | lab: MLE and MAP estimator   |         |       |            |
-| 3    | Mon Sep 09 |                              |         |       |            |
-|      | Wed Sep 11 |                              |         |       |            |
-|      | Thu Sep 12 |                              |         |       |            |
-| 4    | Mon Sep 16 |                              |         |       |            |
-|      | Wed Sep 18 |                              |         |       |            |
-|      | Thu Sep 19 |                              |         |       |            |
-| 5    | Mon Sep 23 |                              |         |       |            |
-|      | Wed Sep 25 |                              |         |       |            |
-|      | Thu Sep 26 |                              |         |       |            |
-| 6    | Mon Sep 30 |                              |         |       |            |
-|      | Wed Oct 02 |                              |         |       |            |
-|      | Thu Oct 03 |                              |         |       |            |
-| 7    | Mon Oct 07 |                              |         |       |            |
-|      | Wed Oct 09 |                              |         |       |            |
-|      | Thu Oct 10 |                              |         |       |            |
-| 8    | Mon Oct 14 | NO CLASS                     |         |       |            |
-|      | Wed Oct 16 |                              |         |       |            |
-|      | Thu Oct 17 |                              |         |       |            |
-| 9    | Mon Oct 21 |                              |         |       |            |
-|      | Wed Oct 23 |                              |         |       |            |
-|      | Thu Oct 24 |                              |         |       |            |
-| 10   | Mon Oct 28 |                              |         |       |            |
-|      | Wed Oct 30 |                              |         |       |            |
-|      | Thu Oct 31 |                              |         |       |            |
-| 11   | Mon Nov 04 |                              |         |       |            |
-|      | Wed Nov 06 |                              |         |       |            |
-|      | Thu Nov 07 |                              |         |       |            |
-| 12   | Mon Nov 11 |                              |         |       |            |
-|      | Wed Nov 13 |                              |         |       |            |
-|      | Thu Nov 14 |                              |         |       |            |
-| 13   | Mon Nov 18 |                              |         |       |            |
-|      | Wed Nov 20 |                              |         |       |            |
-|      | Thu Nov 21 |                              |         |       |            |
-| 14   | Mon Nov 25 |                              |         |       |            |
-|      | Wed Nov 27 | NO CLASS                     |         |       |            |
-|      | Thu Nov 28 | NO CLASS                     |         |       |            |
-| 15   | Mon Dec 02 |                              |         |       |            |
-|      | Wed Dec 04 |                              |         |       |            |
-|      | Thu Dec 05 |                              |         |       |            |
+| Week | Date       | Topic                        | Reading |              Notes              | Assignment                 |
+|:----------|:----------|:-------------------|-----------|:---------:|:----------|
+| 1    | Mon Aug 26 | intro, history, notation     | Ch. 2   |                                 | [hw 0](/hw/hw00.html)      |
+|      | Wed Aug 28 | probability, exchangeability | Ch. 2   | [🗒](/notes/lec01-probability.html)                |                            |
+|      | Thu Aug 29 | lab: welcome                 |         | [💻](/slides/lab0-welcome.html) | [hello R](/labs/lab0.html) |
+| 2    | Mon Sep 02 | NO CLASS                     | Ch. 3   |                                 |                            |
+|      | Wed Sep 04 | single parameter estimation  | Ch. 3   |                                 |                            |
+|      | Thu Sep 05 | lab: MLE and MAP estimator   |         |                                 |                            |
+| 3    | Mon Sep 09 |                              |         |                                 |                            |
+|      | Wed Sep 11 |                              |         |                                 |                            |
+|      | Thu Sep 12 |                              |         |                                 |                            |
+| 4    | Mon Sep 16 |                              |         |                                 |                            |
+|      | Wed Sep 18 |                              |         |                                 |                            |
+|      | Thu Sep 19 |                              |         |                                 |                            |
+| 5    | Mon Sep 23 |                              |         |                                 |                            |
+|      | Wed Sep 25 |                              |         |                                 |                            |
+|      | Thu Sep 26 |                              |         |                                 |                            |
+| 6    | Mon Sep 30 |                              |         |                                 |                            |
+|      | Wed Oct 02 |                              |         |                                 |                            |
+|      | Thu Oct 03 |                              |         |                                 |                            |
+| 7    | Mon Oct 07 |                              |         |                                 |                            |
+|      | Wed Oct 09 |                              |         |                                 |                            |
+|      | Thu Oct 10 |                              |         |                                 |                            |
+| 8    | Mon Oct 14 | NO CLASS                     |         |                                 |                            |
+|      | Wed Oct 16 |                              |         |                                 |                            |
+|      | Thu Oct 17 |                              |         |                                 |                            |
+| 9    | Mon Oct 21 |                              |         |                                 |                            |
+|      | Wed Oct 23 |                              |         |                                 |                            |
+|      | Thu Oct 24 |                              |         |                                 |                            |
+| 10   | Mon Oct 28 |                              |         |                                 |                            |
+|      | Wed Oct 30 |                              |         |                                 |                            |
+|      | Thu Oct 31 |                              |         |                                 |                            |
+| 11   | Mon Nov 04 |                              |         |                                 |                            |
+|      | Wed Nov 06 |                              |         |                                 |                            |
+|      | Thu Nov 07 |                              |         |                                 |                            |
+| 12   | Mon Nov 11 |                              |         |                                 |                            |
+|      | Wed Nov 13 |                              |         |                                 |                            |
+|      | Thu Nov 14 |                              |         |                                 |                            |
+| 13   | Mon Nov 18 |                              |         |                                 |                            |
+|      | Wed Nov 20 |                              |         |                                 |                            |
+|      | Thu Nov 21 |                              |         |                                 |                            |
+| 14   | Mon Nov 25 |                              |         |                                 |                            |
+|      | Wed Nov 27 | NO CLASS                     |         |                                 |                            |
+|      | Thu Nov 28 | NO CLASS                     |         |                                 |                            |
+| 15   | Mon Dec 02 |                              |         |                                 |                            |
+|      | Wed Dec 04 |                              |         |                                 |                            |
+|      | Thu Dec 05 |                              |         |                                 |                            |
 
 <!-- | Week | Date       | Topic                                          | Reading |                                    Notes                                     | Assignment                  | -->
 
