@@ -288,6 +288,7 @@ Definition
 </div>
 <div class="callout-body-container callout-body">
 <p>In Bayesian inference, a <strong>random variable</strong> is an unknown numerical quantity about which we make probability statements.</p>
+<p>The <strong>support</strong> of a random variable is the set of values a random variable can take.</p>
 <p>Examples</p>
 <ul>
 <li>Data. E.g. the amount of a wheat a field will yield later this year. Since this data has not yet been generated, the quantity is unknown.</li>
@@ -316,7 +317,7 @@ Definition
 <p>Examples</p>
 <ul>
 <li><p>Binomial pmf: the probability of <span class="math inline">\(y\)</span> successes in <span class="math inline">\(n\)</span> trials, where each trial has an individual probability of success <span class="math inline">\(\theta\)</span>.</p>
-<p><span class="math display">\[p(y | \theta) = {n \choose y} \theta ^y (1-\theta)^y \text{ for } y \in \{0, 1, \ldots n \}\]</span></p>
+<p><span class="math display">\[p(y | \theta) = {n \choose y} \theta ^y (1-\theta)^{n-y} \text{ for } y \in \{0, 1, \ldots n \}\]</span></p>
 <ul>
 <li>support: <span class="math inline">\(y \in \{0, 1, 2, \ldots n\}\)</span></li>
 <li>success probability <span class="math inline">\(\theta \in [0, 1]\)</span></li>

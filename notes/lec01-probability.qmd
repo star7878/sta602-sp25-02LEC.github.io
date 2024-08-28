@@ -143,6 +143,8 @@ information about F.
 In Bayesian inference, a **random variable** is an unknown numerical
 quantity about which we make probability statements.
 
+The **support** of a random variable is the set of values a random variable can take.
+
 Examples
 
 -   Data. E.g. the amount of a wheat a field will yield later this year.
@@ -176,7 +178,7 @@ Examples
 
 -   Binomial pmf: the probability of $y$ successes in $n$ trials, where
     each trial has an individual probability of success $\theta$.
-    $$p(y | \theta) = {n \choose y} \theta ^y (1-\theta)^y \text{ for } y \in \{0, 1, \ldots n \}$$
+    $$p(y | \theta) = {n \choose y} \theta ^y (1-\theta)^{n-y} \text{ for } y \in \{0, 1, \ldots n \}$$
     -   support: $y \in \{0, 1, 2, \ldots n\}$
     -   success probability $\theta \in [0, 1]$
     -   `dbinom(y, n, theta)` computes this pmf in R
