@@ -193,7 +193,7 @@ $$
 
 ### Practice exercise
 
-As [in class](/notes/estimation1.html), let
+As [in class](/notes/lec02-estimation.html), let
 
 $$
 Y | \theta \sim \text{binomial}(n, \theta)\\

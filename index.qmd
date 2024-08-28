@@ -47,14 +47,14 @@ schedule %>%
 ```
 
 | Week | Date       | Topic                            | Reading |               Notes                | Assignment                 |
-|:-----------|:-----------|:------------|------------|:----------:|:-----------|
+|:-----------|:-----------|:-----------|------------|:----------:|:-----------|
 | 1    | Mon Aug 26 | intro, history, notation         | Ch. 2   |                                    | [hw 0](/hw/hw00.html)      |
-|      | Wed Aug 28 | probability, exchangeability     | Ch. 2   | [🗒](/notes/lec01-probability.html) |                            |
+|      | Wed Aug 28 | probability, exchangeability     | Ch. 2   | [🗒](/notes/lec01-probability.html) | [hw 1](/hw/hw01.html)      |
 |      | Thu Aug 29 | lab: welcome                     |         |  [💻](/slides/lab0-welcome.html)   | [hello R](/labs/lab0.html) |
 | 2    | Mon Sep 02 | NO CLASS                         | Ch. 3   |                                    |                            |
-|      | Wed Sep 04 | single parameter estimation      | Ch. 3   |                                    |                            |
-|      | Thu Sep 05 | lab: MLE and MAP estimator       |         |                                    |                            |
-| 3    | Mon Sep 09 |                                  |         |                                    |                            |
+|      | Wed Sep 04 | single parameter estimation      | Ch. 3   | [🗒](/notes/lec02-estimation.html) |                      |
+|      | Thu Sep 05 | lab: MLE and MAP estimator       |         |  [💻](/slides/lab1.html)   |                            |
+| 3    | Mon Sep 09 | Poisson model and conjugacy                                |  Ch. 3       |                                    |                            |
 |      | Wed Sep 11 |                                  |         |                                    |                            |
 |      | Thu Sep 12 |                                  |         |                                    |                            |
 | 4    | Mon Sep 16 |                                  |         |                                    |                            |

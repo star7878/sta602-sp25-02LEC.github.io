@@ -1,6 +1,6 @@
 ---
 title: "Homework 1"
-subtitle: "Due Friday September 8th at 5:00pm"
+subtitle: "Due Friday September 6th at 5:00pm"
 mainfont: Lato
 format: 
   html:
@@ -21,12 +21,44 @@ $$
 
 ## Exercise 2
 
-- 2.2 from Hoff
+Let $X, Y, Z$ be random variables with joint density (discrete or continuous) 
+
+$$
+p(x, y, z) \propto f(x,z) g(y, z) h(z).
+$$
+
+Show that 
+
+a. $p(x | y, z) \propto f(x, z)$, i.e. $p(x | y, z)$ is a function of $x$ and $z$. 
+b. $p(y | x, z) \propto g(y, z)$, i.e. $p(y | x, z)$ is a function of $y$ and $z$.
+c. $X$ and $Y$ are conditionally independent given $Z$.
 
 ## Exercise 3
 
-- 2.3 from Hoff
+The number of particles $Y$ emitted from a rock sample depends on the unknown amount $\theta$ of the sample that is radioactive. For each possible value of $\theta$,
+
+$$
+Pr(Y = y | \theta) = \theta^y e^{-\theta} / y!
+$$
+for each $y \in \{0, 1, 2, \ldots \}$. Suppose it is known that the rock is one of three possible types $A$, $B$, or $C$, each with a particular value of $\theta$, that is, $\theta \in \{\theta_A, \theta_B, \theta_C \}$ where $\theta_A = 1.1$, $\theta_B = 3.2$, and $\theta_C = 4.5$.
+
+a. Make a graph of $Pr(Y = y | \theta)$ as a function of $y$ for each of the three possible values of $\theta$ (for some reasonable range of $y$-values.
+
+b. Now suppose that the rock is of type $A$, $B$, or $C$ with probabilities $.4$, $.3$ and $.3$ respectively. Compute the *marginal* probability of $Y$, that is,  
+$Pr(Y = y) = Pr(Y = y | \theta_A) Pr(\text{type} = A) + Pr(Y = y | \theta_B) Pr(\text{type} = B) + Pr(Y = y | \theta_C) Pr(\text{type} = C)$  
+Plot this as a function of $y$ and compare the graph to the three graphs from part a.
+
+c. Suppose it is observed that $Y = 4$. Using the rules of conditional probability, compute the probabilities of each type conditional on $Y = 4$, that is, compute $Pr(\theta = \theta_X | Y = 4)$ for each $X \in \{A, B, C \}$. Compare these probabilities to the prior probabilities (.4, .3, .3).
+
 
 ## Exercise 4
 
-- 2.6 from Hoff
+Let $Y_1, \ldots Y_n$ be binary random variables that are conditionally independent given a value of a parameter $\theta$, so that $Pr(Y_i = 1 | \theta) = \theta = 1 - Pr(Y_i = 0 | \theta)$.
+
+a. Let $y_1, \ldots y_n$ be a binary sequence so that $y_i \in \{0, 1 \}$, for each $i = 1, \ldots, n$. Using the rules of probability, derive a formula for $Pr(Y_1 = y_1, \ldots, Y_n = y_n | \theta)$ as a function of $y_1, \ldots y_n$ and $\theta$. Simplify as much as possible.
+
+b. Let $X = \sum_{i=1}^n Y_i$, what is the probability $p(X = x | \theta)$ for any $x \in \{0, 1, \ldots n\}$?
+
+c. Compute and compare $E(Y_i|\theta)$, $Var(Y_i|\theta)$ to $E(X|\theta)$ and $Var(X|\theta)$. 
+
+d. Using calculus or otherwise, for a given value of $x$, find "$\theta_{MLE}$", the value of $\theta$ that maximizes $Pr(X = x|\theta)$. This value is called the "maximum likelihood estimator" or MLE, of $\theta$.

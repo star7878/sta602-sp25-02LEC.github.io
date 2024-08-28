@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Bayesian methods and modern statistics",
     "section": "",
-    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\nCh. 2\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\nCh. 2\n🗒\n\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\nCh. 3\n\n\n\n\n\nWed Sep 04\nsingle parameter estimation\nCh. 3\n\n\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n\n\n\n\n3\nMon Sep 09\n\n\n\n\n\n\n\nWed Sep 11\n\n\n\n\n\n\n\nThu Sep 12\n\n\n\n\n\n\n4\nMon Sep 16\n\n\n\n\n\n\n\nWed Sep 18\n\n\n\n\n\n\n\nThu Sep 19\n\n\n\n\n\n\n5\nMon Sep 23\n\n\n\n\n\n\n\nWed Sep 25\n\n\n\n\n\n\n\nThu Sep 26\n\n\n\n\n\n\n6\nMon Sep 30\n\n\n\n\n\n\n\nWed Oct 02\nExam I\n\n\n\n\n\n\nThu Oct 03\n\n\n\n\n\n\n7\nMon Oct 07\n\n\n\n\n\n\n\nWed Oct 09\n\n\n\n\n\n\n\nThu Oct 10\n\n\n\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\n\n\n\n\n\n\n\nThu Oct 17\n\n\n\n\n\n\n9\nMon Oct 21\n\n\n\n\n\n\n\nWed Oct 23\n\n\n\n\n\n\n\nThu Oct 24\n\n\n\n\n\n\n10\nMon Oct 28\n\n\n\n\n\n\n\nWed Oct 30\n\n\n\n\n\n\n\nThu Oct 31\n\n\n\n\n\n\n11\nMon Nov 04\n\n\n\n\n\n\n\nWed Nov 06\n\n\n\n\n\n\n\nThu Nov 07\n\n\n\n\n\n\n12\nMon Nov 11\n\n\n\n\n\n\n\nWed Nov 13\nExam II\n\n\n\n\n\n\nThu Nov 14\n\n\n\n\n\n\n13\nMon Nov 18\n\n\n\n\n\n\n\nWed Nov 20\n\n\n\n\n\n\n\nThu Nov 21\n\n\n\n\n\n\n14\nMon Nov 25\n\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\n\n\n\n\n\n\n\nWed Dec 04\n\n\n\n\n\n\n\nThu Dec 05"
+    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\nCh. 2\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\nCh. 2\n🗒\nhw 1\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\nCh. 3\n\n\n\n\n\nWed Sep 04\nsingle parameter estimation\nCh. 3\n🗒\n\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n💻\n\n\n\n3\nMon Sep 09\nPoisson model and conjugacy\nCh. 3\n\n\n\n\n\nWed Sep 11\n\n\n\n\n\n\n\nThu Sep 12\n\n\n\n\n\n\n4\nMon Sep 16\n\n\n\n\n\n\n\nWed Sep 18\n\n\n\n\n\n\n\nThu Sep 19\n\n\n\n\n\n\n5\nMon Sep 23\n\n\n\n\n\n\n\nWed Sep 25\n\n\n\n\n\n\n\nThu Sep 26\n\n\n\n\n\n\n6\nMon Sep 30\n\n\n\n\n\n\n\nWed Oct 02\nExam I\n\n\n\n\n\n\nThu Oct 03\n\n\n\n\n\n\n7\nMon Oct 07\n\n\n\n\n\n\n\nWed Oct 09\n\n\n\n\n\n\n\nThu Oct 10\n\n\n\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\n\n\n\n\n\n\n\nThu Oct 17\n\n\n\n\n\n\n9\nMon Oct 21\n\n\n\n\n\n\n\nWed Oct 23\n\n\n\n\n\n\n\nThu Oct 24\n\n\n\n\n\n\n10\nMon Oct 28\n\n\n\n\n\n\n\nWed Oct 30\n\n\n\n\n\n\n\nThu Oct 31\n\n\n\n\n\n\n11\nMon Nov 04\n\n\n\n\n\n\n\nWed Nov 06\n\n\n\n\n\n\n\nThu Nov 07\n\n\n\n\n\n\n12\nMon Nov 11\n\n\n\n\n\n\n\nWed Nov 13\nExam II\n\n\n\n\n\n\nThu Nov 14\n\n\n\n\n\n\n13\nMon Nov 18\n\n\n\n\n\n\n\nWed Nov 20\n\n\n\n\n\n\n\nThu Nov 21\n\n\n\n\n\n\n14\nMon Nov 25\n\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\n\n\n\n\n\n\n\nWed Dec 04\n\n\n\n\n\n\n\nThu Dec 05"
   },
   {
     "objectID": "notes/lec02-estimation.html",
@@ -522,7 +522,7 @@
     "href": "slides/lab1.html#maximum-a-posteriori-probability-map",
     "title": "MLEs and MAPs",
     "section": "Maximum a posteriori probability (MAP)",
-    "text": "Maximum a posteriori probability (MAP)\nIn Bayesian inference, we wish to find the mode of the posterior, not the likelihood.\nTo find the posterior mode, \\(\\hat{\\theta}\\), we instead take the derivative of the log-posterior,\n\\[\n\\frac{d}{d\\theta} \\log p(\\theta | y) = 0\n\\]\nPractice exercise\nAs in class, let\n\\[\nY | \\theta \\sim \\text{binomial}(n, \\theta)\\\\\n\\theta \\sim \\text{beta}(a, b)\n\\]\n\nFind the closed-form solution for the posterior mode \\(\\hat{\\theta}\\).\nRecreate Figure 1 from class using the same data flips provided below but change the prior to \\(\\theta \\sim \\text{beta}(2, 2)\\).\n\n\nset.seed(3)\nflips = rbinom(5000, size = 1, prob = 0.25)\n\n\nAdd a red vertical line to each subplot that shows the MAP estimate under the prior \\(\\theta \\sim \\text{beta}(2, 2)\\).\n\n\n\n🔗 sta360-fa23.github.io"
+    "text": "Maximum a posteriori probability (MAP)\nIn Bayesian inference, we wish to find the mode of the posterior, not the likelihood.\nTo find the posterior mode, \\(\\hat{\\theta}\\), we instead take the derivative of the log-posterior,\n\\[\n\\frac{d}{d\\theta} \\log p(\\theta | y) = 0\n\\]\nPractice exercise\nAs in class, let\n\\[\nY | \\theta \\sim \\text{binomial}(n, \\theta)\\\\\n\\theta \\sim \\text{beta}(a, b)\n\\]\n\nFind the closed-form solution for the posterior mode \\(\\hat{\\theta}\\).\nRecreate Figure 1 from class using the same data flips provided below but change the prior to \\(\\theta \\sim \\text{beta}(2, 2)\\).\n\n\nset.seed(3)\nflips = rbinom(5000, size = 1, prob = 0.25)\n\n\nAdd a red vertical line to each subplot that shows the MAP estimate under the prior \\(\\theta \\sim \\text{beta}(2, 2)\\).\n\n\n\n🔗 sta360-fa24.github.io"
   },
   {
     "objectID": "slides/lab2.html#practice-exercise",
@@ -669,7 +669,7 @@
     "href": "links.html",
     "title": "Links",
     "section": "",
-    "text": "RStudio containers\n\nResources\n\nCanvas website\n\nannouncements, grades, and solutions uploaded here under “Files” tab on the left hand side\n\nGradescope\n\nTextbook\n\nA First Course in Bayesian Statistical Methods by Peter Hoff\nErrata to the textbook"
+    "text": "RStudio containers\n\nResources\n\nCanvas website\n\nFind announcements and grades here. Recorded lectures and solutions uploaded here under “Files” tab on the left hand side.\n\nGradescope\n\nTextbook\n\nA First Course in Bayesian Statistical Methods by Peter Hoff\nErrata to the textbook"
   },
   {
     "objectID": "labs/lab0.html",
@@ -942,7 +942,7 @@
     "href": "hw/hw01.html#exercise-4",
     "title": "Homework 1",
     "section": "Exercise 4",
-    "text": "Exercise 4"
+    "text": "Exercise 4\nLet \\(Y_1, \\ldots Y_n\\) be binary random variables that are conditionally independent given a value of a parameter \\(\\theta\\), so that \\(Pr(Y_i = 1 | \\theta) = \\theta = 1 - Pr(Y_i = 0 | \\theta)\\).\n\nLet \\(y_1, \\ldots y_n\\) be a binary sequence so that \\(y_i \\in \\{0, 1 \\}\\), for each \\(i = 1, \\ldots, n\\). Using the rules of probability, derive a formula for \\(Pr(Y_1 = y_1, \\ldots, Y_n = y_n | \\theta)\\) as a function of \\(y_1, \\ldots y_n\\) and \\(\\theta\\). Simplify as much as possible.\nLet \\(X = \\sum_{i=1}^n Y_i\\), what is the probability \\(p(X = x | \\theta)\\) for any \\(x \\in \\{0, 1, \\ldots n\\}\\)?\nCompute and compare \\(E(Y_i|\\theta)\\), \\(Var(Y_i|\\theta)\\) to \\(E(X|\\theta)\\) and \\(Var(X|\\theta)\\).\nUsing calculus or otherwise, for a given value of \\(x\\), find “\\(\\theta_{MLE}\\)”, the value of \\(\\theta\\) that maximizes \\(Pr(X = x|\\theta)\\). This value is called the “maximum likelihood estimator” or MLE, of \\(\\theta\\)."
   },
   {
     "objectID": "notes/exam-notes.html",
