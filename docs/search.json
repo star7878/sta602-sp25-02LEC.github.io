@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Bayesian methods and modern statistics",
     "section": "",
-    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\nCh. 2\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\nCh. 2\n🗒\n\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\nCh. 3\n\n\n\n\n\nWed Sep 04\nsingle parameter estimation\nCh. 3\n\n\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n\n\n\n\n3\nMon Sep 09\n\n\n\n\n\n\n\nWed Sep 11\n\n\n\n\n\n\n\nThu Sep 12\n\n\n\n\n\n\n4\nMon Sep 16\n\n\n\n\n\n\n\nWed Sep 18\n\n\n\n\n\n\n\nThu Sep 19\n\n\n\n\n\n\n5\nMon Sep 23\n\n\n\n\n\n\n\nWed Sep 25\n\n\n\n\n\n\n\nThu Sep 26\n\n\n\n\n\n\n6\nMon Sep 30\n\n\n\n\n\n\n\nWed Oct 02\n\n\n\n\n\n\n\nThu Oct 03\n\n\n\n\n\n\n7\nMon Oct 07\n\n\n\n\n\n\n\nWed Oct 09\n\n\n\n\n\n\n\nThu Oct 10\n\n\n\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\n\n\n\n\n\n\n\nThu Oct 17\n\n\n\n\n\n\n9\nMon Oct 21\n\n\n\n\n\n\n\nWed Oct 23\n\n\n\n\n\n\n\nThu Oct 24\n\n\n\n\n\n\n10\nMon Oct 28\n\n\n\n\n\n\n\nWed Oct 30\n\n\n\n\n\n\n\nThu Oct 31\n\n\n\n\n\n\n11\nMon Nov 04\n\n\n\n\n\n\n\nWed Nov 06\n\n\n\n\n\n\n\nThu Nov 07\n\n\n\n\n\n\n12\nMon Nov 11\n\n\n\n\n\n\n\nWed Nov 13\n\n\n\n\n\n\n\nThu Nov 14\n\n\n\n\n\n\n13\nMon Nov 18\n\n\n\n\n\n\n\nWed Nov 20\n\n\n\n\n\n\n\nThu Nov 21\n\n\n\n\n\n\n14\nMon Nov 25\n\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\n\n\n\n\n\n\n\nWed Dec 04\n\n\n\n\n\n\n\nThu Dec 05"
+    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\nCh. 2\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\nCh. 2\n🗒\n\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\nCh. 3\n\n\n\n\n\nWed Sep 04\nsingle parameter estimation\nCh. 3\n\n\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n\n\n\n\n3\nMon Sep 09\n\n\n\n\n\n\n\nWed Sep 11\n\n\n\n\n\n\n\nThu Sep 12\n\n\n\n\n\n\n4\nMon Sep 16\n\n\n\n\n\n\n\nWed Sep 18\n\n\n\n\n\n\n\nThu Sep 19\n\n\n\n\n\n\n5\nMon Sep 23\n\n\n\n\n\n\n\nWed Sep 25\n\n\n\n\n\n\n\nThu Sep 26\n\n\n\n\n\n\n6\nMon Sep 30\n\n\n\n\n\n\n\nWed Oct 02\nExam I\n\n\n\n\n\n\nThu Oct 03\n\n\n\n\n\n\n7\nMon Oct 07\n\n\n\n\n\n\n\nWed Oct 09\n\n\n\n\n\n\n\nThu Oct 10\n\n\n\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\n\n\n\n\n\n\n\nThu Oct 17\n\n\n\n\n\n\n9\nMon Oct 21\n\n\n\n\n\n\n\nWed Oct 23\n\n\n\n\n\n\n\nThu Oct 24\n\n\n\n\n\n\n10\nMon Oct 28\n\n\n\n\n\n\n\nWed Oct 30\n\n\n\n\n\n\n\nThu Oct 31\n\n\n\n\n\n\n11\nMon Nov 04\n\n\n\n\n\n\n\nWed Nov 06\n\n\n\n\n\n\n\nThu Nov 07\n\n\n\n\n\n\n12\nMon Nov 11\n\n\n\n\n\n\n\nWed Nov 13\nExam II\n\n\n\n\n\n\nThu Nov 14\n\n\n\n\n\n\n13\nMon Nov 18\n\n\n\n\n\n\n\nWed Nov 20\n\n\n\n\n\n\n\nThu Nov 21\n\n\n\n\n\n\n14\nMon Nov 25\n\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\n\n\n\n\n\n\n\nWed Dec 04\n\n\n\n\n\n\n\nThu Dec 05"
   },
   {
     "objectID": "notes/lec02-estimation.html",
@@ -915,5 +915,40 @@
     "title": "Chapter summaries",
     "section": "Chapter 8",
     "text": "Chapter 8\nBe able to write a hierarchical model. Review and be able to explain all aspects of the example here."
+  },
+  {
+    "objectID": "hw/hw01.html",
+    "href": "hw/hw01.html",
+    "title": "Homework 1",
+    "section": "",
+    "text": "Let \\(X_i \\in \\mathcal{X}\\) for all \\(i \\in \\{1, 2, \\ldots\\}\\) and suppose our belief model for \\(\\mathbf{X} = \\{ X_1, \\ldots X_n \\}\\) is exchangeable for all \\(n\\). Show, using de Finetti’s theorem, that for all \\(i \\neq j\\),\n\\[\nCov(X_i, X_j) \\geq 0 \\text{ and }\n\\]\n\\[\nCorr(X_i, X_j) \\geq 0.\n\\]"
+  },
+  {
+    "objectID": "hw/hw01.html#exercise-2",
+    "href": "hw/hw01.html#exercise-2",
+    "title": "Homework 1",
+    "section": "Exercise 2",
+    "text": "Exercise 2\nLet \\(X, Y, Z\\) be random variables with joint density (discrete or continuous)\n\\[\np(x, y, z) \\propto f(x,z) g(y, z) h(z).\n\\]\nShow that\n\n\\(p(x | y, z) \\propto f(x, z)\\), i.e. \\(p(x | y, z)\\) is a function of \\(x\\) and \\(z\\).\n\\(p(y | x, z) \\propto g(y, z)\\), i.e. \\(p(y | x, z)\\) is a function of \\(y\\) and \\(z\\).\n\\(X\\) and \\(Y\\) are conditionally independent given \\(Z\\)."
+  },
+  {
+    "objectID": "hw/hw01.html#exercise-3",
+    "href": "hw/hw01.html#exercise-3",
+    "title": "Homework 1",
+    "section": "Exercise 3",
+    "text": "Exercise 3\nThe number of particles \\(Y\\) emitted from a rock sample depends on the unknown amount \\(\\theta\\) of the sample that is radioactive. For each possible value of \\(\\theta\\),\n\\[\nPr(Y = y | \\theta) = \\theta^y e^{-\\theta} / y!\n\\]\nfor each \\(y \\in \\{0, 1, 2, \\ldots \\}\\). Suppose it is known that the rock is one of three possible types \\(A\\), \\(B\\), or \\(C\\), each with a particular value of \\(\\theta\\), that is, \\(\\theta \\in \\{\\theta_A, \\theta_B, \\theta_C \\}\\) where \\(\\theta_A = 1.1\\), \\(\\theta_B = 3.2\\), and \\(\\theta_C = 4.5\\).\n\nMake a graph of \\(Pr(Y = y | \\theta)\\) as a function of \\(y\\) for each of the three possible values of \\(\\theta\\) (for some reasonable range of \\(y\\)-values.\nNow suppose that the rock is of type \\(A\\), \\(B\\), or \\(C\\) with probabilities \\(.4\\), \\(.3\\) and \\(.3\\) respectively. Compute the marginal probability of \\(Y\\), that is,\n\\(Pr(Y = y) = Pr(Y = y | \\theta_A) Pr(\\text{type} = A) + Pr(Y = y | \\theta_B) Pr(\\text{type} = B) + Pr(Y = y | \\theta_C) Pr(\\text{type} = C)\\)\nPlot this as a function of \\(y\\) and compare the graph to the three graphs from part a.\nSuppose it is observed that \\(Y = 4\\). Using the rules of conditional probability, compute the probabilities of each type conditional on \\(Y = 4\\), that is, compute \\(Pr(\\theta = \\theta_X | Y = 4)\\) for each \\(X \\in \\{A, B, C \\}\\). Compare these probabilities to the prior probabilities (.4, .3, .3)."
+  },
+  {
+    "objectID": "hw/hw01.html#exercise-4",
+    "href": "hw/hw01.html#exercise-4",
+    "title": "Homework 1",
+    "section": "Exercise 4",
+    "text": "Exercise 4"
+  },
+  {
+    "objectID": "notes/exam-notes.html",
+    "href": "notes/exam-notes.html",
+    "title": "Exam notes",
+    "section": "",
+    "text": "A random variable \\(X \\in \\mathbb{R}\\) has a \\(N(\\theta, \\sigma^2)\\) distribution if \\(\\sigma^2 > 0\\) and\n\\(p(x | \\theta, \\sigma^2) = (2 \\pi \\sigma^2)^{-\\frac{1}{2}} e^{-\\frac{1}{2\\sigma^2}(x - \\theta)^2} \\ \\ \\ \\text{ for } -\\infty < x < \\infty.\\)\n\n\n\nA random variable \\(X \\in (0, \\infty)\\) has a gamma(a,b) distribution if \\(a > 0, b > 0\\) and\n\\(p(x |a,b) = \\frac{b^a}{\\Gamma(a)} x^{a - 1} e^{-bx} \\ \\ \\ \\text{ for } x > 0.\\)\n\\(E[X | a, b] = a/b\\), \\(Var[X | a,b] = a / b^2\\)\n\n\n\nA random variable \\(X \\in (0, \\infty)\\) has an inverse-gamma(a,b) distribution if 1/X has a gamma(a,b) distribution. If \\(X\\) is inverse-gamma(a,b) then the density of X is\n\\(p(x|a,b) = \\frac{b^a}{\\Gamma(a)} x^{-a-1} e^{-b/x} \\ \\ \\ \\text{ for } x > 0.\\)\n\\(E[X|a,b] = \\frac{b}{a-1}\\) if \\(a>=1\\), \\(\\infty\\) if \\(0<a<1\\)\n\\(Var[X|a,b] = \\frac{b^2}{(a-1)^2(a-2)}\\) if \\(a\\geq2\\), \\(\\infty\\) if \\(0<a<2\\)\n\n\n\nA random variable \\(X \\in \\{0, 1, \\ldots, n\\}\\) has a binomial\\((n, \\theta)\\) distribution if \\(\\theta \\in [0, 1]\\) and\n\\(p(X = x| \\theta, n) = {n \\choose x} \\theta^x (1- \\theta)^{n-x} \\ \\ \\ \\text{ for } x\\in \\{0, 1, \\ldots, n \\}\\)\n\\(E[X|\\theta] = n\\theta\\), \\(Var[X|\\theta] = n\\theta(1-\\theta)\\)\n\n\n\nA random variable \\(X \\in [0, 1]\\) has a beta(a,b) distribution if \\(a > 0, b > 0\\) and\n\\(p(x|a,b) = \\frac{\\Gamma(a + b)}{\\Gamma(a)\\Gamma(b)} x^{a-1} (1-x)^{b-1} \\ \\ \\ \\text{ for } 0 \\leq x \\leq 1.\\)\n\\(E[X|a,b] = \\frac{a}{a + b}\\), \\(Var[X|a,b] = \\frac{ab}{(a + b + 1)(a + b)^2}\\)\n\n\n\nA random variable \\(X \\in \\{0, 1, 2, \\ldots \\}\\) has a Poisson(\\(\\theta\\)) distribution if \\(\\theta > 0\\) and\n\\(p(X = x | \\theta) = \\theta^x \\frac{e^{-\\theta}}{x!} \\ \\ \\ \\text{ for } x \\in \\{0, 1, 2, \\ldots\\}\\)\n\\(E[X|\\theta] = \\theta\\), \\(Var[X|\\theta] = \\theta\\)\n\n\n\nA random variable \\(X \\in [0, \\infty)\\) has a exponential(\\(\\theta\\)) distribution if \\(\\theta >0\\) and\n\\(p(x | \\theta) = \\theta e^{-\\theta x}\\)\n\\(E[X|\\theta] = \\frac{1}{\\theta}\\), \\(Var[X|\\theta] = \\frac{1}{\\theta^2}\\)"
   }
 ]
