@@ -177,7 +177,7 @@ df %>%
   labs(title = "Plot of a normal(0, 9) density", y = "f(x)")
 ```
 
-Using the code above as a template, plot the density of an exponential (use `dexp`), this is useful on homework 1. 
+Using the code above as a template, plot the density of a Poisson (use `dpois`), this is useful on homework 1. 
 
 
 ## Style guidelines
