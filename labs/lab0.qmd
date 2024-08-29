@@ -163,6 +163,23 @@ studentB
 ```
 
 
+5. An example of plotting a function with `ggplot` (loaded via the `tidyverse` package.)
+
+```{r}
+#| eval: true
+#| warning: false
+library(tidyverse)
+x = c(-3, 3) # values over which to plot
+df = data.frame(x) # create a data frame for ggplot purposes
+df %>%
+  ggplot(aes(x = x)) +
+  stat_function(fun = dnorm, args = c(mean = 0, sd = 3)) +
+  labs(title = "Plot of a normal(0, 9) density", y = "f(x)")
+```
+
+Using the code above as a template, plot the density of an exponential (use `dexp`), this is useful on homework 1. 
+
+
 ## Style guidelines
 
 Although coding is not the primary focus of this course, there are a short list below of fundamental principles we will follow. Note: some of these stylistic principles may not be followed in the text!
