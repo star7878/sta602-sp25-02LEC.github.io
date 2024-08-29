@@ -315,7 +315,7 @@ Do floating point numbers obey the rules of algebra? For example, one of the rul
 
 </div>
 <ol start="5" type="1">
-<li>An example of plotting a function with <code>ggplot</code> (loaded via the <code>tidyverse</code> package.)</li>
+<li>An example of plotting pdfs with <code>ggplot</code> (loaded via the <code>tidyverse</code> package.)</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -329,7 +329,15 @@ Do floating point numbers obey the rules of algebra? For example, one of the rul
 <p><img src="lab0_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Using the code above as a template, plot the density of a Poisson (use <code>dpois</code>), this is useful on homework 1.</p>
+<p>Alternatively, if we wish to plot the density of a pmf, here’s another example</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rate1 =</span> <span class="fu">dpois</span>(x, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> rate1)) <span class="sc">+</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Poisson(2) mass function"</span>, <span class="at">y =</span> <span class="st">"f(x)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="style-guidelines" class="level2">
 <h2 class="anchored" data-anchor-id="style-guidelines">Style guidelines</h2>

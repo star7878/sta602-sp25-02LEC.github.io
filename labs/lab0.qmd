@@ -163,7 +163,7 @@ studentB
 ```
 
 
-5. An example of plotting a function with `ggplot` (loaded via the `tidyverse` package.)
+5. An example of plotting pdfs with `ggplot` (loaded via the `tidyverse` package.)
 
 ```{r}
 #| eval: true
@@ -177,7 +177,17 @@ df %>%
   labs(title = "Plot of a normal(0, 9) density", y = "f(x)")
 ```
 
-Using the code above as a template, plot the density of a Poisson (use `dpois`), this is useful on homework 1. 
+Alternatively, if we wish to plot the density of a pmf, here's another example
+
+```{r}
+df2 = data.frame(x = c(0:6))
+df2 %>%
+  mutate(rate1 = dpois(x, 2)) %>%
+  ggplot(aes(x = x, y = rate1)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "Poisson(2) mass function", y = "f(x)")
+```
+
 
 
 ## Style guidelines
