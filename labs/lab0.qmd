@@ -183,7 +183,8 @@ df %>%
 ## pmf (Poisson)
 
 ```{r}
-#| eval: true
+#| eval: false
+#| echo: true
 #| warning: false
 library(tidyverse)
 df2 = data.frame(x = 0:6)
@@ -193,6 +194,19 @@ df2 %>%
   geom_bar(stat = "identity") +
   labs(title = "Poisson(2) mass function", y = "f(x)")
 ```
+
+```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+df2 = data.frame(x = 0:6)
+df2 %>%
+  mutate(y2 = dpois(x, 2)) %>%
+  ggplot(aes(x = x, y = y2)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "Poisson(2) mass function", y = "f(x)")
+```
+
 :::
 
 
