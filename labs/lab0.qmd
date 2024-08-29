@@ -163,8 +163,11 @@ studentB
 ```
 
 
-5. An example of plotting pdfs with `ggplot` (loaded via the `tidyverse` package.)
+5. An example of plotting pdfs and pmfs with `ggplot` (loaded via the `tidyverse` package.)
 
+:::panel-tabset 
+
+## pdf (normal)
 ```{r}
 #| eval: true
 #| warning: false
@@ -177,17 +180,20 @@ df %>%
   labs(title = "Plot of a normal(0, 9) density", y = "f(x)")
 ```
 
-Alternatively, if we wish to plot the density of a pmf, here's another example
+## pmf (Poisson)
 
 ```{r}
-df2 = data.frame(x = c(0:6))
+#| eval: true
+#| warning: false
+library(tidyverse)
+df2 = data.frame(x = 0:6)
 df2 %>%
-  mutate(rate1 = dpois(x, 2)) %>%
-  ggplot(aes(x = x, y = rate1)) + 
+  mutate(y2 = dpois(x, 2)) %>%
+  ggplot(aes(x = x, y = y2)) + 
   geom_bar(stat = "identity") +
   labs(title = "Poisson(2) mass function", y = "f(x)")
 ```
-
+:::
 
 
 ## Style guidelines
