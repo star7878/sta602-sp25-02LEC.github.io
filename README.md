@@ -1,4 +1,4 @@
-# [sta360-fa24.github.io](https://sta360-fa24.github.io
+# [sta360-fa24.github.io](https://sta360-fa24.github.io)
 
 ## STA360: Bayesian methods and modern inference
 
