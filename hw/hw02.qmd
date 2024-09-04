@@ -47,7 +47,7 @@ Data from the study described in exercise 3 can be downloaded from the course we
 
 ```{r}
 #| eval: false
-readr::read_csv("https://sta360-fa23.github.io/data/bird-counts.csv")
+readr::read_csv("https://sta360-fa24.github.io/data/bird-counts.csv")
 ```
 
 
