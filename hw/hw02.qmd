@@ -1,25 +1,37 @@
 ---
 title: "Homework 2"
-subtitle: "Due Friday September 15th at 5:00pm"
+subtitle: "Due Friday September 13 at 5:00pm"
 mainfont: Lato
 format: 
   html:
     toc: true
 ---
 
+
 ## Exercise 1
+
+Compute the following integrals **using the kernel trick discussed in class**.
+
+a. $\int_{0}^{\infty} \sigma^{x-1} e^{-b \sigma} d\sigma$
+
+b. $\int_{0}^1 \alpha \theta^{\alpha} (1 - \theta)^{\beta - 1} d\theta$
+
+c. $\int_{-\infty}^\infty x e^{-(x-3)^2} dx$
+
+
+## Exercise 2
 
 Let $Y_1, Y_2 | \theta$ be i.i.d. binary($\theta$), so that $p(y_1, y_2 | \theta) = \theta ^{y_1 + y_2} (1- \theta) ^{2 - y_1 - y_2}$ and let $\theta \sim \text{beta}(\eta, \eta)$
 
 a. Compute $E~Y_i$ and $Var~Y_i$ (the mean and variance of $Y_i$ unconditional on $\theta$) as a function of $\eta$
 
-b. Compute $E~Y_1 Y_2$, which is the same as $p(Y_1 = 1, Y_2 = 1)$ unconditional on $\theta$. You can do this with help from the formula on page 33 of the book.
+b. Compute $E~Y_1 Y_2$, which is the same as $p(Y_1 = 1, Y_2 = 1)$ unconditional on $\theta$. Hint: $Y_1$ and $Y_2$ are conditionally i.i.d., see law of total expectation.
 
 c. Using the terms you have calculated above, make a graph of the correlation between $Y_1$ and $Y_2$ as a function of $\eta$.
 
 d. Interpreting $\eta$ as how confident you are that $\theta$ is near $\frac{1}{2}$, and interpreting $Cor(Y_1, Y_2)$ as how much information $Y_1$ and $Y_2$ provide about each other, explain in words why the correlation changes as a function of $\eta$.
 
-## Exercise 2
+## Exercise 3
 
 Suppose $n$ individuals volunteer to count birds in a forest. Let $Y_i$ be the number of birds counted by individual $i$, and let $x_i$ be the number of hours spent in the forest by volunteer $i$. We will model the data $Y_1, \ldots Y_n$ as being independent given $\theta$, but not identically distributed. Specifically, our model is that $Y_i | \theta \sim \text{Pois}(\theta x_i)$, independently for $i = 1, \ldots n$.
 
@@ -27,14 +39,32 @@ a. Compute $E~Y_i | \theta$ and explain what $\theta$ represents.
 
 b. Write out a formula for the joint pdf $p(y_1, \ldots y_n |\theta)$ and simplify as much as possible. Find the MLE, that is, the value of $\theta$ that maximizes $p(y_1, \ldots y_n | \theta)$. Explain why it makes sense.
 
-c. Let $\theta \sim \text{gamma}(a, b)$. Find a formula for the posterior mode of $\theta$ and compare to the MLE.
+c. Let $\theta \sim \text{gamma}(a, b)$. Write down the posterior $p(\theta | y_1,\ldots y_n)$ and find a formula for the posterior mode of $\theta$. Compare to the MLE.
 
-## Exercise 3
+## Exercise 4
 
-Let $\theta_1$ be the prevalence of a rare allele among people with Alzheimer's disease, and let $\theta_2$ be the prevalence among people without the disease. To estimate $\theta_1$ and $\theta_2$, a sample of $n_1 = 19$ Alzheimer's patients and $n_2 = 176$ control subjects are genotyped for the presence of the allele. Let $Y_1$ and $Y_2$ be the number of people in the two samples who have the allele. We will model $Y_1$ and $Y_2$ as independent with $Y_1 | \theta_1 \sim \text{binomial}(n_1, \theta_1)$ and $Y_2 | \theta_2 \sim \text{binomial}(n_2, \theta_2)$. Prior studies suggest that $\theta_2 \sim \text{beta}(2, 30)$ is a reasonable prior distribution for $\theta_2$. For now, we will use the same prior distribution for $\theta_1$. The study is performed and the data are that $Y_1 = 1$ and $Y_2 = 16$. 
+Data from the study described in exercise 3 can be downloaded from the course website using the code provided below.
 
-a. State the posterior distributions of $\theta_1$ and $\theta_2$. Plot the posterior densities together on a single graph with the prior density, and compare all three curves with words.
+```{r}
+#| eval: false
+readr::read_csv("https://sta360-fa23.github.io/data/bird-counts.csv")
+```
 
-b. Compute the posterior mean and a 95% posterior interval for each of $\theta_1$ and $\theta_2$.
 
-c. With a picture, with words, or mathematically, try to describe different kind of joint prior distribution for $\theta_1$ and $\theta_2$ that represents the $\theta_1$ and $\theta_2$ are close to each other, but highly uncertain.
+In this problem, we will examine the posterior distribution of $\theta$ given these data, under a prior distribution for $\theta$ having density of the form $p(\theta) = c \theta^{a-1} e^{b\theta}$, where $c$ is a constant that depends on $a$ and $b$ but not $\theta$. For this problem, we will set $a = 2$ and $b = 1/5$. 
+
+a. Make a plot of $p(\theta)$ for $\theta \in (0, 50)$ as follows: Compute $\theta^{a -1} e^{-b\theta}$ on an evenly-spaced grid of 1000 $\theta$-values from 0 to 50. Put the results of the computation into a vector of length 1000, then divide the vector by its sum. This vector is a discrete pdf that approximates the continuous density $p(\theta)$.
+
+b. Compute the prior expectation $E \theta$ using this discrete approximiation. 
+
+c. The posterior density of $\theta$ may be expressed as $p(\theta | y_1, \ldots y_n) = \tilde{c} p(\theta) p(y_1, \ldots y_n | \theta)$, where $\tilde{c}$ does not depend on $\theta$. As in part (a), make a discrete approximation to $p(\theta | y)$, and plot the results along with $p(\theta)$ and discuss the change from prior to posterior density. Also compare the prior and posterior expectations.
+
+<!-- ## Exercise 4 -->
+
+<!-- Let $\theta_1$ be the prevalence of a rare allele among people with Alzheimer's disease, and let $\theta_2$ be the prevalence among people without the disease. To estimate $\theta_1$ and $\theta_2$, a sample of $n_1 = 19$ Alzheimer's patients and $n_2 = 176$ control subjects are genotyped for the presence of the allele. Let $Y_1$ and $Y_2$ be the number of people in the two samples who have the allele. We will model $Y_1$ and $Y_2$ as independent with $Y_1 | \theta_1 \sim \text{binomial}(n_1, \theta_1)$ and $Y_2 | \theta_2 \sim \text{binomial}(n_2, \theta_2)$. Prior studies suggest that $\theta_2 \sim \text{beta}(2, 30)$ is a reasonable prior distribution for $\theta_2$. For now, we will use the same prior distribution for $\theta_1$. The study is performed and the data are that $Y_1 = 1$ and $Y_2 = 16$.  -->
+
+<!-- a. State the posterior distributions of $\theta_1$ and $\theta_2$. Plot the posterior densities together on a single graph with the prior density, and compare all three curves with words. -->
+
+<!-- b. Compute the posterior mean and a 95% posterior interval for each of $\theta_1$ and $\theta_2$. -->
+
+<!-- c. With a picture, with words, or mathematically, try to describe different kind of joint prior distribution for $\theta_1$ and $\theta_2$ that represents the $\theta_1$ and $\theta_2$ are close to each other, but highly uncertain. -->

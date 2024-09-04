@@ -14,9 +14,13 @@ Code
 Resources
 
 - [Canvas website](https://canvas.duke.edu/courses/36804)
-    - Find announcements and grades here. Recorded lectures and solutions uploaded here under "Files" tab on the left hand side.
+    - Find announcements and grades here. 
+    - Solutions uploaded here under "Files" tab on the left hand side.
+    - Recorded zoom lectures uploaded here under "Pages" tab on the left hand side.
 
 - [Gradescope](https://www.gradescope.com/)
+
+- [Chapter summaries](/chapterSummaries.html)
 
 Textbook
 
