@@ -55,7 +55,7 @@ schedule %>%
 |      | Wed Sep 04 | beta-binomial model     | Ch. 3   |                        [🗒](/notes/lec02-estimation.html)                        | [hw 2](/hw/hw02.html)      |
 |      | Thu Sep 05 | lab: MLE and MAP estimator       |         |                             [💻](/slides/lab1.html)                             |                            |
 | 3    | Mon Sep 09 | Poisson-gamma model, exp families  | Ch. 3   |                                                                                 |                            |
-|      | Wed Sep 11 |  reliability (conf. intervals, hpd, Laplace approx.)                                |         |                                                                                 |                            |
+|      | Wed Sep 11 |  reliability (conf. intervals, hpd, Laplace approx.)                                | Ch. 3        |                                                                                 |                            |
 |      | Thu Sep 12 |                                  |         |                                                                                 |                            |
 | 4    | Mon Sep 16 |                                  |         |                                                                                 |                            |
 |      | Wed Sep 18 |                                  |         |                                                                                 |                            |
