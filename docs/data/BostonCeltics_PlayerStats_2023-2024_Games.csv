@@ -1,0 +1,60 @@
+﻿player,GP,GS,MIN,PTS,OR,DR,REB,AST,STL,BLK,TO,PF,AST/TO,vs
+Jrue Holiday PG,4,4,33,12,2,5.5,7.5,9,1,0.3,1.5,2,6,Brooklyn Nets
+Jayson Tatum SF,4,4,35.5,29,0.8,9.8,10.5,4.5,0.5,0.3,2,1.3,2.3,Brooklyn Nets
+Jaylen Brown SG,3,3,34,23.3,0.3,2.7,3,4.3,0.7,0.3,3,3,1.4,Brooklyn Nets
+Derrick White PG,3,3,31,18,0,3.7,3.7,4,0.3,0.3,1.3,1.7,3,Brooklyn Nets
+Al Horford C,2,2,33.5,12,1.5,5,6.5,3.5,1,0.5,0,0.5,INF,Brooklyn Nets
+Payton Pritchard PG,4,0,24.3,11,1.5,1.5,3,2.3,0.3,0,0.5,1.8,4.5,Brooklyn Nets
+Oshae Brissett SF,4,0,11.8,4.8,0.8,2,2.8,1.8,0.5,0,0,0.8,INF,Brooklyn Nets
+Kristaps Porzingis C,3,3,23.7,15.3,0.7,4,4.7,1.3,0,1.7,0.7,1.3,2,Brooklyn Nets
+Luke Kornet C,4,0,16.5,7.8,3,4.3,7.3,1.3,0.5,1,0.3,2.8,5,Brooklyn Nets
+Sam Hauser SF,4,1,21.8,9.3,0.5,2,2.5,0.8,0.8,0,0.3,1.5,3,Brooklyn Nets
+Svi Mykhailiuk SG,2,0,11,1,0,0.5,0.5,0,0,0,1.5,1,0,Brooklyn Nets
+Neemias Queta C,1,0,13,8,2,2,4,0,1,0,1,3,0,Brooklyn Nets
+Dalano Banton G *,1,0,4,0,1,0,1,0,0,0,0,0,0,Brooklyn Nets
+Jordan Walsh G,1,0,18,0,1,4,5,0,1,1,2,3,0,Brooklyn Nets
+Total,4,,,124.8,11,37,48,28.5,5.3,3.8,9.8,16.8,2.9,Brooklyn Nets
+Jrue Holiday PG,2,2,31,11.5,0.5,4.5,5,7.5,1.5,0.5,2.5,3,3,Chicago Bulls
+Derrick White PG,3,3,33.3,19.7,0,3,3,6,1.7,1,1,2,6,Chicago Bulls
+Jaylen Brown SG,2,2,34,25.5,1,5.5,6.5,5.5,0.5,1,2.5,1.5,2.2,Chicago Bulls
+Jayson Tatum SF,3,3,36,24,0.7,4.7,5.3,5,1.3,0.3,4,2,1.3,Chicago Bulls
+Payton Pritchard PG,3,0,25.3,11.7,0.3,3.3,3.7,3.7,0.7,0,0.7,0.3,5.5,Chicago Bulls
+Al Horford C,3,2,27.3,13,1,6.3,7.3,2.3,0.7,1.3,2,1.7,1.2,Chicago Bulls
+Luke Kornet C,3,1,21.3,7.3,3.7,3,6.7,2,0.3,1.7,0.7,2,3,Chicago Bulls
+Sam Hauser SF,3,1,22.3,13.3,1.7,3.7,5.3,1.3,0.7,0.3,1.3,0.3,1,Chicago Bulls
+Kristaps Porzingis C,1,1,30,14,0,4,4,1,1,3,1,4,1,Chicago Bulls
+Xavier Tillman F *,2,0,6.5,2,0,1,1,1,0,0.5,0,1,INF,Chicago Bulls
+Svi Mykhailiuk SG,3,0,4.3,2,0,0.7,0.7,0.3,0,0,0,0.3,INF,Chicago Bulls
+Lamar Stevens PF *,1,0,0,0,0,0,0,0,0,1,0,0,0,Chicago Bulls
+Oshae Brissett SF,2,0,9.5,3.5,1.5,0.5,2,0,0,0,0.5,0.5,0,Chicago Bulls
+Dalano Banton G *,1,0,15,5,0,0,0,0,0,1,0,1,0,Chicago Bulls
+Jaden Springer G *,2,0,1,0,0,0,0,0,0,0,0,0,0,Chicago Bulls
+Total,3,,,125.7,9.3,33.7,43,30.3,7,7.7,13.7,14.3,2.2,Chicago Bulls
+Jayson Tatum SF,2,2,33,21,1.5,4,5.5,6,1.5,0.5,0,1,INF,Golden State Warriors
+Derrick White PG,2,2,30,22,1,4,5,5.5,0.5,1.5,0,1.5,INF,Golden State Warriors
+Al Horford C,2,2,29.5,10,1,7,8,5,0.5,0.5,1,1.5,5,Golden State Warriors
+Jaylen Brown SG,2,2,32,28.5,2,3.5,5.5,5,0.5,0.5,2.5,2,2,Golden State Warriors
+Payton Pritchard PG,2,0,23.5,15,0,3,3,4,1,0,1.5,2,2.7,Golden State Warriors
+Jrue Holiday PG,2,2,31,10,1,5.5,6.5,2.5,1,0.5,0.5,3.5,5,Golden State Warriors
+Svi Mykhailiuk SG,2,0,11,4,1,1,2,1,0.5,0,0,0,INF,Golden State Warriors
+Oshae Brissett SF,2,0,12.5,6,0.5,3.5,4,1,1.5,0.5,1,1,1,Golden State Warriors
+Neemias Queta C,1,0,21,10,6,4,10,1,1,0,0,0,INF,Golden State Warriors
+Jaden Springer G *,1,0,12,2,1,1,2,1,0,0,1,1,1,Golden State Warriors
+Sam Hauser SF,2,0,20,6,0.5,3.5,4,0.5,0,0.5,0.5,2.5,1,Golden State Warriors
+Luke Kornet C,1,0,11,2,1,2,3,0,0,1,0,0,0,Golden State Warriors
+Xavier Tillman F *,1,0,18,7,0,4,4,0,1,0,0,1,0,Golden State Warriors
+Total,2,,,133,12.5,40.5,53,31.5,8,5,7.5,16,,Golden State Warriors
+Jrue Holiday PG,2,2,32.5,14,0,4.5,4.5,6.5,1,1,0.5,1.5,13,Dallas Mavericks
+Derrick White PG,2,2,33.5,9.5,0.5,5,5.5,4.5,1.5,1.5,1.5,2.5,3,Dallas Mavericks
+Jaylen Brown SG,2,2,33.5,29.5,1,4,5,4.5,0.5,1,0,4,INF,Dallas Mavericks
+Jayson Tatum SF,2,2,39,35.5,0,9.5,9.5,4,1.5,1,2,3,2,Dallas Mavericks
+Payton Pritchard PG,2,0,20.5,7.5,1,3.5,4.5,3.5,0.5,0.5,1,1.5,3.5,Dallas Mavericks
+Al Horford C,2,1,29.5,11.5,1,6,7,3,0.5,1,1,1.5,3,Dallas Mavericks
+Kristaps Porzingis C,1,1,29,24,3,3,6,2,0,1,0,2,INF,Dallas Mavericks
+Xavier Tillman F *,1,0,15,6,0,1,1,2,0,1,0,1,INF,Dallas Mavericks
+Luke Kornet C,1,0,19,2,1,4,5,1,0,1,2,2,0.5,Dallas Mavericks
+Svi Mykhailiuk SG,1,0,4,0,1,0,1,1,0,0,1,0,1,Dallas Mavericks
+Sam Hauser SF,2,0,15.5,2.5,0.5,2,2.5,0.5,0,0,0,1,INF,Dallas Mavericks
+Oshae Brissett SF,1,0,4,3,0,0,0,0,0,1,0,0,0,Dallas Mavericks
+Jaden Springer G *,1,0,2,2,1,0,1,0,0,0,0,0,0,Dallas Mavericks
+Total,2,,,128.5,7,38.5,45.5,29.5,5.5,8,7.5,17.5,3.9,Dallas Mavericks

@@ -52,9 +52,9 @@ schedule %>%
 |      | Wed Aug 28 | probability, exchangeability                        | Ch. 2   | [🗒](/notes/lec01-probability.html) [📝](/notes/Probability-Exchangeability.pdf) | [hw 1](/hw/hw01.html)      |
 |      | Thu Aug 29 | lab: welcome                                        |         |                         [💻](/slides/lab0-welcome.html)                         | [hello R](/labs/lab0.html) |
 | 2    | Mon Sep 02 | NO CLASS                                            | Ch. 3   |                                                                                 |                            |
-|      | Wed Sep 04 | beta-binomial model                                 | Ch. 3   | [🗒](/notes/lec02-estimation.html) [📝](/notes/beta-binomial.pdf)  | [hw 2](/hw/hw02.html)      |
+|      | Wed Sep 04 | beta-binomial model                                 | Ch. 3   |        [🗒](/notes/lec02-estimation.html) [📝](/notes/beta-binomial.pdf)         | [hw 2](/hw/hw02.html)      |
 |      | Thu Sep 05 | lab: MLE and MAP estimator                          |         |                             [💻](/slides/lab1.html)                             |                            |
-| 3    | Mon Sep 09 | Poisson-gamma model, exp families                   | Ch. 3   |                                                                                 |                            |
+| 3    | Mon Sep 09 | Poisson-gamma model, exp families                   | Ch. 3   |  [🗒](notes/lec03-Poisson-gamma-exp-families.html)   |                            |
 |      | Wed Sep 11 | reliability (conf. intervals, hpd, Laplace approx.) | Ch. 3   |                                                                                 |                            |
 |      | Thu Sep 12 |                                                     |         |                                                                                 |                            |
 | 4    | Mon Sep 16 |                                                     |         |                                                                                 |                            |

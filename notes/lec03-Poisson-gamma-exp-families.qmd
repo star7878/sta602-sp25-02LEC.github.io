@@ -1,0 +1,203 @@
+---
+title: "NBA Assists"
+author: "Dr. Alexander Fisher"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+```{r}
+#| code-fold: true
+#| code-summary: "See libraries used in these notes"
+#| warning: false
+#| echo: true
+library(tidyverse)
+library(latex2exp)
+```
+
+## Data: Boston Celtics
+
+In basketball, an "assist" is attributed to a player that passes the ball to a teammate in a way that directly leads to a basket. The data below was scraped from [espn.com]() September 2024. Each row of the data set is an individual Boston Celtics player during a particular game of the 2023-2024 season. The `AST` records the number of assists made by the player in the particular game. `MIN` records the number of minutes each player played in a particular game. `vs` records the opposing team.
+
+::: panel-tabset
+
+## data sample
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+set.seed(360)
+yx = read_csv("../data/BostonCeltics_Assists_23-24_season.csv")
+
+yx %>%
+  slice_sample(n = 10) %>%
+  arrange(desc(AST))
+```
+## code
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: true
+#| eval: false
+set.seed(360)
+yx = read_csv("../data/BostonCeltics_Assists_23-24_season.csv")
+
+yx %>%
+  slice_sample(n = 10) %>%
+  arrange(desc(AST))
+```
+
+:::
+**Question:** how many assists on average do we expect a Celtics player to make per minute played?
+
+## Bayesian framework
+
+1. Define a data generative model and write down the likelihood (often assuming exchangeability and invoking de Finetti's theorem)
+2. Choose a prior distribution for all things unknown
+3. Compute or approximate the posterior
+4. Make inference
+
+### Data-generative model 
+
+To write down a data generative model, let's assume players accumulate assists $y$ at some per-minute rate, $\theta$. We will further assume that the expected number of assists by a player in a given game is then $\theta x$ where $x$ is the number of minutes played. 
+
+Given $y$ takes integer values $\{0, 1, 2, \ldots \}$, a Poisson distribution might make sense. If $Y | \lambda$ is Poisson$(\lambda)$, then
+
+$$
+p(y |\lambda) = \frac{(\lambda)^y e^{-\lambda}}{y!}
+$$
+
+Here, $\lambda = \theta x$.
+
+Assuming this conditionally independent model for generating $y$s, we write the likelihood,
+
+$$
+p(y_1,\ldots y_n | \theta) = \prod_{i = 1}^n \frac{(\theta x_i)^{y_i} e^{-\theta x_i}}{y_i!}
+$$
+
+::: callout-important
+## Exercise 
+
+What are some assumptions are we making about assists in the data generative model above?
+:::
+
+<!-- 
+- All players accumulate assists at the same fundamental per-minute rate theta
+- theta is constant across all players, across all games (e.g. no injuries etc)
+-->
+
+### Prior beliefs
+
+- Notice the support: $\theta > 0$
+- A gamma prior may be suitable
+
+$$
+\begin{aligned}
+\theta &\sim gamma(a, b)\\
+p(\theta | a, b) &= \frac{b^{a}}{\Gamma(a)} \theta^{a - 1} e^{-b \theta}
+\end{aligned}
+$$
+### Compute the posterior
+
+::: panel-tabset
+
+## Exercise
+Compute the posterior.
+
+## Solution
+
+$$
+\begin{aligned}
+\theta | y_1,\ldots y_n &\sim gamma(\alpha, \beta)\\
+\alpha &= a + \sum_{i=1}^n y_i\\
+\beta &= b + \sum_{i=1}^n x_i
+\end{aligned}
+$$
+
+:::
+
+Hint: we have conjugacy. You can see this if you view the likelihood and the prior each as a function of $\theta$, the kernel of each has the same functional form. 
+
+Follow-up: 
+
+1. what is $E[\theta | y_1,\ldots, y_n]$? How does it compare to $E[\theta]$?
+2. what is $Var[\theta | y_1,\ldots y_n]$? 
+
+
+::: panel-tabset
+
+## plot posterior
+```{r}
+#| echo: false
+a = 9
+b = 3
+sumY = sum(yx$AST)
+sumX = sum(yx$MIN)
+
+data.frame(x = c(0, 0.5)) %>%
+  ggplot(aes(x = x)) + 
+  stat_function(fun = dgamma, args = list(shape = sumY + a,
+                                          rate = sumX + b)) + 
+  labs(x = TeX("$\\theta$"), y = TeX("p($\\theta | y_1, \\ldots, y_n$)")) +
+  theme_bw()
+
+posteriorMean = (a + sumY) / (b + sumX)
+```
+## code
+
+```{r}
+#| echo: true
+#| eval: false
+a = 9
+b = 3
+sumY = sum(yx$AST)
+sumX = sum(yx$MIN)
+
+data.frame(x = c(0, 0.5)) %>%
+  ggplot(aes(x = x)) + 
+  stat_function(fun = dgamma, args = list(shape = sumY + a,
+                                          rate = sumX + b)) + 
+  labs(x = TeX("$\\theta$"), y = TeX("p($\\theta | y_1, \\ldots, y_n$)")) +
+  theme_bw()
+```
+
+:::
+
+Given our prior of $a = 9, b = 3$, $E[\theta | y_1,\ldots, y_n] =$ `r round(posteriorMean, digits = 4)`
+
+## Exponential families 
+
+**Definition**: a **sufficient statistic** is a function of the data $(y_1,\ldots y_n$) that is sufficient to make inference about unknown parameters ($\theta$).
+
+If density $p(y|\theta)$ can be written $h(y) c(\phi) e^{\phi t(y)}$ for some transform $\phi = f(\theta)$ we can say $p(y|\theta)$ belongs in the exponential family.
+
+::: callout-note
+$t(y)$ is referred to as the *sufficient statistic*.
+:::
+
+If $p(y|\theta)$ belongs in the exponential family, then the conjugate prior is 
+$$
+p(\phi | n_0, t_0) =c(\phi)^{n_0} e^{n_0 t_0 \phi}
+$$
+:::callout-note
+## Notes about the prior
+
+1. the conjugate prior is given over $\phi$ and we'd have to transform back if we care about $p(\theta)$.
+
+2. $n_0$ is interpreted as the *prior sample size* and $t_0$ is the *prior guess*.
+:::
+
+The resulting posterior is 
+
+$$
+p(\phi | y_1,\ldots y_n) \propto p \left(\phi | n_0 + n, \frac{n_0 t_0 + n \sum t(y_i)/n}{n_0 + n}\right)
+$$
+In words, one can show that the kernel of the posterior of $\phi$ is proportional to the kernel of the prior of $\phi$ with specific parameters. Thereby, we have conjugacy.
+
+
+### Example offline: Poisson density
+
+

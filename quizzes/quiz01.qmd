@@ -10,18 +10,13 @@ To receive credit for this assignment, write at the top of your paper your name 
 
 ### Exercise 2
 
-`TRUE` or `FALSE`: $p(y|\theta)$ is the marginal likelihood.
-
-### Exercise 3
-
 In Bayes' theorem (written below), which term is the "normalizing constant"?
 
 $$
 p(\theta | y) = \frac{p(y |\theta) p(\theta)}{\int p(y, \theta) d\theta}
 $$
 
-
-### Exercise 4
+### Exercise 3
 
 $$
 \begin{aligned}
@@ -29,12 +24,12 @@ X &\sim gamma(k, \theta)\\
 p(x) &= \frac{1}{\Gamma(k) \theta^k}x^{k-1}e^{-x/\theta}
 \end{aligned}
 $$
-The kernel of the distribution is ___.
+Write down the kernel of the density (as a function of $x$).
 
 ```{r}
 #| echo: false
 library(countdown)
-countdown(minutes = 4, font_size = "4em",
+countdown(minutes = 3, font_size = "4em",
           color_running_background = "#2774AE")
 ```
 

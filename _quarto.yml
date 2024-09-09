@@ -7,7 +7,6 @@ project:
   render:
   - "*.qmd"
   - "!/teaching-materials"
-  - "!/quizzes"
 
 website:
   title: "STA360"
