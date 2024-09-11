@@ -1,6 +1,6 @@
 ---
 title: "Homework 3"
-subtitle: "Due Friday September 22nd at 5:00pm"
+subtitle: "Due Friday September 20 at 5:00pm"
 mainfont: Lato
 format: 
   html:
@@ -32,35 +32,36 @@ a. Find the joint pdf of $Y_1, \ldots Y_n | \theta$ and simplify as much as poss
 
 b. Suppose $a$ is known but $\theta$ is unknown. Identify a simple conjugate class of priors for $\theta$. For any arbitrary member of the class, identify the posterior density $p(\theta | y_1, \ldots y_n)$.
 
-c. Obtain a formula for $E~ \theta | Y_1, \ldots Y_n$ when the prior is in the conjugate class.
+c. Obtain a formula for $E~ \theta | Y_1, \ldots Y_n$ and $Var~\theta | Y_1, \ldots Y_n$ when the prior is in the conjugate class.
 
 ## Exercise 2
 
-Suppose $Y|\theta \sim \text{binary}(\theta)$ and we want to use $\theta \sim \text{Uniform}(0, 1)$ to represent our lack of knowledge about $\theta$. However, we are interested in the log-odds $\gamma = \log \frac{\theta}{1 - \theta}$.
+Physicists studying a radioactive substance measure the times at which the substance emits a particle. They will record $n+1$ emissions and set $Y_1$ to be the time elapsed between the first and second emission, $Y_2$ to be the time elapsed between the second and third emission and so on. They will model the data as $Y_1, \ldots Y_n | \theta \sim \text{exponential}(\theta)$. The pdf of the exponential($\theta$) distribution is 
 
-a. Find the prior distribution for $\gamma$ induced by our prior on $\theta$. Is the prior informative about $\gamma$? Verify $p(\gamma)$ using Monte Carlo sampling and then plotting the empirical density of the samples along with the closed-form solution.
+$$
+p(y |\theta) = \theta e^{-\theta y} \ \text{ for } \ y>0, \ \theta>0.
+$$
 
-b. Assume some data come in and $y = 7$ out of $n = 10$ trials. Report the posterior mean and 95% posterior confidence interval for $\gamma$.
+For this distribution, $E[Y|\theta] = \frac{1}{\theta}$.
+
+(a). Write out the corresponding joint density $p(y_1, \ldots, y_n | \theta)$ and simplify as much as possible. Justify each step of your calculation.
+
+(b). Compute the maximum likelihood estimate $\hat{\theta}_{MLE}$, i.e. the value $\hat{\theta}_{MLE}$ that maximizes $p(y_1,\ldots y_n | \theta)$. Hint: it's easier to work with the log-likelihood.
+
+(c). Choose a prior $p(\theta)$ that is conjugate to the likelihood. Hint: look at kernels of densities on the distribution sheet. Write out the formula for $p(\theta | y_1, \ldots y_n)$, up to a proportionality in $\theta$, and simplify as much as possible. From this, identify explicitly the posterior distribution of $\theta$ (i.e., write "the posterior is a blank distribution with parameter(s) blank)".
+
+(d). Obtain the formula for $E[\theta, y_1, \ldots y_n]$ as a function of $a, b n$ and $y_1, \ldots y_n$, and try to write this as a function of the estimator $\hat{\theta}$ you found in part (b). What does $E[\theta | y_1,\ldots,y_n]$ get close to as $n$ increases?
+
+(e). Report a 95\% posterior confidence interval for $\theta$.
 
 ## Exercise 3
 
-Suppose an experimental machine in a lab is either fine, or comes from a bad batch of machines that are to be recalled by the manufacturer. Scientists in the lab want to estimate the failure rate of their machine and decide whether or not to return it. They encode their prior uncertainty about the failure rate $\theta$ with the following density: 
+Suppose $Y|\theta \sim \text{binary}(\theta)$ and we believe$\theta \sim \text{Uniform}(0, 1)$ describes our uninformed prior beliefs about $\theta$. However, we are really interested in the log-odds $\gamma = f(\theta) = \log \frac{\theta}{1 - \theta}$.
 
-$$
-p(\theta) = \frac{1}{4} \frac{\Gamma(10)}{\Gamma(2)\Gamma(8)}\left[
-3 \theta (1 - \theta)^7 + \theta^7(1- \theta)
-\right]
-$$
+a. Find the prior distribution for $\gamma$ induced by our prior on $\theta$. Is the prior informative about $\gamma$? Verify $p(\gamma)$ using Monte Carlo sampling (i.e. sampling from $p(\theta)$) and then plotting the empirical density of the transformed samples along with the closed-form solution.
 
+b. Is the mean of the transform the same as the transform of the mean? In other words, is  
+$E f(\theta) = f(E[\theta])$? Why or why not? 
 
-a. Make a plot of this prior density and explain why it makes sense for the scientists. Based on the prior density, which do the scientists think is more likely - that their machine is fine, or bad?
-
-b. The scientists run the machine $n$ times. Let $y_i$ be one if the machine fails on the $i$th run, and zero otherwise. Write out the posterior distribution of $\theta$ given $y_1, \ldots, y_n$ (up to a proportionality constant) and simplify as much as possible.
-
-c. For the case that $n = 4$, make a plot of the (unscaled) posterior of $\theta$ for the five cases $\sum y_i \in \{ 0, 1, 2, 3, 4\}$.
-
-d. The posterior is a mixture (weighted average) of two distributions that you know. Identify these two distributions, including their parameters.
-
-
-
+c. Assume some data come in and $\sum y_i = 7$ out of $n = 10$ trials. Report the posterior mean and 95% posterior confidence interval for $\gamma$. Is the transform of the quantile the quantile of the transform? Why or why not?
 

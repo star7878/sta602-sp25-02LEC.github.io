@@ -70,6 +70,9 @@ ul.task-list{list-style: none;}
     <a class="nav-link" href="../syllabus.html">syllabus</a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../notes/exam-notes.html">distributions</a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../links.html">links</a>
   </li>  
 </ul>
@@ -98,7 +101,7 @@ ul.task-list{list-style: none;}
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Homework 3</h1>
-<p class="subtitle lead">Due Friday September 22nd at 5:00pm</p>
+<p class="subtitle lead">Due Friday September 20 at 5:00pm</p>
 </div>
 
 
@@ -130,30 +133,30 @@ E~Y^2|\theta &amp;= \frac{a}{\theta^2}
 <ol type="a">
 <li><p>Find the joint pdf of <span class="math inline">\(Y_1, \ldots Y_n | \theta\)</span> and simplify as much as possible.</p></li>
 <li><p>Suppose <span class="math inline">\(a\)</span> is known but <span class="math inline">\(\theta\)</span> is unknown. Identify a simple conjugate class of priors for <span class="math inline">\(\theta\)</span>. For any arbitrary member of the class, identify the posterior density <span class="math inline">\(p(\theta | y_1, \ldots y_n)\)</span>.</p></li>
-<li><p>Obtain a formula for <span class="math inline">\(E~ \theta | Y_1, \ldots Y_n\)</span> when the prior is in the conjugate class.</p></li>
+<li><p>Obtain a formula for <span class="math inline">\(E~ \theta | Y_1, \ldots Y_n\)</span> and <span class="math inline">\(Var~\theta | Y_1, \ldots Y_n\)</span> when the prior is in the conjugate class.</p></li>
 </ol>
 </section>
 <section id="exercise-2" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
-<p>Suppose <span class="math inline">\(Y|\theta \sim \text{binary}(\theta)\)</span> and we want to use <span class="math inline">\(\theta \sim \text{Uniform}(0, 1)\)</span> to represent our lack of knowledge about <span class="math inline">\(\theta\)</span>. However, we are interested in the log-odds <span class="math inline">\(\gamma = \log \frac{\theta}{1 - \theta}\)</span>.</p>
-<ol type="a">
-<li><p>Find the prior distribution for <span class="math inline">\(\gamma\)</span> induced by our prior on <span class="math inline">\(\theta\)</span>. Is the prior informative about <span class="math inline">\(\gamma\)</span>? Verify <span class="math inline">\(p(\gamma)\)</span> using Monte Carlo sampling and then plotting the empirical density of the samples along with the closed-form solution.</p></li>
-<li><p>Assume some data come in and <span class="math inline">\(y = 7\)</span> out of <span class="math inline">\(n = 10\)</span> trials. Report the posterior mean and 95% posterior confidence interval for <span class="math inline">\(\gamma\)</span>.</p></li>
-</ol>
+<p>Physicists studying a radioactive substance measure the times at which the substance emits a particle. They will record <span class="math inline">\(n+1\)</span> emissions and set <span class="math inline">\(Y_1\)</span> to be the time elapsed between the first and second emission, <span class="math inline">\(Y_2\)</span> to be the time elapsed between the second and third emission and so on. They will model the data as <span class="math inline">\(Y_1, \ldots Y_n | \theta \sim \text{exponential}(\theta)\)</span>. The pdf of the exponential(<span class="math inline">\(\theta\)</span>) distribution is</p>
+<p><span class="math display">\[
+p(y |\theta) = \theta e^{-\theta y} \ \text{ for } \ y&gt;0, \ \theta&gt;0.
+\]</span></p>
+<p>For this distribution, <span class="math inline">\(E[Y|\theta] = \frac{1}{\theta}\)</span>.</p>
+<p>(a). Write out the corresponding joint density <span class="math inline">\(p(y_1, \ldots, y_n | \theta)\)</span> and simplify as much as possible. Justify each step of your calculation.</p>
+<p>(b). Compute the maximum likelihood estimate <span class="math inline">\(\hat{\theta}_{MLE}\)</span>, i.e.&nbsp;the value <span class="math inline">\(\hat{\theta}_{MLE}\)</span> that maximizes <span class="math inline">\(p(y_1,\ldots y_n | \theta)\)</span>. Hint: it’s easier to work with the log-likelihood.</p>
+<p>(c). Choose a prior <span class="math inline">\(p(\theta)\)</span> that is conjugate to the likelihood. Hint: look at kernels of densities on the distribution sheet. Write out the formula for <span class="math inline">\(p(\theta | y_1, \ldots y_n)\)</span>, up to a proportionality in <span class="math inline">\(\theta\)</span>, and simplify as much as possible. From this, identify explicitly the posterior distribution of <span class="math inline">\(\theta\)</span> (i.e., write “the posterior is a blank distribution with parameter(s) blank)”.</p>
+<p>(d). Obtain the formula for <span class="math inline">\(E[\theta, y_1, \ldots y_n]\)</span> as a function of <span class="math inline">\(a, b n\)</span> and <span class="math inline">\(y_1, \ldots y_n\)</span>, and try to write this as a function of the estimator <span class="math inline">\(\hat{\theta}\)</span> you found in part (b). What does <span class="math inline">\(E[\theta | y_1,\ldots,y_n]\)</span> get close to as <span class="math inline">\(n\)</span> increases?</p>
+<p>(e). Report a 95% posterior confidence interval for <span class="math inline">\(\theta\)</span>.</p>
 </section>
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
-<p>Suppose an experimental machine in a lab is either fine, or comes from a bad batch of machines that are to be recalled by the manufacturer. Scientists in the lab want to estimate the failure rate of their machine and decide whether or not to return it. They encode their prior uncertainty about the failure rate <span class="math inline">\(\theta\)</span> with the following density:</p>
-<p><span class="math display">\[
-p(\theta) = \frac{1}{4} \frac{\Gamma(10)}{\Gamma(2)\Gamma(8)}\left[
-3 \theta (1 - \theta)^7 + \theta^7(1- \theta)
-\right]
-\]</span></p>
+<p>Suppose <span class="math inline">\(Y|\theta \sim \text{binary}(\theta)\)</span> and we believe<span class="math inline">\(\theta \sim \text{Uniform}(0, 1)\)</span> describes our uninformed prior beliefs about <span class="math inline">\(\theta\)</span>. However, we are really interested in the log-odds <span class="math inline">\(\gamma = f(\theta) = \log \frac{\theta}{1 - \theta}\)</span>.</p>
 <ol type="a">
-<li><p>Make a plot of this prior density and explain why it makes sense for the scientists. Based on the prior density, which do the scientists think is more likely - that their machine is fine, or bad?</p></li>
-<li><p>The scientists run the machine <span class="math inline">\(n\)</span> times. Let <span class="math inline">\(y_i\)</span> be one if the machine fails on the <span class="math inline">\(i\)</span>th run, and zero otherwise. Write out the posterior distribution of <span class="math inline">\(\theta\)</span> given <span class="math inline">\(y_1, \ldots, y_n\)</span> (up to a proportionality constant) and simplify as much as possible.</p></li>
-<li><p>For the case that <span class="math inline">\(n = 4\)</span>, make a plot of the (unscaled) posterior of <span class="math inline">\(\theta\)</span> for the five cases <span class="math inline">\(\sum y_i \in \{ 0, 1, 2, 3, 4\}\)</span>.</p></li>
-<li><p>The posterior is a mixture (weighted average) of two distributions that you know. Identify these two distributions, including their parameters.</p></li>
+<li><p>Find the prior distribution for <span class="math inline">\(\gamma\)</span> induced by our prior on <span class="math inline">\(\theta\)</span>. Is the prior informative about <span class="math inline">\(\gamma\)</span>? Verify <span class="math inline">\(p(\gamma)\)</span> using Monte Carlo sampling (i.e.&nbsp;sampling from <span class="math inline">\(p(\theta)\)</span>) and then plotting the empirical density of the transformed samples along with the closed-form solution.</p></li>
+<li><p>Is the mean of the transform the same as the transform of the mean? In other words, is<br>
+<span class="math inline">\(E f(\theta) = f(E[\theta])\)</span>? Why or why not?</p></li>
+<li><p>Assume some data come in and <span class="math inline">\(\sum y_i = 7\)</span> out of <span class="math inline">\(n = 10\)</span> trials. Report the posterior mean and 95% posterior confidence interval for <span class="math inline">\(\gamma\)</span>. Is the transform of the quantile the quantile of the transform? Why or why not?</p></li>
 </ol>
 
 
