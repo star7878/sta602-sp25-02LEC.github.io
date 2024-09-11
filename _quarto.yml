@@ -19,7 +19,7 @@ website:
       - href: syllabus.qmd
         text: syllabus
       - href: notes/exam-notes.qmd
-        text: densities
+        text: distributions
       - href: links.qmd
         text: links
 
