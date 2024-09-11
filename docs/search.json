@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Bayesian methods and modern statistics",
     "section": "",
-    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\nCh. 2\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\nCh. 2\n🗒 📝\nhw 1\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\nCh. 3\n\n\n\n\n\nWed Sep 04\nbeta-binomial model\nCh. 3\n🗒 📝\nhw 2\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n💻\n\n\n\n3\nMon Sep 09\nPoisson-gamma model, exp families\nCh. 3\n🗒 📝\n\n\n\n\nWed Sep 11\nreliability (conf. intervals, hpd, Laplace approx.)\nCh. 3\n🗒\n\n\n\n\nThu Sep 12\n\n\n\n\n\n\n4\nMon Sep 16\nintro to Monte Carlo, prediction\nCh. 4\n\n\n\n\n\nWed Sep 18\nMonte Carlo integration\nCh. 4\n\n\n\n\n\nThu Sep 19\n\n\n\n\n\n\n5\nMon Sep 23\nthe normal model\nCh. 5\n\n\n\n\n\nWed Sep 25\nthe normal model II\nCh. 5\n\n\n\n\n\nThu Sep 26\n\n\n\n\n\n\n6\nMon Sep 30\nreview\n\n\n\n\n\n\nWed Oct 02\nExam I\n\n\n\n\n\n\nThu Oct 03\n\n\n\n\n\n\n7\nMon Oct 07\nestimators\nCh. 5\n\n\n\n\n\nWed Oct 09\nGibbs sampling\nCh. 6\n\n\n\n\n\nThu Oct 10\n\n\n\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\n\n\n\n\n\n\n\nThu Oct 17\n\n\n\n\n\n\n9\nMon Oct 21\n\n\n\n\n\n\n\nWed Oct 23\n\n\n\n\n\n\n\nThu Oct 24\n\n\n\n\n\n\n10\nMon Oct 28\n\n\n\n\n\n\n\nWed Oct 30\n\n\n\n\n\n\n\nThu Oct 31\n\n\n\n\n\n\n11\nMon Nov 04\n\n\n\n\n\n\n\nWed Nov 06\n\n\n\n\n\n\n\nThu Nov 07\n\n\n\n\n\n\n12\nMon Nov 11\n\n\n\n\n\n\n\nWed Nov 13\nExam II\n\n\n\n\n\n\nThu Nov 14\n\n\n\n\n\n\n13\nMon Nov 18\n\n\n\n\n\n\n\nWed Nov 20\n\n\n\n\n\n\n\nThu Nov 21\n\n\n\n\n\n\n14\nMon Nov 25\n\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\n\n\n\n\n\n\n\nWed Dec 04\n\n\n\n\n\n\n\nThu Dec 05"
+    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\nCh. 2\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\nCh. 2\n🗒 📝\nhw 1\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\nCh. 3\n\n\n\n\n\nWed Sep 04\nbeta-binomial model\nCh. 3\n🗒 📝\nhw 2\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n💻\n\n\n\n3\nMon Sep 09\nPoisson-gamma model, exp families\nCh. 3\n🗒 📝\n\n\n\n\nWed Sep 11\nreliability (conf. intervals, hpd, Laplace approx.)\nCh. 3\n🗒\n\n\n\n\nThu Sep 12\nlab: exp. families and transformations\n\n💻\n\n\n\n4\nMon Sep 16\nintro to Monte Carlo, prediction\nCh. 4\n\n\n\n\n\nWed Sep 18\nMonte Carlo integration\nCh. 4\n\n\n\n\n\nThu Sep 19\n\n\n\n\n\n\n5\nMon Sep 23\nthe normal model\nCh. 5\n\n\n\n\n\nWed Sep 25\nthe normal model II\nCh. 5\n\n\n\n\n\nThu Sep 26\n\n\n\n\n\n\n6\nMon Sep 30\nreview\n\n\n\n\n\n\nWed Oct 02\nExam I\n\n\n\n\n\n\nThu Oct 03\n\n\n\n\n\n\n7\nMon Oct 07\nestimators\nCh. 5\n\n\n\n\n\nWed Oct 09\nGibbs sampling\nCh. 6\n\n\n\n\n\nThu Oct 10\n\n\n\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\n\n\n\n\n\n\n\nThu Oct 17\n\n\n\n\n\n\n9\nMon Oct 21\n\n\n\n\n\n\n\nWed Oct 23\n\n\n\n\n\n\n\nThu Oct 24\n\n\n\n\n\n\n10\nMon Oct 28\n\n\n\n\n\n\n\nWed Oct 30\n\n\n\n\n\n\n\nThu Oct 31\n\n\n\n\n\n\n11\nMon Nov 04\n\n\n\n\n\n\n\nWed Nov 06\n\n\n\n\n\n\n\nThu Nov 07\n\n\n\n\n\n\n12\nMon Nov 11\n\n\n\n\n\n\n\nWed Nov 13\nExam II\n\n\n\n\n\n\nThu Nov 14\n\n\n\n\n\n\n13\nMon Nov 18\n\n\n\n\n\n\n\nWed Nov 20\n\n\n\n\n\n\n\nThu Nov 21\n\n\n\n\n\n\n14\nMon Nov 25\n\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\n\n\n\n\n\n\n\nWed Dec 04\n\n\n\n\n\n\n\nThu Dec 05"
   },
   {
     "objectID": "notes/lec02-estimation.html",
@@ -1048,5 +1048,89 @@
     "title": "Posterior summaries and reliability",
     "section": "High posterior density",
     "text": "High posterior density\n\n\n\n\n\n\nDefinition\n\n\n\nA \\(100 \\times (1-\\alpha)\\)% high posterior density (HPD) region is a set \\(s(y) \\subset \\Theta\\) such that\n\n\\(p(\\theta \\in s(y) | Y = y) = 1 - \\alpha\\)\nIf \\(\\theta_a \\in s(y)\\) and \\(\\theta_b \\not\\in s(y)\\), then \\(p(\\theta_a | Y = y) > p(\\theta_b | Y = y)\\)\n\n\n\n\nNote: all points inside an HPD region have higher posterior density than points outside the region.\n\n\n\n\n\n\n\nExercise\n\n\n\nIs the HPD region always an interval?"
+  },
+  {
+    "objectID": "labs/lab-practice1.html",
+    "href": "labs/lab-practice1.html",
+    "title": "Practice: exponential families and variable transformation",
+    "section": "",
+    "text": "Important\n\n\n\nThis lab will not be graded."
+  },
+  {
+    "objectID": "labs/lab-practice1.html#exercise-2",
+    "href": "labs/lab-practice1.html#exercise-2",
+    "title": "Practice: exponential families and variable transformation",
+    "section": "Exercise 2",
+    "text": "Exercise 2\nTo very exercise 1 numerically, sample from \\(p(\\theta | n_0, t_0)\\) using the code below, for some \\(n_0, t_0\\) of your choosing.\ntheta = rbeta(n = 10000, shape1 = n_0 * t_0, shape2 = n_0)\nNext, transform each sample of the object theta to phi using \\(f(\\theta)\\) as defined in exercise 1.\nFinally, plot a density plot of samples phi and, on the same plot, add \\(p(\\phi | n_0, t_0)\\) from exercise 1, part (c) above."
+  },
+  {
+    "objectID": "labs/lab-practice1.html#exercise-1",
+    "href": "labs/lab-practice1.html#exercise-1",
+    "title": "Practice: exponential families and variable transformation",
+    "section": "Exercise 1",
+    "text": "Exercise 1\nLet \\(y | \\theta \\sim binary(\\theta)\\).\n\nWrite down the joint density of several observations, \\(p(y_1, \\ldots y_n | \\theta)\\).\nIdentify the sufficient statistic \\(t(y)\\), and the transform \\(\\phi = f(\\theta)\\) such that the joint density \\(p(y_1,\\ldots y_n | \\phi)\\) can be written as \\(h(y) c(\\phi) e^{\\phi t(y)}\\).\nWrite down the prior \\(p(\\phi|n_0, t_0)\\).\nConfirm that \\(f(\\theta)\\) is monotonic and invertible. Next, using the one-line formula, \\(p_\\theta(\\theta) = p_{\\phi}(f(\\theta))|\\frac{dy}{dx}|\\), show that the prior, \\(p(\\theta | n_0, t_0)\\) is a beta density."
+  },
+  {
+    "objectID": "slides/lab-exp-families.html#exercise-1",
+    "href": "slides/lab-exp-families.html#exercise-1",
+    "title": "Exponential families & variable transformation",
+    "section": "Exercise 1",
+    "text": "Exercise 1\nLet \\(y | \\theta \\sim binary(\\theta)\\).\n\nWrite down the joint density of several observations, \\(p(y_1, \\ldots y_n | \\theta)\\).\nIdentify the sufficient statistic \\(t(y)\\), and the transform \\(\\phi = f(\\theta)\\) such that the joint density \\(p(y_1,\\ldots y_n | \\phi)\\) can be written as \\(h(y) c(\\phi) e^{\\phi t(y)}\\).\nWrite down the prior \\(p(\\phi|n_0, t_0)\\).\nConfirm that \\(f(\\theta)\\) is monotonic and invertible. Next, using the one-line formula, \\(p_\\theta(\\theta) = p_{\\phi}(f(\\theta))|\\frac{dy}{dx}|\\), show that the prior, \\(p(\\theta | n_0, t_0)\\) is a beta density."
+  },
+  {
+    "objectID": "slides/lab-exp-families.html#exercise-2",
+    "href": "slides/lab-exp-families.html#exercise-2",
+    "title": "Exponential families & variable transformation",
+    "section": "Exercise 2",
+    "text": "Exercise 2\n\n\n🔗 sta360-fa24.github.io"
+  },
+  {
+    "objectID": "slides/lab-exp-families.html#ex-1-exponential-family",
+    "href": "slides/lab-exp-families.html#ex-1-exponential-family",
+    "title": "Exponential families & variable transformation",
+    "section": "Ex 1: exponential family",
+    "text": "Ex 1: exponential family\nLet \\(p(y|\\theta) = \\theta^{y}(1-\\theta)^{1-y}\\)\n\nIdentify the transform \\(\\phi = f(\\theta)\\) such that \\(p(y | \\phi)\\) can be written as \\(h(y) c(\\phi) e^{\\phi t(y)}\\). Identify the sufficient statistic \\(t(y)\\), as well as \\(c(\\phi)\\).\nWrite down the prior \\(p(\\phi|n_0, t_0)\\)."
+  },
+  {
+    "objectID": "slides/lab-exp-families.html#ex-2-variable-transform",
+    "href": "slides/lab-exp-families.html#ex-2-variable-transform",
+    "title": "Exponential families & variable transformation",
+    "section": "Ex 2: variable transform",
+    "text": "Ex 2: variable transform\nConfirm that \\(f(\\theta)\\) from the previous exercise is monotonic and invertible. Next, using the one-line formula: \\(p_\\theta(\\theta) = p_{\\phi}(f(\\theta))|\\frac{d\\phi}{d\\theta}|\\), show that the prior, \\(p(\\theta | n_0, t_0)\\) is a beta density.\nTo very the above numerically, sample from \\(p(\\theta | n_0, t_0)\\) using the code below, for some \\(n_0, t_0\\) of your choosing.\ntheta = rbeta(n = 10000, shape1 = n_0 * t_0, shape2 = n_0*(1-t_0)\nNext, transform each sample of the object theta to phi using \\(f(\\theta)\\) as defined in exercise 1.\nFinally, plot a density plot of samples phi and, on the same plot, add \\(p(\\phi | n_0, t_0)\\) from exercise 1, part (c)."
+  },
+  {
+    "objectID": "slides/lab-exp-families.html#ex-3-another-variable-transform",
+    "href": "slides/lab-exp-families.html#ex-3-another-variable-transform",
+    "title": "Exponential families & variable transformation",
+    "section": "Ex 3: another variable transform",
+    "text": "Ex 3: another variable transform\nLet \\(X \\sim \\text{Unif}(5, 10)\\) and let \\(Y = X^2\\)\nNotice that even though \\(X^2\\) is not a monotonic function everywhere, it is a monotonic function over the support of X.\nExercise: use the change of variables formula to derive \\(p(y)\\). Confirm via simulation, as in exercise 2."
+  },
+  {
+    "objectID": "slides/lab-exp-families.html#ex-1-solution",
+    "href": "slides/lab-exp-families.html#ex-1-solution",
+    "title": "Exponential families & variable transformation",
+    "section": "Ex 1: solution",
+    "text": "Ex 1: solution\na\n\\[\n\\phi = log(\\frac{\\theta}{1-\\theta})\n\\]\nTherefore,\n\\[\np(y|\\phi) = e^{\\phi y} \\left(\\frac{1}{1 + e^{\\phi}} \\right)\n\\]\nand\n\\[\n\\begin{aligned}\nt(y) &= y\\\\\nc(\\phi) &= \\left(\\frac{1}{1 + e^{\\phi}} \\right)\n\\end{aligned}\n\\]\nb\n\\[\np(\\phi | n_0, t_0) = \\left({1 + e^{\\phi}} \\right)^{-n_0} e^{n_0 t_0 \\phi}\n\\]"
+  },
+  {
+    "objectID": "slides/lab-exp-families.html#ex-2-solution",
+    "href": "slides/lab-exp-families.html#ex-2-solution",
+    "title": "Exponential families & variable transformation",
+    "section": "Ex 2: solution",
+    "text": "Ex 2: solution\nMonotonic if \\(\\theta_1 \\geq \\theta_2\\) implies \\(f(\\theta_1) \\geq f(\\theta_2)\\) over the support \\(\\theta_1, \\theta_2 \\in [0,1]\\).\nLet \\(\\theta_1 > \\theta_2\\), let’s check:\n\\[\n\\begin{aligned}\n\\log \\left(\\frac{\\theta_1}{1-\\theta_1}\\right) &> \\log \\left(\\frac{\\theta_2}{1-\\theta_2}\\right)\\\\\n\\theta_1 (1-\\theta_2) &> \\theta_2(1-\\theta_1)\\\\\n\\theta_1 > \\theta_2\n\\end{aligned}\n\\]\nIt is monotonic!\nFurthermore, we found it was invertible in ex 1: \\(\\theta = e^{\\phi}/(1 + e^{\\phi})\\).\nOne-line formula: \\(p_\\theta(\\theta) = p_{\\phi}(f(\\theta))|\\frac{d\\phi}{d\\theta}|\\):\n\\[\n\\begin{aligned}\np(\\theta) &= (1-\\theta)^{n_0} (\\theta/(1-\\theta))^{n_0 t_0} \\left|\\frac{d\\phi}{d\\theta} \\right|\\\\\n&= \\theta^{n_0 t_0 -1} (1-\\theta)^{n_0(1 -t_0) - 1}\n\\end{aligned}\n\\]\nSo \\(\\theta \\sim \\text{beta}(n_0 t_0, n_0(1-t_0))\\).\nRemember that \\(a\\) and \\(b\\) of a beta distribution must both be positive! This constrains what \\(n_0\\) and \\(t_0\\) can be."
+  },
+  {
+    "objectID": "slides/lab-exp-families.html#ex-2-solution-pt-2",
+    "href": "slides/lab-exp-families.html#ex-2-solution-pt-2",
+    "title": "Exponential families & variable transformation",
+    "section": "Ex 2: solution (pt 2)",
+    "text": "Ex 2: solution (pt 2)\n\nplotcode\n\n\n\n\n\n\n\n\n\n\nn_0 = 5\nt_0 = .5\ntheta = rbeta(n = 100000, shape1 = n_0 * t_0, shape2 = n_0 * (1 - t_0))\nphi = log((theta / (1-theta)))\n\ndf = data.frame(phi)\n\nfphi = function(phi, n_0, t_0) {\n  ( (1 + exp(phi))^(-n_0) ) * exp(n_0 * t_0 * phi) / \n    beta(n_0 * t_0, n_0 * (1 - t_0))\n}\n\ndf %>%\n  ggplot(aes(x = phi)) + \n  stat_function(fun = fphi, args = list(n_0 = n_0, t_0 = t_0)) +\n  geom_histogram(aes(x = phi, y = ..density..),\n                 fill = 'steelblue', alpha = 0.5)\n\n\n\n\nThe normalizing constant can be obtained by transforming from \\(p(\\theta)\\) (which is beta) back to \\(p(\\phi)\\)."
+  },
+  {
+    "objectID": "slides/lab-exp-families.html#ex-3-solution",
+    "href": "slides/lab-exp-families.html#ex-3-solution",
+    "title": "Exponential families & variable transformation",
+    "section": "Ex 3: solution",
+    "text": "Ex 3: solution\n\nplotcode\n\n\n\n\n\n\n\n\n\n\nx = runif(100000, 5, 10)\ny = x^2\n\ndf = data.frame(y)\n\nf = function(y) {\n  return(.1/sqrt(y))\n}\n\ndf %>%\n  ggplot(aes(x = y)) + \n  stat_function(fun = f) +\n  geom_histogram(aes(x = y, y = ..density..),\n                 fill = 'steelblue', alpha = 0.5)\n\n\n\n\n\n\n🔗 sta360-fa24.github.io"
   }
 ]

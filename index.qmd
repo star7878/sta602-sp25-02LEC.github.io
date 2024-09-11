@@ -46,6 +46,7 @@ schedule %>%
   kable(format = "markdown")
 ```
 
+```{=html}
 <style>
     .heatMap {
         width: 100%;
@@ -60,58 +61,56 @@ schedule %>%
 <!-- } -->
     .heatMap tr:nth-of-type(3n) { background: #D3D3D3; }
 </style>
-
-<div class="heatMap">
-
-| Week | Date       | Topic                                               | Reading |                                            Notes                                             | Assignment                 |
+```
+::: heatMap
+| Week | Date       | Topic                                                  | Reading |                                            Notes                                             | Assignment                 |
 |:-----------|:-----------|:-----------|------------|:----------:|:-----------|
-| 1    | Mon Aug 26 | intro, history, notation                            | Ch. 2   |                                                                                              | [hw 0](/hw/hw00.html)      |
-|      | Wed Aug 28 | probability, exchangeability                        | Ch. 2   |       [🗒](/notes/lec01-probability.html) [📝](/notes/Probability-Exchangeability.pdf)        | [hw 1](/hw/hw01.html)      |
-|      | Thu Aug 29 | lab: welcome                                        |         |                               [💻](/slides/lab0-welcome.html)                                | [hello R](/labs/lab0.html) |
-| 2    | Mon Sep 02 | NO CLASS                                            | Ch. 3   |                                                                                              |                            |
-|      | Wed Sep 04 | beta-binomial model                                 | Ch. 3   |               [🗒](/notes/lec02-estimation.html) [📝](/notes/beta-binomial.pdf)               | [hw 2](/hw/hw02.html)      |
-|      | Thu Sep 05 | lab: MLE and MAP estimator                          |         |                                   [💻](/slides/lab1.html)                                    |                            |
-| 3    | Mon Sep 09 | Poisson-gamma model, exp families                   | Ch. 3   | [🗒](notes/lec03-Poisson-gamma-exp-families.html) [📝](/notes/Poisson-gamma-exp-families.pdf) |                            |
-|      | Wed Sep 11 | reliability (conf. intervals, hpd, Laplace approx.) | Ch. 3   |                              [🗒](/notes/lec04-reliability.html)                              |                            |
-|      | Thu Sep 12 |                                                     |         |                                                                                              |                            |
-| 4    | Mon Sep 16 | intro to Monte Carlo, prediction                    | Ch. 4   |                                                                                              |                            |
-|      | Wed Sep 18 | Monte Carlo integration                             | Ch. 4   |                                                                                              |                            |
-|      | Thu Sep 19 |                                                     |         |                                                                                              |                            |
-| 5    | Mon Sep 23 | the normal model                                    | Ch. 5   |                                                                                              |                            |
-|      | Wed Sep 25 | the normal model II                                 | Ch. 5   |                                                                                              |                            |
-|      | Thu Sep 26 |                                                     |         |                                                                                              |                            |
-| 6    | Mon Sep 30 | review                                              |         |                                                                                              |                            |
-|      | Wed Oct 02 | [Exam I](/notes/exam-notes.html)                    |         |                                                                                              |                            |
-|      | Thu Oct 03 |                                                     |         |                                                                                              |                            |
-| 7    | Mon Oct 07 | estimators                                          | Ch. 5   |                                                                                              |                            |
-|      | Wed Oct 09 | Gibbs sampling                                      | Ch. 6   |                                                                                              |                            |
-|      | Thu Oct 10 |                                                     |         |                                                                                              |                            |
-| 8    | Mon Oct 14 | NO CLASS                                            |         |                                                                                              |                            |
-|      | Wed Oct 16 |                                                     |         |                                                                                              |                            |
-|      | Thu Oct 17 |                                                     |         |                                                                                              |                            |
-| 9    | Mon Oct 21 |                                                     |         |                                                                                              |                            |
-|      | Wed Oct 23 |                                                     |         |                                                                                              |                            |
-|      | Thu Oct 24 |                                                     |         |                                                                                              |                            |
-| 10   | Mon Oct 28 |                                                     |         |                                                                                              |                            |
-|      | Wed Oct 30 |                                                     |         |                                                                                              |                            |
-|      | Thu Oct 31 |                                                     |         |                                                                                              |                            |
-| 11   | Mon Nov 04 |                                                     |         |                                                                                              |                            |
-|      | Wed Nov 06 |                                                     |         |                                                                                              |                            |
-|      | Thu Nov 07 |                                                     |         |                                                                                              |                            |
-| 12   | Mon Nov 11 |                                                     |         |                                                                                              |                            |
-|      | Wed Nov 13 | Exam II                                             |         |                                                                                              |                            |
-|      | Thu Nov 14 |                                                     |         |                                                                                              |                            |
-| 13   | Mon Nov 18 |                                                     |         |                                                                                              |                            |
-|      | Wed Nov 20 |                                                     |         |                                                                                              |                            |
-|      | Thu Nov 21 |                                                     |         |                                                                                              |                            |
-| 14   | Mon Nov 25 |                                                     |         |                                                                                              |                            |
-|      | Wed Nov 27 | NO CLASS                                            |         |                                                                                              |                            |
-|      | Thu Nov 28 | NO CLASS                                            |         |                                                                                              |                            |
-| 15   | Mon Dec 02 |                                                     |         |                                                                                              |                            |
-|      | Wed Dec 04 |                                                     |         |                                                                                              |                            |
-|      | Thu Dec 05 |                                                     |         |                                                                                              |                            |
-
-</div>
+| 1    | Mon Aug 26 | intro, history, notation                               | Ch. 2   |                                                                                              | [hw 0](/hw/hw00.html)      |
+|      | Wed Aug 28 | probability, exchangeability                           | Ch. 2   |       [🗒](/notes/lec01-probability.html) [📝](/notes/Probability-Exchangeability.pdf)        | [hw 1](/hw/hw01.html)      |
+|      | Thu Aug 29 | lab: welcome                                           |         |                               [💻](/slides/lab0-welcome.html)                                | [hello R](/labs/lab0.html) |
+| 2    | Mon Sep 02 | NO CLASS                                               | Ch. 3   |                                                                                              |                            |
+|      | Wed Sep 04 | beta-binomial model                                    | Ch. 3   |               [🗒](/notes/lec02-estimation.html) [📝](/notes/beta-binomial.pdf)               | [hw 2](/hw/hw02.html)      |
+|      | Thu Sep 05 | lab: MLE and MAP estimator                             |         |                                   [💻](/slides/lab1.html)                                    |                            |
+| 3    | Mon Sep 09 | Poisson-gamma model, exp families                      | Ch. 3   | [🗒](notes/lec03-Poisson-gamma-exp-families.html) [📝](/notes/Poisson-gamma-exp-families.pdf) |                            |
+|      | Wed Sep 11 | reliability (conf. intervals, hpd, Laplace approx.)    | Ch. 3   |                              [🗒](/notes/lec04-reliability.html)                              |                            |
+|      | Thu Sep 12 | lab: exp. families and transformations |         |                             [💻](/slides/lab-exp-families.html)                              |                            |
+| 4    | Mon Sep 16 | intro to Monte Carlo, prediction                       | Ch. 4   |                                                                                              |                            |
+|      | Wed Sep 18 | Monte Carlo integration                                | Ch. 4   |                                                                                              |                            |
+|      | Thu Sep 19 |                                                        |         |                                                                                              |                            |
+| 5    | Mon Sep 23 | the normal model                                       | Ch. 5   |                                                                                              |                            |
+|      | Wed Sep 25 | the normal model II                                    | Ch. 5   |                                                                                              |                            |
+|      | Thu Sep 26 |                                                        |         |                                                                                              |                            |
+| 6    | Mon Sep 30 | review                                                 |         |                                                                                              |                            |
+|      | Wed Oct 02 | [Exam I](/notes/exam-notes.html)                       |         |                                                                                              |                            |
+|      | Thu Oct 03 |                                                        |         |                                                                                              |                            |
+| 7    | Mon Oct 07 | estimators                                             | Ch. 5   |                                                                                              |                            |
+|      | Wed Oct 09 | Gibbs sampling                                         | Ch. 6   |                                                                                              |                            |
+|      | Thu Oct 10 |                                                        |         |                                                                                              |                            |
+| 8    | Mon Oct 14 | NO CLASS                                               |         |                                                                                              |                            |
+|      | Wed Oct 16 |                                                        |         |                                                                                              |                            |
+|      | Thu Oct 17 |                                                        |         |                                                                                              |                            |
+| 9    | Mon Oct 21 |                                                        |         |                                                                                              |                            |
+|      | Wed Oct 23 |                                                        |         |                                                                                              |                            |
+|      | Thu Oct 24 |                                                        |         |                                                                                              |                            |
+| 10   | Mon Oct 28 |                                                        |         |                                                                                              |                            |
+|      | Wed Oct 30 |                                                        |         |                                                                                              |                            |
+|      | Thu Oct 31 |                                                        |         |                                                                                              |                            |
+| 11   | Mon Nov 04 |                                                        |         |                                                                                              |                            |
+|      | Wed Nov 06 |                                                        |         |                                                                                              |                            |
+|      | Thu Nov 07 |                                                        |         |                                                                                              |                            |
+| 12   | Mon Nov 11 |                                                        |         |                                                                                              |                            |
+|      | Wed Nov 13 | Exam II                                                |         |                                                                                              |                            |
+|      | Thu Nov 14 |                                                        |         |                                                                                              |                            |
+| 13   | Mon Nov 18 |                                                        |         |                                                                                              |                            |
+|      | Wed Nov 20 |                                                        |         |                                                                                              |                            |
+|      | Thu Nov 21 |                                                        |         |                                                                                              |                            |
+| 14   | Mon Nov 25 |                                                        |         |                                                                                              |                            |
+|      | Wed Nov 27 | NO CLASS                                               |         |                                                                                              |                            |
+|      | Thu Nov 28 | NO CLASS                                               |         |                                                                                              |                            |
+| 15   | Mon Dec 02 |                                                        |         |                                                                                              |                            |
+|      | Wed Dec 04 |                                                        |         |                                                                                              |                            |
+|      | Thu Dec 05 |                                                        |         |                                                                                              |                            |
+:::
 
 <!-- | Week | Date       | Topic                                          | Reading |                                    Notes                                     | Assignment                  | -->
 
