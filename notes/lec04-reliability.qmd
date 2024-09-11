@@ -7,44 +7,40 @@ format:
     toc: true
 ---
 
-## Laplace approximation
+```{r}
+#| code-fold: true
+#| code-summary: "Show packages used in these notes"
+#| warning: false
+#| message: false
 
-**Posterior mode**: sometimes called "MAP" or "maximum a posteriori" estimate, this quantity is given by $\hat{\theta} = \arg \max_{\theta} p(\theta | y)$.
-
-- Notice this unwinds to be $\hat{\theta} = \arg \max_{\theta} p(y | \theta) p(\theta)$. 
-
-::: callout-important
-## Exercise
-- Show that, for the uniform prior, $\hat{\theta} = y / n$
-- Compare to maximum likelihood estimate (MLE); see [notes on likelihoods](https://sta323-sp23.github.io/slides/lec11.html#/example-normal-likelihood)
-::: 
-
-One way to report the reliability of the posterior mode is to look at the width of the posterior near the mode, which we can sometimes approximate with a Gaussian distribution:
-
-$$
-p(\theta | y) \approx C e^{\frac{1}{2} \frac{d^2L}{d\theta^2}|_{\hat{\theta}} (\theta - \hat{\theta})^2}
-$$
-where $C$ is a normalization constant and $L$ is the log-posterior, $\log p(\theta | y)$.
-
-Taken together, the fitted Gaussian with a mean equal to the posterior mode is called the **Laplace approximation**.
-
-- Let's derive the Laplace approximation offline
+library(tidyverse)
+library(latex2exp)
+```
 
 ## Confidence regions
+
+#### Bayesian confidence interval
 
 ::: callout-note
 ## Definition
 Let $\Phi$ be the support of $\theta$.
-An interval $(l(y), u(y)) \subset \Phi$ has 95% **posterior coverage** if 
+An interval $(l(y), u(y)) \subset \Phi$ has $100 \times (1-\alpha)\%$  **posterior coverage** if 
 
 $$
-p(l(y) < \theta < u(y) | y ) = 0.95
+p(l(y) < \theta < u(y) | y ) = (1-\alpha)
 $$
 
-Interpretation: after observing $Y = y$, our probability that $\theta \in (l(y), u(y))$ is 95%.
+Interpretation: after observing $Y = y$, our probability that $\theta \in (l(y), u(y))$ is $100 \times (1-\alpha)\%$. 
 
-Such an interval is called 95% posterior confidence interval (CI). It may also sometimes be referred to as a 95% "credible interval" to distinguish it from a frequentist CI.
+If $\alpha = 0.05$, such an interval is called 95% posterior confidence interval (CI). It may also sometimes be referred to as a 95% "credible interval" to distinguish it from a frequentist CI.
 :::
+
+:::callout-important
+This is a probability statement about $\theta$!
+:::
+
+
+#### Frequentist confidence interval
 
 Contrast posterior coverage to frequentist coverage:
 
@@ -58,6 +54,7 @@ p(l(Y) < \theta < u(Y) | \theta) = 0.95
 $$
 
 Interpretation: if $Y \sim P_\theta$ then the probability that $(l(Y), u(Y)$ will cover $\theta$ is 0.95.
+
 :::
 
 In practice, for many applied problems 
@@ -67,6 +64,76 @@ p(l(y) < \theta < u(y) | y ) \approx p(l(Y) < \theta < u(Y) | \theta)
 $$
 
 see section 3.1.2. in the book.
+
+### Example: posterior CI for beta-binomial
+
+
+Let $Y_1, \ldots Y_n$ be binary random variables that are conditionally independent given $\theta$ so that $p(y_i | \theta) = \theta^{y_i} (1-\theta)^{1-y_i}$. Let $\theta \sim beta(a, b)$.
+
+Recall that $\theta | y_1,\ldots y_n \sim beta(a + \sum{y_i}, b + n - \sum y_i)$.
+
+Therefore, a $(1-\alpha)$ confidence interval can be computed for a given $a, b$ and data $n, \sum y_i$, see coded example below:
+
+```{r}
+#| code-fold: true
+#| code-summary: Show code
+a = 6
+b = 6
+sumY = 8
+n = 10
+
+posteriorMean = (a + sumY) / (a + b + n)
+
+alpha = 0.05
+lower_q = alpha / 2
+upper_q = 1 - (alpha / 2)
+theta_ci_95  = qbeta(p = c(lower_q, upper_q), a + sumY, b + n - sumY)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+theta_ci_95 = round(
+  qbeta(p = c(lower_q, upper_q), a + sumY, b + n - sumY),
+  digits = 2
+)
+
+ci95_report = paste0("(", theta_ci_95[1], ",", theta_ci_95[2], ")")
+```
+
+
+The posterior mean $E[\theta | y_1,\ldots y_n] =$ `r round(posteriorMean, digits = 2)` with 95% Bayesian CI `r ci95_report`.
+
+::: panel-tabset
+
+## plot
+
+```{r}
+#| echo: false
+data.frame(theta = c(0, 1)) %>%
+  ggplot(aes(x = theta)) + 
+  stat_function(fun = dbeta, args = list(a + sumY, b + n - sumY)) + 
+  theme_bw() +
+  labs(y = "") +
+  geom_area(stat = "function", fun = dbeta, args = list(a + sumY, b +n - sumY),
+            fill = "steelblue", xlim = theta_ci_95, alpha = 0.5)
+```
+
+## code 
+
+```{r}
+#| eval: false
+data.frame(theta = c(0, 1)) %>%
+  ggplot(aes(x = theta)) + 
+  stat_function(fun = dbeta, args = list(a + sumY, b + n - sumY)) + 
+  theme_bw() +
+  labs(y = "") +
+  geom_area(stat = "function", fun = dbeta, args = list(a + sumY, b +n - sumY),
+            fill = "steelblue", xlim = theta_ci_95, alpha = 0.5)
+```
+
+:::
 
 ## High posterior density
 
@@ -81,9 +148,127 @@ A $100 \times (1-\alpha)$% **high posterior density** (HPD) region is a set $s(y
 2. If $\theta_a \in s(y)$ and $\theta_b \not\in s(y)$, then $p(\theta_a | Y = y) > p(\theta_b | Y = y)$
 :::
 
+
 - Note: all points inside an HPD region have higher posterior density than points outside the region.
+- Note: the HPD region is **not** always an interval.
+
+### Example: HPD for a mixture of normals
+
+```{r}
+#| echo: false
+mixedNormal = function(x) {
+0.5 * dnorm(x, mean = 2, sd = 0.5 ) + 0.5 * dnorm(x, mean = 8, sd = 1)
+}
+
+highest_alpha <- function(alpha, df, x.min, x.max, ...) {
+  p <- function(h) {
+    g <- function(x) {y <- df(x); ifelse(y > h, y, 0)}
+    integrate(g, x.min, x.max, ...)$value - alpha
+  }
+  uniroot(p, c(x.min, x.max), tol=1e-12)$root
+}
+
+c = highest_alpha(alpha = 0.90, 
+              df = mixedNormal,
+              x.min = 0,
+              x.max = 12)
+
+dMinusC = function(x) {
+  mixedNormal(x) - c
+}
+
+a1 = uniroot(dMinusC, c(0, 2.5), tol = 1e-12)$root
+a2 = uniroot(dMinusC, c(2.5, 5), tol = 1e-12)$root
+a3 = uniroot(dMinusC, c(5, 7.5), tol = 1e-12)$root
+a4 = uniroot(dMinusC, c(7.5, 10), tol = 1e-12)$root
+
+data.frame(x = c(0, 12)) %>% 
+  ggplot(aes(x = x)) + 
+  stat_function(fun = mixedNormal) +
+  ylim(0, 0.4) +
+  theme_bw() +
+  labs(x = TeX("$\\theta$"), y = TeX("$p(\\theta | y_1,\\ldots y_n)$")) +
+  geom_hline(yintercept = c) +
+  # geom_vline(xintercept = c(a1, a2, a3, a4), col = 'red')
+  annotate(geom = "text", x = c(a1, a3), y = 0, 
+           label = "(", size = 8, col = "red") +
+   annotate(geom = "text", x = c(a2, a4), y = 0, 
+           label = ")", size = 8, col = "red")
+
+```
+
+
+## Laplace approximation
+
+**Posterior mode**: sometimes called "MAP" or "maximum a posteriori" estimate, this quantity is given by $\hat{\theta} = \arg \max_{\theta} p(\theta | y)$.
+
+- Notice this unwinds to be $\hat{\theta} = \arg \max_{\theta} p(y | \theta) p(\theta)$. 
+
+One way to report the reliability of the posterior mode is to look at the width of the posterior near the mode, which we can sometimes approximate with a Gaussian distribution:
+
+$$
+p(\theta | y) \approx C e^{\frac{1}{2} \frac{d^2L}{d\theta^2}|_{\hat{\theta}} (\theta - \hat{\theta})^2}
+$$
+where $C$ is a normalization constant and $L$ is the log-posterior, $\log p(\theta | y)$.
+
+Taken together, the fitted Gaussian with a mean equal to the posterior mode is called the **Laplace approximation**.
+
+- Let's derive the Laplace approximation offline
 
 ::: callout-important
 ## Exercise
-Is the HPD region always an interval?
+For the beta-binomial model above,  compute the Laplace approximation.
+::: 
+
+::: panel-tabset
+
+## plot
+```{r}
+#| warning: false
+#| echo: false
+alpha = a + sumY
+beta = b + n - sumY
+
+d2posterior = function(theta) {
+  ( (1-alpha) / (theta^2) ) - 
+    ((beta - 1) / (1 - theta)^2)
+}
+
+thetaHAT = (alpha - 1) / (beta - 2 + alpha)
+sdhat = sqrt(- 1 / d2posterior(thetaHAT))
+
+data.frame(theta = c(0, 1)) %>%
+  ggplot(aes(x = theta)) + 
+  stat_function(aes(color = "posterior"),
+                fun = dbeta, args = list(alpha, beta)) + 
+  theme_bw() +
+  labs(y = "") +
+  stat_function(aes(color = "Laplace approx."), fun = dnorm,
+                args = list(mean = thetaHAT, sd = sdhat))
+```
+## code
+```{r}
+#| warning: false
+#| eval: false
+alpha = a + sumY
+beta = b + n - sumY
+
+d2posterior = function(theta) {
+  ( (1-alpha) / (theta^2) ) - 
+    ((beta - 1) / (1 - theta)^2)
+}
+
+thetaHAT = (alpha - 1) / (beta - 2 + alpha)
+sdhat = sqrt(- 1 / d2posterior(thetaHAT))
+
+data.frame(theta = c(0, 1)) %>%
+  ggplot(aes(x = theta)) + 
+  stat_function(aes(color = "posterior"),
+                fun = dbeta, args = list(alpha, beta)) + 
+  theme_bw() +
+  labs(y = "") +
+  stat_function(aes(color = "Laplace approx."), fun = dnorm,
+                args = list(mean = thetaHAT, sd = sdhat))
+```
+
 :::
