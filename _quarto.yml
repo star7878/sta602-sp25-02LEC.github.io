@@ -18,6 +18,8 @@ website:
         text: schedule
       - href: syllabus.qmd
         text: syllabus
+      - href: notes/exam-notes.qmd
+        text: densities
       - href: links.qmd
         text: links
 
