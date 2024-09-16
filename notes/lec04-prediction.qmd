@@ -240,11 +240,11 @@ mean(df$diff > .5)
 #| warning: false
 
 # sample from p(theta)
-theta = runif(10000)
+theta = runif(10000, 0, 2)
 
 # define transform function
 f = function(x) {
-  return(exp(x))
+  return(0.5 *exp(x))
 }
 
 # create a df for each plot
@@ -266,9 +266,11 @@ df %>%
 ```{r}
 # Just making the Monte Carlo part of the plot 
 # in 3 lines
-theta = runif(10000)
-gamma = log(theta)
-hist(gamma)
+theta = runif(10000, 0, 2)
+phi = log(theta)
+hist(phi)
 ```
 :::
+
+
 

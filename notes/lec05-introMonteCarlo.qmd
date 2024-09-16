@@ -59,7 +59,7 @@ What about the probability a woman with a bachelor's has more children than a wo
 
 - approximates an integral by a stochastic average
 - shines when other methods of integration are impossible (e.g. high dimensional integration)
-- works because of law of large numbers:  for a random variable $X$, the sample mean $\bar{x}_N$ converges to the true mean $\mu$ as the number of samples $N$ tends to infinity.
+- works because of law of large numbers:  for a random variable $\theta$, the sample mean $\bar{\theta}_N$ converges to the true mean $\mu$ as the number of samples $N$ tends to infinity.
 
 The key idea is: we obtain independent samples from the posterior, 
 
@@ -71,10 +71,8 @@ then the empirical distribution of the samples approximates the posterior (appro
 Recall
 
 $$
-E~g(\theta)|y = \int_\mathcal{\theta} g(\theta) f_\theta(\theta | y)dx \approx \frac{1}{N} \sum_{i = 1}^N g(\theta^{(i)}) 
+E~g(\theta)|y = \int_\mathcal{\theta} g(\theta) p(\theta | y)d\theta \approx \frac{1}{N} \sum_{i = 1}^N g(\theta^{(i)}).
 $$
-
-where $f_x(x)$ is the probability density function for a random variable $X$.
 
 The law of large numbers says that if our samples $\theta^{(i)}$ are independent, $\frac{1}{N} \sum_{i = 1}^N g(\theta^{(i)})$ to $E~\theta|y$.
 
@@ -122,7 +120,76 @@ mean(df$diff > .5)
 ```
 
 
-
+::: panel-tabset
 ## Exercise
 
-What about $p(\tilde{y}_1  < \tilde{y}_2 | \vec{y_1}, \vec{y_2})$?
+::: callout-important
+## Exercise
+- $\theta  \sim \text{uniform}(0, 2)$
+- Let $\gamma = \log \theta$
+- Visualize $p(\gamma)$ using Monte Carlo simulation, then show using the change of variables formula and plotting the closed form of the density.
+:::
+
+## Full solution
+
+```{r}
+#| warning: false
+
+# sample from p(theta)
+theta = runif(10000, 0, 2)
+
+# define transform function
+f = function(x) {
+  return(0.5 *exp(x))
+}
+
+# create a df for each plot
+df = data.frame(gamma = -7:0)
+df2 = data.frame(gammaSamples = log(theta))
+
+# make plots
+df %>%
+  ggplot(aes(x = gamma)) +
+  stat_function(fun = f, col = 'red', alpha = 0.5) +
+  geom_histogram(data = df2, aes(x = gammaSamples,
+                                 y = ..density..),
+               fill = 'steelblue', alpha = 0.5)
+
+```
+
+## Quick Monte Carlo
+
+```{r}
+# Just making the Monte Carlo part of the plot 
+# in 3 lines
+theta = runif(10000, 0, 2)
+phi = log(theta)
+hist(phi)
+```
+:::
+
+
+::: panel-tabset
+
+## Exercise 
+
+::: callout-important
+## Exercise
+
+What is $Pr(\tilde{y}_1  < \tilde{y}_2 | \vec{y_1}, \vec{y_2})$?
+:::
+
+## Solution
+```{r}
+theta1 = rgamma(N, shape = 219, rate = 112)
+theta2 = rgamma(N, shape = 68, rate = 45)
+
+y1tilde = rpois(N, theta1)
+y2tilde = rpois(N, theta2)
+
+# y1: no. children to parent w/ no bachelors
+# y2: no. children to parent w/ bachelors
+mean(y1tilde < y2tilde)
+```
+
+:::
