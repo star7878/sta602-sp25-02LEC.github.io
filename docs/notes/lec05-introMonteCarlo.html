@@ -320,8 +320,8 @@ Exercise
 <div class="callout-body-container callout-body">
 <ul>
 <li><span class="math inline">\(\theta \sim \text{uniform}(0, 2)\)</span></li>
-<li>Let <span class="math inline">\(\gamma = \log \theta\)</span></li>
-<li>Visualize <span class="math inline">\(p(\gamma)\)</span> using Monte Carlo simulation, then show using the change of variables formula and plotting the closed form of the density.</li>
+<li>Let <span class="math inline">\(\phi = \log \theta\)</span></li>
+<li>Visualize <span class="math inline">\(p(\phi)\)</span> using Monte Carlo simulation, then show using the change of variables formula and plotting the closed form of the density.</li>
 </ul>
 </div>
 </div>
@@ -337,14 +337,14 @@ Exercise
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create a df for each plot</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">gamma =</span> <span class="sc">-</span><span class="dv">7</span><span class="sc">:</span><span class="dv">0</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">gammaSamples =</span> <span class="fu">log</span>(theta))</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">phi =</span> <span class="sc">-</span><span class="dv">7</span><span class="sc">:</span><span class="dv">0</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">phiSamples =</span> <span class="fu">log</span>(theta))</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># make plots</span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> gamma)) <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> phi)) <span class="sc">+</span></span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> f, <span class="at">col =</span> <span class="st">'red'</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">data =</span> df2, <span class="fu">aes</span>(<span class="at">x =</span> gammaSamples,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">data =</span> df2, <span class="fu">aes</span>(<span class="at">x =</span> phiSamples,</span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">y =</span> ..density..),</span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">'steelblue'</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">

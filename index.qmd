@@ -74,7 +74,7 @@ schedule %>%
 | 3    | Mon Sep 09 | Poisson-gamma model, exp families                   | Ch. 3   | [🗒](notes/lec03-Poisson-gamma-exp-families.html) [📝](/notes/Poisson-gamma-exp-families.pdf) |                            |
 |      | Wed Sep 11 | reliability (conf. intervals, hpd, Laplace approx.) | Ch. 3   |         [🗒](/notes/lec04-reliability.html) [📝](/notes/reliability-handwritten.pdf)          | [hw 3](/hw/hw03.html)      |
 |      | Thu Sep 12 | lab: exp. families and transformations              |         |                             [💻](/slides/lab-exp-families.html)                              |                            |
-| 4    | Mon Sep 16 | intro to Monte Carlo                    | Ch. 4   |                                             [🗒](/notes/lec05-introMonteCarlo.html)                                              |                            |
+| 4    | Mon Sep 16 | intro to Monte Carlo                                | Ch. 4   |         [🗒](/notes/lec05-introMonteCarlo.html) [📝](/notes/posteriorPredictive.pdf)          |                            |
 |      | Wed Sep 18 | Monte Carlo integration                             | Ch. 4   |                                                                                              |                            |
 |      | Thu Sep 19 |                                                     |         |                                                                                              |                            |
 | 5    | Mon Sep 23 | the normal model                                    | Ch. 5   |                                                                                              |                            |

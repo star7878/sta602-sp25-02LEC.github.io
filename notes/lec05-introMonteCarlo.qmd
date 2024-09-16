@@ -126,8 +126,8 @@ mean(df$diff > .5)
 ::: callout-important
 ## Exercise
 - $\theta  \sim \text{uniform}(0, 2)$
-- Let $\gamma = \log \theta$
-- Visualize $p(\gamma)$ using Monte Carlo simulation, then show using the change of variables formula and plotting the closed form of the density.
+- Let $\phi = \log \theta$
+- Visualize $p(\phi)$ using Monte Carlo simulation, then show using the change of variables formula and plotting the closed form of the density.
 :::
 
 ## Full solution
@@ -144,14 +144,14 @@ f = function(x) {
 }
 
 # create a df for each plot
-df = data.frame(gamma = -7:0)
-df2 = data.frame(gammaSamples = log(theta))
+df = data.frame(phi = -7:0)
+df2 = data.frame(phiSamples = log(theta))
 
 # make plots
 df %>%
-  ggplot(aes(x = gamma)) +
+  ggplot(aes(x = phi)) +
   stat_function(fun = f, col = 'red', alpha = 0.5) +
-  geom_histogram(data = df2, aes(x = gammaSamples,
+  geom_histogram(data = df2, aes(x = phiSamples,
                                  y = ..density..),
                fill = 'steelblue', alpha = 0.5)
 
