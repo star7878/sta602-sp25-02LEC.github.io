@@ -1,5 +1,5 @@
 ---
-title: "Prediction & Intro to Monte Carlo"
+title: "Prediction and Intro to Monte Carlo"
 author: "Dr. Alexander Fisher"
 mainfont: Lato
 format: 

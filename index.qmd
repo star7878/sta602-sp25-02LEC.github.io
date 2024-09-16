@@ -72,9 +72,9 @@ schedule %>%
 |      | Wed Sep 04 | beta-binomial model                                 | Ch. 3   |               [🗒](/notes/lec02-estimation.html) [📝](/notes/beta-binomial.pdf)               | [hw 2](/hw/hw02.html)      |
 |      | Thu Sep 05 | lab: MLE and MAP estimator                          |         |                                   [💻](/slides/lab1.html)                                    |                            |
 | 3    | Mon Sep 09 | Poisson-gamma model, exp families                   | Ch. 3   | [🗒](notes/lec03-Poisson-gamma-exp-families.html) [📝](/notes/Poisson-gamma-exp-families.pdf) |                            |
-|      | Wed Sep 11 | reliability (conf. intervals, hpd, Laplace approx.) | Ch. 3   |        [🗒](/notes/lec04-reliability.html) [📝](/notes/reliability-handwritten.pdf)         | [hw 3](/hw/hw03.html)    |
+|      | Wed Sep 11 | reliability (conf. intervals, hpd, Laplace approx.) | Ch. 3   |         [🗒](/notes/lec04-reliability.html) [📝](/notes/reliability-handwritten.pdf)          | [hw 3](/hw/hw03.html)      |
 |      | Thu Sep 12 | lab: exp. families and transformations              |         |                             [💻](/slides/lab-exp-families.html)                              |                            |
-| 4    | Mon Sep 16 | intro to Monte Carlo, prediction                    | Ch. 4   |                                                                                              |                            |
+| 4    | Mon Sep 16 | intro to Monte Carlo                    | Ch. 4   |                                             [🗒](/notes/lec05-introMonteCarlo.html)                                              |                            |
 |      | Wed Sep 18 | Monte Carlo integration                             | Ch. 4   |                                                                                              |                            |
 |      | Thu Sep 19 |                                                     |         |                                                                                              |                            |
 | 5    | Mon Sep 23 | the normal model                                    | Ch. 5   |                                                                                              |                            |

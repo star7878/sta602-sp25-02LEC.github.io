@@ -1,0 +1,128 @@
+---
+title: "Intro to Monte Carlo"
+author: "Dr. Alexander Fisher"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+Load packages: 
+
+```{r}
+#| warning: false
+library(tidyverse)
+library(latex2exp)
+```
+
+## Monte Carlo motivation
+
+[General social survey](https://gss.norc.org/) from the 90s gathered data on the number of children to women of two categories: those with and without a bachelor's degree. 
+
+Setup:
+
+- $Y_{i1}$: number of children of $i$th woman in group 1 (no bachelor's)
+- $Y_{i2}$: number of children of $i$th woman in group 2 (bachelor's)
+
+Model: 
+
+- $Y_{11}, \ldots, Y_{n_1 1} | \theta_1 \overset{\mathrm{iid}}{\sim} \text{Poisson}(\theta_1)$
+- $Y_{12} \ldots, Y_{n_2 2} | \theta_2 \overset{\mathrm{iid}}{\sim} \text{Poisson}(\theta_2)$
+
+Prior:
+
+- $\theta_1 \sim \text{gamma}(2, 1)$
+- $\theta_2 \sim \text{gamma}(2, 1)$
+
+Data: 
+
+- $n_1 = 111$, $\bar{y_1} = 1.95$, $\sum y_{i 1} = 217$
+- $n_2 = 44$, $\bar{y_1} = 1.5$, $\sum y_{i 1} = 66$
+
+Posterior:
+
+- $\theta_1 | \vec{y_1} \sim \text{gamma}(219, 112)$
+- $\theta_2 | \vec{y_2} \sim \text{gamma}(68, 45)$
+
+
+We already know how to compute 
+
+- posterior mean: $E~\theta | y = \alpha / \beta$ (*shape*, *rate* parameterization)
+- posterior density (`dgamma`)
+- posterior quantiles and confidence intervals (`qgamma`)
+
+What about posterior distribution of $|\theta_1 - \theta_2|$, $\theta_1 / \theta_2$, $\text{max} \{\theta_1, \theta_2 \}$?
+
+What about the probability a woman with a bachelor's has more children than a woman without a bachelors? $p(\tilde{y}_1  < \tilde{y}_2 | \vec{y_1}, \vec{y_2})$?
+
+## Monte Carlo integration
+
+- approximates an integral by a stochastic average
+- shines when other methods of integration are impossible (e.g. high dimensional integration)
+- works because of law of large numbers:  for a random variable $X$, the sample mean $\bar{x}_N$ converges to the true mean $\mu$ as the number of samples $N$ tends to infinity.
+
+The key idea is: we obtain independent samples from the posterior, 
+
+$$
+\theta^{(1)}, \ldots \theta^{(N)} \overset{\mathrm{iid}}{\sim} p(\theta |\vec{y})
+$$
+then the empirical distribution of the samples approximates the posterior (approximation improves as $N$ increases).
+
+Recall
+
+$$
+E~g(\theta)|y = \int_\mathcal{\theta} g(\theta) f_\theta(\theta | y)dx \approx \frac{1}{N} \sum_{i = 1}^N g(\theta^{(i)}) 
+$$
+
+where $f_x(x)$ is the probability density function for a random variable $X$.
+
+The law of large numbers says that if our samples $\theta^{(i)}$ are independent, $\frac{1}{N} \sum_{i = 1}^N g(\theta^{(i)})$ to $E~\theta|y$.
+
+:::callout-note
+Integrals are expectations, **and** expectations are integrals.
+:::
+
+## Examples
+
+- $\theta_1 | \vec{y_1} \sim \text{gamma}(219, 112)$
+- $\theta_2 | \vec{y_2} \sim \text{gamma}(68, 45)$
+
+#### (1) proof of concept: the mean
+
+```{r}
+set.seed(123)
+N = 5000
+rgamma(N, shape = 219, rate = 112) %>%
+  mean()
+```
+
+Pretty close to the true mean, `r 219/112`. 
+
+#### (2) posterior of $|\theta_1 - \theta_2|$
+
+```{r}
+set.seed(123)
+theta1 = rgamma(N, shape = 219, rate = 112)
+theta2 = rgamma(N, shape = 68, rate = 45)
+
+df = data.frame(diff = abs(theta1 - theta2))
+
+df %>%
+  ggplot(aes(x = diff)) + 
+  geom_density() +
+  theme_bw() +
+  labs(x = TeX("$|\\theta_1 - \\theta_2|$"),
+       y = TeX("$p(|\\theta_1 - \\theta_2 || {y}_1, {y}_2)$"))
+```
+
+#### (3) $p(|\theta_1 - \theta_2|> .5)$
+
+```{r}
+mean(df$diff > .5)
+```
+
+
+
+## Exercise
+
+What about $p(\tilde{y}_1  < \tilde{y}_2 | \vec{y_1}, \vec{y_2})$?
