@@ -50,13 +50,13 @@ For this distribution, $E[Y|\theta] = \frac{1}{\theta}$.
 
 (c). Choose a prior $p(\theta)$ that is conjugate to the likelihood. Hint: look at kernels of densities on the distribution sheet. Write out the formula for $p(\theta | y_1, \ldots y_n)$, up to a proportionality in $\theta$, and simplify as much as possible. From this, identify explicitly the posterior distribution of $\theta$ (i.e., write "the posterior is a blank distribution with parameter(s) blank)".
 
-(d). Obtain the formula for $E[\theta, y_1, \ldots y_n]$ as a function of $a, b n$ and $y_1, \ldots y_n$, and try to write this as a function of the estimator $\hat{\theta}$ you found in part (b). What does $E[\theta | y_1,\ldots,y_n]$ get close to as $n$ increases?
+(d). Obtain the formula for $E[\theta | y_1, \ldots y_n]$ as a function of $a, b, n$ and $y_1, \ldots y_n$, and try to write this as a function of the estimator $\hat{\theta}$ you found in part (b). What does $E[\theta | y_1,\ldots,y_n]$ get close to as $n$ increases?
 
-(e). Report a 95\% posterior confidence interval for $\theta$.
+(e). Assume you observe $(y_1, \ldots, y_5) = (0.13, 0.31, 0.15, 0.12, 0.29)$ and let $\theta \sim \text{gamma}(1, 1)$. Report a 95\% posterior confidence interval for $\theta$.
 
 ## Exercise 3
 
-Suppose $Y|\theta \sim \text{binary}(\theta)$ and we believe$\theta \sim \text{Uniform}(0, 1)$ describes our uninformed prior beliefs about $\theta$. However, we are really interested in the log-odds $\gamma = f(\theta) = \log \frac{\theta}{1 - \theta}$.
+Suppose $Y|\theta \sim \text{binary}(\theta)$ and we believe $\theta \sim \text{Uniform}(0, 1)$ describes our uninformed prior beliefs about $\theta$. However, we are really interested in the log-odds $\gamma = f(\theta) = \log \frac{\theta}{1 - \theta}$.
 
 a. Find the prior distribution for $\gamma$ induced by our prior on $\theta$. Is the prior informative about $\gamma$? Verify $p(\gamma)$ using Monte Carlo sampling (i.e. sampling from $p(\theta)$) and then plotting the empirical density of the transformed samples along with the closed-form solution.
 
