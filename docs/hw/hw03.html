@@ -154,8 +154,7 @@ p(y |\theta) = \theta e^{-\theta y} \ \text{ for } \ y&gt;0, \ \theta&gt;0.
 <p>Suppose <span class="math inline">\(Y|\theta \sim \text{binary}(\theta)\)</span> and we believe <span class="math inline">\(\theta \sim \text{Uniform}(0, 1)\)</span> describes our uninformed prior beliefs about <span class="math inline">\(\theta\)</span>. However, we are really interested in the log-odds <span class="math inline">\(\gamma = f(\theta) = \log \frac{\theta}{1 - \theta}\)</span>.</p>
 <ol type="a">
 <li><p>Find the prior distribution for <span class="math inline">\(\gamma\)</span> induced by our prior on <span class="math inline">\(\theta\)</span>. Is the prior informative about <span class="math inline">\(\gamma\)</span>? Verify <span class="math inline">\(p(\gamma)\)</span> using Monte Carlo sampling (i.e.&nbsp;sampling from <span class="math inline">\(p(\theta)\)</span>) and then plotting the empirical density of the transformed samples along with the closed-form solution.</p></li>
-<li><p>Is the mean of the transform the same as the transform of the mean? In other words, is<br>
-<span class="math inline">\(E f(\theta) = f(E[\theta])\)</span>? Why or why not?</p></li>
+<li><p><strong>In general</strong>, is the mean of the transform the same as the transform of the mean? In other words, is <span class="math inline">\(E f(\theta) = f(E[\theta])\)</span>? Why or why not? Hint: come up with another example.</p></li>
 <li><p>Assume some data come in and <span class="math inline">\(\sum y_i = 7\)</span> out of <span class="math inline">\(n = 10\)</span> trials. Report the posterior mean and 95% posterior confidence interval for <span class="math inline">\(\gamma\)</span>. Is the transform of the quantile the quantile of the transform? Why or why not?</p></li>
 </ol>
 

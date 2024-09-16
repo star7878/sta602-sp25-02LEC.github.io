@@ -24,6 +24,6 @@ For this distribution, $E[Y|\theta] = \frac{1}{\theta}$.
 
 (c). Choose a prior $p(\theta)$ that is conjugate to the likelihood. Hint: look at kernels of densities on the distribution sheet. Write out the formula for $p(\theta | y_1, \ldots y_n)$, up to a proportionality in $\theta$, and simplify as much as possible. From this, identify explicitly the posterior distribution of $\theta$ (i.e., write "the posterior is a blank distribution with parameter(s) blank)".
 
-(d). Obtain the formula for $E[\theta, y_1, \ldots y_n]$ as a function of $a, b n$ and $y_1, \ldots y_n$, and try to write this as a function of the estimator $\hat{\theta}$ you found in part (b). What does $E[\theta | y_1,\ldots,y_n]$ get close to as $n$ increases?
+(d). Obtain the formula for $E[\theta, y_1, \ldots y_n]$ as a function of $a, b, n$ and $y_1, \ldots y_n$, and try to write this as a function of the estimator $\hat{\theta}$ you found in part (b). What does $E[\theta | y_1,\ldots,y_n]$ get close to as $n$ increases?
 
 (e). Report a 95\% posterior confidence interval for $\theta$.

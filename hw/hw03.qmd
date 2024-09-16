@@ -60,8 +60,7 @@ Suppose $Y|\theta \sim \text{binary}(\theta)$ and we believe $\theta \sim \text{
 
 a. Find the prior distribution for $\gamma$ induced by our prior on $\theta$. Is the prior informative about $\gamma$? Verify $p(\gamma)$ using Monte Carlo sampling (i.e. sampling from $p(\theta)$) and then plotting the empirical density of the transformed samples along with the closed-form solution.
 
-b. Is the mean of the transform the same as the transform of the mean? In other words, is  
-$E f(\theta) = f(E[\theta])$? Why or why not? 
+b. **In general**, is the mean of the transform the same as the transform of the mean? In other words, is $E f(\theta) = f(E[\theta])$? Why or why not? Hint: come up with another example.
 
 c. Assume some data come in and $\sum y_i = 7$ out of $n = 10$ trials. Report the posterior mean and 95% posterior confidence interval for $\gamma$. Is the transform of the quantile the quantile of the transform? Why or why not?
 
