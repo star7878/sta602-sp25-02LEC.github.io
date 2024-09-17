@@ -211,6 +211,17 @@ Y_i | \theta \sim Poisson(\theta)
 </section>
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
+<p>Chimowitz et al.&nbsp;(2011) <a href="https://doi.org/10.1056/NEJMoa1105335">https://doi.org/10.1056/NEJMoa1105335</a> investigate if stents are effective treatment to manage strokes in patients with atherosclerotic intracranial arterial stenosis. You can load the data using the code below. Data sourced from <code>openintro</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>stents <span class="ot">=</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"https://sta360-fa24.github.io/data/stent365.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Each row of the data set is an individual patient. The <code>group</code> column indicates whether the patient was treated with a stent or not. The <code>outcome</code> column reports whether the patient had a stroke or not within a year.</p>
+<ol type="a">
+<li><p>Write down a data generative model (possibly as two separate densities) for this data.</p></li>
+<li><p>Write down your prior beliefs about unknown parameters in your model above using a conjugate density. Choose parameters for the priors. Explain your choices.</p></li>
+<li><p>Report (using Monte Carlo sampling other otherwise) the posterior mean of the <a href="https://en.wikipedia.org/wiki/Relative_risk">relative risk</a>, i.e.&nbsp;the posterior mean of the probability of stroke in the treatment group versus in the control, (think <span class="math inline">\(E~[\frac{\theta_t}{\theta_c}~|~\text{data}]\)</span>). Additionally, include a 95% posterior confidence interval for the relative risk.</p></li>
+<li><p>Plot the posterior of the relative risk from part c.&nbsp;Do you believe the treatment is effective?</p></li>
+</ol>
 
 
 </section>
