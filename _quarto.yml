@@ -20,8 +20,11 @@ website:
         text: syllabus
       - href: notes/exam-notes.qmd
         text: distributions
+      - href: chapterSummaries.qmd
+        text: notes
       - href: links.qmd
         text: links
+      
 
 format:
   html:

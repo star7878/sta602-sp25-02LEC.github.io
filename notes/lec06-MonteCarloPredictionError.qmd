@@ -1,5 +1,5 @@
 ---
-title: "Monte Carlo Integration"
+title: "Monte Carlo Prediction and Error"
 author: "Dr. Alexander Fisher"
 # mainfont: Lato
 format: 
@@ -14,79 +14,6 @@ format:
 library(tidyverse)
 library(latex2exp)
 ```
-
-## Monte Carlo error
-
-
-#### How many values should we simulate?
-
-Recall: expected values are integrals, and integrals are expected values. Since central limit theorem (CLT) deals with expected values...
-
-Recall: CLT states that if $\theta_i |\vec{y}$ iid with mean $\theta$ and finite variance $\sigma^2$, for $i \in \{1, \ldots, N\}$, then the sample mean
-
-$$
-\bar{\theta} \sim N(\theta, \frac{\sigma^2}{N} ).
-$$
-
-- How to remember this/show this? Offline notes.
-
-So to estimate $\theta$, we can generate $\bar{\theta}$ by Monte Carlo simulation and report a confidence interval using quantiles of the normal given above in conjunction with the Monte Carlo standard error $\frac{\hat{\sigma}}{\sqrt{N}}$
-
-This means we get convergence at the rate $\mathcal{O}\left(\frac{1}{\sqrt{N}}\right)$ regardless of the dimension of the integral!
-
-Recall: 
-
-```{r}
-sd1 = pnorm(1) - pnorm(-1)
-sd2 = pnorm(2) - pnorm(-2)
-sd3 = pnorm(3) - pnorm(-3)
-```
-
-- a `r sd1`% confidence interval can be obtained using $\pm 1\cdot \hat{\sigma}/\sqrt{N}$
-- a `r sd2`% confidence interval can be obtained using $\pm 2\cdot \hat{\sigma}/\sqrt{N}$
-- a `r sd3`% confidence interval can be obtained using $\pm 3\cdot \hat{\sigma}/\sqrt{N}$
-
-### Example
-
-```{r}
-# Let theta be "x" in the code below
-set.seed(123)
-
-# binomial(n, p)
-n = 20
-p = 0.4
-
-# mean, variance, sd of a binomial(n, p)
-EX = n*p # 20*.4 = 8
-VarX = n*p*(1-p) # 20*.4*.6 = 4.8
-sdX = sqrt(VarX) # 2.19089
-
-# Monte Carlo sample of size N
-N = 100
-xSamples = rbinom(N, size = n, prob = p) 
-
-# sample mean, var, sd
-xbar = mean(xSamples)
-xvar = var(xSamples)
-xsigma = sd(xSamples) # = sqrt(sum((xSamples - xbar)^2) / (N -1))
-
-se = xsigma / sqrt(N)
-
-lb = round(xbar - (2*se), 3)
-ub = round(xbar + (2*se), 3)
-```
-
-For `r paste("N = ", N)` Monte Carlo samples, The posterior mean of $\theta$ is $\bar{\theta} =$ `r xbar` with 95% confidence interval (`r paste(lb, ub)`).
-
-::: callout-important
-## Exercise
-
-Above we estimate $Var(\theta)$ to be `r round(xvar, 3)` and the standard error for $N = 100$ was `r round(se, 3)`.
-
-If you wanted to state $p(\theta \in (\hat{\theta} \pm 0.01)) = 0.95$, how large would $N$ have to be? 
-
-Check your answer by adjusting $N$ above.
-:::
 
 ## Monte Carlo prediction
 
@@ -266,3 +193,77 @@ hist(t.mc)
 mean(t.mc >= 2)
 ```
 
+
+
+## Monte Carlo error
+
+
+#### How many values should we simulate?
+
+Recall: expected values are integrals, and integrals are expected values. Since central limit theorem (CLT) deals with expected values...
+
+Recall: CLT states that if $\theta_i |\vec{y}$ iid with mean $\theta$ and finite variance $\sigma^2$, for $i \in \{1, \ldots, N\}$, then the sample mean
+
+$$
+\bar{\theta} \sim N(\theta, \frac{\sigma^2}{N} ).
+$$
+
+- How to remember this/show this? Offline notes.
+
+So to estimate $\theta$, we can generate $\bar{\theta}$ by Monte Carlo simulation and report a confidence interval using quantiles of the normal given above in conjunction with the Monte Carlo standard error $\frac{\hat{\sigma}}{\sqrt{N}}$
+
+This means we get convergence at the rate $\mathcal{O}\left(\frac{1}{\sqrt{N}}\right)$ regardless of the dimension of the integral!
+
+Recall: 
+
+```{r}
+sd1 = pnorm(1) - pnorm(-1)
+sd2 = pnorm(2) - pnorm(-2)
+sd3 = pnorm(3) - pnorm(-3)
+```
+
+- a `r sd1`% confidence interval can be obtained using $\pm 1\cdot \hat{\sigma}/\sqrt{N}$
+- a `r sd2`% confidence interval can be obtained using $\pm 2\cdot \hat{\sigma}/\sqrt{N}$
+- a `r sd3`% confidence interval can be obtained using $\pm 3\cdot \hat{\sigma}/\sqrt{N}$
+
+### Example
+
+```{r}
+# Let theta be "x" in the code below
+set.seed(123)
+
+# binomial(n, p)
+n = 20
+p = 0.4
+
+# mean, variance, sd of a binomial(n, p)
+EX = n*p # 20*.4 = 8
+VarX = n*p*(1-p) # 20*.4*.6 = 4.8
+sdX = sqrt(VarX) # 2.19089
+
+# Monte Carlo sample of size N
+N = 100
+xSamples = rbinom(N, size = n, prob = p) 
+
+# sample mean, var, sd
+xbar = mean(xSamples)
+xvar = var(xSamples)
+xsigma = sd(xSamples) # = sqrt(sum((xSamples - xbar)^2) / (N -1))
+
+se = xsigma / sqrt(N)
+
+lb = round(xbar - (2*se), 3)
+ub = round(xbar + (2*se), 3)
+```
+
+For `r paste("N = ", N)` Monte Carlo samples, The posterior mean of $\theta$ is $\bar{\theta} =$ `r xbar` with 95% confidence interval (`r paste(lb, ub)`).
+
+::: callout-important
+## Exercise
+
+Above we estimate $Var(\theta)$ to be `r round(xvar, 3)` and the standard error for $N = 100$ was `r round(se, 3)`.
+
+If you wanted to state $p(\theta \in (\hat{\theta} \pm 0.01)) = 0.95$, how large would $N$ have to be? 
+
+Check your answer by adjusting $N$ above.
+:::

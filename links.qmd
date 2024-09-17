@@ -20,8 +20,6 @@ Resources
 
 - [Gradescope](https://www.gradescope.com/)
 
-- [Chapter summaries](/chapterSummaries.html)
-
 Textbook
 
 - [A First Course in Bayesian Statistical Methods](https://link.springer.com/book/10.1007/978-0-387-92407-6) by Peter Hoff
