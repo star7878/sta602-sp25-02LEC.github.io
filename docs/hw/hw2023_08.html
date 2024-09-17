@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>STA360 - Homework 2</title>
+<title>STA360 - Homework 8</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -167,8 +167,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Homework 2</h1>
-<p class="subtitle lead">Due Friday September 13 at 5:00pm</p>
+<h1 class="title">Homework 8</h1>
+<p class="subtitle lead">Due Tuesday November 28 at 5:00pm</p>
 </div>
 
 
@@ -184,50 +184,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="exercise-1" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-1">Exercise 1</h2>
-<p>Compute the following integrals <strong>using the kernel trick discussed in class</strong>.</p>
+<p>Weighted regression: Suppose <span class="math inline">\(y_i \sim N(\beta x_i, \sigma^2 / w_i)\)</span> independently for <span class="math inline">\(i = 1,\ldots n\)</span>, where <span class="math inline">\(x_1, \ldots, x_n\)</span> and <span class="math inline">\(w_1, \ldots w_n\)</span> are known scalars, and <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span> are unknown.</p>
 <ol type="a">
-<li><p><span class="math inline">\(\int_{0}^{\infty} \sigma^{x-1} e^{-b \sigma} d\sigma\)</span></p></li>
-<li><p><span class="math inline">\(\int_{0}^1 \alpha \theta^{\alpha} (1 - \theta)^{\beta - 1} d\theta\)</span></p></li>
-<li><p><span class="math inline">\(\int_{-\infty}^\infty x e^{-(x-3)^2} dx\)</span></p></li>
+<li><p>Find the formula for the OLS estimator <span class="math inline">\(\hat{\beta}_{OLS}\)</span> and compute its variance <span class="math inline">\(V[\hat{\beta}_{OLS} | \beta, \sigma^2]\)</span>.</p></li>
+<li><p>Write out the sampling density <span class="math inline">\(p(y_1, \ldots, y_n | \sigma^2, \beta)\)</span> as a function of <span class="math inline">\(\beta\)</span> (i.e.&nbsp;the likelihood) and find the value of <span class="math inline">\(\beta\)</span> that maximizes this function (the MLE). Denote this maximizing value as <span class="math inline">\(\hat{\beta}_{MLE}\)</span>. Compute <span class="math inline">\(V[\hat{\beta}_{MLE} | \beta, \sigma^2]\)</span> and compare it to that of <span class="math inline">\(\hat{\beta}_{OLS}\)</span>.</p></li>
+<li><p>Under the prior distribution <span class="math inline">\(\beta \sim N(0, \tau^2)\)</span>, find <span class="math inline">\(E[\beta | y_1, \ldots, y_n, \sigma^2]\)</span>. What does this estimator get close to as the prior precision goes to zero (<span class="math inline">\(\tau^2 \rightarrow \infty\)</span>)?</p></li>
 </ol>
 </section>
 <section id="exercise-2" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
-<p>Let <span class="math inline">\(Y_1, Y_2 | \theta\)</span> be i.i.d. binary(<span class="math inline">\(\theta\)</span>), so that <span class="math inline">\(p(y_1, y_2 | \theta) = \theta ^{y_1 + y_2} (1- \theta) ^{2 - y_1 - y_2}\)</span> and let <span class="math inline">\(\theta \sim \text{beta}(\eta, \eta)\)</span></p>
+<p>Ridge regression theory: Let <span class="math inline">\(y \sim N_n(X \beta, \sigma^2 I)\)</span>. Consider estimating <span class="math inline">\(\beta\)</span> with the prior distribution <span class="math inline">\(\beta | \sigma^2 \sim N_p(0, \sigma^2 I / \lambda)\)</span>, where <span class="math inline">\(\lambda\)</span> is known and <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span> are unknown.</p>
 <ol type="a">
-<li><p>Compute <span class="math inline">\(E~Y_i\)</span> and <span class="math inline">\(Var~Y_i\)</span> (the mean and variance of <span class="math inline">\(Y_i\)</span> unconditional on <span class="math inline">\(\theta\)</span>) as a function of <span class="math inline">\(\eta\)</span></p></li>
-<li><p>Compute <span class="math inline">\(E~Y_1 Y_2\)</span>, which is the same as <span class="math inline">\(p(Y_1 = 1, Y_2 = 1)\)</span> unconditional on <span class="math inline">\(\theta\)</span>. Hint: <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> are conditionally i.i.d., see law of total expectation.</p></li>
-<li><p>Using the terms you have calculated above, make a graph of the correlation between <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> as a function of <span class="math inline">\(\eta\)</span>.</p></li>
-<li><p>Interpreting <span class="math inline">\(\eta\)</span> as how confident you are that <span class="math inline">\(\theta\)</span> is near <span class="math inline">\(\frac{1}{2}\)</span>, and interpreting <span class="math inline">\(Cor(Y_1, Y_2)\)</span> as how much information <span class="math inline">\(Y_1\)</span> and <span class="math inline">\(Y_2\)</span> provide about each other, explain in words why the correlation changes as a function of <span class="math inline">\(\eta\)</span>.</p></li>
+<li><p>Derive the conditional distribution of <span class="math inline">\(\beta | y, \sigma^2\)</span> and, in particular, show that <span class="math inline">\(E[\beta | y] = (X^TX + I \lambda)^{-1} X^Ty\)</span>. Denote this expectation <span class="math inline">\(\hat{\beta}_\lambda\)</span>, which we can use as an estimator of <span class="math inline">\(\beta\)</span>. What happens to <span class="math inline">\(\hat{\beta}_\lambda\)</span> as <span class="math inline">\(\lambda \rightarrow 0\)</span>?</p></li>
+<li><p>Consider the special case that <span class="math inline">\(X^TX\)</span> is a diagonal matrix with entries <span class="math inline">\(x_1^T x_1, \ldots, x_p^T x_p\)</span>. Find the mathematical relationship between each element of <span class="math inline">\(\hat{\beta}_{\lambda}\)</span> and the corresponding element of the OLS estimator <span class="math inline">\(\hat{\beta}_{OLS}\)</span>. Explain in words the effect of <span class="math inline">\(\lambda\)</span>.</p></li>
 </ol>
 </section>
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
-<p>Suppose <span class="math inline">\(n\)</span> individuals volunteer to count birds in a forest. Let <span class="math inline">\(Y_i\)</span> be the number of birds counted by individual <span class="math inline">\(i\)</span>, and let <span class="math inline">\(x_i\)</span> be the number of hours spent in the forest by volunteer <span class="math inline">\(i\)</span>. We will model the data <span class="math inline">\(Y_1, \ldots Y_n\)</span> as being independent given <span class="math inline">\(\theta\)</span>, but not identically distributed. Specifically, our model is that <span class="math inline">\(Y_i | \theta \sim \text{Pois}(\theta x_i)\)</span>, independently for <span class="math inline">\(i = 1, \ldots n\)</span>.</p>
+<p>Ridge regression application: The data set <code>yX.diabetes.train</code> contains data on diabetes progression (first column) and 64 predictor variables. These data can be loaded with with command</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>yX<span class="ot">&lt;-</span><span class="fu">dget</span>(<span class="fu">url</span>(<span class="st">"https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.train"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ol type="a">
-<li><p>Compute <span class="math inline">\(E~Y_i | \theta\)</span> and explain what <span class="math inline">\(\theta\)</span> represents.</p></li>
-<li><p>Write out a formula for the joint pdf <span class="math inline">\(p(y_1, \ldots y_n |\theta)\)</span> and simplify as much as possible. Find the MLE, that is, the value of <span class="math inline">\(\theta\)</span> that maximizes <span class="math inline">\(p(y_1, \ldots y_n | \theta)\)</span>. Explain why it makes sense.</p></li>
-<li><p>Let <span class="math inline">\(\theta \sim \text{gamma}(a, b)\)</span>. Write down the posterior <span class="math inline">\(p(\theta | y_1,\ldots y_n)\)</span> and find a formula for the posterior mode of <span class="math inline">\(\theta\)</span>. Compare to the MLE.</p></li>
+<li><p>For each value of <span class="math inline">\(\lambda \in \{0, 1, \ldots, 99, 100 \}\)</span> compute the estimator <span class="math inline">\(\hat{\beta}_{\lambda}\)</span> and plot this in some way (maybe using <code>matplot</code>).</p></li>
+<li><p>Load the data set <code>yX.diabetes.test</code> using the code below</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>yX.diabetes.test<span class="ot">&lt;-</span><span class="fu">dget</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">url</span>(<span class="st">"https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.test"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use <code>yX.diabetes.test</code> to evaluate the predictive performance of each estimate you obtained in part a. Specifically, compute the predictive error sum of squares <span class="math inline">\(PSS(\lambda) = ||y_{test} - X_{test} \hat{\beta}_{\lambda}||^2\)</span> for each value of <span class="math inline">\(\lambda\)</span> (IMPORTANT: <span class="math inline">\(\hat{\beta}_{\lambda}\)</span> is obtained from the training data in part a, not the test data). Make a plot of PSS versus <span class="math inline">\(\lambda\)</span>. How good is the unbiased OLS estimate for prediction, relative to the other estimates?</p>
+<ol start="3" type="a">
+<li>Identify the value of <span class="math inline">\(\lambda\)</span> that has the best predictive performance. For this best value of <span class="math inline">\(\lambda\)</span>, report which x-variables have the largest effects.</li>
 </ol>
 </section>
 <section id="exercise-4" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-4">Exercise 4</h2>
-<p>Data from the study described in exercise 3 can be downloaded from the course website using the code provided below.</p>
+<p>For this exercise, use the code below to load the data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"https://sta360-fa24.github.io/data/bird-counts.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>yX <span class="ot">=</span> <span class="fu">readRDS</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">url</span>(<span class="st">"http://www2.stat.duke.edu/~pdh10/Teaching/360/Materials/yXSS.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In this problem, we will examine the posterior distribution of <span class="math inline">\(\theta\)</span> given these data, under a prior distribution for <span class="math inline">\(\theta\)</span> having density of the form <span class="math inline">\(p(\theta) = c \theta^{a-1} e^{-b\theta}\)</span>, where <span class="math inline">\(c\)</span> is a constant that depends on <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> but not <span class="math inline">\(\theta\)</span>. For this problem, we will set <span class="math inline">\(a = 2\)</span> and <span class="math inline">\(b = 1/5\)</span>.</p>
+<p>Source separation: The first column y of the dataset <code>yXSS.rds</code> is the vectorization of a spectroscopy image of a water sample taken from the Neuse River in North Carolina. You can view the image with the following code: <code>y&lt;-yX[,1] ; image(matrix(y,151,43))</code>. The water sample is of unknown origin, but it is assumed that it is a mix of water from 9 different categories, whose average spectroscopy images are given by the remaining 9 columns <span class="math inline">\(X\)</span> of <code>yX</code>. You can view these images with the same code above, applied to each column of <span class="math inline">\(X\)</span>.</p>
 <ol type="a">
-<li><p>Make a plot of <span class="math inline">\(p(\theta)\)</span> for <span class="math inline">\(\theta \in (0, 50)\)</span> as follows: Compute <span class="math inline">\(\theta^{a -1} e^{-b\theta}\)</span> on an evenly-spaced grid of 1000 <span class="math inline">\(\theta\)</span>-values from 0 to 50. Put the results of the computation into a vector of length 1000, then divide the vector by its sum. This vector is a discrete pdf that approximates the continuous density <span class="math inline">\(p(\theta)\)</span>.</p></li>
-<li><p>Compute the prior expectation <span class="math inline">\(E \theta\)</span> using this discrete approximiation.</p></li>
-<li><p>The posterior density of <span class="math inline">\(\theta\)</span> may be expressed as <span class="math inline">\(p(\theta | y_1, \ldots y_n) = \tilde{c} p(\theta) p(y_1, \ldots y_n | \theta)\)</span>, where <span class="math inline">\(\tilde{c}\)</span> does not depend on <span class="math inline">\(\theta\)</span>. As in part (a), make a discrete approximation to <span class="math inline">\(p(\theta | y)\)</span>, and plot the results along with <span class="math inline">\(p(\theta)\)</span> and discuss the change from prior to posterior density. Also compare the prior and posterior expectations.</p></li>
+<li><p>From <span class="math inline">\(y\)</span> and <span class="math inline">\(X\)</span>, infer the sources of the water sample using the linear model <span class="math inline">\(E[y|X, \beta] = X\beta\)</span>. Assuming the normal linear model and with priors <span class="math inline">\(\beta \sim N_9(1/9, \ldots 1/9), I_9)\)</span>, <span class="math inline">\(1/\sigma^2 \sim \text{gamma}(1, 1)\)</span>, use a Gibbs sampler to obtain a posterior distribution of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span> given <span class="math inline">\(y\)</span>. Plot the posterior density of <span class="math inline">\(\sigma^2\)</span>, and obtain posterior 95% confidence intervals for each element of <span class="math inline">\(\beta\)</span>. Which of the nine categories are the main sources of the water sample?</p></li>
+<li><p>Evaluate the assumptions of the normal linear model using some residual plots, addressing the assumption that the entries of <span class="math inline">\(y\)</span> have constant variance, are uncorrelated, and are normally distributed.</p></li>
+<li><p>For this problem it doesn’t make sense for the coefficients of <span class="math inline">\(\beta\)</span> to be negative. Think of a modification to the prior distribution for <span class="math inline">\(\beta\)</span> that takes this fact into account, and describe how a Gibbs sampler could be constructed to sample from the corresponding posterior distribution.</p></li>
 </ol>
-<p>Hint: <span class="math inline">\(p(\theta | y_1,\ldots y_n)\)</span> is the kernel of a well-known density. You can use a built in R function to help you create a discrete approximation to <span class="math inline">\(p(\theta | y_1,\ldots y_n)\)</span>.</p>
-<!-- ## Exercise 4 -->
-<!-- Let $\theta_1$ be the prevalence of a rare allele among people with Alzheimer's disease, and let $\theta_2$ be the prevalence among people without the disease. To estimate $\theta_1$ and $\theta_2$, a sample of $n_1 = 19$ Alzheimer's patients and $n_2 = 176$ control subjects are genotyped for the presence of the allele. Let $Y_1$ and $Y_2$ be the number of people in the two samples who have the allele. We will model $Y_1$ and $Y_2$ as independent with $Y_1 | \theta_1 \sim \text{binomial}(n_1, \theta_1)$ and $Y_2 | \theta_2 \sim \text{binomial}(n_2, \theta_2)$. Prior studies suggest that $\theta_2 \sim \text{beta}(2, 30)$ is a reasonable prior distribution for $\theta_2$. For now, we will use the same prior distribution for $\theta_1$. The study is performed and the data are that $Y_1 = 1$ and $Y_2 = 16$.  -->
-<!-- a. State the posterior distributions of $\theta_1$ and $\theta_2$. Plot the posterior densities together on a single graph with the prior density, and compare all three curves with words. -->
-<!-- b. Compute the posterior mean and a 95% posterior interval for each of $\theta_1$ and $\theta_2$. -->
-<!-- c. With a picture, with words, or mathematically, try to describe different kind of joint prior distribution for $\theta_1$ and $\theta_2$ that represents the $\theta_1$ and $\theta_2$ are close to each other, but highly uncertain. -->
 
 
 </section>

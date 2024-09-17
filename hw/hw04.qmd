@@ -1,44 +1,61 @@
 ---
 title: "Homework 4"
-subtitle: "Due Thursday October 12th at 5:00pm"
+subtitle: "Due Friday September 27 at 5:00pm"
 mainfont: Lato
 format: 
   html:
     toc: true
 ---
 
+
 ## Exercise 1
 
-Let 
+Let $\theta$ be the rate of mutation for a certain cluster of cancer cells. Biologists encode their prior uncertainty about $\theta$ with the following density:
 
 $$
-\begin{aligned}
-Y | \theta, \sigma^2 &\sim N(\theta, 1/\gamma)\\
-\theta | \sigma^2 &\sim N(\mu_0, 1/\gamma \kappa_0)\\
-\gamma &\sim \text{gamma}(a, b)
-\end{aligned}
+p(\theta) = \frac{4}{10}e^{-4\theta} + \frac{9}{10 \Gamma(8)} \theta^7 e^{-\theta}
 $$
-so $\gamma$ is the precision (inverse-variance) of the normal distribution.
+a. Make a plot of this prior density and explain what it means, in context, to the biologists.
 
-a. Derive and simplify the joint pdf $p(y_1, \ldots y_n | \theta, \gamma)$
+b. Let $Y_i$ be the number of mutations produced by the $i$th cell, such that
 
-b. Derive the posterior of the precision, $p(\gamma| y_1, \ldots y_n)$.
+$$
+Y_i | \theta \sim Poisson(\theta)
+$$
 
-c. Derive the posterior of $\theta$, $p(\theta | y_1, \ldots y_n)$
+Write out the posterior distribution of $\theta$ given $y_1,\ldots y_n$ (up to a proportionality constant) and simplify as much as possible. Hint: Be careful when writing your proportionality statement!
 
+c. The posterior is a mixture (weighted average) of two distributions that you know. Identify these two distributions, including their parameters.
+
+d. Assume you obtain mutation data from two cells, $y_1 = 3, y_2 = 1$. Compute the posterior exactly (i.e. find the appropriate integration constant) and plot the posterior density. 
+
+e. In part (c) you identified the posterior as a mixture (weighted average) of two distributions. Given the data in part (d), compute the weights of each density in the mixture.
 
 ## Exercise 2
 
-Exercise 5.1 from Hoff. You can read in the data from the three schools with the R code below. Hint: the problem specification is the same as exercise 1, except $a = \nu_0/2$ and $b = \nu_0 \sigma_0^2/2$.
+A group of scientists have mutation data, 
 
 ```{r}
-#| eval: false
-library(tidyverse)
-school1 = read_csv("https://sta360-fa23.github.io/data/school1.csv")
-school2 = read_csv("https://sta360-fa23.github.io/data/school2.csv")
-school3 = read_csv("https://sta360-fa23.github.io/data/school3.csv")
+y = c(0,3,0,1,5,2,0,4,1,1)
 ```
+
+and are interested in assessing how well the Poisson model from exercise 1 fits their data. Using the data generative model and prior from exercise 1, generate posterior predictive datasets $y^{(1)}, y^{(2)}, \ldots y^{(S)}$, where each data set $y^{(s)}$ is a vector of length 10 whose entries are sampled from the Poisson distribution with parameters $\theta^{(s)}$. Each $\theta^{(s)}$ itself is a sample from the posterior $p(\theta | y_1, \ldots y_{10})$. For each $s$, let $t(s)$ be the sample average of the 10 values of $y^{(s)}$ divided by the sample standard deviation of $y^{(s)}$. Make a histogram of $t(s)$ and compare to the observed value of this statistic. Based on this statistic, assess the fit of the Poisson model for these data.
+
 
 ## Exercise 3
 
-3.12 from Hoff.
+Chimowitz et al. (2011) [https://doi.org/10.1056/NEJMoa1105335](https://doi.org/10.1056/NEJMoa1105335) investigate if stents are effective treatment to manage strokes in patients with atherosclerotic intracranial arterial stenosis. You can load the data using the code below. Data sourced from `openintro` package.
+
+```{r}
+stents = readr::read_csv("https://sta360-fa24.github.io/data/stent365.csv")
+```
+
+Each row of the data set is an individual patient. The `group` column indicates whether the patient was treated with a stent or not. The `outcome` column reports whether the patient had a stroke or not within a year.
+
+a. Write down a data generative model (or two) that describe this data.
+
+b. Write down your prior beliefs about unknown parameters in your model above using a conjugate density.
+
+c. Report (using Monte Carlo sampling other otherwise) the posterior [relative risk](https://en.wikipedia.org/wiki/Relative_risk), i.e. the posterior probability of stroke in the treatment group versus in the control. Additionally, include a 95% posterior confidence interval for the relative risk.
+
+d. Plot the posterior of the relative risk from part c. Do you believe the treatment is effective?

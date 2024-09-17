@@ -1258,5 +1258,166 @@
     "title": "Monte Carlo Prediction and Error",
     "section": "Monte Carlo error",
     "text": "Monte Carlo error\n\nHow many values should we simulate?\nRecall: expected values are integrals, and integrals are expected values. Since central limit theorem (CLT) deals with expected values…\nRecall: CLT states that if \\(\\theta_i |\\vec{y}\\) iid with mean \\(\\theta\\) and finite variance \\(\\sigma^2\\), for \\(i \\in \\{1, \\ldots, N\\}\\), then the sample mean\n\\[\n\\bar{\\theta} \\sim N(\\theta, \\frac{\\sigma^2}{N} ).\n\\]\n\nHow to remember this/show this? Offline notes.\n\nSo to estimate \\(\\theta\\), we can generate \\(\\bar{\\theta}\\) by Monte Carlo simulation and report a confidence interval using quantiles of the normal given above in conjunction with the Monte Carlo standard error \\(\\frac{\\hat{\\sigma}}{\\sqrt{N}}\\)\nThis means we get convergence at the rate \\(\\mathcal{O}\\left(\\frac{1}{\\sqrt{N}}\\right)\\) regardless of the dimension of the integral!\nRecall:\n\nsd1 = pnorm(1) - pnorm(-1)\nsd2 = pnorm(2) - pnorm(-2)\nsd3 = pnorm(3) - pnorm(-3)\n\n\na 0.6826895% confidence interval can be obtained using \\(\\pm 1\\cdot \\hat{\\sigma}/\\sqrt{N}\\)\na 0.9544997% confidence interval can be obtained using \\(\\pm 2\\cdot \\hat{\\sigma}/\\sqrt{N}\\)\na 0.9973002% confidence interval can be obtained using \\(\\pm 3\\cdot \\hat{\\sigma}/\\sqrt{N}\\)\n\n\n\nExample\n\n# Let theta be \"x\" in the code below\nset.seed(123)\n\n# binomial(n, p)\nn = 20\np = 0.4\n\n# mean, variance, sd of a binomial(n, p)\nEX = n*p # 20*.4 = 8\nVarX = n*p*(1-p) # 20*.4*.6 = 4.8\nsdX = sqrt(VarX) # 2.19089\n\n# Monte Carlo sample of size N\nN = 100\nxSamples = rbinom(N, size = n, prob = p) \n\n# sample mean, var, sd\nxbar = mean(xSamples)\nxvar = var(xSamples)\nxsigma = sd(xSamples) # = sqrt(sum((xSamples - xbar)^2) / (N -1))\n\nse = xsigma / sqrt(N)\n\nlb = round(xbar - (2*se), 3)\nub = round(xbar + (2*se), 3)\n\nFor N = 100 Monte Carlo samples, The posterior mean of \\(\\theta\\) is \\(\\bar{\\theta} =\\) 8.01 with 95% confidence interval (7.57 8.45).\n\n\n\n\n\n\nExercise\n\n\n\nAbove we estimate \\(Var(\\theta)\\) to be 4.838 and the standard error for \\(N = 100\\) was 0.22.\nIf you wanted to state \\(p(\\theta \\in (\\hat{\\theta} \\pm 0.01)) = 0.95\\), how large would \\(N\\) have to be?\nCheck your answer by adjusting \\(N\\) above."
+  },
+  {
+    "objectID": "hw/hw04.html",
+    "href": "hw/hw04.html",
+    "title": "Homework 4",
+    "section": "",
+    "text": "Let \\(\\theta\\) be the rate of mutation for a certain cluster of cancer cells. Biologists encode their prior uncertainty about \\(\\theta\\) with the following density:\n\\[\np(\\theta) = \\frac{4}{10}e^{-4\\theta} + \\frac{9}{10 \\Gamma(8)} \\theta^7 e^{-\\theta}\n\\]\n\nMake a plot of this prior density and explain what it means, in context, to the biologists.\nLet \\(Y_i\\) be the number of mutations produced by the \\(i\\)th cell, such that\n\n\\[\nY_i | \\theta \\sim Poisson(\\theta)\n\\]\nWrite out the posterior distribution of \\(\\theta\\) given \\(y_1,\\ldots y_n\\) (up to a proportionality constant) and simplify as much as possible. Hint: Be careful when writing your proportionality statement!\n\nThe posterior is a mixture (weighted average) of two distributions that you know. Identify these two distributions, including their parameters.\nAssume you obtain mutation data from two cells, \\(y_1 = 3, y_2 = 1\\). Compute the posterior exactly (i.e. find the appropriate integration constant) and plot the posterior density.\nIn part (c) you identified the posterior as a mixture (weighted average) of two distributions. Given the data in part (d), compute the weights of each density in the mixture."
+  },
+  {
+    "objectID": "hw/hw04.html#exercise-1",
+    "href": "hw/hw04.html#exercise-1",
+    "title": "Homework 4",
+    "section": "Exercise 1",
+    "text": "Exercise 1\nLet \\(\\theta\\) be the rate of mutation for a certain cluster of cancer cells. Biologists encode their prior uncertainty about \\(\\theta\\) with the following density:\n\\[\np(\\theta) = \\frac{4}{10}e^{-4\\theta} + \\frac{9}{10 \\Gamma(8)} \\theta^7 e^{-\\theta}\n\\]\n\nMake a plot of this prior density and explain what it means, in context, to the biologists.\nLet \\(Y_i\\) be the number of mutations produced by the \\(i\\)th cell, such that\n\n\\[\nY_i | \\theta \\sim Poisson(\\theta)\n\\]\nWrite out the posterior distribution of \\(\\theta\\) given \\(y_1,\\ldots y_n\\) (up to a proportionality constant) and simplify as much as possible. Hint: Be careful when writing your proportionality statement!\n\nThe posterior is a mixture (weighted average) of two distributions that you know. Identify these two distributions, including their parameters.\nAssume you obtain mutation data from two cells, \\(y_1 = 3, y_2 = 1\\). Compute the posterior exactly (i.e. find the appropriate integration constant) and plot the posterior density.\nIn part (c) you identified the posterior as a mixture (weighted average) of two distributions. Given the data in part (d), compute the weights of each density in the mixture."
+  },
+  {
+    "objectID": "hw/hw04.html#exercise-2",
+    "href": "hw/hw04.html#exercise-2",
+    "title": "Homework 4",
+    "section": "Exercise 2",
+    "text": "Exercise 2\nA group of scientists have mutation data,\n\ny = c(0,3,0,1,5,2,0,4,1,1)\n\nand are interested in assessing how well the Poisson model from exercise 1 fits their data. Using the data generative model and prior from exercise 1, generate posterior predictive datasets \\(y^{(1)}, y^{(2)}, \\ldots y^{(S)}\\), where each data set \\(y^{(s)}\\) is a vector of length 10 whose entries are sampled from the Poisson distribution with parameters \\(\\theta^{(s)}\\). Each \\(\\theta^{(s)}\\) itself is a sample from the posterior \\(p(\\theta | y_1, \\ldots y_{10})\\). For each \\(s\\), let \\(t(s)\\) be the sample average of the 10 values of \\(y^{(s)}\\) divided by the sample standard deviation of \\(y^{(s)}\\). Make a histogram of \\(t(s)\\) and compare to the observed value of this statistic. Based on this statistic, assess the fit of the Poisson model for these data."
+  },
+  {
+    "objectID": "hw/hw04.html#exercise-3",
+    "href": "hw/hw04.html#exercise-3",
+    "title": "Homework 4",
+    "section": "Exercise 3",
+    "text": "Exercise 3"
+  },
+  {
+    "objectID": "hw/hw2023_04.html",
+    "href": "hw/hw2023_04.html",
+    "title": "Homework 4",
+    "section": "",
+    "text": "Let\n\\[\n\\begin{aligned}\nY | \\theta, \\sigma^2 &\\sim N(\\theta, 1/\\gamma)\\\\\n\\theta | \\sigma^2 &\\sim N(\\mu_0, 1/\\gamma \\kappa_0)\\\\\n\\gamma &\\sim \\text{gamma}(a, b)\n\\end{aligned}\n\\]\nso \\(\\gamma\\) is the precision (inverse-variance) of the normal distribution.\n\nDerive and simplify the joint pdf \\(p(y_1, \\ldots y_n | \\theta, \\gamma)\\)\nDerive the posterior of the precision, \\(p(\\gamma| y_1, \\ldots y_n)\\).\nDerive the posterior of \\(\\theta\\), \\(p(\\theta | y_1, \\ldots y_n)\\)"
+  },
+  {
+    "objectID": "hw/hw2023_04.html#exercise-2",
+    "href": "hw/hw2023_04.html#exercise-2",
+    "title": "Homework 4",
+    "section": "Exercise 2",
+    "text": "Exercise 2\nExercise 5.1 from Hoff. You can read in the data from the three schools with the R code below. Hint: the problem specification is the same as exercise 1, except \\(a = \\nu_0/2\\) and \\(b = \\nu_0 \\sigma_0^2/2\\).\n\nlibrary(tidyverse)\nschool1 = read_csv(\"https://sta360-fa23.github.io/data/school1.csv\")\nschool2 = read_csv(\"https://sta360-fa23.github.io/data/school2.csv\")\nschool3 = read_csv(\"https://sta360-fa23.github.io/data/school3.csv\")"
+  },
+  {
+    "objectID": "hw/hw2023_04.html#exercise-3",
+    "href": "hw/hw2023_04.html#exercise-3",
+    "title": "Homework 4",
+    "section": "Exercise 3",
+    "text": "Exercise 3\n3.12 from Hoff."
+  },
+  {
+    "objectID": "hw/hw2023_05.html",
+    "href": "hw/hw2023_05.html",
+    "title": "Homework 5",
+    "section": "",
+    "text": "Risk calculation: Let \\(Y_1, \\ldots, Y_n | \\theta \\sim \\text{ i.i.d. Poission}(\\theta)\\).\n\nFor the case that \\(\\theta \\sim \\text{gamma}(a, b)\\), show that the posterior mean of \\(\\theta\\) given \\(Y_1, \\ldots, Y_n\\) can be written as \\(\\hat{\\theta}_w = w \\bar{y} + (1-w)\\mu\\) for values \\(w\\) and \\(\\mu\\) that depend on \\(n\\), \\(a\\) and \\(b\\).\nNow consider how good this estimator is for a specific value of \\(\\theta\\). Compute \\(E[\\hat{\\theta}_w|\\theta]\\), \\(V[\\hat{\\theta}_w|\\theta]\\), and \\(E[\\bar{y}|\\theta]\\) and \\(V[\\bar{y}|\\theta]\\).\nFind some nice conditions on \\(w\\) and \\(\\mu\\) so that \\(MSE[\\hat{\\theta}_w] < MSE[\\bar{y}]\\)\n[Optional] Now suppose \\(n = 10\\) and \\(\\theta = 5\\). Pick a value of \\(w\\) and \\(\\mu\\) so that your condition in c. is met. Now verify the condition numerically with a Monte Carlo simulation, by simulating 1000 samples of size \\(n=10\\) from the Poisson(5) distribution, computing \\(\\bar{y}\\) and \\(\\hat{\\theta}_w\\) for each simulated sample, and then approximating the MSE of each estimator using the 1000 simulated values of each. Also make histograms or density plots of the simulated estimators, to confirm that one has low(er) variance but positive bias, and the other has zero bias but high(er) variance."
+  },
+  {
+    "objectID": "hw/hw2023_05.html#exercise-2",
+    "href": "hw/hw2023_05.html#exercise-2",
+    "title": "Homework 5",
+    "section": "Exercise 2",
+    "text": "Exercise 2\n6.1 from Hoff. Let \\(\\theta\\) and \\(\\gamma\\) be independent. Use the code below to load the data.\n\nbach30 = readr::read_csv(\"https://sta360-fa23.github.io/data/bach30.csv\")\n\nnobach30 = readr::read_csv(\"https://sta360-fa23.github.io/data/nobach30.csv\")"
+  },
+  {
+    "objectID": "hw/hw2023_05.html#exercise-3",
+    "href": "hw/hw2023_05.html#exercise-3",
+    "title": "Homework 5",
+    "section": "Exercise 3",
+    "text": "Exercise 3\n6.2 from Hoff. Note the typo: \\(1/\\sigma_j^2\\) is gamma, not \\(1/\\sigma_j\\). Use the code below to load the data.\n\nglucose = readr::read_csv(\"https://sta360-fa23.github.io/data/glucose.csv\")"
+  },
+  {
+    "objectID": "hw/hw2023_06.html",
+    "href": "hw/hw2023_06.html",
+    "title": "Homework 6",
+    "section": "",
+    "text": "6.3 from Hoff. You can simulate from a constrained normal distribution with mean mean and standard deviation sd, constrained to lie in the interval \\((a,b)\\) using the following function:\n\nrcnorm<-function(n, mean=0, sd=1, a=-Inf, b=Inf){\n  u = runif(n, pnorm((a - mean) / sd), pnorm((b - mean) / sd))\n  mean + (sd * qnorm(u))\n}\n\nNote that you can use this function to simulate a vector of constrained normal random variables, each with a potentially different mean, standard deviation, and constraints.\nTo load the data for this exercise, run the code below\n\ndivorce = readr::read_csv(\"https://sta360-fa23.github.io/data/divorce.csv\")"
+  },
+  {
+    "objectID": "hw/hw2023_06.html#exercise-2",
+    "href": "hw/hw2023_06.html#exercise-2",
+    "title": "Homework 6",
+    "section": "Exercise 2",
+    "text": "Exercise 2\nShow that if \\(W \\sim \\text{Wishart}(m, S)\\) then \\(E[W] = mS\\)."
+  },
+  {
+    "objectID": "hw/hw2023_06.html#exercise-3",
+    "href": "hw/hw2023_06.html#exercise-3",
+    "title": "Homework 6",
+    "section": "Exercise 3",
+    "text": "Exercise 3\nSuppose \\(Y\\) is a random normal vector \\(Y \\sim N_p(\\theta, \\Sigma)\\). Let \\(Y_A\\) be the first \\(p_1\\) elements of \\(Y\\) and \\(Y_B\\) be the last \\(p_2 = p - p_1\\) elements, so that \\(Y = (Y_A, Y_B)\\). Similarly, write \\(\\theta = (\\theta_A, \\theta_B)\\). Finally, let\n\\[\n\\Sigma^{-} \\equiv \\Psi = \\left[ {\\begin{array}{cc}\n   \\Psi_{AA} & \\Psi_{AB} \\\\\n   \\Psi_{BA} & \\Psi_{BB} \\\\\n  \\end{array} } \\right]\n\\]\nand note that \\(\\Psi_{AB} = \\Psi_{BA}^T\\). Find the conditional distribution of \\(Y_B\\) given \\(Y_A\\) in terms of \\(\\theta_A\\), \\(\\theta_B\\) and components of \\(\\Psi\\). Try to interpret how \\(E[Y_B|Y_A]\\) differs from \\(E[Y_B]\\) and how \\(V[Y_B|Y_A]\\) differs from \\(V[Y_B]\\).\n\nIdentities for exercise 3\nSome of the following identities will be helpful for interpretation.\nLet\n\\[\n\\Sigma = \\left[ {\\begin{array}{cc}\n   \\Sigma_{AA} & \\Sigma_{AB} \\\\\n   \\Sigma_{BA} & \\Sigma_{BB} \\\\\n  \\end{array} } \\right]\n\\]\nand\n\\[\n\\Psi = \\left[ {\\begin{array}{cc}\n   \\Psi_{AA} & \\Psi_{AB} \\\\\n   \\Psi_{BA} & \\Psi_{BB} \\\\\n  \\end{array} } \\right].\n\\]\nThen\n\\[\n\\begin{aligned}\n\\Psi_{AA}^- &= \\Sigma_{AA} - \\Sigma_{AB} \\Sigma_{BB}^- \\Sigma_{BA}\\\\\n\\Psi_{BB}^- &= \\Sigma_{BB} - \\Sigma_{BA} \\Sigma_{AA}^- \\Sigma_{AB}\\\\\n\\Psi_{AB} &= -\\Psi_{AA} \\Sigma_{AB} \\Sigma_{BB}^-\\\\\n\\Psi_{BA} &= -\\Psi_{BB} \\Sigma_{BA} \\Sigma_{AA}^-,\n\\end{aligned}\n\\]\nand note that \\(\\Sigma_{AB} = \\Sigma_{BA}^T\\) and \\(\\Psi_{AB} = \\Psi_{BA}^T\\)."
+  },
+  {
+    "objectID": "hw/hw2023_07.html",
+    "href": "hw/hw2023_07.html",
+    "title": "Homework 7",
+    "section": "",
+    "text": "7.3 from Hoff.\nRun the code below to load the data.\n\n\n\n\nlibrary(readr)\nbluecrab = read_csv(\"https://sta360-fa23.github.io/data/bluecrab.csv\")\norangecrab = read_csv(\"https://sta360-fa23.github.io/data/orangecrab.csv\")"
+  },
+  {
+    "objectID": "hw/hw2023_07.html#exercise-2",
+    "href": "hw/hw2023_07.html#exercise-2",
+    "title": "Homework 7",
+    "section": "Exercise 2",
+    "text": "Exercise 2\n8.1 from Hoff. Note there is a typo in this exercise. Every \\(\\theta_i\\) in the exercise prompt should be replaced by \\(\\theta_j\\)."
+  },
+  {
+    "objectID": "hw/hw2023_07.html#exercise-3",
+    "href": "hw/hw2023_07.html#exercise-3",
+    "title": "Homework 7",
+    "section": "Exercise 3",
+    "text": "Exercise 3\n\n\n\n8.3 from Hoff\nRun the code below to load the data.\n\nlibrary(readr)\nlibrary(glue)\n\nfor(i in 1:8) {\nassign(paste0(\"school\", i), \n       read_csv(glue(\"https://sta360-fa23.github.io/data/school{i}.csv\")))\n}"
+  },
+  {
+    "objectID": "hw/hw2023_08.html",
+    "href": "hw/hw2023_08.html",
+    "title": "Homework 8",
+    "section": "",
+    "text": "Weighted regression: Suppose \\(y_i \\sim N(\\beta x_i, \\sigma^2 / w_i)\\) independently for \\(i = 1,\\ldots n\\), where \\(x_1, \\ldots, x_n\\) and \\(w_1, \\ldots w_n\\) are known scalars, and \\(\\beta\\) and \\(\\sigma^2\\) are unknown.\n\nFind the formula for the OLS estimator \\(\\hat{\\beta}_{OLS}\\) and compute its variance \\(V[\\hat{\\beta}_{OLS} | \\beta, \\sigma^2]\\).\nWrite out the sampling density \\(p(y_1, \\ldots, y_n | \\sigma^2, \\beta)\\) as a function of \\(\\beta\\) (i.e. the likelihood) and find the value of \\(\\beta\\) that maximizes this function (the MLE). Denote this maximizing value as \\(\\hat{\\beta}_{MLE}\\). Compute \\(V[\\hat{\\beta}_{MLE} | \\beta, \\sigma^2]\\) and compare it to that of \\(\\hat{\\beta}_{OLS}\\).\nUnder the prior distribution \\(\\beta \\sim N(0, \\tau^2)\\), find \\(E[\\beta | y_1, \\ldots, y_n, \\sigma^2]\\). What does this estimator get close to as the prior precision goes to zero (\\(\\tau^2 \\rightarrow \\infty\\))?"
+  },
+  {
+    "objectID": "hw/hw2023_08.html#exercise-2",
+    "href": "hw/hw2023_08.html#exercise-2",
+    "title": "Homework 8",
+    "section": "Exercise 2",
+    "text": "Exercise 2\nRidge regression theory: Let \\(y \\sim N_n(X \\beta, \\sigma^2 I)\\). Consider estimating \\(\\beta\\) with the prior distribution \\(\\beta | \\sigma^2 \\sim N_p(0, \\sigma^2 I / \\lambda)\\), where \\(\\lambda\\) is known and \\(\\beta\\) and \\(\\sigma^2\\) are unknown.\n\nDerive the conditional distribution of \\(\\beta | y, \\sigma^2\\) and, in particular, show that \\(E[\\beta | y] = (X^TX + I \\lambda)^{-1} X^Ty\\). Denote this expectation \\(\\hat{\\beta}_\\lambda\\), which we can use as an estimator of \\(\\beta\\). What happens to \\(\\hat{\\beta}_\\lambda\\) as \\(\\lambda \\rightarrow 0\\)?\nConsider the special case that \\(X^TX\\) is a diagonal matrix with entries \\(x_1^T x_1, \\ldots, x_p^T x_p\\). Find the mathematical relationship between each element of \\(\\hat{\\beta}_{\\lambda}\\) and the corresponding element of the OLS estimator \\(\\hat{\\beta}_{OLS}\\). Explain in words the effect of \\(\\lambda\\)."
+  },
+  {
+    "objectID": "hw/hw2023_08.html#exercise-3",
+    "href": "hw/hw2023_08.html#exercise-3",
+    "title": "Homework 8",
+    "section": "Exercise 3",
+    "text": "Exercise 3\nRidge regression application: The data set yX.diabetes.train contains data on diabetes progression (first column) and 64 predictor variables. These data can be loaded with with command\n\nyX<-dget(url(\"https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.train\"))\n\n\nFor each value of \\(\\lambda \\in \\{0, 1, \\ldots, 99, 100 \\}\\) compute the estimator \\(\\hat{\\beta}_{\\lambda}\\) and plot this in some way (maybe using matplot).\nLoad the data set yX.diabetes.test using the code below\n\n\nyX.diabetes.test<-dget(\n  url(\"https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.test\"))\n\nUse yX.diabetes.test to evaluate the predictive performance of each estimate you obtained in part a. Specifically, compute the predictive error sum of squares \\(PSS(\\lambda) = ||y_{test} - X_{test} \\hat{\\beta}_{\\lambda}||^2\\) for each value of \\(\\lambda\\) (IMPORTANT: \\(\\hat{\\beta}_{\\lambda}\\) is obtained from the training data in part a, not the test data). Make a plot of PSS versus \\(\\lambda\\). How good is the unbiased OLS estimate for prediction, relative to the other estimates?\n\nIdentify the value of \\(\\lambda\\) that has the best predictive performance. For this best value of \\(\\lambda\\), report which x-variables have the largest effects."
+  },
+  {
+    "objectID": "hw/hw2023_08.html#exercise-4",
+    "href": "hw/hw2023_08.html#exercise-4",
+    "title": "Homework 8",
+    "section": "Exercise 4",
+    "text": "Exercise 4\nFor this exercise, use the code below to load the data\n\nyX = readRDS(\n  url(\"http://www2.stat.duke.edu/~pdh10/Teaching/360/Materials/yXSS.rds\"))\n\nSource separation: The first column y of the dataset yXSS.rds is the vectorization of a spectroscopy image of a water sample taken from the Neuse River in North Carolina. You can view the image with the following code: y<-yX[,1] ; image(matrix(y,151,43)). The water sample is of unknown origin, but it is assumed that it is a mix of water from 9 different categories, whose average spectroscopy images are given by the remaining 9 columns \\(X\\) of yX. You can view these images with the same code above, applied to each column of \\(X\\).\n\nFrom \\(y\\) and \\(X\\), infer the sources of the water sample using the linear model \\(E[y|X, \\beta] = X\\beta\\). Assuming the normal linear model and with priors \\(\\beta \\sim N_9(1/9, \\ldots 1/9), I_9)\\), \\(1/\\sigma^2 \\sim \\text{gamma}(1, 1)\\), use a Gibbs sampler to obtain a posterior distribution of \\(\\beta\\) and \\(\\sigma^2\\) given \\(y\\). Plot the posterior density of \\(\\sigma^2\\), and obtain posterior 95% confidence intervals for each element of \\(\\beta\\). Which of the nine categories are the main sources of the water sample?\nEvaluate the assumptions of the normal linear model using some residual plots, addressing the assumption that the entries of \\(y\\) have constant variance, are uncorrelated, and are normally distributed.\nFor this problem it doesn’t make sense for the coefficients of \\(\\beta\\) to be negative. Think of a modification to the prior distribution for \\(\\beta\\) that takes this fact into account, and describe how a Gibbs sampler could be constructed to sample from the corresponding posterior distribution."
+  },
+  {
+    "objectID": "hw/hw2023_09.html",
+    "href": "hw/hw2023_09.html",
+    "title": "Homework 9",
+    "section": "",
+    "text": "To load the data for this exercise, run the code below.\n\n\n\n\nyX = readr::read_csv(\"https://sta360-fa23.github.io/data/azdiabetes-train.csv\")\nyX.test = readr::read_csv(\"https://sta360-fa23.github.io/data/azdiabetes-test.csv\")\n\nThe file azdiabetes-train.csv contains data on health-related variables of a population of 432 women. In this exercise we will be modeling the conditional distribution of glucose level (glu) as a linear combination of the other variables, excluding the variable diabetes.\n\nFit a regression model using the g-prior with \\(g = n\\), \\(\\nu_0 = 2\\) and \\(\\sigma_0^2 = 1\\). Obtain 95% posterior confidence intervals for all of the parameters. Note: you do not need a Gibbs sampler for this problem, see p 159 of Hoff.\nFit a MVN linear model using rstanarm with priors \\(\\beta_i \\sim N(0, 1)\\) and a flat prior on \\(\\sigma\\). Report the posterior mean and 95% confidence intervals for all parameters.\nPerform the model selection and averaging procedure described in section 9.3. See secton 9.3.1 for the model and pg 168 for sample code to sample \\(\\mathbf{z}\\). Obtain \\(Pr(\\beta_j \\neq 0 | y)\\), as well as posterior confidence intervals for all of the parameters. Compare to the results in part (a) and (b). Additionally, compare the average squared error of predictions using the data set azdiabetes-test.csv under all three fitted models."
+  },
+  {
+    "objectID": "hw/hw2023_09.html#exercise-2",
+    "href": "hw/hw2023_09.html#exercise-2",
+    "title": "Homework 9",
+    "section": "Exercise 2",
+    "text": "Exercise 2\nExercise 10.2 from Hoff.\nTo load the data for this exercise, run the code below,\n\nyXsparrow = readr::read_csv(\"https://sta360-fa23.github.io/data/yXsparrow.csv\")\n\nInstead of 1000, please run your chain until you reach at least 100 effective sample size."
+  },
+  {
+    "objectID": "hw/hw2023_09.html#exercise-3",
+    "href": "hw/hw2023_09.html#exercise-3",
+    "title": "Homework 9",
+    "section": "Exercise 3",
+    "text": "Exercise 3\nCode for this exercise is provided below,\n\n# load the data\ntrans.prob.mat = readRDS(url(\"https://sta360-fa23.github.io/data/trans-prob-mat.rds\"))\ncipher_text = readLines(\"https://sta360-fa23.github.io/data/ciphertext.txt\")\n\npl = function(decoded) {\n  logprob = 0\n  prevletter = \"SPACE\"\n  for (i in 1:nchar(decoded)) {\n    curletter = substring(decoded, i, i)\n    if(curletter == \" \") {\n      curletter = \"SPACE\"\n    }\n    logprob = logprob + log(trans.prob.mat[rownames(trans.prob.mat) == prevletter,\n                                             colnames(trans.prob.mat) == curletter])\n    prevletter = curletter\n  }\n  return(logprob)\n} \n\nIn this exercise we will re-create the cryptanalysis tool described here to decrypt a secret message. Read pages 1-3 of the article by Persi Diaconis linked above.\n\nLoad the object trans.prob.matrix using the code above and examine. Based on your reading of the article, how can you interpret the entries of this matrix? Is it symmetric or not? Why does this make sense? The function pl(), given above, computes the “plausibility” score for a given decoding. Explain in detail what the code comprising pl() does.\nFollow the pseudo-code outlined on page 2 of the article to write a MCMC algorithm and decrypt the secret message. Run your Markov chain for at least 1000 iterations and report the decoding with the highest plausibility score."
   }
 ]

@@ -133,6 +133,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="nav-link" href="../syllabus.html">syllabus</a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../notes/exam-notes.html">distributions</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../chapterSummaries.html">notes</a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../links.html">links</a>
   </li>  
 </ul>
@@ -161,7 +167,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Homework 4</h1>
-<p class="subtitle lead">Due Thursday October 12th at 5:00pm</p>
+<p class="subtitle lead">Due Friday September 27 at 5:00pm</p>
 </div>
 
 
@@ -177,34 +183,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="exercise-1" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-1">Exercise 1</h2>
-<p>Let</p>
+<p>Let <span class="math inline">\(\theta\)</span> be the rate of mutation for a certain cluster of cancer cells. Biologists encode their prior uncertainty about <span class="math inline">\(\theta\)</span> with the following density:</p>
 <p><span class="math display">\[
-\begin{aligned}
-Y | \theta, \sigma^2 &amp;\sim N(\theta, 1/\gamma)\\
-\theta | \sigma^2 &amp;\sim N(\mu_0, 1/\gamma \kappa_0)\\
-\gamma &amp;\sim \text{gamma}(a, b)
-\end{aligned}
+p(\theta) = \frac{4}{10}e^{-4\theta} + \frac{9}{10 \Gamma(8)} \theta^7 e^{-\theta}
 \]</span></p>
-<p>so <span class="math inline">\(\gamma\)</span> is the precision (inverse-variance) of the normal distribution.</p>
 <ol type="a">
-<li><p>Derive and simplify the joint pdf <span class="math inline">\(p(y_1, \ldots y_n | \theta, \gamma)\)</span></p></li>
-<li><p>Derive the posterior of the precision, <span class="math inline">\(p(\gamma| y_1, \ldots y_n)\)</span>.</p></li>
-<li><p>Derive the posterior of <span class="math inline">\(\theta\)</span>, <span class="math inline">\(p(\theta | y_1, \ldots y_n)\)</span></p></li>
+<li><p>Make a plot of this prior density and explain what it means, in context, to the biologists.</p></li>
+<li><p>Let <span class="math inline">\(Y_i\)</span> be the number of mutations produced by the <span class="math inline">\(i\)</span>th cell, such that</p></li>
+</ol>
+<p><span class="math display">\[
+Y_i | \theta \sim Poisson(\theta)
+\]</span></p>
+<p>Write out the posterior distribution of <span class="math inline">\(\theta\)</span> given <span class="math inline">\(y_1,\ldots y_n\)</span> (up to a proportionality constant) and simplify as much as possible. Hint: Be careful when writing your proportionality statement!</p>
+<ol start="3" type="a">
+<li><p>The posterior is a mixture (weighted average) of two distributions that you know. Identify these two distributions, including their parameters.</p></li>
+<li><p>Assume you obtain mutation data from two cells, <span class="math inline">\(y_1 = 3, y_2 = 1\)</span>. Compute the posterior exactly (i.e.&nbsp;find the appropriate integration constant) and plot the posterior density.</p></li>
+<li><p>In part (c) you identified the posterior as a mixture (weighted average) of two distributions. Given the data in part (d), compute the weights of each density in the mixture.</p></li>
 </ol>
 </section>
 <section id="exercise-2" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
-<p>Exercise 5.1 from Hoff. You can read in the data from the three schools with the R code below. Hint: the problem specification is the same as exercise 1, except <span class="math inline">\(a = \nu_0/2\)</span> and <span class="math inline">\(b = \nu_0 \sigma_0^2/2\)</span>.</p>
+<p>A group of scientists have mutation data,</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>school1 <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"https://sta360-fa23.github.io/data/school1.csv"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>school2 <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"https://sta360-fa23.github.io/data/school2.csv"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>school3 <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"https://sta360-fa23.github.io/data/school3.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>and are interested in assessing how well the Poisson model from exercise 1 fits their data. Using the data generative model and prior from exercise 1, generate posterior predictive datasets <span class="math inline">\(y^{(1)}, y^{(2)}, \ldots y^{(S)}\)</span>, where each data set <span class="math inline">\(y^{(s)}\)</span> is a vector of length 10 whose entries are sampled from the Poisson distribution with parameters <span class="math inline">\(\theta^{(s)}\)</span>. Each <span class="math inline">\(\theta^{(s)}\)</span> itself is a sample from the posterior <span class="math inline">\(p(\theta | y_1, \ldots y_{10})\)</span>. For each <span class="math inline">\(s\)</span>, let <span class="math inline">\(t(s)\)</span> be the sample average of the 10 values of <span class="math inline">\(y^{(s)}\)</span> divided by the sample standard deviation of <span class="math inline">\(y^{(s)}\)</span>. Make a histogram of <span class="math inline">\(t(s)\)</span> and compare to the observed value of this statistic. Based on this statistic, assess the fit of the Poisson model for these data.</p>
 </section>
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
-<p>3.12 from Hoff.</p>
 
 
 </section>
