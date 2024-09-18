@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Bayesian methods and modern statistics",
     "section": "",
-    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\nCh. 2\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\nCh. 2\n🗒 📝\nhw 1\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\nCh. 3\n\n\n\n\n\nWed Sep 04\nbeta-binomial model\nCh. 3\n🗒 📝\nhw 2\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n💻\n\n\n\n3\nMon Sep 09\nPoisson-gamma model, exp families\nCh. 3\n🗒 📝\n\n\n\n\nWed Sep 11\nreliability (conf. intervals, hpd, Laplace approx.)\nCh. 3\n🗒 📝\nhw 3\n\n\n\nThu Sep 12\nlab: exp. families and transformations\n\n💻\n\n\n\n4\nMon Sep 16\nintro to Monte Carlo\nCh. 4\n🗒 📝\n\n\n\n\nWed Sep 18\nMonte Carlo integration\nCh. 4\n\n\n\n\n\nThu Sep 19\n\n\n\n\n\n\n5\nMon Sep 23\nthe normal model\nCh. 5\n\n\n\n\n\nWed Sep 25\nthe normal model II\nCh. 5\n\n\n\n\n\nThu Sep 26\n\n\n\n\n\n\n6\nMon Sep 30\nreview\n\n\n\n\n\n\nWed Oct 02\nExam I\n\n\n\n\n\n\nThu Oct 03\n\n\n\n\n\n\n7\nMon Oct 07\nestimators\nCh. 5\n\n\n\n\n\nWed Oct 09\nGibbs sampling\nCh. 6\n\n\n\n\n\nThu Oct 10\n\n\n\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\n\n\n\n\n\n\n\nThu Oct 17\n\n\n\n\n\n\n9\nMon Oct 21\n\n\n\n\n\n\n\nWed Oct 23\n\n\n\n\n\n\n\nThu Oct 24\n\n\n\n\n\n\n10\nMon Oct 28\n\n\n\n\n\n\n\nWed Oct 30\n\n\n\n\n\n\n\nThu Oct 31\n\n\n\n\n\n\n11\nMon Nov 04\n\n\n\n\n\n\n\nWed Nov 06\n\n\n\n\n\n\n\nThu Nov 07\n\n\n\n\n\n\n12\nMon Nov 11\n\n\n\n\n\n\n\nWed Nov 13\nExam II\n\n\n\n\n\n\nThu Nov 14\n\n\n\n\n\n\n13\nMon Nov 18\n\n\n\n\n\n\n\nWed Nov 20\n\n\n\n\n\n\n\nThu Nov 21\n\n\n\n\n\n\n14\nMon Nov 25\n\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\n\n\n\n\n\n\n\nWed Dec 04\n\n\n\n\n\n\n\nThu Dec 05"
+    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\nCh. 2\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\nCh. 2\n🗒 📝\nhw 1\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\nCh. 3\n\n\n\n\n\nWed Sep 04\nbeta-binomial model\nCh. 3\n🗒 📝\nhw 2\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n💻\n\n\n\n3\nMon Sep 09\nPoisson-gamma model, exp families\nCh. 3\n🗒 📝\n\n\n\n\nWed Sep 11\nreliability (conf. intervals, hpd, Laplace approx.)\nCh. 3\n🗒 📝\nhw 3\n\n\n\nThu Sep 12\nlab: exp. families and transformations\n\n💻\n\n\n\n4\nMon Sep 16\nintro to Monte Carlo\nCh. 4\n🗒 📝\n\n\n\n\nWed Sep 18\nMonte Carlo integration\nCh. 4\n\nhw 4\n\n\n\nThu Sep 19\nmixture densities\n\n💻\n\n\n\n5\nMon Sep 23\nthe normal model\nCh. 5\n\n\n\n\n\nWed Sep 25\nthe normal model II\nCh. 5\n\n\n\n\n\nThu Sep 26\n\n\n\n\n\n\n6\nMon Sep 30\nreview\n\n\n\n\n\n\nWed Oct 02\nExam I\n\n\n\n\n\n\nThu Oct 03\n\n\n\n\n\n\n7\nMon Oct 07\nestimators\nCh. 5\n\n\n\n\n\nWed Oct 09\nGibbs sampling\nCh. 6\n\n\n\n\n\nThu Oct 10\n\n\n\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\n\n\n\n\n\n\n\nThu Oct 17\n\n\n\n\n\n\n9\nMon Oct 21\n\n\n\n\n\n\n\nWed Oct 23\n\n\n\n\n\n\n\nThu Oct 24\n\n\n\n\n\n\n10\nMon Oct 28\n\n\n\n\n\n\n\nWed Oct 30\n\n\n\n\n\n\n\nThu Oct 31\n\n\n\n\n\n\n11\nMon Nov 04\n\n\n\n\n\n\n\nWed Nov 06\n\n\n\n\n\n\n\nThu Nov 07\n\n\n\n\n\n\n12\nMon Nov 11\n\n\n\n\n\n\n\nWed Nov 13\nExam II\n\n\n\n\n\n\nThu Nov 14\n\n\n\n\n\n\n13\nMon Nov 18\n\n\n\n\n\n\n\nWed Nov 20\n\n\n\n\n\n\n\nThu Nov 21\n\n\n\n\n\n\n14\nMon Nov 25\n\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\n\n\n\n\n\n\n\nWed Dec 04\n\n\n\n\n\n\n\nThu Dec 05"
   },
   {
     "objectID": "notes/lec02-estimation.html",
@@ -1419,5 +1419,103 @@
     "title": "Homework 9",
     "section": "Exercise 3",
     "text": "Exercise 3\nCode for this exercise is provided below,\n\n# load the data\ntrans.prob.mat = readRDS(url(\"https://sta360-fa23.github.io/data/trans-prob-mat.rds\"))\ncipher_text = readLines(\"https://sta360-fa23.github.io/data/ciphertext.txt\")\n\npl = function(decoded) {\n  logprob = 0\n  prevletter = \"SPACE\"\n  for (i in 1:nchar(decoded)) {\n    curletter = substring(decoded, i, i)\n    if(curletter == \" \") {\n      curletter = \"SPACE\"\n    }\n    logprob = logprob + log(trans.prob.mat[rownames(trans.prob.mat) == prevletter,\n                                             colnames(trans.prob.mat) == curletter])\n    prevletter = curletter\n  }\n  return(logprob)\n} \n\nIn this exercise we will re-create the cryptanalysis tool described here to decrypt a secret message. Read pages 1-3 of the article by Persi Diaconis linked above.\n\nLoad the object trans.prob.matrix using the code above and examine. Based on your reading of the article, how can you interpret the entries of this matrix? Is it symmetric or not? Why does this make sense? The function pl(), given above, computes the “plausibility” score for a given decoding. Explain in detail what the code comprising pl() does.\nFollow the pseudo-code outlined on page 2 of the article to write a MCMC algorithm and decrypt the secret message. Run your Markov chain for at least 1000 iterations and report the decoding with the highest plausibility score."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#what-is-a-mixture-distribution",
+    "href": "slides/lab-mixtures.html#what-is-a-mixture-distribution",
+    "title": "Mixture distributions",
+    "section": "What is a mixture distribution?",
+    "text": "What is a mixture distribution?\nA mixture distribution is a convex combination of densities.\nIn other words…\n\\[\nf(x) = \\sum_{i=1}^nw_i p_i(x),\n\\]\nwhere \\(p_i(x)\\) is a pdf and \\(w_i > 0\\) for all \\(i\\) and \\(\\sum w_i = 1\\). We say: \\(f(x)\\) is a (finite) mixture density.\n\nExercise\nProve that \\(\\int f(x) dx = 1\\)."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#example-1",
+    "href": "slides/lab-mixtures.html#example-1",
+    "title": "Mixture distributions",
+    "section": "Example 1",
+    "text": "Example 1\n\\[\nf(x) = \\sum_{i=1}^nw_i p_i(x),\n\\]\nwhere \\(p_i(x)\\) is a pdf and \\(w_i > 0\\) for all \\(i\\) and \\(\\sum w_i = 1\\). We say: \\(f(x)\\) is a (finite) mixture distribution.\n\nExercise\nProve that \\(\\int f(x) dx = 1\\)."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#ex-1-exponential-family",
+    "href": "slides/lab-mixtures.html#ex-1-exponential-family",
+    "title": "Mixture densities",
+    "section": "Ex 1: exponential family",
+    "text": "Ex 1: exponential family\nLet \\(p(y|\\theta) = \\theta^{y}(1-\\theta)^{1-y}\\)\n\nIdentify the transform \\(\\phi = f(\\theta)\\) such that \\(p(y | \\phi)\\) can be written as \\(h(y) c(\\phi) e^{\\phi t(y)}\\). Identify the sufficient statistic \\(t(y)\\), as well as \\(c(\\phi)\\).\nWrite down the prior \\(p(\\phi|n_0, t_0)\\)."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#ex-2-variable-transform",
+    "href": "slides/lab-mixtures.html#ex-2-variable-transform",
+    "title": "Mixture densities",
+    "section": "Ex 2: variable transform",
+    "text": "Ex 2: variable transform\nConfirm that \\(f(\\theta)\\) from the previous exercise is monotonic and invertible. Next, using the one-line formula: \\(p_\\theta(\\theta) = p_{\\phi}(f(\\theta))|\\frac{d\\phi}{d\\theta}|\\), show that the prior, \\(p(\\theta | n_0, t_0)\\) is a beta density.\nTo very the above numerically, sample from \\(p(\\theta | n_0, t_0)\\) using the code below, for some \\(n_0, t_0\\) of your choosing.\ntheta = rbeta(n = 10000, shape1 = n_0 * t_0, shape2 = n_0*(1-t_0)\nNext, transform each sample of the object theta to phi using \\(f(\\theta)\\) as defined in exercise 1.\nFinally, plot a density plot of samples phi and, on the same plot, add \\(p(\\phi | n_0, t_0)\\) from exercise 1, part (c)."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#ex-3-another-variable-transform",
+    "href": "slides/lab-mixtures.html#ex-3-another-variable-transform",
+    "title": "Mixture densities",
+    "section": "Ex 3: another variable transform",
+    "text": "Ex 3: another variable transform\nLet \\(X \\sim \\text{Unif}(5, 10)\\) and let \\(Y = X^2\\)\nNotice that even though \\(X^2\\) is not a monotonic function everywhere, it is a monotonic function over the support of X.\nExercise: use the change of variables formula to derive \\(p(y)\\). Confirm via simulation, as in exercise 2."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#ex-1-solution",
+    "href": "slides/lab-mixtures.html#ex-1-solution",
+    "title": "Mixture densities",
+    "section": "Ex 1: solution",
+    "text": "Ex 1: solution\na\n\\[\n\\phi = log(\\frac{\\theta}{1-\\theta})\n\\]\nTherefore,\n\\[\np(y|\\phi) = e^{\\phi y} \\left(\\frac{1}{1 + e^{\\phi}} \\right)\n\\]\nand\n\\[\n\\begin{aligned}\nt(y) &= y\\\\\nc(\\phi) &= \\left(\\frac{1}{1 + e^{\\phi}} \\right)\n\\end{aligned}\n\\]\nb\n\\[\np(\\phi | n_0, t_0) = \\left({1 + e^{\\phi}} \\right)^{-n_0} e^{n_0 t_0 \\phi}\n\\]"
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#ex-2-solution",
+    "href": "slides/lab-mixtures.html#ex-2-solution",
+    "title": "Mixture densities",
+    "section": "Ex 2: solution",
+    "text": "Ex 2: solution\nMonotonic if \\(\\theta_1 \\geq \\theta_2\\) implies \\(f(\\theta_1) \\geq f(\\theta_2)\\) over the support \\(\\theta_1, \\theta_2 \\in [0,1]\\).\nLet \\(\\theta_1 > \\theta_2\\), let’s check:\n\\[\n\\begin{aligned}\n\\log \\left(\\frac{\\theta_1}{1-\\theta_1}\\right) &> \\log \\left(\\frac{\\theta_2}{1-\\theta_2}\\right)\\\\\n\\theta_1 (1-\\theta_2) &> \\theta_2(1-\\theta_1)\\\\\n\\theta_1 > \\theta_2\n\\end{aligned}\n\\]\nIt is monotonic!\nFurthermore, we found it was invertible in ex 1: \\(\\theta = e^{\\phi}/(1 + e^{\\phi})\\).\nOne-line formula: \\(p_\\theta(\\theta) = p_{\\phi}(f(\\theta))|\\frac{d\\phi}{d\\theta}|\\):\n\\[\n\\begin{aligned}\np(\\theta) &= (1-\\theta)^{n_0} (\\theta/(1-\\theta))^{n_0 t_0} \\left|\\frac{d\\phi}{d\\theta} \\right|\\\\\n&= \\theta^{n_0 t_0 -1} (1-\\theta)^{n_0(1 -t_0) - 1}\n\\end{aligned}\n\\]\nSo \\(\\theta \\sim \\text{beta}(n_0 t_0, n_0(1-t_0))\\).\nRemember that \\(a\\) and \\(b\\) of a beta distribution must both be positive! This constrains what \\(n_0\\) and \\(t_0\\) can be."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#ex-2-solution-pt-2",
+    "href": "slides/lab-mixtures.html#ex-2-solution-pt-2",
+    "title": "Mixture densities",
+    "section": "Ex 2: solution (pt 2)",
+    "text": "Ex 2: solution (pt 2)\n\nplotcode\n\n\n\n\n\n\n\n\n\n\nn_0 = 5\nt_0 = .5\ntheta = rbeta(n = 100000, shape1 = n_0 * t_0, shape2 = n_0 * (1 - t_0))\nphi = log((theta / (1-theta)))\n\ndf = data.frame(phi)\n\nfphi = function(phi, n_0, t_0) {\n  ( (1 + exp(phi))^(-n_0) ) * exp(n_0 * t_0 * phi) / \n    beta(n_0 * t_0, n_0 * (1 - t_0))\n}\n\ndf %>%\n  ggplot(aes(x = phi)) + \n  stat_function(fun = fphi, args = list(n_0 = n_0, t_0 = t_0)) +\n  geom_histogram(aes(x = phi, y = ..density..),\n                 fill = 'steelblue', alpha = 0.5)\n\n\n\n\nThe normalizing constant can be obtained by transforming from \\(p(\\theta)\\) (which is beta) back to \\(p(\\phi)\\)."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#ex-3-solution",
+    "href": "slides/lab-mixtures.html#ex-3-solution",
+    "title": "Mixture densities",
+    "section": "Ex 3: solution",
+    "text": "Ex 3: solution\n\nplotcode\n\n\n\n\n\n\n\n\n\n\nx = runif(100000, 5, 10)\ny = x^2\n\ndf = data.frame(y)\n\nf = function(y) {\n  return(.1/sqrt(y))\n}\n\ndf %>%\n  ggplot(aes(x = y)) + \n  stat_function(fun = f) +\n  geom_histogram(aes(x = y, y = ..density..),\n                 fill = 'steelblue', alpha = 0.5)\n\n\n\n\n\n\n🔗 sta360-fa24.github.io"
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#what-is-a-mixture-density",
+    "href": "slides/lab-mixtures.html#what-is-a-mixture-density",
+    "title": "Mixture densities",
+    "section": "What is a mixture density?",
+    "text": "What is a mixture density?\nA mixture density (sometimes called an “admixture” density) is a convex combination (i.e. weighted sum, with non-negative weights that sum to 1) of other density functions.\nIn other words…\n\\[\nf(x) = \\sum_{i=1}^nw_i p_i(x),\n\\]\nwhere \\(p_i(x)\\) is a pdf and \\(w_i > 0\\) for all \\(i\\) and \\(\\sum w_i = 1\\). We say: \\(f(x)\\) is a (finite) mixture density.\nMixture densities are often used to model distinct sub-populations within a population. This allows us to create flexible prior distributions.\n\nExercise\nProve that \\(f(x)\\) is a proper density function, i.e. that \\(f(x) \\geq 0\\) everywhere and \\(\\int f(x) dx = 1\\)."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#exercise-1",
+    "href": "slides/lab-mixtures.html#exercise-1",
+    "title": "Mixture densities",
+    "section": "Exercise 1",
+    "text": "Exercise 1\nCreate and plot a function \\(f(x)\\) that is a mixture of two densities and approximates the histogram below."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#exercise-2",
+    "href": "slides/lab-mixtures.html#exercise-2",
+    "title": "Mixture densities",
+    "section": "Exercise 2",
+    "text": "Exercise 2\nSuppose an experimental machine in a lab is either fine, or comes from a bad batch of machines that are to be recalled by the manufacturer. Scientists in the lab want to estimate the failure rate of their machine and decide whether or not to return it. They encode their prior uncertainty about the failure rate \\(\\theta\\) with the following density:\n\\[\np(\\theta) = \\frac{1}{4} \\frac{\\Gamma(10)}{\\Gamma(2)\\Gamma(8)}\\left[\n3 \\theta (1 - \\theta)^7 + \\theta^7(1- \\theta)\n\\right]\n\\]\n(a). Make a plot of this prior density and explain why it makes sense for the scientists. Based on the prior density, which do the scientists think is more likely - that their machine is fine, or bad?\n(b). The scientists run the machine \\(n\\) times. Let \\(y_i\\) be one if the machine fails on the \\(i\\)th run, and zero otherwise. Write out the posterior distribution of \\(\\theta\\) given \\(y_1, \\ldots, y_n\\) (up to a proportionality constant) and simplify as much as possible.\n(c). The posterior is a mixture (weighted average) of two distributions that you know. Identify these two distributions, including their parameters."
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#solution-1",
+    "href": "slides/lab-mixtures.html#solution-1",
+    "title": "Mixture densities",
+    "section": "Solution 1",
+    "text": "Solution 1\nThe plot looks like a mixture of normals. The first centered on 0 and the second on 10. More weight is given to the first density.\n\nplotcode\n\n\n\n\n\n\n\n\n\n\nmixNormal = function(x) {\n  0.75 *dnorm(x, 0, 1) +\n  0.25 * dnorm(x, 10, 1)\n}\n\ndata.frame(x = -2:13) %>%\nggplot(aes(x = x)) +\n  stat_function(fun = mixNormal) +\n  labs(y = \"f(x)\")"
+  },
+  {
+    "objectID": "slides/lab-mixtures.html#solution-2",
+    "href": "slides/lab-mixtures.html#solution-2",
+    "title": "Mixture densities",
+    "section": "Solution 2",
+    "text": "Solution 2\nIn lab.\n\n\n🔗 sta360-fa24.github.io"
   }
 ]
