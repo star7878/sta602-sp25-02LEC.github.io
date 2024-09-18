@@ -1,5 +1,5 @@
 ---
-title: "Monte Carlo Prediction and Error"
+title: "Prediction checks and Monte Carlo Error"
 author: "Dr. Alexander Fisher"
 # mainfont: Lato
 format: 
@@ -63,7 +63,7 @@ $$
 
 where the procedure is the same as before, except step 1 is replace with sampling $\theta$ from the posterior $p(\theta | y_1,\ldots, y_n)$.
 
-The resulting sequence $(\theta^{(1)}, \tilde{y}^{(1)}), \ldots, (\theta^{(N)}, \tilde{y}^{(N)})$ constitutes $N$ independent samples from the joint posterior of $(\theta, \tilde{Y})$. The sequence $\tilde{y}^{(1)}, \ldots, \tilde{y}^{(N)})$ constitutes $N$ independent samples from the marginal posterior distribution of $\tilde{Y}$, aka the posterior predictive distribution.
+The resulting sequence $\{(\theta^{(1)}, \tilde{y}^{(1)}), \ldots, (\theta^{(S)}, \tilde{y}^{(S)})\}$ constitutes $S$ independent samples from the joint posterior of $(\theta, \tilde{Y})$. The sequence $\{\tilde{y}^{(1)}, \ldots, \tilde{y}^{(S)}\}$ constitutes $S$ independent samples from the marginal posterior distribution of $\tilde{Y}$, aka the posterior predictive distribution.
 
 ## Posterior predictive model checking
 

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Dr.&nbsp;Alexander Fisher">
 
-<title>STA360 - Monte Carlo Prediction and Error</title>
+<title>STA360 - Prediction checks and Monte Carlo Error</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -137,10 +137,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="nav-link" href="../notes/exam-notes.html">distributions</a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../links.html">links</a>
+    <a class="nav-link" href="../chapterSummaries.html">notes</a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../chapterSummaries.html">ch.&nbsp;summaries</a>
+    <a class="nav-link" href="../links.html">links</a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -177,7 +177,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Monte Carlo Prediction and Error</h1>
+<h1 class="title">Prediction checks and Monte Carlo Error</h1>
 </div>
 
 
@@ -241,7 +241,7 @@ Exercise
 p(\tilde{y} | y_1, \ldots y_n) = \int p(\tilde{y}|\theta) p(\theta|y_1, \ldots, y_n)d\theta,
 \]</span></p>
 <p>where the procedure is the same as before, except step 1 is replace with sampling <span class="math inline">\(\theta\)</span> from the posterior <span class="math inline">\(p(\theta | y_1,\ldots, y_n)\)</span>.</p>
-<p>The resulting sequence <span class="math inline">\((\theta^{(1)}, \tilde{y}^{(1)}), \ldots, (\theta^{(N)}, \tilde{y}^{(N)})\)</span> constitutes <span class="math inline">\(N\)</span> independent samples from the joint posterior of <span class="math inline">\((\theta, \tilde{Y})\)</span>. The sequence <span class="math inline">\(\tilde{y}^{(1)}, \ldots, \tilde{y}^{(N)})\)</span> constitutes <span class="math inline">\(N\)</span> independent samples from the marginal posterior distribution of <span class="math inline">\(\tilde{Y}\)</span>, aka the posterior predictive distribution.</p>
+<p>The resulting sequence <span class="math inline">\(\{(\theta^{(1)}, \tilde{y}^{(1)}), \ldots, (\theta^{(S)}, \tilde{y}^{(S)})\}\)</span> constitutes <span class="math inline">\(S\)</span> independent samples from the joint posterior of <span class="math inline">\((\theta, \tilde{Y})\)</span>. The sequence <span class="math inline">\(\{\tilde{y}^{(1)}, \ldots, \tilde{y}^{(S)}\}\)</span> constitutes <span class="math inline">\(S\)</span> independent samples from the marginal posterior distribution of <span class="math inline">\(\tilde{Y}\)</span>, aka the posterior predictive distribution.</p>
 </section>
 </section>
 <section id="posterior-predictive-model-checking" class="level2">
