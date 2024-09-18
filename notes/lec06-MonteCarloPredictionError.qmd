@@ -15,7 +15,9 @@ library(tidyverse)
 library(latex2exp)
 ```
 
-## Monte Carlo prediction
+## Predictive distributions with Monte Carlo
+
+**Goal**: evaluate our model both *a priori* and *a posteriori* i.e. before and after looking at the data.
 
 ### Prior predictive distribution
 
@@ -171,15 +173,17 @@ df %>%
 
 :::
 
+
+::: panel-tabset 
+
+## Exercise
 ::: callout-important
 ## Exercise
 Let $\mathbf{y}$ be a vector of length 111. Let $t(\mathbf{y})$ be the ratio of $2$s to $1$s in $\mathbf{y}$. For our observed data, this test statistic $t(\mathbf{y}_{obs}) = 38 / 19 = 2$. What is the tail probability $p(t(\tilde{\mathbf{Y}}) \geq t(\mathbf{y}_{obs}))$ under the posterior predictive distribution?
 :::
 
+## Solution
 ```{r}
-#| echo: false
-#| eval: false
-
 set.seed(123)
 
 t.mc = NULL
@@ -193,7 +197,7 @@ hist(t.mc)
 mean(t.mc >= 2)
 ```
 
-
+:::
 
 ## Monte Carlo error
 
