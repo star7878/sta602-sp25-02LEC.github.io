@@ -156,7 +156,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#monte-carlo-prediction" id="toc-monte-carlo-prediction" class="nav-link active" data-scroll-target="#monte-carlo-prediction">Monte Carlo prediction</a>
+  <li><a href="#predictive-distributions-with-monte-carlo" id="toc-predictive-distributions-with-monte-carlo" class="nav-link active" data-scroll-target="#predictive-distributions-with-monte-carlo">Predictive distributions with Monte Carlo</a>
   <ul class="collapse">
   <li><a href="#prior-predictive-distribution" id="toc-prior-predictive-distribution" class="nav-link" data-scroll-target="#prior-predictive-distribution">Prior predictive distribution</a></li>
   <li><a href="#posterior-predictive-distribution" id="toc-posterior-predictive-distribution" class="nav-link" data-scroll-target="#posterior-predictive-distribution">Posterior predictive distribution</a></li>
@@ -202,8 +202,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latex2exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="monte-carlo-prediction" class="level2">
-<h2 class="anchored" data-anchor-id="monte-carlo-prediction">Monte Carlo prediction</h2>
+<section id="predictive-distributions-with-monte-carlo" class="level2">
+<h2 class="anchored" data-anchor-id="predictive-distributions-with-monte-carlo">Predictive distributions with Monte Carlo</h2>
+<p><strong>Goal</strong>: evaluate our model both <em>a priori</em> and <em>a posteriori</em> i.e.&nbsp;before and after looking at the data.</p>
 <section id="prior-predictive-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="prior-predictive-distribution">Prior predictive distribution</h3>
 <p>We can use Monte Carlo to sample new observation, <span class="math inline">\(\tilde{y}\)</span>, from the <strong>prior predictive distribution</strong></p>

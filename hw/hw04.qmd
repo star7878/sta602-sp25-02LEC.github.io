@@ -58,6 +58,6 @@ a. Write down a data generative model (possibly as two separate densities) for t
 
 b. Write down your prior beliefs about unknown parameters in your model above using a conjugate density. Choose parameters for the priors. Explain your choices.
 
-c. Report (using Monte Carlo sampling other otherwise) the posterior mean of the [relative risk](https://en.wikipedia.org/wiki/Relative_risk), i.e. the posterior mean of the probability of stroke in the treatment group versus in the control, (think $E~[\frac{\theta_t}{\theta_c}~|~\text{data}]$). Additionally, include a 95% posterior confidence interval for the relative risk.
+c. Report (using Monte Carlo sampling or otherwise) the posterior mean of the [relative risk](https://en.wikipedia.org/wiki/Relative_risk), i.e. the posterior mean of the probability of stroke in the treatment group versus in the control, (think $E~[\frac{\theta_t}{\theta_c}~|~\text{data}]$). Additionally, include a 95% posterior confidence interval for the relative risk.
 
 d. Plot the posterior of the relative risk from part c. Do you believe the treatment is effective?

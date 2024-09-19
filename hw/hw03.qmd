@@ -36,7 +36,7 @@ c. Obtain a formula for $E~ \theta | Y_1, \ldots Y_n$ and $Var~\theta | Y_1, \ld
 
 ## Exercise 2
 
-Physicists studying a radioactive substance measure the times at which the substance emits a particle. They will record $n+1$ emissions and set $Y_1$ to be the time elapsed between the first and second emission, $Y_2$ to be the time elapsed between the second and third emission and so on. They will model the data as $Y_1, \ldots Y_n | \theta \sim \text{exponential}(\theta)$. The pdf of the exponential($\theta$) distribution is 
+Physicists studying a radioactive substance measure the times at which the substance emits a particle. They will record $n+1$ emissions and set $Y_1$ to be the time elapsed between the first and second emission, $Y_2$ to be the time elapsed between the second and third emission and so on. They will model the data as $Y_1, \ldots Y_n | \theta \sim \text{i.i.d. } \text{exponential}(\theta)$. The pdf of the exponential($\theta$) distribution is 
 
 $$
 p(y |\theta) = \theta e^{-\theta y} \ \text{ for } \ y>0, \ \theta>0.
