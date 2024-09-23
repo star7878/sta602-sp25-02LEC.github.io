@@ -246,7 +246,7 @@ VarX = n*p*(1-p) # 20*.4*.6 = 4.8
 sdX = sqrt(VarX) # 2.19089
 
 # Monte Carlo sample of size N
-N = 193520
+N = 100
 xSamples = rbinom(N, size = n, prob = p) 
 
 # sample mean, var, sd
