@@ -16,9 +16,30 @@ Expand $p(\theta | y)$ using Bayes' rule (include the normalization constant).
 
 ### Exercise 3
 
-`TRUE` or `FALSE`
+The vertical line on the following plot is best described as the posterior ____. 
 
-Monte Carlo integration error scales $\mathcal{O}(\frac{1}{\sqrt{N}})$ where $N$ is the number of independent samples from the posterior.
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-height: 2
+library(tidyverse) 
+library(latex2exp)
+data.frame(x = 0:6) %>%
+  ggplot(aes(x = x)) +
+  stat_function(fun = dgamma, args = list(2, 2)) +
+  theme_bw() +
+  geom_vline(xintercept = 1/2, col = "red") +
+  labs(x = TeX("$\\theta$"), 
+       y = TeX("$p(\\theta | y_1,\\ldots y_n)$")) +
+  theme(text = element_text(size = 15))
+```
+
+
+
+<!-- `TRUE` or `FALSE` -->
+
+<!-- Monte Carlo integration error scales $\mathcal{O}(\frac{1}{\sqrt{N}})$ where $N$ is the number of independent samples from the posterior. -->
 
 
 ```{r}
