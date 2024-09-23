@@ -246,7 +246,7 @@ VarX = n*p*(1-p) # 20*.4*.6 = 4.8
 sdX = sqrt(VarX) # 2.19089
 
 # Monte Carlo sample of size N
-N = 100
+N = 193520
 xSamples = rbinom(N, size = n, prob = p) 
 
 # sample mean, var, sd
@@ -271,3 +271,6 @@ If you wanted to state $p(\theta \in (\hat{\theta} \pm 0.01)) = 0.95$, how large
 
 Check your answer by adjusting $N$ above.
 :::
+
+<!-- 2 sigma-hat / sqrt(N)  = 0.01 -->
+<!-- ((sqrt(4.8) * 2) / 0.01)^2 -->
