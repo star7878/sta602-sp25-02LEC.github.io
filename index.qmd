@@ -79,7 +79,7 @@ schedule %>%
 |      | Thu Sep 19 | lab: mixture densities                              |         |                               [💻](/slides/lab-mixtures.html)                                |                            |
 | 5    | Mon Sep 23 | the normal model                                    | Ch. 5   |             [🗒](/notes/lec07-normalModel.html)[📝](/notes/completeTheSquare.pdf)             |                            |
 |      | Wed Sep 25 | the normal model II                                 | Ch. 5   |                                                                                              |                            |
-|      | Thu Sep 26 |                                                     |         |                                                                                              |                            |
+|      | Thu Sep 26 | lab: normal data                                    |         |                                              💻                                              |                            |
 | 6    | Mon Sep 30 | review                                              |         |                                                                                              |                            |
 |      | Wed Oct 02 | [Exam I](/notes/exam-notes.html)                    |         |                                                                                              |                            |
 |      | Thu Oct 03 |                                                     |         |                                                                                              |                            |

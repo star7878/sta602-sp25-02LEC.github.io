@@ -1,0 +1,79 @@
+---
+title: "Normal modeling"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# Exercise
+
+
+Libraries used:
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+```
+
+
+## Data
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+bass = read_csv("../data/bass.csv")
+```
+
+```{r}
+#| eval: false
+bass = read_csv("https://sta360-fa24.github.io/data/bass.csv")
+```
+
+```{r}
+glimpse(bass)
+```
+
+Mercury, is a naturally occurring element that can have toxic effects on the nervous, digestive and immune systems of humans. Bass from the Waccamaw and Lumber Rivers (NC) were caught randomly, weighed, and measured. In addition, a filet from each fish caught was sent to the lab so that the tissue concentration of mercury could be determined for each fish. Each fish caught corresponds to a single row of the data frame. Today we will examine two columns from the data set: `mercury` (concentration of mercury in ppm) and `weight` (weight of the fish in grams). We'll model the mercury content $y$ of each fish as a function of the fish's weight $x$.
+
+## Model
+
+Let 
+
+$$
+\begin{aligned}
+Y_i | \theta, \sigma^2 &\sim \text{ iid  } N(\theta x_i, \sigma^2)\\
+\theta | \sigma^2 &\sim N(\mu_0, \sigma^2 / \kappa_0)\\
+\frac{1}{\sigma^2} &\sim \text{gamma}(\frac{\nu_0}{2}, \frac{\nu_0}{2} \sigma_0^2)
+\end{aligned}
+$$
+
+Let $\mu_0 = 0$, $\kappa_0 = 1$, $\nu_0 = 2$, and $\sigma_0^2 = 1$.
+
+(a). Suppose you observe data $y_1,\ldots y_n$. Write out the formula for $p(\theta | \sigma^2, y_1, \ldots y_n)$.
+
+(b). Write out the formula for $p(\sigma^2 | y_1, \ldots y_n)$.
+
+(c). Given the data on the previous slide, and using Monte Carlo simulation, report $E[\theta | y_1,\ldots y_n]$ and $E[\sigma^2 | y_1,\ldots y_n]$ together with 95% posterior confidence intervals.
+
+## Solution (a)
+
+#### a
+
+$$
+\theta | \sigma^2, y_1, \ldots y_n \sim N(\mu_n, \tau_n^2)
+$$
+
+where 
+
+$$
+\begin{aligned}
+\mu_n &= \frac{\kappa_0 \mu_0 + \sum y_i x_i}{\kappa_0 + \sum x_i^2}\\
+\tau_n^2 &= \frac{\sigma^2}{\kappa_0 + \sum x_i^2}
+\end{aligned}
+$$
+
+<!-- ## Solution (b) -->
+
+<!-- #### b -->
