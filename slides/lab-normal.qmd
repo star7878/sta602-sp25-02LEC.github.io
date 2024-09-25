@@ -14,6 +14,7 @@ Libraries used:
 #| message: false
 #| warning: false
 library(tidyverse)
+library(latex2exp)
 ```
 
 
@@ -35,7 +36,7 @@ bass = read_csv("https://sta360-fa24.github.io/data/bass.csv")
 glimpse(bass)
 ```
 
-Mercury, is a naturally occurring element that can have toxic effects on the nervous, digestive and immune systems of humans. Bass from the Waccamaw and Lumber Rivers (NC) were caught randomly, weighed, and measured. In addition, a filet from each fish caught was sent to the lab so that the tissue concentration of mercury could be determined for each fish. Each fish caught corresponds to a single row of the data frame. Today we will examine two columns from the data set: `mercury` (concentration of mercury in ppm) and `weight` (weight of the fish in grams). We'll model the mercury content $y$ of each fish as a function of the fish's weight $x$.
+Mercury, is a naturally occurring element that can have toxic effects on the nervous, digestive and immune systems of humans. Bass from the Waccamaw and Lumber Rivers (NC) were caught randomly, weighed, and measured. In addition, a filet from each fish caught was sent to the lab so that the tissue concentration of mercury could be determined for each fish. Each fish caught corresponds to a single row of the data frame. Today we will examine two columns from the data set: `mercury` (concentration of mercury in ppm) and `weight` (weight of the fish in kg). We'll model the mercury content $y$ of each fish as a function of the fish's weight $x$.
 
 ## Model
 
@@ -43,19 +44,27 @@ Let
 
 $$
 \begin{aligned}
-Y_i | \theta, \sigma^2 &\sim \text{ iid  } N(\theta x_i, \sigma^2)\\
-\theta | \sigma^2 &\sim N(\mu_0, \sigma^2 / \kappa_0)\\
-\frac{1}{\sigma^2} &\sim \text{gamma}(\frac{\nu_0}{2}, \frac{\nu_0}{2} \sigma_0^2)
+Y_i | \theta &\sim \text{ iid  } N(\theta x_i, 1)\\
+\theta &\sim N(\mu_0, 1 / \kappa_0)
 \end{aligned}
 $$
 
-Let $\mu_0 = 0$, $\kappa_0 = 1$, $\nu_0 = 2$, and $\sigma_0^2 = 1$.
+Let $\mu_0 = 0$, $\kappa_0 = 1$.
 
 (a). Suppose you observe data $y_1,\ldots y_n$. Write out the formula for $p(\theta | \sigma^2, y_1, \ldots y_n)$.
 
-(b). Write out the formula for $p(\sigma^2 | y_1, \ldots y_n)$.
+(b). Given the data on the previous slide, standardize $y$ and $x$. Next, using Monte Carlo simulation, report $E[\theta | y_1,\ldots y_n]$ together with 95% posterior confidence intervals.
 
-(c). Given the data on the previous slide, standardize $y$ and $x$. Next, using Monte Carlo simulation, report $E[\theta | y_1,\ldots y_n]$ and $E[\sigma^2 | y_1,\ldots y_n]$ together with 95% posterior confidence intervals.
+(c). If you caught a new fish with weight 4kg, what would you predict the mercury content to be? In other words, let x = 4 and compute $E[\tilde{y}|y_1,\ldots, y_n, x = 4]$. Additionally, plot the the posterior predictive density $p(\tilde{y} | y_1, \ldots y_n, x = 4)$.
+
+(d) Critique your model. Hint: compare to the models below:
+
+```{r}
+#| eval: false
+lm(mercury ~ weight, data = bass)
+lm(mercury ~ 0 + weight, data = bass)
+```
+
 
 ## Solution (a)
 
@@ -77,3 +86,49 @@ $$
 <!-- ## Solution (b) -->
 
 <!-- #### b -->
+
+<!-- $$ -->
+<!-- \nu_n = \nu_0 + n -->
+<!-- $$ -->
+<!-- $$ -->
+<!-- \sigma_n^2 = \frac{1}{\nu_n} \left[\sum y_i^2 - \kappa_0 \mu_0^2 + \frac{\left(\sum y_i x_i + \kappa_0 \mu_0\right)^2}{\left( \sum x_i^2 + \kappa_0  \right)} -->
+<!-- \right] -->
+<!-- $$ -->
+
+## Solution (b) 
+
+#### b
+
+```{r}
+# generating 10 samples from the population
+set.seed(123)
+true.theta = 4
+true.sigma = 1
+N = 10000
+x = seq(from = 1, to = 10, length = N)
+y = rnorm(N, true.theta * x, true.sigma) + 10
+
+# y = (y - mean(y)) / sd(y)
+# x = (x - mean(x)) / sd(x)
+sumY2 = sum(y^2)
+sumX2 = sum(x^2)
+sumXY = sum(x * y)
+n = length(y) # sample size
+
+# priors
+# Let $\mu_0 = 0$, $\kappa_0 = 1$, $\nu_0 = 2$, and $\sigma_0^2 = 1$.
+# theta prior
+mu_0 = 0; k_0 = 1
+# sigma2 prior
+nu_0 = 2; s2_0 = 1
+
+# posterior parameters
+kn = k_0 + sumX2
+nun = nu_0 + n
+mun = ((k_0 * mu_0) + sumXY) / (kn)
+betaN = (sumY2 - (k_0 * (mu_0^2))) + ((sumXY + (k_0 * mu_0))^2 / (sumX2 + k_0))
+betaN = betaN / nun
+theta.postsample = rnorm(10000, mun, sqrt(1 / kn))
+hist(theta.postsample)
+```
+

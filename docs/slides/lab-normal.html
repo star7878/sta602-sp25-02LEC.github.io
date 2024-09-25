@@ -393,7 +393,8 @@
 <h1>Exercise</h1>
 <p>Libraries used:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(latex2exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="data" class="slide level2">
@@ -412,26 +413,32 @@ Columns: 5
 $ river   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
 $ station &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 $ length  &lt;dbl&gt; 47.0, 48.7, 55.7, 45.2, 44.7, 43.8, 38.5, 45.8, 44.0, 40.4, 47…
-$ weight  &lt;dbl&gt; 1616, 1862, 2855, 1199, 1320, 1225, 870, 1455, 1220, 1033, 337…
+$ weight  &lt;dbl&gt; 1.616, 1.862, 2.855, 1.199, 1.320, 1.225, 0.870, 1.455, 1.220,…
 $ mercury &lt;dbl&gt; 1.60, 1.50, 1.70, 0.73, 0.56, 0.51, 0.48, 0.95, 1.40, 0.50, 0.…</code></pre>
 </div>
 </div>
-<p>Mercury, is a naturally occurring element that can have toxic effects on the nervous, digestive and immune systems of humans. Bass from the Waccamaw and Lumber Rivers (NC) were caught randomly, weighed, and measured. In addition, a filet from each fish caught was sent to the lab so that the tissue concentration of mercury could be determined for each fish. Each fish caught corresponds to a single row of the data frame. Today we will examine two columns from the data set: <code>mercury</code> (concentration of mercury in ppm) and <code>weight</code> (weight of the fish in grams). We’ll model the mercury content <span class="math inline">\(y\)</span> of each fish as a function of the fish’s weight <span class="math inline">\(x\)</span>.</p>
+<p>Mercury, is a naturally occurring element that can have toxic effects on the nervous, digestive and immune systems of humans. Bass from the Waccamaw and Lumber Rivers (NC) were caught randomly, weighed, and measured. In addition, a filet from each fish caught was sent to the lab so that the tissue concentration of mercury could be determined for each fish. Each fish caught corresponds to a single row of the data frame. Today we will examine two columns from the data set: <code>mercury</code> (concentration of mercury in ppm) and <code>weight</code> (weight of the fish in kg). We’ll model the mercury content <span class="math inline">\(y\)</span> of each fish as a function of the fish’s weight <span class="math inline">\(x\)</span>.</p>
 </section>
 <section id="model" class="slide level2">
 <h2>Model</h2>
 <p>Let</p>
 <p><span class="math display">\[
 \begin{aligned}
-Y_i | \theta, \sigma^2 &amp;\sim \text{ iid  } N(\theta x_i, \sigma^2)\\
-\theta | \sigma^2 &amp;\sim N(\mu_0, \sigma^2 / \kappa_0)\\
-\frac{1}{\sigma^2} &amp;\sim \text{gamma}(\frac{\nu_0}{2}, \frac{\nu_0}{2} \sigma_0^2)
+Y_i | \theta &amp;\sim \text{ iid  } N(\theta x_i, 1)\\
+\theta &amp;\sim N(\mu_0, 1 / \kappa_0)
 \end{aligned}
 \]</span></p>
-<p>Let <span class="math inline">\(\mu_0 = 0\)</span>, <span class="math inline">\(\kappa_0 = 1\)</span>, <span class="math inline">\(\nu_0 = 2\)</span>, and <span class="math inline">\(\sigma_0^2 = 1\)</span>.</p>
+<p>Let <span class="math inline">\(\mu_0 = 0\)</span>, <span class="math inline">\(\kappa_0 = 1\)</span>.</p>
 <p>(a). Suppose you observe data <span class="math inline">\(y_1,\ldots y_n\)</span>. Write out the formula for <span class="math inline">\(p(\theta | \sigma^2, y_1, \ldots y_n)\)</span>.</p>
-<p>(b). Write out the formula for <span class="math inline">\(p(\sigma^2 | y_1, \ldots y_n)\)</span>.</p>
-<p>(c). Given the data on the previous slide, standardize <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. Next, using Monte Carlo simulation, report <span class="math inline">\(E[\theta | y_1,\ldots y_n]\)</span> and <span class="math inline">\(E[\sigma^2 | y_1,\ldots y_n]\)</span> together with 95% posterior confidence intervals.</p>
+<p>(b). Given the data on the previous slide, standardize <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. Next, using Monte Carlo simulation, report <span class="math inline">\(E[\theta | y_1,\ldots y_n]\)</span> together with 95% posterior confidence intervals.</p>
+<p>(c). If you caught a new fish with weight 4kg, what would you predict the mercury content to be? In other words, let x = 4 and compute <span class="math inline">\(E[\tilde{y}|y_1,\ldots, y_n, x = 4]\)</span>. Additionally, plot the the posterior predictive density <span class="math inline">\(p(\tilde{y} | y_1, \ldots y_n, x = 4)\)</span>.</p>
+<ol start="4" type="a">
+<li>Critique your model. Hint: compare to the models below:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">lm</span>(mercury <span class="sc">~</span> weight, <span class="at">data =</span> bass)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">lm</span>(mercury <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> weight, <span class="at">data =</span> bass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="solution-a" class="slide level2">
 <h2>Solution (a)</h2>
@@ -448,8 +455,52 @@ Y_i | \theta, \sigma^2 &amp;\sim \text{ iid  } N(\theta x_i, \sigma^2)\\
 \]</span></p>
 <!-- ## Solution (b) -->
 <!-- #### b -->
+<!-- $$ -->
+<!-- \nu_n = \nu_0 + n -->
+<!-- $$ -->
+<!-- $$ -->
+<!-- \sigma_n^2 = \frac{1}{\nu_n} \left[\sum y_i^2 - \kappa_0 \mu_0^2 + \frac{\left(\sum y_i x_i + \kappa_0 \mu_0\right)^2}{\left( \sum x_i^2 + \kappa_0  \right)} -->
+<!-- \right] -->
+<!-- $$ -->
+</section>
+<section id="solution-b" class="slide level2">
+<h2>Solution (b)</h2>
+<h4 id="b">b</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># generating 10 samples from the population</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a>true.theta <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>true.sigma <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>N <span class="ot">=</span> <span class="dv">10000</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>x <span class="ot">=</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> <span class="dv">10</span>, <span class="at">length =</span> N)</span>
+<span id="cb6-7"><a href="#cb6-7"></a>y <span class="ot">=</span> <span class="fu">rnorm</span>(N, true.theta <span class="sc">*</span> x, true.sigma) <span class="sc">+</span> <span class="dv">10</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co"># y = (y - mean(y)) / sd(y)</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co"># x = (x - mean(x)) / sd(x)</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>sumY2 <span class="ot">=</span> <span class="fu">sum</span>(y<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb6-12"><a href="#cb6-12"></a>sumX2 <span class="ot">=</span> <span class="fu">sum</span>(x<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb6-13"><a href="#cb6-13"></a>sumXY <span class="ot">=</span> <span class="fu">sum</span>(x <span class="sc">*</span> y)</span>
+<span id="cb6-14"><a href="#cb6-14"></a>n <span class="ot">=</span> <span class="fu">length</span>(y) <span class="co"># sample size</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co"># priors</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co"># Let $\mu_0 = 0$, $\kappa_0 = 1$, $\nu_0 = 2$, and $\sigma_0^2 = 1$.</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co"># theta prior</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a>mu_0 <span class="ot">=</span> <span class="dv">0</span>; k_0 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co"># sigma2 prior</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a>nu_0 <span class="ot">=</span> <span class="dv">2</span>; s2_0 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a></span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="co"># posterior parameters</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a>kn <span class="ot">=</span> k_0 <span class="sc">+</span> sumX2</span>
+<span id="cb6-25"><a href="#cb6-25"></a>nun <span class="ot">=</span> nu_0 <span class="sc">+</span> n</span>
+<span id="cb6-26"><a href="#cb6-26"></a>mun <span class="ot">=</span> ((k_0 <span class="sc">*</span> mu_0) <span class="sc">+</span> sumXY) <span class="sc">/</span> (kn)</span>
+<span id="cb6-27"><a href="#cb6-27"></a>betaN <span class="ot">=</span> (sumY2 <span class="sc">-</span> (k_0 <span class="sc">*</span> (mu_0<span class="sc">^</span><span class="dv">2</span>))) <span class="sc">+</span> ((sumXY <span class="sc">+</span> (k_0 <span class="sc">*</span> mu_0))<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sumX2 <span class="sc">+</span> k_0))</span>
+<span id="cb6-28"><a href="#cb6-28"></a>betaN <span class="ot">=</span> betaN <span class="sc">/</span> nun</span>
+<span id="cb6-29"><a href="#cb6-29"></a>theta.postsample <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, mun, <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> kn))</span>
+<span id="cb6-30"><a href="#cb6-30"></a><span class="fu">hist</span>(theta.postsample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
-<div class="footer footer-default">
+</div>
+
+<img data-src="lab-normal_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"><div class="footer footer-default">
 <p><a href="https://sta360-fa24.github.io">🔗 sta360-fa24.github.io</a></p>
 </div>
 </section></section>
