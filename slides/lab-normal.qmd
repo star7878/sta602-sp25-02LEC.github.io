@@ -55,7 +55,7 @@ Let $\mu_0 = 0$, $\kappa_0 = 1$, $\nu_0 = 2$, and $\sigma_0^2 = 1$.
 
 (b). Write out the formula for $p(\sigma^2 | y_1, \ldots y_n)$.
 
-(c). Given the data on the previous slide, and using Monte Carlo simulation, report $E[\theta | y_1,\ldots y_n]$ and $E[\sigma^2 | y_1,\ldots y_n]$ together with 95% posterior confidence intervals.
+(c). Given the data on the previous slide, standardize $y$ and $x$. Next, using Monte Carlo simulation, report $E[\theta | y_1,\ldots y_n]$ and $E[\sigma^2 | y_1,\ldots y_n]$ together with 95% posterior confidence intervals.
 
 ## Solution (a)
 

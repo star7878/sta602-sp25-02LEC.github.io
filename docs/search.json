@@ -1572,7 +1572,7 @@
     "href": "slides/lab-normal.html#model",
     "title": "Normal modeling",
     "section": "Model",
-    "text": "Model\nLet\n\\[\n\\begin{aligned}\nY_i | \\theta, \\sigma^2 &\\sim \\text{ iid  } N(\\theta x_i, \\sigma^2)\\\\\n\\theta | \\sigma^2 &\\sim N(\\mu_0, \\sigma^2 / \\kappa_0)\\\\\n\\frac{1}{\\sigma^2} &\\sim \\text{gamma}(\\frac{\\nu_0}{2}, \\frac{\\nu_0}{2} \\sigma_0^2)\n\\end{aligned}\n\\]\nLet \\(\\mu_0 = 0\\), \\(\\kappa_0 = 1\\), \\(\\nu_0 = 2\\), and \\(\\sigma_0^2 = 1\\).\n(a). Suppose you observe data \\(y_1,\\ldots y_n\\). Write out the formula for \\(p(\\theta | \\sigma^2, y_1, \\ldots y_n)\\).\n(b). Write out the formula for \\(p(\\sigma^2 | y_1, \\ldots y_n)\\).\n(c). Given the data on the previous slide, and using Monte Carlo simulation, report \\(E[\\theta | y_1,\\ldots y_n]\\) and \\(E[\\sigma^2 | y_1,\\ldots y_n]\\) together with 95% posterior confidence intervals."
+    "text": "Model\nLet\n\\[\n\\begin{aligned}\nY_i | \\theta, \\sigma^2 &\\sim \\text{ iid  } N(\\theta x_i, \\sigma^2)\\\\\n\\theta | \\sigma^2 &\\sim N(\\mu_0, \\sigma^2 / \\kappa_0)\\\\\n\\frac{1}{\\sigma^2} &\\sim \\text{gamma}(\\frac{\\nu_0}{2}, \\frac{\\nu_0}{2} \\sigma_0^2)\n\\end{aligned}\n\\]\nLet \\(\\mu_0 = 0\\), \\(\\kappa_0 = 1\\), \\(\\nu_0 = 2\\), and \\(\\sigma_0^2 = 1\\).\n(a). Suppose you observe data \\(y_1,\\ldots y_n\\). Write out the formula for \\(p(\\theta | \\sigma^2, y_1, \\ldots y_n)\\).\n(b). Write out the formula for \\(p(\\sigma^2 | y_1, \\ldots y_n)\\).\n(c). Given the data on the previous slide, standardize \\(y\\) and \\(x\\). Next, using Monte Carlo simulation, report \\(E[\\theta | y_1,\\ldots y_n]\\) and \\(E[\\sigma^2 | y_1,\\ldots y_n]\\) together with 95% posterior confidence intervals."
   },
   {
     "objectID": "slides/lab-normal.html#solution",
@@ -1580,5 +1580,12 @@
     "title": "Normal modeling",
     "section": "Solution",
     "text": "Solution\na\n\\[\n\\theta | \\sigma^2, y_1, \\ldots y_n \\sim N(\\mu_n, \\tau_n^2)\n\\]\nwhere\n\\[\n\\begin{aligned}\n\\mu_n &= \\frac{\\kappa_0 \\mu_0 + \\sum y_i x_i}{\\kappa_0 + \\sum x_i^2}\\\\\n\\tau_n^2 &= \\frac{\\sigma^2}{\\kappa_0 + \\sum x_i^2}\n\\end{aligned}\n\\]\n\n\n🔗 sta360-fa24.github.io"
+  },
+  {
+    "objectID": "slides/lab-normal.html#solution-a",
+    "href": "slides/lab-normal.html#solution-a",
+    "title": "Normal modeling",
+    "section": "Solution (a)",
+    "text": "Solution (a)\na\n\\[\n\\theta | \\sigma^2, y_1, \\ldots y_n \\sim N(\\mu_n, \\tau_n^2)\n\\]\nwhere\n\\[\n\\begin{aligned}\n\\mu_n &= \\frac{\\kappa_0 \\mu_0 + \\sum y_i x_i}{\\kappa_0 + \\sum x_i^2}\\\\\n\\tau_n^2 &= \\frac{\\sigma^2}{\\kappa_0 + \\sum x_i^2}\n\\end{aligned}\n\\]\n\n\n\n\n🔗 sta360-fa24.github.io"
   }
 ]

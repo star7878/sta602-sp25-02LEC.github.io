@@ -431,10 +431,10 @@ Y_i | \theta, \sigma^2 &amp;\sim \text{ iid  } N(\theta x_i, \sigma^2)\\
 <p>Let <span class="math inline">\(\mu_0 = 0\)</span>, <span class="math inline">\(\kappa_0 = 1\)</span>, <span class="math inline">\(\nu_0 = 2\)</span>, and <span class="math inline">\(\sigma_0^2 = 1\)</span>.</p>
 <p>(a). Suppose you observe data <span class="math inline">\(y_1,\ldots y_n\)</span>. Write out the formula for <span class="math inline">\(p(\theta | \sigma^2, y_1, \ldots y_n)\)</span>.</p>
 <p>(b). Write out the formula for <span class="math inline">\(p(\sigma^2 | y_1, \ldots y_n)\)</span>.</p>
-<p>(c). Given the data on the previous slide, and using Monte Carlo simulation, report <span class="math inline">\(E[\theta | y_1,\ldots y_n]\)</span> and <span class="math inline">\(E[\sigma^2 | y_1,\ldots y_n]\)</span> together with 95% posterior confidence intervals.</p>
+<p>(c). Given the data on the previous slide, standardize <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. Next, using Monte Carlo simulation, report <span class="math inline">\(E[\theta | y_1,\ldots y_n]\)</span> and <span class="math inline">\(E[\sigma^2 | y_1,\ldots y_n]\)</span> together with 95% posterior confidence intervals.</p>
 </section>
-<section id="solution" class="slide level2">
-<h2>Solution</h2>
+<section id="solution-a" class="slide level2">
+<h2>Solution (a)</h2>
 <h4 id="a">a</h4>
 <p><span class="math display">\[
 \theta | \sigma^2, y_1, \ldots y_n \sim N(\mu_n, \tau_n^2)
@@ -446,6 +446,8 @@ Y_i | \theta, \sigma^2 &amp;\sim \text{ iid  } N(\theta x_i, \sigma^2)\\
 \tau_n^2 &amp;= \frac{\sigma^2}{\kappa_0 + \sum x_i^2}
 \end{aligned}
 \]</span></p>
+<!-- ## Solution (b) -->
+<!-- #### b -->
 
 <div class="footer footer-default">
 <p><a href="https://sta360-fa24.github.io">🔗 sta360-fa24.github.io</a></p>
