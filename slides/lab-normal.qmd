@@ -71,15 +71,22 @@ lm(mercury ~ 0 + weight, data = bass)
 #### a
 
 $$
-\theta | \sigma^2, y_1, \ldots y_n \sim N(\mu_n, \tau_n^2)
+\theta |  y_1, \ldots y_n \sim N(\mu_n, \tau_n^2)
 $$
+<!-- \theta | \sigma^2, y_1, \ldots y_n \sim N(\mu_n, \tau_n^2) -->
+
 
 where 
+
+<!-- \begin{aligned} -->
+<!-- \mu_n &= \frac{\kappa_0 \mu_0 + \sum y_i x_i}{\kappa_0 + \sum x_i^2}\\ -->
+<!-- \tau_n^2 &= \frac{\sigma^2}{\kappa_0 + \sum x_i^2} -->
+<!-- \end{aligned} -->
 
 $$
 \begin{aligned}
 \mu_n &= \frac{\kappa_0 \mu_0 + \sum y_i x_i}{\kappa_0 + \sum x_i^2}\\
-\tau_n^2 &= \frac{\sigma^2}{\kappa_0 + \sum x_i^2}
+\tau_n^2 &= \frac{1}{\kappa_0 + \sum x_i^2}
 \end{aligned}
 $$
 

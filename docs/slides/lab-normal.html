@@ -444,13 +444,18 @@ Y_i | \theta &amp;\sim \text{ iid  } N(\theta x_i, 1)\\
 <h2>Solution (a)</h2>
 <h4 id="a">a</h4>
 <p><span class="math display">\[
-\theta | \sigma^2, y_1, \ldots y_n \sim N(\mu_n, \tau_n^2)
+\theta |  y_1, \ldots y_n \sim N(\mu_n, \tau_n^2)
 \]</span></p>
+<!-- \theta | \sigma^2, y_1, \ldots y_n \sim N(\mu_n, \tau_n^2) -->
 <p>where</p>
+<!-- \begin{aligned} -->
+<!-- \mu_n &= \frac{\kappa_0 \mu_0 + \sum y_i x_i}{\kappa_0 + \sum x_i^2}\\ -->
+<!-- \tau_n^2 &= \frac{\sigma^2}{\kappa_0 + \sum x_i^2} -->
+<!-- \end{aligned} -->
 <p><span class="math display">\[
 \begin{aligned}
 \mu_n &amp;= \frac{\kappa_0 \mu_0 + \sum y_i x_i}{\kappa_0 + \sum x_i^2}\\
-\tau_n^2 &amp;= \frac{\sigma^2}{\kappa_0 + \sum x_i^2}
+\tau_n^2 &amp;= \frac{1}{\kappa_0 + \sum x_i^2}
 \end{aligned}
 \]</span></p>
 <!-- ## Solution (b) -->

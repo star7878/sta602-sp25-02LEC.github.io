@@ -1586,7 +1586,7 @@
     "href": "slides/lab-normal.html#solution-a",
     "title": "Normal modeling",
     "section": "Solution (a)",
-    "text": "Solution (a)\na\n\\[\n\\theta | \\sigma^2, y_1, \\ldots y_n \\sim N(\\mu_n, \\tau_n^2)\n\\]\nwhere\n\\[\n\\begin{aligned}\n\\mu_n &= \\frac{\\kappa_0 \\mu_0 + \\sum y_i x_i}{\\kappa_0 + \\sum x_i^2}\\\\\n\\tau_n^2 &= \\frac{\\sigma^2}{\\kappa_0 + \\sum x_i^2}\n\\end{aligned}\n\\]"
+    "text": "Solution (a)\na\n\\[\n\\theta |  y_1, \\ldots y_n \\sim N(\\mu_n, \\tau_n^2)\n\\]\n\nwhere\n\n\n\n\n\\[\n\\begin{aligned}\n\\mu_n &= \\frac{\\kappa_0 \\mu_0 + \\sum y_i x_i}{\\kappa_0 + \\sum x_i^2}\\\\\n\\tau_n^2 &= \\frac{1}{\\kappa_0 + \\sum x_i^2}\n\\end{aligned}\n\\]"
   },
   {
     "objectID": "slides/lab-normal.html#solution-b",
