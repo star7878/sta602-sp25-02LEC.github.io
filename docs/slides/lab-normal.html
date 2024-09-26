@@ -429,8 +429,8 @@ Y_i | \theta &amp;\sim \text{ iid  } N(\theta x_i, 1)\\
 \end{aligned}
 \]</span></p>
 <p>Let <span class="math inline">\(\mu_0 = 0\)</span>, <span class="math inline">\(\kappa_0 = 1\)</span>.</p>
-<p>(a). Suppose you observe data <span class="math inline">\(y_1,\ldots y_n\)</span>. Write out the formula for <span class="math inline">\(p(\theta | \sigma^2, y_1, \ldots y_n)\)</span>.</p>
-<p>(b). Given the data on the previous slide, standardize <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. Next, using Monte Carlo simulation, report <span class="math inline">\(E[\theta | y_1,\ldots y_n]\)</span> together with 95% posterior confidence intervals.</p>
+<p>(a). Suppose you observe data <span class="math inline">\(y_1,\ldots y_n\)</span>. Write out the formula for <span class="math inline">\(p(\theta | y_1, \ldots y_n)\)</span>.</p>
+<p>(b). Given the data on the previous slide, use Monte Carlo simulation to plot <span class="math inline">\(p(\theta | y_1, \ldots, y_n)\)</span>. Additionally, report <span class="math inline">\(E[\theta | y_1,\ldots y_n]\)</span> together with a 95% posterior confidence interval.</p>
 <p>(c). If you caught a new fish with weight 4kg, what would you predict the mercury content to be? In other words, let x = 4 and compute <span class="math inline">\(E[\tilde{y}|y_1,\ldots, y_n, x = 4]\)</span>. Additionally, plot the the posterior predictive density <span class="math inline">\(p(\tilde{y} | y_1, \ldots y_n, x = 4)\)</span>.</p>
 <ol start="4" type="a">
 <li>Critique your model. Hint: compare to the models below:</li>
@@ -466,41 +466,126 @@ Y_i | \theta &amp;\sim \text{ iid  } N(\theta x_i, 1)\\
 <section id="solution-b" class="slide level2">
 <h2>Solution (b)</h2>
 <h4 id="b">b</h4>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">demo</a></li><li><a href="#tabset-1-2">demo plot</a></li><li><a href="#tabset-1-3">solution code</a></li><li><a href="#tabset-1-4">solution plot</a></li><li><a href="#tabset-1-5">summary</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<p>Demo with simulated data to make sure code works:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># generating 10 samples from the population</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># simulated data</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb6-3"><a href="#cb6-3"></a>true.theta <span class="ot">=</span> <span class="dv">4</span></span>
 <span id="cb6-4"><a href="#cb6-4"></a>true.sigma <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a>N <span class="ot">=</span> <span class="dv">10000</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>N <span class="ot">=</span> <span class="dv">10</span></span>
 <span id="cb6-6"><a href="#cb6-6"></a>x <span class="ot">=</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> <span class="dv">10</span>, <span class="at">length =</span> N)</span>
-<span id="cb6-7"><a href="#cb6-7"></a>y <span class="ot">=</span> <span class="fu">rnorm</span>(N, true.theta <span class="sc">*</span> x, true.sigma) <span class="sc">+</span> <span class="dv">10</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>y <span class="ot">=</span> <span class="fu">rnorm</span>(N, true.theta <span class="sc">*</span> x, true.sigma)</span>
 <span id="cb6-8"><a href="#cb6-8"></a></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co"># y = (y - mean(y)) / sd(y)</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co"># x = (x - mean(x)) / sd(x)</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a>sumY2 <span class="ot">=</span> <span class="fu">sum</span>(y<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb6-12"><a href="#cb6-12"></a>sumX2 <span class="ot">=</span> <span class="fu">sum</span>(x<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb6-13"><a href="#cb6-13"></a>sumXY <span class="ot">=</span> <span class="fu">sum</span>(x <span class="sc">*</span> y)</span>
-<span id="cb6-14"><a href="#cb6-14"></a>n <span class="ot">=</span> <span class="fu">length</span>(y) <span class="co"># sample size</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co"># priors</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a><span class="co"># Let $\mu_0 = 0$, $\kappa_0 = 1$, $\nu_0 = 2$, and $\sigma_0^2 = 1$.</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a><span class="co"># theta prior</span></span>
-<span id="cb6-19"><a href="#cb6-19"></a>mu_0 <span class="ot">=</span> <span class="dv">0</span>; k_0 <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb6-20"><a href="#cb6-20"></a><span class="co"># sigma2 prior</span></span>
-<span id="cb6-21"><a href="#cb6-21"></a>nu_0 <span class="ot">=</span> <span class="dv">2</span>; s2_0 <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb6-22"><a href="#cb6-22"></a></span>
-<span id="cb6-23"><a href="#cb6-23"></a><span class="co"># posterior parameters</span></span>
-<span id="cb6-24"><a href="#cb6-24"></a>kn <span class="ot">=</span> k_0 <span class="sc">+</span> sumX2</span>
-<span id="cb6-25"><a href="#cb6-25"></a>nun <span class="ot">=</span> nu_0 <span class="sc">+</span> n</span>
-<span id="cb6-26"><a href="#cb6-26"></a>mun <span class="ot">=</span> ((k_0 <span class="sc">*</span> mu_0) <span class="sc">+</span> sumXY) <span class="sc">/</span> (kn)</span>
-<span id="cb6-27"><a href="#cb6-27"></a>betaN <span class="ot">=</span> (sumY2 <span class="sc">-</span> (k_0 <span class="sc">*</span> (mu_0<span class="sc">^</span><span class="dv">2</span>))) <span class="sc">+</span> ((sumXY <span class="sc">+</span> (k_0 <span class="sc">*</span> mu_0))<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sumX2 <span class="sc">+</span> k_0))</span>
-<span id="cb6-28"><a href="#cb6-28"></a>betaN <span class="ot">=</span> betaN <span class="sc">/</span> nun</span>
-<span id="cb6-29"><a href="#cb6-29"></a>theta.postsample <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, mun, <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> kn))</span>
-<span id="cb6-30"><a href="#cb6-30"></a><span class="fu">hist</span>(theta.postsample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co"># prior parameters</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>k0 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>mu0 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a></span>
+<span id="cb6-13"><a href="#cb6-13"></a>sumYX <span class="ot">=</span> <span class="fu">sum</span>(y <span class="sc">*</span> x)</span>
+<span id="cb6-14"><a href="#cb6-14"></a>d <span class="ot">=</span> (k0 <span class="sc">+</span> <span class="fu">sum</span>(x<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb6-15"><a href="#cb6-15"></a>mun <span class="ot">=</span> (k0 <span class="sc">+</span> mu0 <span class="sc">+</span> sumYX) <span class="sc">/</span> d</span>
+<span id="cb6-16"><a href="#cb6-16"></a>tn <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> d)</span>
+<span id="cb6-17"><a href="#cb6-17"></a></span>
+<span id="cb6-18"><a href="#cb6-18"></a>theta.postsample <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, mun, tn)</span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="fu">hist</span>(theta.postsample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="lab-normal_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-3">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>x <span class="ot">=</span> bass<span class="sc">$</span>weight</span>
+<span id="cb7-2"><a href="#cb7-2"></a>y <span class="ot">=</span> bass<span class="sc">$</span>mercury</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co"># prior parameters</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>k0 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>mu0 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a></span>
+<span id="cb7-8"><a href="#cb7-8"></a>sumYX <span class="ot">=</span> <span class="fu">sum</span>(y <span class="sc">*</span> x)</span>
+<span id="cb7-9"><a href="#cb7-9"></a>d <span class="ot">=</span> (k0 <span class="sc">+</span> <span class="fu">sum</span>(x<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb7-10"><a href="#cb7-10"></a>mun <span class="ot">=</span> (k0 <span class="sc">+</span> mu0 <span class="sc">+</span> sumYX) <span class="sc">/</span> d</span>
+<span id="cb7-11"><a href="#cb7-11"></a>tn <span class="ot">=</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> d)</span>
+<span id="cb7-12"><a href="#cb7-12"></a></span>
+<span id="cb7-13"><a href="#cb7-13"></a>theta.postsample <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, mun, tn)</span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="fu">hist</span>(theta.postsample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-4">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="lab-normal_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-5">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">mean</span>(theta.postsample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8370612</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">quantile</span>(theta.postsample, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     2.5%     97.5% 
+0.7340858 0.9412182 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="solution-c" class="slide level2">
+<h2>Solution (c)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># use posterior samples of theta and x = 4 to simulate ytilde</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a>ytilde <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>, theta.postsample <span class="sc">*</span> <span class="dv">4</span>, <span class="dv">1</span>)</span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="fu">hist</span>(ytilde)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">mean</span>(ytilde)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.341773</code></pre>
+</div>
+</div>
+<img data-src="lab-normal_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"><p>This matches intuition (law of total expectation gives the closed form solution: 4 * 0.838 = 3.352).</p>
+</section>
+<section id="solution-d" class="slide level2">
+<h2>Solution (d)</h2>
+<p>We have no intercept term. We are assuming that our regression line goes through the origin. This is a strong assumption. Our model will be most similar to the <code>lm</code> model without an intercept term:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">lm</span>(mercury <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> weight, <span class="at">data =</span> bass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = mercury ~ 0 + weight, data = bass)
+
+Coefficients:
+weight  
+0.8343  </code></pre>
+</div>
+</div>
+<p>However, we’ll get a different estimate of <span class="math inline">\(\hat{\theta}\)</span> if we include an intercept term,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">lm</span>(mercury <span class="sc">~</span> weight, <span class="at">data =</span> bass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = mercury ~ weight, data = bass)
+
+Coefficients:
+(Intercept)       weight  
+     0.6387       0.4818  </code></pre>
+</div>
 </div>
 
-<img data-src="lab-normal_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"><div class="footer footer-default">
+<div class="footer footer-default">
 <p><a href="https://sta360-fa24.github.io">🔗 sta360-fa24.github.io</a></p>
 </div>
 </section></section>

@@ -51,9 +51,9 @@ $$
 
 Let $\mu_0 = 0$, $\kappa_0 = 1$.
 
-(a). Suppose you observe data $y_1,\ldots y_n$. Write out the formula for $p(\theta | \sigma^2, y_1, \ldots y_n)$.
+(a). Suppose you observe data $y_1,\ldots y_n$. Write out the formula for $p(\theta | y_1, \ldots y_n)$.
 
-(b). Given the data on the previous slide, standardize $y$ and $x$. Next, using Monte Carlo simulation, report $E[\theta | y_1,\ldots y_n]$ together with 95% posterior confidence intervals.
+(b). Given the data on the previous slide, use Monte Carlo simulation to plot $p(\theta | y_1, \ldots, y_n)$. Additionally, report $E[\theta | y_1,\ldots y_n]$ together with a 95% posterior confidence interval.
 
 (c). If you caught a new fish with weight 4kg, what would you predict the mercury content to be? In other words, let x = 4 and compute $E[\tilde{y}|y_1,\ldots, y_n, x = 4]$. Additionally, plot the the posterior predictive density $p(\tilde{y} | y_1, \ldots y_n, x = 4)$.
 
@@ -99,36 +99,137 @@ $$
 
 #### b
 
+::: panel-tabset
+
+## demo
+
+Demo with simulated data to make sure code works: 
+
 ```{r}
-# generating 10 samples from the population
+#| eval: false
+# simulated data
 set.seed(123)
 true.theta = 4
 true.sigma = 1
-N = 10000
+N = 10
 x = seq(from = 1, to = 10, length = N)
-y = rnorm(N, true.theta * x, true.sigma) + 10
+y = rnorm(N, true.theta * x, true.sigma)
 
-# y = (y - mean(y)) / sd(y)
-# x = (x - mean(x)) / sd(x)
-sumY2 = sum(y^2)
-sumX2 = sum(x^2)
-sumXY = sum(x * y)
-n = length(y) # sample size
+# prior parameters
+k0 = 1
+mu0 = 1
 
-# priors
-# Let $\mu_0 = 0$, $\kappa_0 = 1$, $\nu_0 = 2$, and $\sigma_0^2 = 1$.
-# theta prior
-mu_0 = 0; k_0 = 1
-# sigma2 prior
-nu_0 = 2; s2_0 = 1
+sumYX = sum(y * x)
+d = (k0 + sum(x^2))
+mun = (k0 + mu0 + sumYX) / d
+tn = sqrt(1 / d)
 
-# posterior parameters
-kn = k_0 + sumX2
-nun = nu_0 + n
-mun = ((k_0 * mu_0) + sumXY) / (kn)
-betaN = (sumY2 - (k_0 * (mu_0^2))) + ((sumXY + (k_0 * mu_0))^2 / (sumX2 + k_0))
-betaN = betaN / nun
-theta.postsample = rnorm(10000, mun, sqrt(1 / kn))
+theta.postsample = rnorm(10000, mun, tn)
 hist(theta.postsample)
 ```
 
+## demo plot 
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+set.seed(123)
+true.theta = 4
+true.sigma = 1
+N = 10
+x = seq(from = 1, to = 10, length = N)
+y = rnorm(N, true.theta * x, true.sigma)
+
+# prior parameters
+k0 = 1
+mu0 = 1
+
+sumYX = sum(y * x)
+d = (k0 + sum(x^2))
+mun = (k0 + mu0 + sumYX) / d
+tn = sqrt(1 / d)
+
+theta.postsample = rnorm(10000, mun, tn)
+hist(theta.postsample)
+```
+
+
+## solution code
+
+```{r}
+#| eval: false
+x = bass$weight
+y = bass$mercury
+
+# prior parameters
+k0 = 1
+mu0 = 1
+
+sumYX = sum(y * x)
+d = (k0 + sum(x^2))
+mun = (k0 + mu0 + sumYX) / d
+tn = sqrt(1 / d)
+
+theta.postsample = rnorm(10000, mun, tn)
+hist(theta.postsample)
+```
+
+
+## solution plot
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+x = bass$weight
+y = bass$mercury
+
+# prior parameters
+k0 = 1
+mu0 = 1
+
+sumYX = sum(y * x)
+d = (k0 + sum(x^2))
+mun = (k0 + mu0 + sumYX) / d
+tn = sqrt(1 / d)
+
+theta.postsample = rnorm(10000, mun, tn)
+hist(theta.postsample)
+```
+
+## summary
+
+```{r}
+mean(theta.postsample)
+quantile(theta.postsample, c(0.025, 0.975))
+```
+
+:::
+
+## Solution (c)
+
+```{r}
+# use posterior samples of theta and x = 4 to simulate ytilde
+
+ytilde = rnorm(10000, theta.postsample * 4, 1)
+hist(ytilde)
+mean(ytilde)
+```
+
+This matches intuition (law of total expectation gives the closed form solution: 4 * 0.838 = 3.352).
+
+## Solution (d)
+
+We have no intercept term. We are assuming that our regression line goes through the origin. This is a strong assumption. Our model will be most similar to the `lm` model without an intercept term: 
+
+```{r}
+lm(mercury ~ 0 + weight, data = bass)
+```
+
+However, we'll get a different estimate of $\hat{\theta}$ if we include an intercept term,
+
+```{r}
+lm(mercury ~ weight, data = bass)
+```
