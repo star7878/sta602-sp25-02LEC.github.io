@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Alexander Fisher">
+
+<title>STA360 - Metropolis Algorithm</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">STA360</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html">schedule</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html">syllabus</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notes/exam-notes.html">distributions</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../chapterSummaries.html">notes</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../links.html">links</a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-bayesian-statistical-procedure" id="toc-the-bayesian-statistical-procedure" class="nav-link active" data-scroll-target="#the-bayesian-statistical-procedure">The Bayesian statistical procedure</a></li>
+  <li><a href="#example-sparrows" id="toc-example-sparrows" class="nav-link" data-scroll-target="#example-sparrows">Example: Sparrows</a>
+  <ul class="collapse">
+  <li><a href="#step-1-data-generative-model" id="toc-step-1-data-generative-model" class="nav-link" data-scroll-target="#step-1-data-generative-model">Step 1: data generative model</a></li>
+  <li><a href="#step-2-prior" id="toc-step-2-prior" class="nav-link" data-scroll-target="#step-2-prior">Step 2: prior</a></li>
+  <li><a href="#step-3-posterior-sampling" id="toc-step-3-posterior-sampling" class="nav-link" data-scroll-target="#step-3-posterior-sampling">Step 3: posterior sampling</a></li>
+  </ul></li>
+  <li><a href="#metropolis-algorithm" id="toc-metropolis-algorithm" class="nav-link" data-scroll-target="#metropolis-algorithm">Metropolis Algorithm</a></li>
+  <li><a href="#finishing-step-3" id="toc-finishing-step-3" class="nav-link" data-scroll-target="#finishing-step-3">Finishing step (3)</a></li>
+  <li><a href="#another-example" id="toc-another-example" class="nav-link" data-scroll-target="#another-example">Another example</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Metropolis Algorithm</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Alexander Fisher </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<details>
+<summary>See libraries used in these notes</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latex2exp)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coda)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(animation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="the-bayesian-statistical-procedure" class="level2">
+<h2 class="anchored" data-anchor-id="the-bayesian-statistical-procedure">The Bayesian statistical procedure</h2>
+<ol type="1">
+<li><p>We setup a data generative model, <span class="math inline">\(p(y | \boldsymbol{\theta})\)</span> and a prior on the model parameters <span class="math inline">\(p(\boldsymbol{\theta})\)</span> where <span class="math inline">\(\boldsymbol{\theta} = \{ \theta_1, \theta_2, \ldots \theta_n\}\)</span>.</p></li>
+<li><p>Next, we wish to make inferences using the data we collect <span class="math inline">\(\boldsymbol{y} = \{y_1,\ldots y_n\}\)</span>. All inferences we make require the posterior <span class="math inline">\(p(\boldsymbol{\theta}| \boldsymbol{y})\)</span>, which we obtain via Bayes’ rule.</p></li>
+<li><p>In general, the inferences we wish to make, e.g.&nbsp;<span class="math inline">\(p(g(\boldsymbol{\theta}) \in A)\)</span>, are complicated or impossible to compute analytically. Here, <strong>Monte Carlo</strong> approximation helps. The key idea is that we <em>sample from the posterior</em> and then use the samples an an empirical approximation to make inference.</p></li>
+</ol>
+<p><strong>Question</strong>: What do we do when we can’t sample directly from the posterior?</p>
+</section>
+<section id="example-sparrows" class="level2">
+<h2 class="anchored" data-anchor-id="example-sparrows">Example: Sparrows</h2>
+<p>Idea: the number of fledglings a sparrow has in a mating season depends on the age of the sparrow.</p>
+<p>Let <span class="math inline">\(Y\)</span> be the number of fledglings (offspring) of a sparrow.<br>
+Let <span class="math inline">\(X\)</span> be the age of the sparrow.<br>
+Let <span class="math inline">\(Y|X\)</span> be conditionally iid.</p>
+<section id="step-1-data-generative-model" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-data-generative-model">Step 1: data generative model</h3>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Exercise 1.1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Solution (1.1)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Write down a data generative model for the data.</p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p><span class="math display">\[
+Y | X \sim Poisson(\theta_x)
+\]</span></p>
+<p>where <span class="math inline">\(\theta_x\)</span> is the age-specific expected number of off-spring. Note that <span class="math inline">\(Y \in \{0, 1, 2, \ldots\}\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Exercise 1.2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Poor solution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">False solution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-4" role="tab" aria-controls="tabset-2-4" aria-selected="false">Solution (1.2)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>How can we specify <span class="math inline">\(\theta_x\)</span>?</p>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p>Let each <span class="math inline">\(\theta_i\)</span> be unique and specific to age <span class="math inline">\(i\)</span> of the sparrow.</p>
+<p>Problem: if we don’t collect much data on sparrows of a certain age <span class="math inline">\(i\)</span>, then our estimates for <span class="math inline">\(\theta_i\)</span> will be poor.</p>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<p>Let <span class="math inline">\(\theta_x = f(x) = \beta_1 + \beta_2 x + \beta_3 x^2\)</span>.</p>
+<p>Here we have a way of relating ages to the expected number of fledglings and admit an <span class="math inline">\(x^2\)</span> term to model the fact that the relationship between number of fledglings and age may not be a linear function of age.</p>
+<p>Problem: <span class="math inline">\(\theta_x\)</span> must be positive! The equation above can evaluate to negative values.</p>
+</div>
+<div id="tabset-2-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-4-tab">
+<p>Log-transform!</p>
+<p><span class="math inline">\(\log \mathbb{E}~Y|X = \log \theta_x = \beta_1 + \beta_2 x + \beta_3 x^2\)</span></p>
+<p>In other words,</p>
+<p><span class="math inline">\(\theta_x = e^{\beta_1 + \beta_2x + \beta_3 x^2}\)</span> &gt; 0</p>
+</div>
+</div>
+</div>
+<p>Some terminology that will be useful in the future: <span class="math inline">\(Y|X \sim Poisson(e^{\beta^T \mathbf{x}})\)</span> is “Poisson regression”. Where <span class="math inline">\(\beta^T \mathbf{x} = \beta_1 + \beta_2 x + \beta_2 x^2\)</span>.<br>
+<span class="math inline">\(\beta^T \mathbf{x}\)</span> is called the “linear predictor”.</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Exercise 1.3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Solution (1.3)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>Write down <span class="math inline">\(p(y_1,\ldots y_n | x_1, \ldots, x_n, \beta_1, \beta_2, \beta_3)\)</span>.</p>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<p><span class="math display">\[
+\begin{aligned}
+p(y_1,\ldots y_n | x_1, \ldots, x_n, \beta_1, \beta_2, \beta_3) &amp;= \prod_{i = 1}^n p(y_i|x_i, \beta_1, \beta_2, \beta_3) \text{ by conditionally iid}\\
+&amp;= \prod_{i=1}^n \theta_{x_i}^{y_i} e^{- \theta_{x_i}}\frac{1}{y_i!}\\
+&amp;= \prod_{i=1}^n e^{(\beta^T \mathbf{x}_i) y_i - e^{(\beta^T \mathbf{x}_i)}} \frac{1}{y_i!}\\
+&amp;= e^{\sum_{i=1}^n \left[(\beta^T \mathbf{x}_i) y_i - e^{(\beta^T \mathbf{x}_i)} \right]} \cdot
+\prod_{i=1}^n \frac{1}{y_i!}
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-prior" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-prior">Step 2: prior</h3>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Exercise 2.1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Solution (2.1)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p>What’s unknown?</p>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<p><span class="math display">\[
+\beta_1, \beta_2, \beta_3
+\]</span></p>
+</div>
+</div>
+</div>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Exercise 2.2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Solution (2.2)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>Write down a prior on the unknowns</p>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<p>One possible prior: independent normals on each <span class="math inline">\(\beta_i\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+\beta_i &amp;\sim N(0, 10)\\
+p(\beta_1, \beta_2, \beta_3) &amp;= \text{dnorm}(\beta_1; 0, \sqrt{10}) \cdot \text{dnorm}(\beta_2; 0, \sqrt{10}) \cdot \text{dnorm}(\beta_3; 0, \sqrt{10})
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-posterior-sampling" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-posterior-sampling">Step 3: posterior sampling</h3>
+<p>The posterior, given by</p>
+<p><span class="math display">\[
+p(\beta_1, \beta_2, \beta_3 | y_1,\ldots, y_n, x_1,\ldots, x_n) =
+\frac{p(\beta_1, \beta_2,\beta_3) p(y_1,\ldots y_n | x_1, \ldots, x_n, \beta_1, \beta_2, \beta_3)}{
+\int \int \int p(\beta_1, \beta_2,\beta_3) p(y_1,\ldots y_n | x_1, \ldots, x_n, \beta_1, \beta_2, \beta_3)~d\beta_1 d\beta_2 d\beta_3
+}
+\]</span></p>
+<p>is too complicated to write down a closed form expression for due to the denominator “<span class="math inline">\(p(y)\)</span>”.</p>
+<p><strong>Our goal</strong>: generate a series of <em>dependent samples from the posterior</em> as an empirical approximation to make inference.<br>
+The Metropolis algorithm is one of many methods (but not the only method) to <strong>construct a Markov chain comprised of dependent samples from the target distribution</strong>.</p>
+<p>More broadly, constructing a Markov chain of dependent samples and using these samples to approximate the target distribution is called <strong>Markov chain Monte Carlo</strong> (MCMC).</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">Markov chain</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Markov property</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false">Example</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<p>Definition: a sequence of random variables <span class="math inline">\(\theta^{(1)}, \theta^{(2)}, \theta^{(3)}, \ldots\)</span> satisfying the “Markov property”.</p>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<p><span class="math display">\[
+p(\theta^{(s+1)}| \theta^{(1)}, \theta^{(2)}, \ldots, \theta^{(s)}) = p(\theta^{(s+1)}| \theta^{(s)})
+\]</span></p>
+<p>For all states <span class="math inline">\(s\)</span>.</p>
+<p>This is also called the “memoryless property”. In other words, “What happens next depends only on the state of affairs now”.</p>
+</div>
+<div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>S <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>theta_s <span class="ot">=</span> <span class="dv">0</span> <span class="co"># starting point for the Markov chain</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>THETA <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>S) {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  THETA <span class="ot">=</span> <span class="fu">c</span>(THETA, theta_s)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  theta_s <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, theta_s, <span class="dv">3</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>THETA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  0.0000000  4.3124838  5.2802035  4.6673136  1.6700287  1.5575283
+ [7] -0.6967649 -2.6485497 -3.1040911 -5.6181892</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>MCMC sampling algorithms are not models. They do not generate more information than is in the data and the prior. They are simply ways of “looking at” the posterior.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="metropolis-algorithm" class="level2">
+<h2 class="anchored" data-anchor-id="metropolis-algorithm">Metropolis Algorithm</h2>
+<table class="table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 80%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\theta\)</span></td>
+<td>Vector of unknown parameters.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\theta^{(s)}\)</span></td>
+<td>Current state of <span class="math inline">\(\theta\)</span> in the Markov chain.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(J(\theta | \theta^{(s)})\)</span></td>
+<td>Proposal distribution. Note: for this to be a “Metropolis algorithm”, J needs to be <em>symmetric</em>, i.e.&nbsp;<span class="math inline">\(J(\theta_a | \theta_b) = J(\theta_b | \theta_a)\)</span> for all <span class="math inline">\(\{\theta_a, \theta_b\}\)</span>.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\pi(\theta)\)</span></td>
+<td>Target distribution that we wish to sample from (in our cases, this is the posterior <span class="math inline">\(p(\theta | y_1,\ldots, y_n)\)</span>).</td>
+</tr>
+</tbody>
+</table>
+<p>The Metropolis algorithm proceeds:</p>
+<ol type="1">
+<li>Sample <span class="math inline">\(\theta^* | \theta^{(s)} \sim J(\theta | \theta^{(s)})\)</span></li>
+<li>Compute the acceptance ratio <span class="math inline">\(r = \frac{\pi(\theta^*)}{\pi(\theta^{(s)})}\)</span></li>
+<li>Let <span class="math display">\[
+\theta^{(s+1)} =
+\begin{cases}
+\theta^* \text{ with probability } \min(r, 1)\\
+\theta^{(s)} \text{ with probability } 1 - \min(r, 1)
+\end{cases}
+\]</span></li>
+</ol>
+</section>
+<section id="finishing-step-3" class="level2">
+<h2 class="anchored" data-anchor-id="finishing-step-3">Finishing step (3)</h2>
+<p>The fledglings of female song sparrows. To begin, let’s load the data.</p>
+<div class="cell">
+<details>
+<summary>Load the data</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>yX <span class="ot">=</span> <span class="fu">structure</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">7</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">5</span>, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">5</span>, </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">25</span>, <span class="dv">25</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">16</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">25</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">25</span>, <span class="dv">25</span>, <span class="dv">25</span>, <span class="dv">25</span>, </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">9</span>, <span class="dv">36</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">.Dim =</span> <span class="fu">c</span>(52L, 4L), <span class="at">.Dimnames =</span> <span class="fu">list</span>(</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">"fledged"</span>, <span class="st">"intercept"</span>, <span class="st">"age"</span>, <span class="st">"age2"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>yX <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     fledged intercept age age2
+[1,]       3         1   3    9
+[2,]       1         1   3    9
+[3,]       1         1   1    1
+[4,]       2         1   1    1
+[5,]       0         1   1    1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> yX[,<span class="dv">1</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> yX[,<span class="sc">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The model:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y | X &amp;\sim \text{Poisson}(\exp[ \beta^T \boldsymbol{x}])\\
+\beta &amp;\sim MVN(0, \sqrt{10})
+\end{aligned}
+\]</span></p>
+<p>The Metropolis algorithm with</p>
+<p><span class="math display">\[
+J(\beta | \beta^{(s)}) = MVN(\beta^{(s)}, \hat{\sigma}^2(X^TX)^{-1})
+\]</span></p>
+<p>where <span class="math inline">\(\hat{\sigma}^2\)</span> is the sample variance of <span class="math inline">\(\{\log(y_1 + 1/2), \ldots, \log(y_n + 1/2)\}\)</span>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>This variance is intuitively useful choice for <span class="math inline">\(\delta\)</span> since the posterior variance would be <span class="math inline">\(\sigma^2 (X^TX)^{-1}\)</span> in a normal regression problem.</li>
+<li>We use <span class="math inline">\(\log(y + 1/2)\)</span> instead of <span class="math inline">\(\log y\)</span> because if <span class="math inline">\(y=0\)</span>, <span class="math inline">\(\log y\)</span> would be <span class="math inline">\(-\infty\)</span>.</li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">length</span>(y)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">ncol</span>(X)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>pmn.beta <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, p) <span class="co"># prior mean beta</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>psd.beta <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">10</span>, p) <span class="co"># prior sd beta</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>var.prop <span class="ot">=</span> <span class="fu">var</span>(<span class="fu">log</span>(y <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)) <span class="sc">*</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="co"># proposal variance</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>S <span class="ot">=</span> <span class="dv">10000</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, p); accepts <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>BETA <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> S, <span class="at">ncol =</span> p)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>S) {</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># multivariate proposal of beta</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  beta.p <span class="ot">=</span> <span class="fu">t</span>(<span class="fu">rmvnorm</span>(<span class="dv">1</span>, beta, var.prop))</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># log ratio</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  lhr <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">dpois</span>(y, <span class="fu">exp</span>(X <span class="sc">%*%</span>beta.p), <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="sc">-</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">dpois</span>(y, <span class="fu">exp</span>(X <span class="sc">%*%</span> beta), <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span> </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">dnorm</span>(beta.p, pmn.beta, psd.beta, <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="sc">-</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">dnorm</span>(beta, pmn.beta, psd.beta, <span class="at">log =</span> <span class="cn">TRUE</span>)) </span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> lhr) {</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    beta <span class="ot">=</span> beta.p ; accepts <span class="ot">=</span> accepts <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  BETA[s,] <span class="ot">=</span> beta</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The acceptance ratio is 0.428</p>
+<p>Let’s examine convergence.</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">trace plots</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">plot code</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-3" role="tab" aria-controls="tabset-7-3" aria-selected="false">ESS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-4" role="tab" aria-controls="tabset-7-4" aria-selected="false">acf</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec08-Metropolis-algorithm_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>value <span class="ot">=</span> <span class="fu">c</span>(BETA[,<span class="dv">1</span>], BETA[,<span class="dv">2</span>], BETA[,<span class="dv">3</span>])</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">length</span>(value)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"beta1"</span>, n<span class="sc">/</span><span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">"beta2"</span>, n<span class="sc">/</span><span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">"beta3"</span>, n<span class="sc">/</span><span class="dv">3</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">value =</span> value,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">beta =</span> beta) </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df), <span class="at">y =</span> value)) <span class="sc">+</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> beta, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-7-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># effective sample size</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>BETA <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">2</span>, effectiveSize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 867.4750 825.6214 692.0495</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-7-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-4-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(BETA[,<span class="dv">1</span>])</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(BETA[,<span class="dv">2</span>])</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(BETA[,<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec08-Metropolis-algorithm_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="another-example" class="level2">
+<h2 class="anchored" data-anchor-id="another-example">Another example</h2>
+<p>Let <span class="math inline">\(\pi(\theta) = \text{dnorm}(\theta, 10, 1)\)</span> and let <span class="math inline">\(J(\theta | \theta^{(s)}) = \text{normal}(\theta^{(s)},\delta^2)\)</span>.</p>
+<p>We have to choose <span class="math inline">\(\delta\)</span>. How should we choose it? Let’s gain some intuition by trying out three different values of <span class="math inline">\(\delta\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>theta_s <span class="ot">=</span> <span class="dv">0</span> <span class="co"># starting point</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>THETA <span class="ot">=</span> <span class="cn">NULL</span> <span class="co"># empty object to save iterations in</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>S <span class="ot">=</span> <span class="dv">10000</span> <span class="co"># number of iteations</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">=</span> <span class="dv">1</span> <span class="co"># proposal variance</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>accept <span class="ot">=</span> <span class="dv">0</span> <span class="co"># keep track of acceptance rate</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>S) {</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># log everything for numerical stability #</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">### generate proposal and compute ratio r </span><span class="al">###</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  theta_proposal <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta_s, <span class="at">sd =</span> delta) </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">dnorm</span>(theta_proposal, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> </span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(theta_s, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">### accept or reject proposal and add to chain </span><span class="al">###</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    theta_s <span class="ot">=</span> theta_proposal</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    accept <span class="ot">=</span> accept <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  THETA <span class="ot">=</span> <span class="fu">c</span>(THETA, theta_s)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<p>Let’s look at a trace plot</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">trace plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec08-Metropolis-algorithm_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">theta =</span> THETA)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df), <span class="at">y =</span> theta)) <span class="sc">+</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, <span class="at">y =</span> <span class="fu">TeX</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">theta"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+
+</div>
+<p>Let’s look at how various <span class="math inline">\(\delta\)</span> let us sample the target:</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true"><span class="math inline">\(\delta = 1\)</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false"><span class="math inline">\(\delta = 4\)</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-3" role="tab" aria-controls="tabset-9-3" aria-selected="false"><span class="math inline">\(\delta = 0.1\)</span></a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
+<p><img src="imgs/metropolis-normal-1.gif" width="600" height="600"></p>
+</div>
+<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
+<p><img src="imgs/metropolis-normal-delta4.gif" width="600" height="600"></p>
+</div>
+<div id="tabset-9-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-3-tab">
+<p><img src="imgs/metropolis-normal-delta-point1.gif" width="600" height="600"></p>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

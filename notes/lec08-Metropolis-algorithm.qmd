@@ -1,0 +1,671 @@
+---
+title: "Metropolis Algorithm"
+author: "Dr. Alexander Fisher"
+# mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+```{r}
+#| code-fold: true
+#| code-summary: "See libraries used in these notes"
+#| warning: false
+library(tidyverse)
+library(latex2exp)
+library(patchwork)
+library(tidymodels)
+library(mvtnorm)
+library(coda)
+library(animation)
+```
+
+## The Bayesian statistical procedure
+
+1.  We setup a data generative model, $p(y | \boldsymbol{\theta})$ and a prior on the model parameters $p(\boldsymbol{\theta})$ where $\boldsymbol{\theta} = \{ \theta_1, \theta_2, \ldots \theta_n\}$.
+
+2.  Next, we wish to make inferences using the data we collect $\boldsymbol{y} = \{y_1,\ldots y_n\}$. All inferences we make require the posterior $p(\boldsymbol{\theta}| \boldsymbol{y})$, which we obtain via Bayes' rule.
+
+3.  In general, the inferences we wish to make, e.g. $p(g(\boldsymbol{\theta}) \in A)$, are complicated or impossible to compute analytically. Here, **Monte Carlo** approximation helps. The key idea is that we *sample from the posterior* and then use the samples an an empirical approximation to make inference.
+
+**Question**: What do we do when we can't sample directly from the posterior?
+
+## Example: Sparrows
+
+Idea: the number of fledglings a sparrow has in a mating season depends on the age of the sparrow.
+
+Let $Y$ be the number of fledglings (offspring) of a sparrow.\
+Let $X$ be the age of the sparrow.\
+Let $Y|X$ be conditionally iid.
+
+### Step 1: data generative model
+
+::: panel-tabset
+## Exercise 1.1
+
+Write down a data generative model for the data.
+
+## Solution (1.1)
+
+$$
+Y | X \sim Poisson(\theta_x)
+$$
+
+where $\theta_x$ is the age-specific expected number of off-spring. Note that $Y \in \{0, 1, 2, \ldots\}$.
+:::
+
+::: panel-tabset
+## Exercise 1.2
+
+How can we specify $\theta_x$?
+
+## Poor solution
+
+Let each $\theta_i$ be unique and specific to age $i$ of the sparrow.
+
+Problem: if we don't collect much data on sparrows of a certain age $i$, then our estimates for $\theta_i$ will be poor.
+
+## False solution
+
+Let $\theta_x = f(x) = \beta_1 + \beta_2 x + \beta_3 x^2$.
+
+Here we have a way of relating ages to the expected number of fledglings and admit an $x^2$ term to model the fact that the relationship between number of fledglings and age may not be a linear function of age.
+
+Problem: $\theta_x$ must be positive! The equation above can evaluate to negative values.
+
+## Solution (1.2)
+
+Log-transform!
+
+$\log \mathbb{E}~Y|X = \log \theta_x = \beta_1 + \beta_2 x + \beta_3 x^2$
+
+In other words,
+
+$\theta_x = e^{\beta_1 + \beta_2x + \beta_3 x^2}$ \> 0
+:::
+
+Some terminology that will be useful in the future: $Y|X \sim Poisson(e^{\beta^T \mathbf{x}})$ is "Poisson regression". Where $\beta^T \mathbf{x} = \beta_1 + \beta_2 x + \beta_2 x^2$.\
+$\beta^T \mathbf{x}$ is called the "linear predictor".
+
+::: panel-tabset
+## Exercise 1.3
+
+Write down $p(y_1,\ldots y_n | x_1, \ldots, x_n, \beta_1, \beta_2, \beta_3)$.
+
+## Solution (1.3)
+
+$$
+\begin{aligned}
+p(y_1,\ldots y_n | x_1, \ldots, x_n, \beta_1, \beta_2, \beta_3) &= \prod_{i = 1}^n p(y_i|x_i, \beta_1, \beta_2, \beta_3) \text{ by conditionally iid}\\ 
+&= \prod_{i=1}^n \theta_{x_i}^{y_i} e^{- \theta_{x_i}}\frac{1}{y_i!}\\
+&= \prod_{i=1}^n e^{(\beta^T \mathbf{x}_i) y_i - e^{(\beta^T \mathbf{x}_i)}} \frac{1}{y_i!}\\
+&= e^{\sum_{i=1}^n \left[(\beta^T \mathbf{x}_i) y_i - e^{(\beta^T \mathbf{x}_i)} \right]} \cdot 
+\prod_{i=1}^n \frac{1}{y_i!}
+\end{aligned}
+$$
+:::
+
+### Step 2: prior
+
+::: panel-tabset
+## Exercise 2.1
+
+What's unknown?
+
+## Solution (2.1)
+
+$$
+\beta_1, \beta_2, \beta_3
+$$
+:::
+
+::: panel-tabset
+## Exercise 2.2
+
+Write down a prior on the unknowns
+
+## Solution (2.2)
+
+One possible prior: independent normals on each $\beta_i$.
+
+$$
+\begin{aligned}
+\beta_i &\sim N(0, 10)\\
+p(\beta_1, \beta_2, \beta_3) &= \text{dnorm}(\beta_1; 0, \sqrt{10}) \cdot \text{dnorm}(\beta_2; 0, \sqrt{10}) \cdot \text{dnorm}(\beta_3; 0, \sqrt{10})
+\end{aligned}
+$$
+:::
+
+### Step 3: posterior sampling
+
+The posterior, given by
+
+$$
+p(\beta_1, \beta_2, \beta_3 | y_1,\ldots, y_n, x_1,\ldots, x_n) = 
+\frac{p(\beta_1, \beta_2,\beta_3) p(y_1,\ldots y_n | x_1, \ldots, x_n, \beta_1, \beta_2, \beta_3)}{
+\int \int \int p(\beta_1, \beta_2,\beta_3) p(y_1,\ldots y_n | x_1, \ldots, x_n, \beta_1, \beta_2, \beta_3)~d\beta_1 d\beta_2 d\beta_3
+}
+$$
+
+is too complicated to write down a closed form expression for due to the denominator "$p(y)$".
+
+**Our goal**: generate a series of *dependent samples from the posterior* as an empirical approximation to make inference.\
+The Metropolis algorithm is one of many methods (but not the only method) to **construct a Markov chain comprised of dependent samples from the target distribution**.
+
+More broadly, constructing a Markov chain of dependent samples and using these samples to approximate the target distribution is called **Markov chain Monte Carlo** (MCMC).
+
+::: panel-tabset
+## Markov chain
+
+Definition: a sequence of random variables $\theta^{(1)}, \theta^{(2)}, \theta^{(3)}, \ldots$ satisfying the "Markov property".
+
+## Markov property
+
+$$
+p(\theta^{(s+1)}| \theta^{(1)}, \theta^{(2)}, \ldots, \theta^{(s)}) = p(\theta^{(s+1)}| \theta^{(s)}) 
+$$
+
+For all states $s$. 
+
+This is also called the "memoryless property". In other words, "What happens next depends only on the state of affairs now".
+
+## Example
+
+```{r}
+set.seed(360)
+S = 10
+theta_s = 0 # starting point for the Markov chain
+THETA = NULL
+for(i in 1:S) {
+  THETA = c(THETA, theta_s)
+  theta_s = rnorm(1, theta_s, 3)
+}
+THETA
+```
+
+
+:::
+
+::: callout-important
+MCMC sampling algorithms are not models. They do not generate more information than is in the data and the prior. They are simply ways of "looking at" the posterior.
+:::
+
+## Metropolis Algorithm
+
+|                            |                                                                                                                      |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------|
+| $\theta$                   | Vector of unknown parameters.                                                                                        |
+| $\theta^{(s)}$             | Current state of $\theta$ in the Markov chain.                                                                       |
+| $J(\theta | \theta^{(s)})$ | Proposal distribution. Note: for this to be a "Metropolis algorithm", J needs to be *symmetric*, i.e. $J(\theta_a | \theta_b) = J(\theta_b | \theta_a)$ for all $\{\theta_a, \theta_b\}$.                                                                                         |
+| $\pi(\theta)$              | Target distribution that we wish to sample from (in our cases, this is the posterior $p(\theta | y_1,\ldots, y_n)$). |
+
+The Metropolis algorithm proceeds:
+
+1.  Sample $\theta^* | \theta^{(s)} \sim J(\theta | \theta^{(s)})$
+2.  Compute the acceptance ratio $r = \frac{\pi(\theta^*)}{\pi(\theta^{(s)})}$
+3.  Let $$
+    \theta^{(s+1)} = 
+    \begin{cases}
+    \theta^* \text{ with probability } \min(r, 1)\\
+    \theta^{(s)} \text{ with probability } 1 - \min(r, 1)
+    \end{cases}
+    $$
+
+## Finishing step (3)
+
+
+The fledglings of female song sparrows. To begin, let's load the data.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Load the data"
+#| warning: false
+yX = structure(c(3, 1, 1, 2, 0, 0, 6, 3, 4, 2, 1, 6, 2, 3, 3, 4, 7, 
+2, 2, 1, 1, 3, 5, 5, 0, 2, 1, 2, 6, 6, 2, 2, 0, 2, 4, 1, 2, 5, 
+1, 2, 1, 0, 0, 2, 4, 2, 2, 2, 2, 0, 3, 2, 1, 1, 1, 1, 1, 1, 1, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+1, 1, 1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 
+2, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 5, 
+5, 5, 5, 3, 3, 3, 3, 3, 3, 3, 6, 1, 1, 9, 9, 1, 1, 1, 1, 1, 1, 
+1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 25, 25, 16, 16, 16, 16, 16, 
+16, 16, 16, 16, 16, 16, 16, 25, 16, 16, 16, 16, 25, 25, 25, 25, 
+9, 9, 9, 9, 9, 9, 9, 36, 1, 1), .Dim = c(52L, 4L), .Dimnames = list(
+    NULL, c("fledged", "intercept", "age", "age2")))
+```
+
+```{r}
+yX %>%
+  head(n = 5)
+y = yX[,1]
+X = yX[,-1]
+```
+
+The model:
+
+$$
+\begin{aligned}
+Y | X &\sim \text{Poisson}(\exp[ \beta^T \boldsymbol{x}])\\
+\beta &\sim MVN(0, \sqrt{10})
+\end{aligned}
+$$
+
+The Metropolis algorithm with 
+
+$$
+J(\beta | \beta^{(s)}) = MVN(\beta^{(s)}, \hat{\sigma}^2(X^TX)^{-1})
+$$
+
+where $\hat{\sigma}^2$ is the sample variance of $\{\log(y_1 + 1/2), \ldots, \log(y_n + 1/2)\}$.
+
+::: callout-note
+
+- This variance is intuitively useful choice for $\delta$ since the posterior variance would be $\sigma^2 (X^TX)^{-1}$ in a normal regression problem.
+- We use $\log(y + 1/2)$ instead of $\log y$ because if $y=0$, $\log y$ would be $-\infty$.
+:::
+
+```{r}
+set.seed(360)
+n = length(y)
+p = ncol(X)
+
+pmn.beta = rep(0, p) # prior mean beta
+psd.beta = rep(10, p) # prior sd beta
+
+var.prop = var(log(y + 1/2)) * solve(t(X) %*% X) # proposal variance
+
+S = 10000
+beta = rep(0, p); accepts = 0
+BETA = matrix(0, nrow = S, ncol = p)
+set.seed(1)
+
+for (s in 1:S) {
+  # multivariate proposal of beta
+  beta.p = t(rmvnorm(1, beta, var.prop))
+  
+  # log ratio
+  lhr = sum(dpois(y, exp(X %*%beta.p), log = TRUE)) -
+    sum(dpois(y, exp(X %*% beta), log = TRUE)) + 
+    sum(dnorm(beta.p, pmn.beta, psd.beta, log = TRUE)) -
+    sum(dnorm(beta, pmn.beta, psd.beta, log = TRUE)) 
+  
+  if (log(runif(1)) < lhr) {
+    beta = beta.p ; accepts = accepts + 1
+  }
+  
+  BETA[s,] = beta
+}
+```
+
+The acceptance ratio is `r round(accepts / S, 3)`
+
+
+Let's examine convergence.
+
+::: panel-tabset
+
+## trace plots
+
+```{r}
+#| echo: false
+#| warning: false
+
+value = c(BETA[,1], BETA[,2], BETA[,3])
+n = length(value)
+beta = c(rep("beta1", n/3), rep("beta2", n/3), rep("beta3", n/3))
+df = data.frame(value = value,
+                beta = beta) 
+
+df %>%
+  ggplot(aes(x = 1:nrow(df), y = value)) + 
+  geom_line() + 
+  facet_wrap(~ beta, scales = "free_x") +
+  theme_bw() +
+  labs(x = "iteration")
+```
+
+## plot code
+
+```{r}
+#| eval: false
+
+value = c(BETA[,1], BETA[,2], BETA[,3])
+n = length(value)
+beta = c(rep("beta1", n/3), rep("beta2", n/3), rep("beta3", n/3))
+df = data.frame(value = value,
+                beta = beta) 
+
+df %>%
+  ggplot(aes(x = 1:nrow(df), y = value)) + 
+  geom_line() + 
+  facet_wrap(~ beta, scales = "free_x") +
+  theme_bw() +
+  labs(x = "iteration")
+```
+
+## ESS
+
+```{r}
+# effective sample size
+BETA %>%
+  apply(2, effectiveSize)
+```
+
+## acf
+
+```{r}
+par(mfrow=c(1,3))
+acf(BETA[,1])
+acf(BETA[,2])
+acf(BETA[,3])
+```
+
+:::
+
+## Another example
+
+
+Let $\pi(\theta) = \text{dnorm}(\theta, 10, 1)$ and let $J(\theta | \theta^{(s)}) = \text{normal}(\theta^{(s)},\delta^2)$.
+
+We have to choose $\delta$. How should we choose it? Let's gain some intuition by trying out three different values of $\delta$. 
+
+```{r}
+#| echo: true
+#| eval: false
+set.seed(360)
+theta_s = 0 # starting point
+THETA = NULL # empty object to save iterations in
+S = 10000 # number of iteations
+delta = 1 # proposal variance
+accept = 0 # keep track of acceptance rate
+
+for (s in 1:S) {
+  # log everything for numerical stability #
+  
+  ### generate proposal and compute ratio r ###
+  theta_proposal = rnorm(1, mean = theta_s, sd = delta) 
+  log.r = dnorm(theta_proposal, mean = 10, sd = 1, log = TRUE) - 
+    dnorm(theta_s, mean = 10, sd = 1, log = TRUE)
+  
+  ### accept or reject proposal and add to chain ###
+  if(log(runif(1)) < log.r)  {
+    theta_s = theta_proposal
+    accept = accept + 1 
+  }
+  THETA = c(THETA, theta_s)
+}
+```
+
+```{r}
+#| echo: false
+#| eval: true
+set.seed(360)
+theta_s = 0 # starting point
+THETA = NULL
+THETA_P = NULL # empty object to save iterations in
+S = 10000 # number of iteations
+delta = 1 # proposal variance
+accept = 0 # keep track of acceptance rate
+
+for (s in 1:S) {
+  # log everything for numerical stability #
+  
+  ### generate proposal and compute ratio r ###
+  theta_proposal = rnorm(1, mean = theta_s, sd = delta) 
+  log.r = dnorm(theta_proposal, mean = 10, sd = 1, log = TRUE) - 
+    dnorm(theta_s, mean = 10, sd = 1, log = TRUE)
+  
+  ### accept or reject proposal and add to chain ###
+  if(log(runif(1)) < log.r)  {
+    theta_s = theta_proposal
+    accept = accept + 1 
+  }
+  THETA = c(THETA, theta_s)
+  THETA_P = c(THETA_P, theta_proposal)
+}
+```
+
+Let's look at a trace plot
+
+::: panel-tabset
+
+## trace plot
+
+```{r}
+#| echo: false
+#| warning: false
+df = data.frame(theta = THETA)
+df %>%
+  ggplot(aes(x = 1:nrow(df), y = theta)) + 
+  geom_line() +
+  theme_bw() +
+  labs(x = "iteration", y = TeX("\\theta"))
+```
+
+
+## code
+```{r}
+#| eval: false
+df = data.frame(theta = THETA)
+df %>%
+  ggplot(aes(x = 1:nrow(df), y = theta)) + 
+  geom_line() +
+  theme_bw() +
+  labs(x = "iteration", y = TeX("\\theta"))
+```
+:::
+
+```{r}
+#| echo: false
+#| eval: false
+
+BEGIN = 50
+END = 150
+
+df = data.frame(theta = THETA,
+                proposed = THETA_P)
+
+df2 = df %>%
+  slice_tail(n = -BEGIN)
+
+saveGIF(
+  {
+for (i in (BEGIN+1):END) {
+  df2 %>%
+    slice_head(n = i) %>%
+    pull(theta) %>%
+    hist(freq = FALSE, xlim = c(2, 14), main = "Metropolis algorithm", xlab = "theta")
+    curve(dnorm(x, mean=df2$theta[i], sd=1), 
+          col="steelblue", lwd=2, add=TRUE, yaxt="n")
+    if(df2$proposed[i+1] == df2$theta[i+1]) {
+    points(x = df2$proposed[i+1],
+       y = 0, pch = 16, cex = 2, col = "blue")
+    }
+    else {
+      points(x = df2$proposed[i+1],
+       y = 0, pch = 16, cex = 2, col = "red")
+    }
+    abline(v = df2$theta[i], col = "steelblue", lwd = 2)
+  # p = df2 %>%
+  #   slice_head(n = i) %>%
+  #   ggplot(aes(x = theta)) +
+  #   xlim(c(5, 15)) +
+  #   ylim(c(0, 0.4)) +
+  #   geom_histogram(aes(y = ..density..), breaks = seq(0,max(df$theta)+.5,.5)) +
+  #   stat_function(fun = dnorm, args = list(mean = df$theta[i], sd = 1), col = "steelblue") +
+  # geom_point(aes(x = theta[i], y = 0), col = "steelblue")
+  # print(p)
+}
+  },
+movie.name = "metropolis-normal-1.gif",
+interval = 2,
+ani.width = 600,
+ani.height = 600,
+outdir = getwd()
+)
+```
+
+
+```{r}
+#| eval: false
+#| echo: false
+# DIFFERENT DELTA ##
+
+set.seed(360)
+theta_s = 0 # starting point
+THETA = NULL
+THETA_P = NULL # empty object to save iterations in
+S = 1000 # number of iteations
+delta = 4 # proposal variance
+accept = 0 # keep track of acceptance rate
+
+for (s in 1:S) {
+  # log everything for numerical stability #
+  
+  ### generate proposal and compute ratio r ###
+  theta_proposal = rnorm(1, mean = theta_s, sd = delta) 
+  log.r = dnorm(theta_proposal, mean = 10, sd = 1, log = TRUE) - 
+    dnorm(theta_s, mean = 10, sd = 1, log = TRUE)
+  
+  ### accept or reject proposal and add to chain ###
+  if(log(runif(1)) < log.r)  {
+    theta_s = theta_proposal
+    accept = accept + 1 
+  }
+  THETA = c(THETA, theta_s)
+  THETA_P = c(THETA_P, theta_proposal)
+}
+
+## ANIMATION ##
+
+BEGIN = 100
+END = 150
+
+df = data.frame(theta = THETA,
+                proposed = THETA_P)
+
+df2 = df %>%
+  slice_tail(n = -BEGIN)
+
+saveGIF(
+  {
+for (i in (BEGIN+1):END) {
+  df2 %>%
+    slice_head(n = i) %>%
+    pull(theta) %>%
+    hist(freq = FALSE, xlim = c(0, 20), main = "Metropolis algorithm", xlab = "theta")
+    curve(dnorm(x, mean=df2$theta[i], sd=delta), 
+          col="steelblue", lwd=2, add=TRUE, yaxt="n")
+    if(df2$proposed[i+1] == df2$theta[i+1]) {
+    points(x = df2$proposed[i+1],
+       y = 0, pch = 16, cex = 2, col = "blue")
+    }
+    else {
+      points(x = df2$proposed[i+1],
+       y = 0, pch = 16, cex = 2, col = "red")
+    }
+    abline(v = df2$theta[i], col = "steelblue", lwd = 2)
+  # p = df2 %>%
+  #   slice_head(n = i) %>%
+  #   ggplot(aes(x = theta)) +
+  #   xlim(c(5, 15)) +
+  #   ylim(c(0, 0.4)) +
+  #   geom_histogram(aes(y = ..density..), breaks = seq(0,max(df$theta)+.5,.5)) +
+  #   stat_function(fun = dnorm, args = list(mean = df$theta[i], sd = 1), col = "steelblue") +
+  # geom_point(aes(x = theta[i], y = 0), col = "steelblue")
+  # print(p)
+}
+  },
+movie.name = "metropolis-normal-delta4.gif",
+interval = 2,
+ani.width = 600,
+ani.height = 600,
+outdir = getwd()
+)
+```
+
+```{r}
+#| eval: false
+#| echo: false
+# DIFFERENT DELTA ##
+
+set.seed(360)
+theta_s = 0 # starting point
+THETA = NULL
+THETA_P = NULL # empty object to save iterations in
+S = 1000 # number of iteations
+delta = 0.1 # proposal variance
+accept = 0 # keep track of acceptance rate
+
+for (s in 1:S) {
+  # log everything for numerical stability #
+  
+  ### generate proposal and compute ratio r ###
+  theta_proposal = rnorm(1, mean = theta_s, sd = delta) 
+  log.r = dnorm(theta_proposal, mean = 10, sd = 1, log = TRUE) - 
+    dnorm(theta_s, mean = 10, sd = 1, log = TRUE)
+  
+  ### accept or reject proposal and add to chain ###
+  if(log(runif(1)) < log.r)  {
+    theta_s = theta_proposal
+    accept = accept + 1 
+  }
+  THETA = c(THETA, theta_s)
+  THETA_P = c(THETA_P, theta_proposal)
+}
+
+## ANIMATION ##
+
+BEGIN = 100
+END = 150
+
+df = data.frame(theta = THETA,
+                proposed = THETA_P)
+
+df2 = df %>%
+  slice_tail(n = -BEGIN)
+
+saveGIF(
+  {
+for (i in (BEGIN+1):END) {
+  df2 %>%
+    slice_head(n = i) %>%
+    pull(theta) %>%
+    hist(freq = FALSE, xlim = c(2, 14), main = "Metropolis algorithm", xlab = "theta")
+    curve(dnorm(x, mean=df2$theta[i], sd=delta), 
+          col="steelblue", lwd=2, add=TRUE, yaxt="n")
+    if(df2$proposed[i+1] == df2$theta[i+1]) {
+    points(x = df2$proposed[i+1],
+       y = 0, pch = 16, cex = 2, col = "blue")
+    }
+    else {
+      points(x = df2$proposed[i+1],
+       y = 0, pch = 16, cex = 2, col = "red")
+    }
+    abline(v = df2$theta[i], col = "steelblue", lwd = 2)
+}
+  },
+movie.name = "metropolis-normal-delta-point1.gif",
+interval = 2,
+ani.width = 600,
+ani.height = 600,
+outdir = getwd()
+)
+```
+
+
+Let's look at how various $\delta$ let us sample the target:
+
+::: panel-tabset 
+## $\delta = 1$
+<img src="imgs/metropolis-normal-1.gif" width="600" height="600" />
+
+## $\delta = 4$
+<img src="imgs/metropolis-normal-delta4.gif" width="600" height="600" />
+
+## $\delta = 0.1$
+
+<img src="imgs/metropolis-normal-delta-point1.gif" width="600" height="600" />
+
+:::
+
