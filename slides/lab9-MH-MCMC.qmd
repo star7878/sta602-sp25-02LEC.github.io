@@ -22,7 +22,7 @@ in words, we wish to roll a die with probability $1/w$ of landing on face 1, $2/
 
 - The Metropolis algorithm requires a symmetric proposal $J$. Explain why this proposal is symmetric. 
 
-- Plot a histogram of the output. Does the plot match your intuition? 
+- Plot a histogram of the Markov chain samples. Does the plot match your intuition? 
 
 - Compare the estimated probabilities of each outcome to the truth (compute $w$).
 

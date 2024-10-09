@@ -109,4 +109,7 @@ p4 = df4 %>%
   plot_annotation(title = "Joint densities", tag_levels = c("A"))
 ```
 
+## Exercise 3
+
+
 
