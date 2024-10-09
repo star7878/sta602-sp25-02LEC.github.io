@@ -209,10 +209,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="the-bayesian-statistical-procedure" class="level2">
 <h2 class="anchored" data-anchor-id="the-bayesian-statistical-procedure">The Bayesian statistical procedure</h2>
 <ol type="1">
-<li><p>We setup a data generative model, <span class="math inline">\(p(y | \boldsymbol{\theta})\)</span> and a prior on the model parameters <span class="math inline">\(p(\boldsymbol{\theta})\)</span> where <span class="math inline">\(\boldsymbol{\theta} = \{ \theta_1, \theta_2, \ldots \theta_n\}\)</span>.</p></li>
-<li><p>Next, we wish to make inferences using the data we collect <span class="math inline">\(\boldsymbol{y} = \{y_1,\ldots y_n\}\)</span>. All inferences we make require the posterior <span class="math inline">\(p(\boldsymbol{\theta}| \boldsymbol{y})\)</span>, which we obtain via Bayes’ rule.</p></li>
-<li><p>In general, the inferences we wish to make, e.g.&nbsp;<span class="math inline">\(p(g(\boldsymbol{\theta}) \in A)\)</span>, are complicated or impossible to compute analytically. Here, <strong>Monte Carlo</strong> approximation helps. The key idea is that we <em>sample from the posterior</em> and then use the samples an an empirical approximation to make inference.</p></li>
+<li><p>We setup a data generative model, <span class="math inline">\(p(y | \boldsymbol{\theta})\)</span> where <span class="math inline">\(\boldsymbol{\theta} = \{ \theta_1, \theta_2, \ldots \theta_n\}\)</span>.</p></li>
+<li><p>Next, we choose a prior distribution for the unknown model parameters <span class="math inline">\(p(\boldsymbol{\theta})\)</span>.</p></li>
+<li><p>We wish to make inferences using the data we collect <span class="math inline">\(\boldsymbol{y} = \{y_1,\ldots y_n\}\)</span>. All inferences we make require the posterior <span class="math inline">\(p(\boldsymbol{\theta}| \boldsymbol{y})\)</span>, which we obtain from the data generative model and the prior via Bayes’ rule.</p></li>
 </ol>
+<p>In general, the inferences we wish to make, e.g.&nbsp;<span class="math inline">\(p(g(\boldsymbol{\theta}) \in A |~\boldsymbol{y})\)</span>, are complicated or impossible to compute analytically. Here, <strong>Monte Carlo</strong> approximation helps. The key idea is that we <em>sample from the posterior</em> and then use the samples an an empirical approximation to make inference.</p>
 <p><strong>Question</strong>: What do we do when we can’t sample directly from the posterior?</p>
 </section>
 <section id="example-sparrows" class="level2">
@@ -301,7 +302,7 @@ p(y_1,\ldots y_n | x_1, \ldots, x_n, \beta_1, \beta_2, \beta_3) &amp;= \prod_{i 
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Exercise 2.2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Solution (2.2)</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<p>Write down a prior on the unknowns</p>
+<p>Write down a prior distribution for the unknowns</p>
 </div>
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <p>One possible prior: independent normals on each <span class="math inline">\(\beta_i\)</span>.</p>
@@ -568,8 +569,8 @@ Note
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>theta_s <span class="ot">=</span> <span class="dv">0</span> <span class="co"># starting point</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>THETA <span class="ot">=</span> <span class="cn">NULL</span> <span class="co"># empty object to save iterations in</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>S <span class="ot">=</span> <span class="dv">10000</span> <span class="co"># number of iteations</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">=</span> <span class="dv">1</span> <span class="co"># proposal variance</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>S <span class="ot">=</span> <span class="dv">10000</span> <span class="co"># number of iterations</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">=</span> <span class="dv">1</span> <span class="co"># proposal sd</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>accept <span class="ot">=</span> <span class="dv">0</span> <span class="co"># keep track of acceptance rate</span></span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>S) {</span>
@@ -591,29 +592,6 @@ Note
 <div class="cell">
 
 </div>
-<p>Let’s look at a trace plot</p>
-<div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">trace plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">code</a></li></ul>
-<div class="tab-content">
-<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="lec08-Metropolis-algorithm_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</div>
-<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">theta =</span> THETA)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df), <span class="at">y =</span> theta)) <span class="sc">+</span> </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"iteration"</span>, <span class="at">y =</span> <span class="fu">TeX</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">theta"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</div>
 <div class="cell">
 
 </div>
@@ -625,17 +603,47 @@ Note
 </div>
 <p>Let’s look at how various <span class="math inline">\(\delta\)</span> let us sample the target:</p>
 <div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true"><span class="math inline">\(\delta = 1\)</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false"><span class="math inline">\(\delta = 4\)</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-3" role="tab" aria-controls="tabset-9-3" aria-selected="false"><span class="math inline">\(\delta = 0.1\)</span></a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true"><span class="math inline">\(\delta = 0.1\)</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false"><span class="math inline">\(\delta = 1\)</span></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-3" role="tab" aria-controls="tabset-8-3" aria-selected="false"><span class="math inline">\(\delta = 4\)</span></a></li></ul>
 <div class="tab-content">
-<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
-<p><img src="imgs/metropolis-normal-1.gif" width="600" height="600"></p>
-</div>
-<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
-<p><img src="imgs/metropolis-normal-delta4.gif" width="600" height="600"></p>
-</div>
-<div id="tabset-9-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-3-tab">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
 <p><img src="imgs/metropolis-normal-delta-point1.gif" width="600" height="600"></p>
 </div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<p><img src="imgs/metropolis-normal-1.gif" width="600" height="600"></p>
+</div>
+<div id="tabset-8-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-3-tab">
+<p><img src="imgs/metropolis-normal-delta4.gif" width="600" height="600"></p>
+</div>
+</div>
+</div>
+<p>Let’s look at the trace plots for each <span class="math inline">\(\delta\)</span>.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec08-Metropolis-algorithm_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Acceptance rate for each delta</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">0.1</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">0.3</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 

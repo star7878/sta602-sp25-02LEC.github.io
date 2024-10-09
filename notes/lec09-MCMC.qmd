@@ -1,0 +1,96 @@
+---
+title: "MCMC Properties and Diagnostics"
+author: "Dr. Alexander Fisher"
+# mainfont: Lato
+format: 
+  html:
+    toc: true
+execute:
+  eval: false
+---
+
+# Practice example
+
+- lm example with no slope (simple normal regression)
+
+
+# Intuition
+
+## The blind monkey on an island
+
+# Why does it work?
+
+## Ergodic theorem
+
+Under what conditions does Metropolis-Hastings MCMC work?
+
+**Ergodic theorem**: If $\{\theta^{(1)}, \theta^{(2)}, \ldots \}$ is an *irreducible*, *aperiodic* and *recurrent* Markov chain, then there is a unique probability distribution $\pi$ such that as $s \rightarrow \infty$,
+
+- $Pr(\theta^{(s)} \in \mathcal{A}) \rightarrow \pi(\mathcal{A})$ for any set $\mathcal{A}$;
+
+- $\frac{1}{S} \sum g(\theta^{(s)}) \rightarrow \int g(x) \pi(x) dx$.
+
+## Definitions
+
+### stationary distribution
+
+$\pi$ is called the **stationary distribution** of the Markov chain because if $\theta^{(s)} \sim \pi$ and $\theta^{(s+1)}$ is generated from the Markov chain starting at $\theta^{(s)}$, then $Pr(\theta^{(s+1)} \in \mathcal{A}) = \pi(\mathcal{A})$.
+
+### irreducible
+
+A chain is **reducible** if the state-space can be divided into non-overlapping sets (due to some $J$). In practice, the proposal $J(\theta^* | \theta^{(s)})$ needs to let us go from any value of $\theta$ to any other, eventually.
+
+### aperiodic
+
+We want our Markov chain to be **aperiodic**. A value $\theta$ is said to be **periodic** with period $k>1$ if it can only be visited every $k$th iteration. A Markov chain without periodic states is **aperiodic**.
+
+### recurrent
+
+A value $\theta$ is **recurrent** if we are guaranteed to return to it *eventually*.
+
+#### offline
+
+Proof that the stationary distribution $\pi(\theta)$ is the same as our target distribution $p_0(\theta)$.
+
+# Diagnostics
+
+## MCMC Vocabulary
+
+- **autocorrelation**: how correlated consecutive values in the Markov chain are. Mathematically, we compute the sample autocorrelation between elements in the sequence that are $t$ steps apart using
+
+$$
+\text{acf}_t(\boldsymbol{\phi}) = 
+\frac{\frac{1}{S - t} \sum_{s = 1}^{S-t} (\phi_s - \bar{\phi})(\phi_{s+t} - \bar{\phi})}
+{\frac{1}{S-1} \sum_{s = 1}^S (\phi_s - \bar{\phi})^2}
+$$
+where $\boldsymbol{\phi}$ is a sequence of length $S$ and $\bar{\phi}$ is the mean of the sequence. Practically, we use `acf` function in R. Example:
+```{r}
+acf(thd.mcmc[,1], plot = FALSE)
+```
+The higher the autocorrelation, the more samples we need to obtain a given level of precision for our approximation. One way to state how precise our approximation is, is with *effective sample size*.
+
+- **effective sample size** (ESS): intuitively this is the effective number of exact samples
+"contained" in the Markov chain (see [Betancourt 2018](https://arxiv.org/pdf/1701.02434.pdf)). For further reading on ESS, see [the stan manual](https://mc-stan.org/docs/reference-manual/effective-sample-size.html). In practice we use `coda::effectiveSize()` function to compute. Example:
+
+```{r}
+#| warning: false
+library(coda)
+effectiveSize(thd.mcmc[,1])[[1]]
+```
+
+More precisely, the **effective sample size** (ESS) is the value $S_{eff}$ such that 
+
+$$
+Var_{MCMC}[\bar{\phi}] = \frac{Var[\phi]}{S_{eff}}.
+$$
+In words, it's the number of independent Monte Carlo samples necessary to give the same precision as the MCMC samples. For comparison, recall $Var_{MC}[\bar{\phi}] = Var[\phi]/S$
+
+- **Stationarity** is when samples taken in one part of the chain have a similar distribution to samples taken from other parts of the chain. Intuitively, we want the particle to move from our arbitrary starting point to regions of higher probability$^*$, then we will say it has *achieved stationarity*. 
+
+Traceplots are a great way to visually inspect whether a chain has **converged**, or *achieved stationarity*. In the traceplot above we can see that samples from the beginning of the chain look very different than samples at the end.
+
+$^*$ recall that probability is really a volume in high dimensions of parameter space, and so it is not enough for a pdf to evaluate to a high value, there must also be sufficient volume.
+
+- **Mixing**: how well the particle moves between sets of high probability. Some might refer to this as how well the particle sojourns across the "typical set" (regions of high probability).
+
+

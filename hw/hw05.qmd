@@ -1,0 +1,112 @@
+---
+title: "Homework 5"
+subtitle: "Due Friday October 18 at 5:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Exercise 1 
+
+You've been hired as a columnist to write for the statistics/mathematics section of an online magazine. Your editor knows you are enrolled in STA360 and has asked you to  write about the Metropolis algorithm for the magazine. Specifically, your editor tells you that your article should answer the following:
+
+1. What is the Metropolis algorithm? What is the history of the algorithm?
+
+2. What can the Metropolis algorithm be used for? 
+
+3. What is a proposal distribution?
+
+4. What's the intuition behind why the algorithm works?
+
+Additionally, the editor adds: your article needs to be strictly under 500 words (the shorter the better). Furthermore, your target audience is non-technical. For this reason, you should avoid using unnecessary jargon. If/when you do use statistical terminology, you must define it.
+
+## Exercise 2
+
+Younger male sparrows may or may not nest during a mating season, perhaps depending on their physical characteristics. 
+Researchers have recorded the nesting success of 43 young male sparrows of the same age, as well as their wingspan. Run the code below to load the data: 
+
+```{r}
+#| eval: false
+yXsparrow = readr::read_csv("https://sta360-fa24.github.io/data/yXsparrow.csv")
+```
+
+Let $Y_i$ be the binary indicator that sparrow $i$ successfully nests, and let $x_i$ denote their wingspan. Our model for $Y_i$ is logit $Pr(Y_i = 1 | \alpha, \beta, x_i) = \alpha + \beta x_i$, where the logit function is given by logit $\theta = \log \left[\frac{\theta}{(1 - \theta)} \right]$.
+
+(a) Write down the likelihood,
+
+$$
+\prod_{i=1}^n p(y_i | \alpha, \beta, x_i)
+$$
+and simplify as much as possible.
+
+(b) Formulate a prior probability distribution over $\alpha$ and $\beta$ by considering the range of $Pr(Y = 1 | \alpha, \beta, x)$ as $x$ ranges over 10 to 15, the approximate range of observed wingspans. 
+
+(c) Implement a Metropolis algorithm that approximates $p(\alpha, \beta | \mathbf{y}, \mathbf{x})$. $\mathbf{y} = y_1, \ldots, y_n$ and $\mathbf{x} = x_1, \ldots x_n$. Adjust the proposal distribution to achieve a reasonable acceptance rate, and run the algorithm long enough so that the effective sample size is at least 100 for each parameter. 
+
+(d) Report trace plots for $\alpha$ and $\beta$. Additionally, compare the posterior densities of $\alpha$ and $\beta$ to their prior densities.
+
+(e) Using the output of the Metropolis algorithm, come up with a way to make a confidence band for the following *function* $f_{\alpha, \beta}(x)$ of wingspan:
+
+$$
+f_{\alpha, \beta}(x) = \frac{e^{\alpha + \beta x}}{1 + e^{\alpha + \beta x}}
+$$
+
+where $\alpha$ and $\beta$ are the parameters in your data generative model. Make a plot of such a band. 
+
+## Exercise 3
+
+Code for this exercise is provided below,
+
+```{r}
+#| eval: false
+# load the data
+trans.prob.mat = readRDS(url("https://sta360-fa24.github.io/data/trans-prob-mat.rds"))
+cipher_text = readLines("https://sta360-fa24.github.io/data/ciphertext.txt")
+
+pl = function(decoded) {
+  logprob = 0
+  prevletter = "SPACE"
+  for (i in 1:nchar(decoded)) {
+    curletter = substring(decoded, i, i)
+    if(curletter == " ") {
+      curletter = "SPACE"
+    }
+    logprob = logprob + log(trans.prob.mat[rownames(trans.prob.mat) == prevletter,
+                                             colnames(trans.prob.mat) == curletter])
+    prevletter = curletter
+  }
+  return(logprob)
+} 
+```
+
+
+In this exercise we will re-create the cryptanalysis tool described [here](../readings/MCMCRev.pdf) to decrypt a secret message. Read pages 1-3 of the article by Persi Diaconis linked above.
+
+(a) Load the object `trans.prob.matrix` using the code above and examine. Based on your reading of the article, how can you interpret the entries of this matrix? Is it symmetric or not? Why does this make sense? The function `pl()`, given above, computes the "plausibility" score for a given decoding. Explain in detail what the code comprising `pl()` does. 
+
+(b) The following code can help you get started:
+
+```{r}
+#| eval: false
+## alphabet with space
+alphabet = c(LETTERS, " ")
+
+## decode: replace ciphertext with mapping
+
+decode = function(mapping, coded) {
+  coded = toupper(coded)
+  decoded = coded
+  for (i in 1:nchar(coded)) {
+      substring(decoded, i, i) = alphabet[mapping == substring(coded, i, i)]
+  }
+  decoded
+}
+```
+
+Explain, line-by-line what the function `decode()` above does. What are the arguments? What does the function return?
+
+(c) Follow the pseudo-code outlined on page 2 of the article to write a MCMC algorithm and decrypt the secret message. Run your Markov chain for at least 1000 iterations and report the decoding with the highest plausibility score. 
+
+
+

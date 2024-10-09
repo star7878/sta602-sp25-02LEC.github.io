@@ -22,11 +22,14 @@ library(animation)
 
 ## The Bayesian statistical procedure
 
-1.  We setup a data generative model, $p(y | \boldsymbol{\theta})$ and a prior on the model parameters $p(\boldsymbol{\theta})$ where $\boldsymbol{\theta} = \{ \theta_1, \theta_2, \ldots \theta_n\}$.
+1.  We setup a data generative model, $p(y | \boldsymbol{\theta})$ where $\boldsymbol{\theta} = \{ \theta_1, \theta_2, \ldots \theta_n\}$.
 
-2.  Next, we wish to make inferences using the data we collect $\boldsymbol{y} = \{y_1,\ldots y_n\}$. All inferences we make require the posterior $p(\boldsymbol{\theta}| \boldsymbol{y})$, which we obtain via Bayes' rule.
+2.  Next, we choose a prior distribution for the unknown model parameters $p(\boldsymbol{\theta})$.
 
-3.  In general, the inferences we wish to make, e.g. $p(g(\boldsymbol{\theta}) \in A)$, are complicated or impossible to compute analytically. Here, **Monte Carlo** approximation helps. The key idea is that we *sample from the posterior* and then use the samples an an empirical approximation to make inference.
+
+3. We wish to make inferences using the data we collect $\boldsymbol{y} = \{y_1,\ldots y_n\}$. All inferences we make require the posterior $p(\boldsymbol{\theta}| \boldsymbol{y})$, which we obtain from the data generative model and the prior via Bayes' rule.
+
+In general, the inferences we wish to make, e.g. $p(g(\boldsymbol{\theta}) \in A |~\boldsymbol{y})$, are complicated or impossible to compute analytically. Here, **Monte Carlo** approximation helps. The key idea is that we *sample from the posterior* and then use the samples an an empirical approximation to make inference.
 
 **Question**: What do we do when we can't sample directly from the posterior?
 
@@ -122,7 +125,7 @@ $$
 ::: panel-tabset
 ## Exercise 2.2
 
-Write down a prior on the unknowns
+Write down a prior distribution for the unknowns
 
 ## Solution (2.2)
 
@@ -375,8 +378,8 @@ We have to choose $\delta$. How should we choose it? Let's gain some intuition b
 set.seed(360)
 theta_s = 0 # starting point
 THETA = NULL # empty object to save iterations in
-S = 10000 # number of iteations
-delta = 1 # proposal variance
+S = 10000 # number of iterations
+delta = 1 # proposal sd
 accept = 0 # keep track of acceptance rate
 
 for (s in 1:S) {
@@ -403,7 +406,7 @@ set.seed(360)
 theta_s = 0 # starting point
 THETA = NULL
 THETA_P = NULL # empty object to save iterations in
-S = 10000 # number of iteations
+S = 10000 # number of iterations
 delta = 1 # proposal variance
 accept = 0 # keep track of acceptance rate
 
@@ -425,35 +428,6 @@ for (s in 1:S) {
 }
 ```
 
-Let's look at a trace plot
-
-::: panel-tabset
-
-## trace plot
-
-```{r}
-#| echo: false
-#| warning: false
-df = data.frame(theta = THETA)
-df %>%
-  ggplot(aes(x = 1:nrow(df), y = theta)) + 
-  geom_line() +
-  theme_bw() +
-  labs(x = "iteration", y = TeX("\\theta"))
-```
-
-
-## code
-```{r}
-#| eval: false
-df = data.frame(theta = THETA)
-df %>%
-  ggplot(aes(x = 1:nrow(df), y = theta)) + 
-  geom_line() +
-  theme_bw() +
-  labs(x = "iteration", y = TeX("\\theta"))
-```
-:::
 
 ```{r}
 #| echo: false
@@ -515,7 +489,7 @@ set.seed(360)
 theta_s = 0 # starting point
 THETA = NULL
 THETA_P = NULL # empty object to save iterations in
-S = 1000 # number of iteations
+S = 1000 # number of iterations
 delta = 4 # proposal variance
 accept = 0 # keep track of acceptance rate
 
@@ -593,7 +567,7 @@ set.seed(360)
 theta_s = 0 # starting point
 THETA = NULL
 THETA_P = NULL # empty object to save iterations in
-S = 1000 # number of iteations
+S = 1000 # number of iterations
 delta = 0.1 # proposal variance
 accept = 0 # keep track of acceptance rate
 
@@ -657,15 +631,119 @@ outdir = getwd()
 Let's look at how various $\delta$ let us sample the target:
 
 ::: panel-tabset 
+## $\delta = 0.1$
+
+<img src="imgs/metropolis-normal-delta-point1.gif" width="600" height="600" />
+
 ## $\delta = 1$
 <img src="imgs/metropolis-normal-1.gif" width="600" height="600" />
 
 ## $\delta = 4$
 <img src="imgs/metropolis-normal-delta4.gif" width="600" height="600" />
 
-## $\delta = 0.1$
-
-<img src="imgs/metropolis-normal-delta-point1.gif" width="600" height="600" />
-
 :::
+
+Let's look at the trace plots for each $\delta$.
+
+```{r}
+#| echo: false
+#| warning: false
+set.seed(360)
+theta_s1 = 0 # starting point
+theta_s2 = 0
+theta_s3 = 0
+THETA_1 = NULL
+THETA_2 = NULL
+THETA_3 = NULL
+S = 1000 # number of iterations
+delta1 = 1 # proposal sd
+delta2 = 4
+delta3 = 0.1
+accept1 = 0 # keep track of acceptance rate
+accept2 = 0
+accept3 = 0
+for (s in 1:S) {
+  # log everything for numerical stability #
+  
+  ### generate proposal and compute ratio r ###
+  theta_proposal_1 = rnorm(1, mean = theta_s1, sd = delta1) 
+  log.r = dnorm(theta_proposal_1, mean = 10, sd = 1, log = TRUE) - 
+    dnorm(theta_s1, mean = 10, sd = 1, log = TRUE)
+  
+  ### accept or reject proposal and add to chain ###
+  if(log(runif(1)) < log.r)  {
+    theta_s1 = theta_proposal_1
+    accept1 = accept1 + 1 
+  }
+  THETA_1 = c(THETA_1, theta_s1)
+  
+  ## SECOND DELTA ##
+  ##################
+   ### generate proposal and compute ratio r ###
+  theta_proposal_2 = rnorm(1, mean = theta_s2, sd = delta2) 
+  log.r = dnorm(theta_proposal_2, mean = 10, sd = 1, log = TRUE) - 
+    dnorm(theta_s2, mean = 10, sd = 1, log = TRUE)
+  
+  ### accept or reject proposal and add to chain ###
+  if(log(runif(1)) < log.r)  {
+    theta_s2 = theta_proposal_2
+    accept2 = accept2 + 1 
+  }
+  THETA_2 = c(THETA_2, theta_s2)
+  
+  ### THIRD DELTA ###
+  ###################
+   theta_proposal_3 = rnorm(1, mean = theta_s3, sd = delta3) 
+  
+  log.r = dnorm(theta_proposal_3, mean = 10, sd = 1, log = TRUE) - 
+    dnorm(theta_s3, mean = 10, sd = 1, log = TRUE)
+  
+  ### accept or reject proposal and add to chain ###
+  if(log(runif(1)) < log.r)  {
+    theta_s3 = theta_proposal_3
+    accept3 = accept3 + 1 
+  }
+  THETA_3 = c(THETA_3, theta_s3)
+}
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+
+df = data.frame(theta1 = THETA_1,
+                theta2 = THETA_2,
+                theta3 = THETA_3)
+p1 = df %>%
+  ggplot(aes(x = 1:nrow(df), y = theta1)) + 
+  geom_line() + 
+  theme_bw() +
+  labs(x = "iteration", y = TeX("\\theta"), title = TeX("$\\delta = 1$"))
+
+p2 = df %>%
+  ggplot(aes(x = 1:nrow(df), y = theta2)) + 
+  geom_line() + 
+  theme_bw() +
+  labs(x = "iteration", y = TeX("\\theta"), title = TeX("$\\delta = 4$"))
+
+p3 = df %>%
+  ggplot(aes(x = 1:nrow(df), y = theta3)) + 
+  geom_line() + 
+  theme_bw() +
+  labs(x = "iteration", y = TeX("\\theta"), title = TeX("$\\delta = 0.1$"))
+
+p3 + p1 + p2
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+S = 1000
+df_accept = data.frame(accept3 / S, accept1 / S, accept2 / S)
+df_accept %>%
+  knitr::kable(caption = "Acceptance rate for each delta", digits = 2, col.names = c("0.1", "1", "4"),
+        )
+```
 
