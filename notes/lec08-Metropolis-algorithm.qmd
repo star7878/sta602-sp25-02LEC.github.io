@@ -727,7 +727,7 @@ p3 + p1 + p2
 ```{r}
 #| echo: false
 #| warning: false
-S = 1000
+S = 2000
 df_accept = data.frame(accept3 / S, accept1 / S, accept2 / S)
 df_accept %>%
   knitr::kable(caption = "Acceptance rate for each delta", digits = 2, col.names = c("0.1", "1", "4"),

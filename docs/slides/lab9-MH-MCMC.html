@@ -348,6 +348,24 @@
 <h1>Metropolis-Hastings</h1>
 
 </section>
+<section id="metropolis-hastings-algorithm" class="slide level2">
+<h2>Metropolis-Hastings algorithm</h2>
+<p>Let <span class="math inline">\(\pi(\theta)\)</span> be the target distribution. The Metropolis-Hastings algorithm proceeds:</p>
+<ol type="1">
+<li><p>sample <span class="math inline">\(\theta^{*} \sim J(\theta | \theta^{(s)})\)</span>;</p></li>
+<li><p>compute the acceptance ratio</p></li>
+</ol>
+<p><span class="math display">\[
+r = \frac{\pi(\theta^*)}{\pi(\theta^{(s)})} \times
+\frac{J(\theta^{(s)}| \theta^*)}{
+J(\theta^{*}| \theta^{(s)})
+}
+\]</span></p>
+<ol start="3" type="1">
+<li>set <span class="math inline">\(\theta^{(s+1)}\)</span> to <span class="math inline">\(\theta^*\)</span> with probability <span class="math inline">\(\min(1, r)\)</span>, otherwise set <span class="math inline">\(\theta^{(s+1)}\)</span> to <span class="math inline">\(\theta^{(s)}\)</span>.</li>
+</ol>
+<p><strong>Important</strong>: We correct for asymmetry; the proposal distribution <span class="math inline">\(J\)</span> need not be symmetric!</p>
+</section>
 <section id="exercise-1" class="slide level2">
 <h2>Exercise</h2>
 <p>Metropolis-Hastings lets us work with non-symmetric proposals. Re-write the algorithm of the previous exercise using the non-symmetric proposal <span class="math inline">\(J(\theta = j | \theta^{(s)} = i)\)</span> such that</p>

@@ -1684,7 +1684,7 @@
     "href": "notes/lec08-Metropolis-algorithm.html#another-example",
     "title": "Metropolis Algorithm",
     "section": "Another example",
-    "text": "Another example\nLet \\(\\pi(\\theta) = \\text{dnorm}(\\theta, 10, 1)\\) and let \\(J(\\theta | \\theta^{(s)}) = \\text{normal}(\\theta^{(s)},\\delta^2)\\).\nWe have to choose \\(\\delta\\). How should we choose it? Let’s gain some intuition by trying out three different values of \\(\\delta\\).\n\nset.seed(360)\ntheta_s = 0 # starting point\nTHETA = NULL # empty object to save iterations in\nS = 10000 # number of iterations\ndelta = 1 # proposal sd\naccept = 0 # keep track of acceptance rate\n\nfor (s in 1:S) {\n  # log everything for numerical stability #\n  \n  ### generate proposal and compute ratio r ###\n  theta_proposal = rnorm(1, mean = theta_s, sd = delta) \n  log.r = dnorm(theta_proposal, mean = 10, sd = 1, log = TRUE) - \n    dnorm(theta_s, mean = 10, sd = 1, log = TRUE)\n  \n  ### accept or reject proposal and add to chain ###\n  if(log(runif(1)) < log.r)  {\n    theta_s = theta_proposal\n    accept = accept + 1 \n  }\n  THETA = c(THETA, theta_s)\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\nLet’s look at how various \\(\\delta\\) let us sample the target:\n\n\\(\\delta = 0.1\\)\\(\\delta = 1\\)\\(\\delta = 4\\)\n\n\n\n\n\n\n\n\n\n\n\n\nLet’s look at the trace plots for each \\(\\delta\\).\n\n\n\n\n\n\n\n\n\n\n\nAcceptance rate for each delta\n\n\n0.1\n1\n4\n\n\n\n\n1.92\n1.4\n0.59"
+    "text": "Another example\nLet \\(\\pi(\\theta) = \\text{dnorm}(\\theta, 10, 1)\\) and let \\(J(\\theta | \\theta^{(s)}) = \\text{normal}(\\theta^{(s)},\\delta^2)\\).\nWe have to choose \\(\\delta\\). How should we choose it? Let’s gain some intuition by trying out three different values of \\(\\delta\\).\n\nset.seed(360)\ntheta_s = 0 # starting point\nTHETA = NULL # empty object to save iterations in\nS = 10000 # number of iterations\ndelta = 1 # proposal sd\naccept = 0 # keep track of acceptance rate\n\nfor (s in 1:S) {\n  # log everything for numerical stability #\n  \n  ### generate proposal and compute ratio r ###\n  theta_proposal = rnorm(1, mean = theta_s, sd = delta) \n  log.r = dnorm(theta_proposal, mean = 10, sd = 1, log = TRUE) - \n    dnorm(theta_s, mean = 10, sd = 1, log = TRUE)\n  \n  ### accept or reject proposal and add to chain ###\n  if(log(runif(1)) < log.r)  {\n    theta_s = theta_proposal\n    accept = accept + 1 \n  }\n  THETA = c(THETA, theta_s)\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\nLet’s look at how various \\(\\delta\\) let us sample the target:\n\n\\(\\delta = 0.1\\)\\(\\delta = 1\\)\\(\\delta = 4\\)\n\n\n\n\n\n\n\n\n\n\n\n\nLet’s look at the trace plots for each \\(\\delta\\).\n\n\n\n\n\n\n\n\n\n\n\nAcceptance rate for each delta\n\n\n0.1\n1\n4\n\n\n\n\n0.96\n0.7\n0.29"
   },
   {
     "objectID": "notes/lec09-MCMC.html",
@@ -1755,5 +1755,12 @@
     "title": "Metropolis Algorithm",
     "section": "The blind monkey on an island",
     "text": "The blind monkey on an island"
+  },
+  {
+    "objectID": "slides/lab9-MH-MCMC.html#metropolis-hastings-algorithm",
+    "href": "slides/lab9-MH-MCMC.html#metropolis-hastings-algorithm",
+    "title": "MCMC Practice",
+    "section": "Metropolis-Hastings algorithm",
+    "text": "Metropolis-Hastings algorithm\nLet \\(\\pi(\\theta)\\) be the target distribution. The Metropolis-Hastings algorithm proceeds:\n\nsample \\(\\theta^{*} \\sim J(\\theta | \\theta^{(s)})\\);\ncompute the acceptance ratio\n\n\\[\nr = \\frac{\\pi(\\theta^*)}{\\pi(\\theta^{(s)})} \\times\n\\frac{J(\\theta^{(s)}| \\theta^*)}{\nJ(\\theta^{*}| \\theta^{(s)})\n}\n\\]\n\nset \\(\\theta^{(s+1)}\\) to \\(\\theta^*\\) with probability \\(\\min(1, r)\\), otherwise set \\(\\theta^{(s+1)}\\) to \\(\\theta^{(s)}\\).\n\nImportant: We correct for asymmetry; the proposal distribution \\(J\\) need not be symmetric!"
   }
 ]

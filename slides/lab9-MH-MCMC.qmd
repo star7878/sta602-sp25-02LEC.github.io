@@ -28,6 +28,24 @@ in words, we wish to roll a die with probability $1/w$ of landing on face 1, $2/
 
 # Metropolis-Hastings
 
+## Metropolis-Hastings algorithm
+
+Let $\pi(\theta)$ be the target distribution. The Metropolis-Hastings algorithm proceeds:
+
+1. sample $\theta^{*} \sim J(\theta | \theta^{(s)})$;
+
+2. compute the acceptance ratio
+
+$$
+r = \frac{\pi(\theta^*)}{\pi(\theta^{(s)})} \times
+\frac{J(\theta^{(s)}| \theta^*)}{
+J(\theta^{*}| \theta^{(s)})
+}
+$$
+3. set $\theta^{(s+1)}$ to $\theta^*$ with probability $\min(1, r)$, otherwise set $\theta^{(s+1)}$ to $\theta^{(s)}$.
+
+**Important**: We correct for asymmetry; the proposal distribution $J$ need not be symmetric!
+
 ## Exercise
 
 Metropolis-Hastings lets us work with non-symmetric proposals. Re-write the algorithm of the previous exercise using the non-symmetric proposal $J(\theta = j  | \theta^{(s)} = i)$ such that
