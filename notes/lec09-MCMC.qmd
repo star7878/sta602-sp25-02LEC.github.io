@@ -5,18 +5,129 @@ author: "Dr. Alexander Fisher"
 format: 
   html:
     toc: true
-execute:
-  eval: false
 ---
+
+```{r}
+#| warning: false
+#| message: false
+#| code-fold: true
+#| code-summary: View libraries used in these notes
+library(tidyverse)
+```
 
 # Practice example
 
-- lm example with no slope (simple normal regression)
+As in the example from lab [here](/slides/lab-normal.html#/model), let $y$ be the mercury concentration (ppm) of a bass fish and let $x$ be the weight of the fish (kg). This time, our model will be:
+
+$$
+\begin{aligned}
+Y_i | \theta_1, \theta_2 &\sim N(\theta_1 + \theta_2 x_i, 1)\\
+\theta_1, \theta_2 &\sim \text{ iid }N(0, 10)
+\end{aligned}
+$$
+
+```{r}
+#| label: load-data
+#| warning: false
+#| message: false
+bass = read_csv("https://sta360-fa24.github.io/data/bass.csv")
+y = bass$mercury
+x = bass$weight
+```
+
+::: panel-tabset
+## Exercise
+
+Sample from the posterior $p(\theta_1, \theta_2 | y_1, \ldots, y_n, x_1, \ldots, x_n)$ using the Metropolis algorithm.
+
+## Solution
+
+```{r}
+#| label: metropolis-example-1
+THETA1 = NULL
+THETA2 = NULL
+
+logLikelihood = function(theta1, theta2) {
+  mu = theta1 + (theta2 * x)
+  sum(dnorm(y, mu, 1, log = TRUE))
+}
+
+logPrior = function(theta1, theta2) {
+  dnorm(theta1, 0, sqrt(10), log = TRUE) + 
+    dnorm(theta2, 0, sqrt(10), log = TRUE)
+}
+
+logPosterior = function(theta1, theta2) {
+  logLikelihood(theta1, theta2) + logPrior(theta1, theta2)
+}
 
 
-# Intuition
+THETA1 = NULL
+THETA2 = NULL
+accept1 = 0
+accept2 = 0
+S = 10000
+theta1_s = 0
+theta2_s = 0
+for (s in 1:S) {
+  
+  ## propose and update theta1
+  theta1_proposal = rnorm(1, mean = theta1_s, .5)
+   log.r = logPosterior(theta1_proposal, theta2_s) - 
+     logPosterior(theta1_s, theta2_s)
+   
+   if(log(runif(1)) < log.r)  {
+    theta1_s = theta1_proposal
+    accept1 = accept1 + 1 
+   }
+   
+   THETA1 = c(THETA1, theta1_s)
+   
+   ## propose and update theta2
+    theta2_proposal = rnorm(1, mean = theta2_s, .5)
+   log.r = logPosterior(theta1_s, theta2_proposal) - 
+     logPosterior(theta1_s, theta2_s)
+   
+   if(log(runif(1)) < log.r)  {
+    theta2_s = theta2_proposal
+    accept2 = accept2 + 1 
+   }
+   
+   THETA2 = c(THETA2, theta2_s)
+   
+}
+```
 
-## The blind monkey on an island
+## Trace plots
+
+```{r}
+#| echo: false
+df_theta = data.frame(theta1 = THETA1,
+           theta2 = THETA2)
+
+df_theta %>%
+  ggplot(aes(x = 1:nrow(df_theta))) +
+  geom_line(aes(y = THETA1, col = "theta1"), alpha = 0.8) +
+  geom_line(aes(y = THETA2, col = "theta2"), alpha = 0.8) +
+  labs(x = "iteration", y = "", color = "Parameter")
+```
+
+## Posterior summary
+
+| Parameter  | Posterior Mean             | 95% CI                                                                                   |
+|-----------------|-----------------|--------------------------------------|
+| $\theta_1$ | `r round(mean(THETA1), 2)` | (`r round(quantile(THETA1, 0.025)[[1]],2)`, `r round(quantile(THETA1, 0.975)[[1]], 2)`)  |
+| $\theta_2$ | `r round(mean(THETA2), 2)` | (`r round(quantile(THETA2, 0.025)[[1]], 2)`, `r round(quantile(THETA2, 0.975)[[1]], 2)`) |
+
+## lm solution
+
+Compare to `lm`:
+
+```{r}
+fit = lm(mercury ~ weight, data = bass)
+summary(fit)
+```
+:::
 
 # Why does it work?
 
@@ -26,13 +137,13 @@ Under what conditions does Metropolis-Hastings MCMC work?
 
 **Ergodic theorem**: If $\{\theta^{(1)}, \theta^{(2)}, \ldots \}$ is an *irreducible*, *aperiodic* and *recurrent* Markov chain, then there is a unique probability distribution $\pi$ such that as $s \rightarrow \infty$,
 
-- $Pr(\theta^{(s)} \in \mathcal{A}) \rightarrow \pi(\mathcal{A})$ for any set $\mathcal{A}$;
+-   $Pr(\theta^{(s)} \in \mathcal{A}) \rightarrow \pi(\mathcal{A})$ for any set $\mathcal{A}$;
 
-- $\frac{1}{S} \sum g(\theta^{(s)}) \rightarrow \int g(x) \pi(x) dx$.
+-   $\frac{1}{S} \sum g(\theta^{(s)}) \rightarrow \int g(x) \pi(x) dx$.
 
 ## Definitions
 
-### stationary distribution
+### stationary distribution 
 
 $\pi$ is called the **stationary distribution** of the Markov chain because if $\theta^{(s)} \sim \pi$ and $\theta^{(s+1)}$ is generated from the Markov chain starting at $\theta^{(s)}$, then $Pr(\theta^{(s+1)} \in \mathcal{A}) = \pi(\mathcal{A})$.
 
@@ -48,49 +159,42 @@ We want our Markov chain to be **aperiodic**. A value $\theta$ is said to be **p
 
 A value $\theta$ is **recurrent** if we are guaranteed to return to it *eventually*.
 
-#### offline
-
-Proof that the stationary distribution $\pi(\theta)$ is the same as our target distribution $p_0(\theta)$.
-
 # Diagnostics
 
 ## MCMC Vocabulary
 
-- **autocorrelation**: how correlated consecutive values in the Markov chain are. Mathematically, we compute the sample autocorrelation between elements in the sequence that are $t$ steps apart using
+-   **autocorrelation**: how correlated consecutive values in the Markov chain are. Mathematically, we compute the sample autocorrelation between elements in the sequence that are $t$ steps apart using
 
 $$
 \text{acf}_t(\boldsymbol{\phi}) = 
 \frac{\frac{1}{S - t} \sum_{s = 1}^{S-t} (\phi_s - \bar{\phi})(\phi_{s+t} - \bar{\phi})}
 {\frac{1}{S-1} \sum_{s = 1}^S (\phi_s - \bar{\phi})^2}
-$$
-where $\boldsymbol{\phi}$ is a sequence of length $S$ and $\bar{\phi}$ is the mean of the sequence. Practically, we use `acf` function in R. Example:
+$$ where $\boldsymbol{\phi}$ is a sequence of length $S$ and $\bar{\phi}$ is the mean of the sequence. Practically, we use `acf` function in R. Example:
+
 ```{r}
-acf(thd.mcmc[,1], plot = FALSE)
+acf(THETA1, plot = FALSE)
 ```
+
 The higher the autocorrelation, the more samples we need to obtain a given level of precision for our approximation. One way to state how precise our approximation is, is with *effective sample size*.
 
-- **effective sample size** (ESS): intuitively this is the effective number of exact samples
-"contained" in the Markov chain (see [Betancourt 2018](https://arxiv.org/pdf/1701.02434.pdf)). For further reading on ESS, see [the stan manual](https://mc-stan.org/docs/reference-manual/effective-sample-size.html). In practice we use `coda::effectiveSize()` function to compute. Example:
+-   **effective sample size** (ESS): intuitively this is the effective number of exact samples "contained" in the Markov chain (see [Betancourt 2018](https://arxiv.org/pdf/1701.02434.pdf)). For further reading on ESS, see [the stan manual](https://mc-stan.org/docs/reference-manual/effective-sample-size.html). In practice we use `coda::effectiveSize()` function to compute. Example:
 
 ```{r}
 #| warning: false
 library(coda)
-effectiveSize(thd.mcmc[,1])[[1]]
+effectiveSize(THETA1)
 ```
 
-More precisely, the **effective sample size** (ESS) is the value $S_{eff}$ such that 
+More precisely, the **effective sample size** (ESS) is the value $S_{eff}$ such that
 
 $$
 Var_{MCMC}[\bar{\phi}] = \frac{Var[\phi]}{S_{eff}}.
-$$
-In words, it's the number of independent Monte Carlo samples necessary to give the same precision as the MCMC samples. For comparison, recall $Var_{MC}[\bar{\phi}] = Var[\phi]/S$
+$$ In words, it's the number of independent Monte Carlo samples necessary to give the same precision as the MCMC samples. For comparison, recall $Var_{MC}[\bar{\phi}] = Var[\phi]/S$
 
-- **Stationarity** is when samples taken in one part of the chain have a similar distribution to samples taken from other parts of the chain. Intuitively, we want the particle to move from our arbitrary starting point to regions of higher probability$^*$, then we will say it has *achieved stationarity*. 
+-   **Stationarity** is when samples taken in one part of the chain have a similar distribution to samples taken from other parts of the chain. Intuitively, we want the particle to move from our arbitrary starting point to regions of higher probability$^*$, then we will say it has *achieved stationarity*.
 
-Traceplots are a great way to visually inspect whether a chain has **converged**, or *achieved stationarity*. In the traceplot above we can see that samples from the beginning of the chain look very different than samples at the end.
+Traceplots are a great way to visually inspect whether a chain has **converged**, or *achieved stationarity*. In the traceplot from the previous lecture, we can see that samples from the beginning of the chain look very different than samples at the end for delta = 0.1.
 
 $^*$ recall that probability is really a volume in high dimensions of parameter space, and so it is not enough for a pdf to evaluate to a high value, there must also be sufficient volume.
 
-- **Mixing**: how well the particle moves between sets of high probability. Some might refer to this as how well the particle sojourns across the "typical set" (regions of high probability).
-
-
+-   **Mixing**: how well the particle moves between sets of high probability. Some might refer to this as how well the particle sojourns across the "typical set" (regions of high probability).

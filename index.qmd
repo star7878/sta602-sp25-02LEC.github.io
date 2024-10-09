@@ -84,7 +84,7 @@ schedule %>%
 |      | Wed Oct 02 | [Exam I](/notes/exam-notes.html)                    |         |                                                                                              |                            |
 |      | Thu Oct 03 | NO LAB                                              |         |                                                                                              |                            |
 | 7    | Mon Oct 07 | Metropolis algorithm                                | Ch. 10  |                         [🗒](/notes/lec08-Metropolis-algorithm.html)                          |                            |
-|      | Wed Oct 09 | MCMC diagnostics                                    | Ch. 6   |                                                                                              | [hw 5](/hw/hw05.html)      |
+|      | Wed Oct 09 | MCMC diagnostics                                    | Ch. 6   |                                 [🗒](/notes/lec09-MCMC.html)                                  | [hw 5](/hw/hw05.html)      |
 |      | Thu Oct 10 | lab: Metropolis algo.                               |         |                               [💻](/slides/lab9-MH-MCMC.html)                                |                            |
 | 8    | Mon Oct 14 | NO CLASS                                            |         |                                                                                              |                            |
 |      | Wed Oct 16 |                                                     |         |                                                                                              |                            |

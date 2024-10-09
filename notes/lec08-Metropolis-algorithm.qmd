@@ -26,8 +26,7 @@ library(animation)
 
 2.  Next, we choose a prior distribution for the unknown model parameters $p(\boldsymbol{\theta})$.
 
-
-3. We wish to make inferences using the data we collect $\boldsymbol{y} = \{y_1,\ldots y_n\}$. All inferences we make require the posterior $p(\boldsymbol{\theta}| \boldsymbol{y})$, which we obtain from the data generative model and the prior via Bayes' rule.
+3.  We wish to make inferences using the data we collect $\boldsymbol{y} = \{y_1,\ldots y_n\}$. All inferences we make require the posterior $p(\boldsymbol{\theta}| \boldsymbol{y})$, which we obtain from the data generative model and the prior via Bayes' rule.
 
 In general, the inferences we wish to make, e.g. $p(g(\boldsymbol{\theta}) \in A |~\boldsymbol{y})$, are complicated or impossible to compute analytically. Here, **Monte Carlo** approximation helps. The key idea is that we *sample from the posterior* and then use the samples an an empirical approximation to make inference.
 
@@ -168,7 +167,7 @@ $$
 p(\theta^{(s+1)}| \theta^{(1)}, \theta^{(2)}, \ldots, \theta^{(s)}) = p(\theta^{(s+1)}| \theta^{(s)}) 
 $$
 
-For all states $s$. 
+For all states $s$.
 
 This is also called the "memoryless property". In other words, "What happens next depends only on the state of affairs now".
 
@@ -185,8 +184,6 @@ for(i in 1:S) {
 }
 THETA
 ```
-
-
 :::
 
 ::: callout-important
@@ -195,12 +192,12 @@ MCMC sampling algorithms are not models. They do not generate more information t
 
 ## Metropolis Algorithm
 
-|                            |                                                                                                                      |
-|----------------------------|----------------------------------------------------------------------------------------------------------------------|
-| $\theta$                   | Vector of unknown parameters.                                                                                        |
-| $\theta^{(s)}$             | Current state of $\theta$ in the Markov chain.                                                                       |
-| $J(\theta | \theta^{(s)})$ | Proposal distribution. Note: for this to be a "Metropolis algorithm", J needs to be *symmetric*, i.e. $J(\theta_a | \theta_b) = J(\theta_b | \theta_a)$ for all $\{\theta_a, \theta_b\}$.                                                                                         |
-| $\pi(\theta)$              | Target distribution that we wish to sample from (in our cases, this is the posterior $p(\theta | y_1,\ldots, y_n)$). |
+|                            |                                                                                                                                                                                           |
+|-----------------|-------------------------------------------------------|
+| $\theta$                   | Vector of unknown parameters.                                                                                                                                                             |
+| $\theta^{(s)}$             | Current state of $\theta$ in the Markov chain.                                                                                                                                            |
+| $J(\theta | \theta^{(s)})$ | Proposal distribution. Note: for this to be a "Metropolis algorithm", J needs to be *symmetric*, i.e. $J(\theta_a | \theta_b) = J(\theta_b | \theta_a)$ for all $\{\theta_a, \theta_b\}$. |
+| $\pi(\theta)$              | Target distribution that we wish to sample from (in our cases, this is the posterior $p(\theta | y_1,\ldots, y_n)$).                                                                      |
 
 The Metropolis algorithm proceeds:
 
@@ -215,7 +212,6 @@ The Metropolis algorithm proceeds:
     $$
 
 ## Finishing step (3)
-
 
 The fledglings of female song sparrows. To begin, let's load the data.
 
@@ -253,7 +249,7 @@ Y | X &\sim \text{Poisson}(\exp[ \beta^T \boldsymbol{x}])\\
 \end{aligned}
 $$
 
-The Metropolis algorithm with 
+The Metropolis algorithm with
 
 $$
 J(\beta | \beta^{(s)}) = MVN(\beta^{(s)}, \hat{\sigma}^2(X^TX)^{-1})
@@ -262,9 +258,8 @@ $$
 where $\hat{\sigma}^2$ is the sample variance of $\{\log(y_1 + 1/2), \ldots, \log(y_n + 1/2)\}$.
 
 ::: callout-note
-
-- This variance is intuitively useful choice for $\delta$ since the posterior variance would be $\sigma^2 (X^TX)^{-1}$ in a normal regression problem.
-- We use $\log(y + 1/2)$ instead of $\log y$ because if $y=0$, $\log y$ would be $-\infty$.
+-   This variance is intuitively useful choice for $\delta$ since the posterior variance would be $\sigma^2 (X^TX)^{-1}$ in a normal regression problem.
+-   We use $\log(y + 1/2)$ instead of $\log y$ because if $y=0$, $\log y$ would be $-\infty$.
 :::
 
 ```{r}
@@ -302,11 +297,9 @@ for (s in 1:S) {
 
 The acceptance ratio is `r round(accepts / S, 3)`
 
-
 Let's examine convergence.
 
 ::: panel-tabset
-
 ## trace plots
 
 ```{r}
@@ -362,15 +355,13 @@ acf(BETA[,1])
 acf(BETA[,2])
 acf(BETA[,3])
 ```
-
 :::
 
 ## Another example
 
-
 Let $\pi(\theta) = \text{dnorm}(\theta, 10, 1)$ and let $J(\theta | \theta^{(s)}) = \text{normal}(\theta^{(s)},\delta^2)$.
 
-We have to choose $\delta$. How should we choose it? Let's gain some intuition by trying out three different values of $\delta$. 
+We have to choose $\delta$. How should we choose it? Let's gain some intuition by trying out three different values of $\delta$.
 
 ```{r}
 #| echo: true
@@ -428,7 +419,6 @@ for (s in 1:S) {
 }
 ```
 
-
 ```{r}
 #| echo: false
 #| eval: false
@@ -478,7 +468,6 @@ ani.height = 600,
 outdir = getwd()
 )
 ```
-
 
 ```{r}
 #| eval: false
@@ -627,20 +616,20 @@ outdir = getwd()
 )
 ```
 
-
 Let's look at how various $\delta$ let us sample the target:
 
-::: panel-tabset 
+::: panel-tabset
 ## $\delta = 0.1$
 
-<img src="imgs/metropolis-normal-delta-point1.gif" width="600" height="600" />
+<img src="imgs/metropolis-normal-delta-point1.gif" width="600" height="600"/>
 
 ## $\delta = 1$
-<img src="imgs/metropolis-normal-1.gif" width="600" height="600" />
+
+<img src="imgs/metropolis-normal-1.gif" width="600" height="600"/>
 
 ## $\delta = 4$
-<img src="imgs/metropolis-normal-delta4.gif" width="600" height="600" />
 
+<img src="imgs/metropolis-normal-delta4.gif" width="600" height="600"/>
 :::
 
 Let's look at the trace plots for each $\delta$.
@@ -655,7 +644,7 @@ theta_s3 = 0
 THETA_1 = NULL
 THETA_2 = NULL
 THETA_3 = NULL
-S = 1000 # number of iterations
+S = 2000 # number of iterations
 delta1 = 1 # proposal sd
 delta2 = 4
 delta3 = 0.1
@@ -707,7 +696,6 @@ for (s in 1:S) {
 }
 ```
 
-
 ```{r}
 #| echo: false
 #| warning: false
@@ -736,7 +724,6 @@ p3 = df %>%
 p3 + p1 + p2
 ```
 
-
 ```{r}
 #| echo: false
 #| warning: false
@@ -747,3 +734,10 @@ df_accept %>%
         )
 ```
 
+# Intuition
+
+## The blind monkey on an island
+
+![](images/monkey.png){width="1800"}
+
+![](images/pond.png){width="1160"}
