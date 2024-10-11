@@ -87,29 +87,29 @@ schedule %>%
 |      | Wed Oct 09 | MCMC diagnostics                                    | Ch. 6   |                                 [🗒](/notes/lec09-MCMC.html)                                  | [hw 5](/hw/hw05.html)      |
 |      | Thu Oct 10 | lab: Metropolis algo.                               |         |                               [💻](/slides/lab9-MH-MCMC.html)                                |                            |
 | 8    | Mon Oct 14 | NO CLASS                                            |         |                                                                                              |                            |
-|      | Wed Oct 16 |                                                     |         |                                                                                              |                            |
-|      | Thu Oct 17 |                                                     |         |                                                                                              |                            |
-| 9    | Mon Oct 21 | Gibbs sampling                                      | Ch. 6   |                                                                                              |                            |
-|      | Wed Oct 23 |                                                     |         |                                                                                              |                            |
+|      | Wed Oct 16 | wrap-up diagnostics and MH                          |         |                                                                                              |                            |
+|      | Thu Oct 17 | lab                                                 |         |                                                                                              |                            |
+| 9    | Mon Oct 21 | Gibbs sampling                                      |         |                                                                                              | hw 6                       |
+|      | Wed Oct 23 | Multivariate normal                                 | Ch. 6   |                                                                                              |                            |
 |      | Thu Oct 24 |                                                     |         |                                                                                              |                            |
-| 10   | Mon Oct 28 |                                                     |         |                                                                                              |                            |
-|      | Wed Oct 30 |                                                     |         |                                                                                              |                            |
-|      | Thu Oct 31 |                                                     |         |                                                                                              |                            |
-| 11   | Mon Nov 04 |                                                     |         |                                                                                              |                            |
-|      | Wed Nov 06 |                                                     |         |                                                                                              |                            |
-|      | Thu Nov 07 |                                                     |         |                                                                                              |                            |
-| 12   | Mon Nov 11 |                                                     |         |                                                                                              |                            |
+| 10   | Mon Oct 28 | intro to Bayesian regression                        |         |                                                                                              | hw 7                       |
+|      | Wed Oct 30 | Bayesian regression II                              |         |                                                                                              |                            |
+|      | Thu Oct 31 | lab: stan                                           |         |                                                                                              |                            |
+| 11   | Mon Nov 04 | Hierarchical modeling                               |         |                                                                                              | hw 8                       |
+|      | Wed Nov 06 | Estimators                                          |         |                                                                                              |                            |
+|      | Thu Nov 07 | lab: estimators                                     |         |                                                                                              |                            |
+| 12   | Mon Nov 11 | review                                              |         |                                                                                              |                            |
 |      | Wed Nov 13 | Exam II                                             |         |                                                                                              |                            |
-|      | Thu Nov 14 |                                                     |         |                                                                                              |                            |
-| 13   | Mon Nov 18 |                                                     |         |                                                                                              |                            |
-|      | Wed Nov 20 |                                                     |         |                                                                                              |                            |
-|      | Thu Nov 21 |                                                     |         |                                                                                              |                            |
-| 14   | Mon Nov 25 |                                                     |         |                                                                                              |                            |
+|      | Thu Nov 14 | lab                                                 |         |                                                                                              |                            |
+| 13   | Mon Nov 18 | Dynamical systems                                   |         |                                                                                              |                            |
+|      | Wed Nov 20 | Hamiltonian Monte Carlo                             |         |                                                                                              | hw 9                       |
+|      | Thu Nov 21 | lab                                                 |         |                                                                                              |                            |
+| 14   | Mon Nov 25 | Special topic                                       |         |                                                                                              |                            |
 |      | Wed Nov 27 | NO CLASS                                            |         |                                                                                              |                            |
 |      | Thu Nov 28 | NO CLASS                                            |         |                                                                                              |                            |
-| 15   | Mon Dec 02 |                                                     |         |                                                                                              |                            |
-|      | Wed Dec 04 |                                                     |         |                                                                                              |                            |
-|      | Thu Dec 05 |                                                     |         |                                                                                              |                            |
+| 15   | Mon Dec 02 | Special topic                                       |         |                                                                                              |                            |
+|      | Wed Dec 04 | review                                              |         |                                                                                              |                            |
+|      | Thu Dec 05 | lab                                                 |         |                                                                                              |                            |
 :::
 
 <!-- | Week | Date       | Topic                                          | Reading |                                    Notes                                     | Assignment                  | -->
