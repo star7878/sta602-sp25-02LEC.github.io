@@ -410,7 +410,7 @@
     "href": "quizzes/quiz04.html",
     "title": "Quiz 4",
     "section": "",
-    "text": "Exercise 1\n\\[\nY | \\theta, \\sigma^2 \\sim N(\\theta, \\sigma^2)\n\\]\nWhat is a conjugate class of priors for \\(\\theta | \\sigma^2\\)?\n\n\nExercise 2\nTRUE or FALSE\nAn estimator is a random variable.\n\n\nExercise 3\nLet \\(\\theta_0\\) be the true value of \\(\\theta\\).\nIf \\(E[\\hat{\\theta}| \\theta = \\theta_0] = \\theta_0\\), we say \\(\\hat{\\theta}\\) is a ____ estimator of \\(\\theta\\).\n\n\n\n−+\n03:00"
+    "text": "Exercise 1\nTRUE or FALSE: for any valid proposal distribution J, \\(J(\\theta^* | \\theta^{(1)}, \\ldots, \\theta^{(s)}) = J(\\theta^* | \\theta^{(s)})\\).\n\n\nExercise 2\nTRUE or FALSE: the Metropolis algorithm requires symmetric proposal \\(J(\\theta^* | \\theta^{(s)})\\).\n\n\nExercise 3\nSuppose you are sampling \\(\\theta\\) from some target distribution \\(\\pi(\\theta)\\) using the Metropolis algorithm. Write the probability of accepting a new state \\(\\theta^{*}\\) given that the current state of the chain is \\(\\theta^{(s)}\\).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n−+\n03:00"
   },
   {
     "objectID": "quizzes/quiz05.html",

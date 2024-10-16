@@ -2,7 +2,7 @@
 title: "Quiz 2"
 ---
 
-To receive credit for this assignment, write at the top of your paper your name and Duke netID. For example, my netID is `aaf29`.
+To receive credit for this assignment, write your full name at the top of your paper.
 
 ### Exercise 1
 
