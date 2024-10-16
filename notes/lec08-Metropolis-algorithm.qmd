@@ -211,6 +211,15 @@ The Metropolis algorithm proceeds:
     \end{cases}
     $$
 
+::: callout-note
+## Big idea
+
+- Our target distribution, $\pi(\theta)$, is the posterior $p(\theta | y_1,\ldots, y_n)$. So the acceptance ratio in the algorithm is a ratio of posteriors.
+
+- When we evaluate the ratio of posteriors at different $\theta$, the high dimensional integral in the denominator of the posterior, $p(y_1,\ldots,y_n)$, cancels out! We don't have to compute it!
+
+:::
+
 ## Finishing step (3)
 
 The fledglings of female song sparrows. To begin, let's load the data.
