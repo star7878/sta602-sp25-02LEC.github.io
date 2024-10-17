@@ -88,7 +88,7 @@ schedule %>%
 |      | Thu Oct 10 | lab: Metropolis algo.                               |         |                               [💻](/slides/lab9-MH-MCMC.html)                                |                            |
 | 8    | Mon Oct 14 | NO CLASS                                            |         |                                                                                              |                            |
 |      | Wed Oct 16 | wrap-up diagnostics and MH                          |         |                             [📝](notes/ergodicMarkovChains.pdf)                              |                            |
-|      | Thu Oct 17 | lab                                                 |         |                                                                                              |                            |
+|      | Thu Oct 17 | lab: MCMC and conf. bands                           |         |                               [💻](/slides/lab-conf-band.html)                               |                            |
 | 9    | Mon Oct 21 | Gibbs sampling                                      |         |                                                                                              | hw 6                       |
 |      | Wed Oct 23 | Multivariate normal                                 | Ch. 6   |                                                                                              |                            |
 |      | Thu Oct 24 |                                                     |         |                                                                                              |                            |

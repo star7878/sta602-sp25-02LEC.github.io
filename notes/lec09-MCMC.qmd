@@ -44,8 +44,6 @@ Sample from the posterior $p(\theta_1, \theta_2 | y_1, \ldots, y_n, x_1, \ldots,
 
 ```{r}
 #| label: metropolis-example-1
-THETA1 = NULL
-THETA2 = NULL
 
 logLikelihood = function(theta1, theta2) {
   mu = theta1 + (theta2 * x)

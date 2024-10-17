@@ -1,0 +1,546 @@
+---
+title: "MCMC & confidence bands"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# Exercises
+
+## Setup
+
+Consider the following data generative model and priors:
+
+$$
+\begin{aligned}
+Y_i | \beta_0, \beta_1, x_i &\sim N(\beta_0 + \beta_1x_i, \sigma^2)\\
+\beta_0, \beta_1 &\sim \text{ iid } N(0, 2)\\
+\sigma^2 &\sim \text{inverse-gamma}(2, 3)
+\end{aligned}
+$$
+
+Tip: load `library(invgamma)` to use the `dinvgamma` function.
+
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse)
+library(invgamma)
+```
+
+```{r}
+#| echo: false
+set.seed(360)
+x = rnorm(30, 0, 10)
+y = x * 2 + rnorm(30, 0, 3)
+
+df = data.frame(y, x)
+# write_csv(df, "simulatedXY.csv")
+``` 
+
+
+```{r}
+#| eval: false
+# load the data
+YX = readr::read_csv("https://sta360-fa24.github.io/data/simulatedXY.csv")
+y = YX$y
+x = YX$x
+```
+
+## Code
+
+Below is code to sample from
+
+$$
+p(\beta_1, \beta_2, \sigma^2 | y_1, \ldots, y_n, x_1, \ldots, x_n)
+$$.
+
+```{r}
+set.seed(360)
+logLikelihood = function(beta0, beta1, sigma2) {
+  mu = beta0 + (beta1 * x)
+  sum(dnorm(y, mu, sqrt(sigma2), log = TRUE))
+}
+
+logPrior = function(beta0, beta1, sigma2) {
+  dnorm(beta0, 0, sqrt(2), log = TRUE) + 
+    dnorm(beta1, 0, sqrt(2), log = TRUE) +
+    dinvgamma(sigma2, 2, 3, log = TRUE)
+}
+
+logPosterior = function(beta0, beta1, sigma2) {
+  logLikelihood(beta0, beta1, sigma2) + logPrior(beta0, beta1, sigma2)
+}
+
+
+BETA0 = NULL
+BETA1 = NULL
+SIGMA2 = NULL
+
+accept1 = 0
+accept2 = 0
+accept3 = 0
+
+S = 500
+
+beta0_s = 0.1
+beta1_s = 10
+sigma2_s = 1
+for (s in 1:S) {
+  
+  ## propose and update beta0
+  beta0_proposal = rnorm(1, mean = beta0_s, .5)
+   log.r = logPosterior(beta0_proposal, beta1_s, sigma2_s) - 
+     logPosterior(beta0_s, beta1_s, sigma2_s)
+   
+   if(log(runif(1)) < log.r)  {
+    beta0_s = beta0_proposal
+    accept1 = accept1 + 1 
+   }
+   
+   BETA0 = c(BETA0, beta0_s)
+   
+   ## propose and update beta1
+    beta1_proposal = rnorm(1, mean = beta1_s, .5)
+   log.r = logPosterior(beta0_s, beta1_proposal, sigma2_s) - 
+     logPosterior(beta0_s, beta1_s, sigma2_s)
+   
+   if(log(runif(1)) < log.r)  {
+    beta1_s = beta1_proposal
+    accept2 = accept2 + 1 
+   }
+   
+   BETA1 = c(BETA1, beta1_s)
+   
+   ## propose and update sigma2
+   ### note: sigma2 is positive only, we want to only propose positive values
+   sigma2_proposal = 1 / rgamma(1, shape = 1, sigma2_s)
+   log.r = logPosterior(beta0_s, beta1_s, sigma2_proposal) - 
+     logPosterior(beta0_s, beta1_s, sigma2_s) + 
+     dinvgamma(sigma2_proposal, 1, sigma2_s, log = TRUE) - 
+     dinvgamma(sigma2_s, 1, sigma2_proposal, log = TRUE) 
+   
+   if(log(runif(1)) < log.r)  {
+    sigma2_s = sigma2_proposal
+    accept3 = accept3 + 1 
+   }
+   
+   SIGMA2 = c(SIGMA2, sigma2_s)
+   
+}
+```
+
+
+## Exercise 1
+
+- Is a Metropolis or Metropolis-Hastings algorithm used to sample $\sigma^2$? Hint: What is the proposal distribution used to sample $\sigma^2$? Is it symmetric? Can you show that it is or is not symmetric in R? 
+
+- Create a trace plot for each parameter. How many iterations does it take for $\beta_1$ to converge to the posterior? What is going on with the $\sigma^2$ trace plot?
+
+- Report the effective sample size of each parameter, $\beta_0$, $\beta_1$, and $\sigma^2$. Hint: load the `coda` package and check the lecture notes.
+
+## Exercise 2 
+
+- Go back and increase the length of the chain, $S$, until you obtain approximately 200 ESS for each parameter. Re-examine your plots and discuss.
+
+- Report the posterior median and a 90% confidence interval for each unknown. Why is the median a better summary than the mean for $\sigma^2$?
+
+## Exercise 3
+
+- Plot the posterior mean $\theta(x)$ vs $x$ where $\theta(x) \equiv \beta_0 + \beta_1 x$.
+
+- Additionally, plot a 95% confidence band for $\theta(x)$ vs $x$ and interpret your plot.
+
+# Solutions
+
+## Solution 1, 2
+
+::: panel-tabset
+
+## Algo.
+
+A Metropolis-Hastings algorithm. inverse-gamma proposal is asymmetric. 
+
+Showing with `R` code: 
+
+```{r}
+sigma2_proposal = 1.5
+sigma2_s = 1
+dinvgamma(sigma2_proposal, 1, sigma2_s) == 
+  dinvgamma(sigma2_s, 1, sigma2_proposal)
+```
+
+## Trace plots (img)
+
+```{r}
+#| echo: false
+library(patchwork)
+parameterDF = data.frame(BETA0, BETA1, SIGMA2)
+n = nrow(parameterDF)
+
+p0 = parameterDF %>%
+  ggplot(aes(x = 1:n)) +
+  geom_line(aes(y = BETA0)) +
+  theme_bw() +
+  labs(x = "iteration", y = "beta0")
+
+p1 = parameterDF %>%
+  ggplot(aes(x = 1:n)) +
+  geom_line(aes(y = BETA1)) +
+  theme_bw() +
+  labs(x = "iteration", y = "beta1")
+
+p2 = parameterDF %>%
+  ggplot(aes(x = 1:n)) +
+  geom_line(aes(y = SIGMA2)) +
+  theme_bw() +
+  labs(x = "iteration", y = "sigma2")
+
+p0 + p1 + p2
+```
+
+- $\beta_1$ converges to the target after about 50 iterations.
+
+- Some samples from inv-gamma are huge, the huge variance results in a flatter likelihood and still get accepted.
+
+
+## Trace plots (code)
+
+```{r}
+#| eval: false
+library(patchwork)
+parameterDF = data.frame(BETA0, BETA1, SIGMA2)
+n = nrow(parameterDF)
+
+p0 = parameterDF %>%
+  ggplot(aes(x = 1:n)) +
+  geom_line(aes(y = BETA0)) +
+  theme_bw() +
+  labs(x = "iteration", y = "beta0")
+
+p1 = parameterDF %>%
+  ggplot(aes(x = 1:n)) +
+  geom_line(aes(y = BETA1)) +
+  theme_bw() +
+  labs(x = "iteration", y = "beta1")
+
+p2 = parameterDF %>%
+  ggplot(aes(x = 1:n)) +
+  geom_line(aes(y = SIGMA2)) +
+  theme_bw() +
+  labs(x = "iteration", y = "sigma2")
+
+p0 + p1 + p2
+```
+
+## ESS
+```{r}
+library(coda) 
+
+parameterDF = data.frame(BETA0, BETA1, SIGMA2)
+apply(parameterDF, 2, effectiveSize)
+
+```
+
+## Longer run
+
+```{r}
+set.seed(360)
+logLikelihood = function(beta0, beta1, sigma2) {
+  mu = beta0 + (beta1 * x)
+  sum(dnorm(y, mu, sqrt(sigma2), log = TRUE))
+}
+
+logPrior = function(beta0, beta1, sigma2) {
+  dnorm(beta0, 0, sqrt(2), log = TRUE) + 
+    dnorm(beta1, 0, sqrt(2), log = TRUE) +
+    dinvgamma(sigma2, 2, 3, log = TRUE)
+}
+
+logPosterior = function(beta0, beta1, sigma2) {
+  logLikelihood(beta0, beta1, sigma2) + logPrior(beta0, beta1, sigma2)
+}
+
+
+BETA0 = NULL
+BETA1 = NULL
+SIGMA2 = NULL
+
+accept1 = 0
+accept2 = 0
+accept3 = 0
+
+S = 10000
+
+beta0_s = 0.1
+beta1_s = 10
+sigma2_s = 1
+for (s in 1:S) {
+  
+  ## propose and update beta0
+  beta0_proposal = rnorm(1, mean = beta0_s, .5)
+   log.r = logPosterior(beta0_proposal, beta1_s, sigma2_s) - 
+     logPosterior(beta0_s, beta1_s, sigma2_s)
+   
+   if(log(runif(1)) < log.r)  {
+    beta0_s = beta0_proposal
+    accept1 = accept1 + 1 
+   }
+   
+   BETA0 = c(BETA0, beta0_s)
+   
+   ## propose and update beta1
+    beta1_proposal = rnorm(1, mean = beta1_s, .5)
+   log.r = logPosterior(beta0_s, beta1_proposal, sigma2_s) - 
+     logPosterior(beta0_s, beta1_s, sigma2_s)
+   
+   if(log(runif(1)) < log.r)  {
+    beta1_s = beta1_proposal
+    accept2 = accept2 + 1 
+   }
+   
+   BETA1 = c(BETA1, beta1_s)
+   
+   ## propose and update sigma2
+   ### note: sigma2 is positive only, we want to only propose positive values
+   sigma2_proposal = 1 / rgamma(1, shape = 1, sigma2_s)
+   log.r = logPosterior(beta0_s, beta1_s, sigma2_proposal) - 
+     logPosterior(beta0_s, beta1_s, sigma2_s) + 
+     dinvgamma(sigma2_proposal, 1, sigma2_s, log = TRUE) - 
+     dinvgamma(sigma2_s, 1, sigma2_proposal, log = TRUE) 
+   
+   if(log(runif(1)) < log.r)  {
+    sigma2_s = sigma2_proposal
+    accept3 = accept3 + 1 
+   }
+   
+   SIGMA2 = c(SIGMA2, sigma2_s)
+   
+}
+
+parameterDF = data.frame(BETA0, BETA1, SIGMA2)
+apply(parameterDF, 2, effectiveSize)
+```
+
+## Post medians
+
+```{r}
+#| echo: false
+library(knitr)
+pmeans = parameterDF %>%
+  apply(2, median) %>%
+  round(1)
+
+lower = round(c(quantile(BETA0, 0.05)[[1]],
+          quantile(BETA1, 0.025)[[1]],
+          quantile(SIGMA2, 0.025)[[1]]), 1)
+
+upper = round(c(quantile(BETA0, 0.95)[[1]],
+          quantile(BETA1, 0.975)[[1]],
+          quantile(SIGMA2, 0.975)[[1]]), 1)
+
+tObj = rbind(pmeans, "CI" = paste0("(", lower, ", ", upper, ")")) %>%
+  t()
+
+rownames(tObj) = c("beta0", "beta1", "sigma2")
+  
+tObj %>%
+  kable(col.names = c("post. median", "CI"))
+
+```
+
+:::
+
+
+## Solution 3
+
+::: panel-tabset
+
+## plot
+```{r}
+#| echo: false
+get_theta_CI = function(X) {
+     f = BETA0 + (BETA1 * X)
+     return(quantile(f, c(0.025, 0.975)))
+}
+
+get_theta_mean = function(X) {
+  f = BETA0 + (BETA1 * X)
+  return(mean(f))
+}
+
+xlo = min(x)
+xhi = max(x)
+xVal = seq(xlo, xhi, by = 0.01)
+lower = NULL
+upper = NULL
+M = NULL
+   
+for (i in seq_along(xVal)) {
+  theta_CI = get_theta_CI(xVal[i])
+  lower = c(lower, theta_CI[[1]])
+  upper = c(upper, theta_CI[[2]])
+  M = c(M, get_theta_mean(xVal[i]))
+}
+
+df = data.frame(xVal, lower, upper, M)
+df %>%
+  ggplot(aes(x = xVal)) +
+  geom_line(aes(y = lower)) +
+  geom_line(aes(y = upper)) +
+  geom_line(aes(y = M), col = "red") +
+  theme_bw() +
+  labs(y = "theta",
+       x = "x")
+```
+
+The red line shows our posterior expectation of $\theta(x)$ for each $x$. 
+The black bands show our 95% confidence interval $\theta(x)$.
+
+## code
+
+```{r}
+#| echo: true
+#| eval: false
+get_theta_CI = function(X) {
+     f = BETA0 + (BETA1 * X)
+     return(quantile(f, c(0.025, 0.975)))
+}
+
+get_theta_mean = function(X) {
+  f = BETA0 + (BETA1 * X)
+  return(mean(f))
+}
+
+xlo = min(x)
+xhi = max(x)
+xVal = seq(xlo, xhi, by = 0.01)
+lower = NULL
+upper = NULL
+M = NULL
+   
+for (i in seq_along(xVal)) {
+  theta_CI = get_theta_CI(xVal[i])
+  lower = c(lower, theta_CI[[1]])
+  upper = c(upper, theta_CI[[2]])
+  M = c(M, get_theta_mean(xVal[i]))
+}
+
+df = data.frame(xVal, lower, upper, M)
+df %>%
+  ggplot(aes(x = xVal)) +
+  geom_line(aes(y = lower)) +
+  geom_line(aes(y = upper)) +
+  geom_line(aes(y = M), col = "red") +
+  theme_bw() +
+  labs(y = "theta",
+       x = "x")
+```
+:::
+
+<!-- ## Exercise 1 -->
+
+<!-- Let $p(\theta_1, \theta_2 | \mathbf{y})$ be our **target distribution**, i.e. the distribution we are interested in sampling. -->
+
+<!-- We construct a Gibbs sampler and look at the trace plots of $\theta_1$ and $\theta_2$, produced below. Chat with your neighbor, describe what you observe. Has the chain **converged** for each parameter? How well is the sampler **mixing**? Do you think the parameters are correlated or uncorrelated?  -->
+
+<!-- Write down a description of the plots below, in 2 paragraphs or less, for a reader who has **not taken this class**. You may assume the reader has taken a course on probability (e.g. similar to STA230/240). -->
+
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| warning: false -->
+<!-- library(tidyverse) -->
+<!-- library(latex2exp) -->
+<!-- library(patchwork) -->
+<!-- beta0 = c(rnorm(750, mean = 10, sd = 1), rnorm(250, mean = 50, sd = 4)) -->
+<!-- beta1 = c(rnorm(750, mean = 45, sd = 2), rnorm(250, mean = 53, sd = 1)) -->
+
+<!-- df = data.frame(beta0, beta1) -->
+<!-- p1 = df %>% -->
+<!-- ggplot(aes(x = 1:1000)) + -->
+<!--   geom_line(aes(y = beta0)) + -->
+<!--   theme_bw() + -->
+<!--   labs(y = TeX("$\\theta_1$"), x = "iteration") -->
+
+<!-- p2 = df %>% -->
+<!-- ggplot(aes(x = 1:1000)) + -->
+<!--   geom_line(aes(y = beta1)) + -->
+<!--   theme_bw() + -->
+<!--   labs(y = TeX("$\\theta_2$"), x = "iteration") -->
+
+<!-- p1 + p2 -->
+<!-- ``` -->
+
+<!-- ## Exercise 2 -->
+
+<!-- Based on the first 1000 iterations of your Gibbs sampler shown on the previous slide, which of the following joint densities is the most plausible for $\theta_1, \theta_2 | \mathbf{y}$? Why? Hint: it may help to think about where your sampler starts and imagine a particle moving through space according to conditional updates. -->
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| warning: false -->
+
+<!-- beta0_true = c(rnorm(3000, mean = 10, sd = 1), rnorm(1000, mean = 50, sd = 4)) -->
+<!-- beta1_true = c(rnorm(3000, mean = 45, sd = 2), rnorm(1000, mean = 53, sd = 1)) -->
+
+<!-- beta0_base =  c(rnorm(2000, mean = 10, sd = 1), rnorm(1000, mean = 50, sd = 4), -->
+<!--                  rnorm(1000, mean = 80, sd = 3)) -->
+
+<!-- beta1_base = c(rnorm(2000, mean = 45, sd = 2), rnorm(1000, mean = 53, sd = 1), -->
+<!--                 rnorm(1000, mean = 35, sd = 2)) -->
+
+
+<!-- df_base = data.frame(beta0 = beta0_base, beta1 = beta1_base) -->
+<!-- df_true = data.frame(beta0 = beta0_true, beta1 = beta1_true) -->
+
+<!-- p1 = df_true %>% -->
+<!--   mutate(beta0 = beta0 / 10, -->
+<!--          beta1 = beta1 / 10) %>% -->
+<!--   ggplot(aes(x = beta0, y = beta1)) +  -->
+<!--   geom_bin2d(bins = 25) + -->
+<!--   theme_bw() +  -->
+<!--   labs(y = TeX("$\\theta_2$"),  -->
+<!--        x = TeX("$\\theta_1$")) -->
+
+<!-- df2 = df_base -->
+
+<!-- df2$beta0 = rnorm(4000, mean = 50, sd = 4) -->
+
+<!-- p2 = df2 %>% -->
+<!--   ggplot(aes(x = beta0, y = beta1)) + -->
+<!--   geom_bin2d(bins = 25) + -->
+<!--   theme_bw() + -->
+<!--   labs(y = TeX("$\\theta_2$"), -->
+<!--        x = TeX("$\\theta_1$")) -->
+
+<!-- df3 = df_base -->
+<!-- df3$beta0 = rnorm(4000, mean = 35, sd = 15) -->
+<!-- df3$beta1 = rnorm(4000, mean = 48, sd = 10) -->
+
+
+<!-- p3 = df3 %>% -->
+<!--   ggplot(aes(x = beta0, y = beta1)) + -->
+<!--   geom_bin2d(bins = 25) + -->
+<!--   theme_bw() + -->
+<!--   labs(y = TeX("$\\theta_2$"), -->
+<!--        x = TeX("$\\theta_1$")) -->
+
+<!-- df4 = df_base -->
+
+<!-- p4 = df4 %>% -->
+<!--   ggplot(aes(x = beta0, y = beta1)) + -->
+<!--   geom_bin2d(bins = 25) + -->
+<!--   theme_bw() + -->
+<!--   labs(y = TeX("$\\theta_2$"), -->
+<!--        x = TeX("$\\theta_1$")) -->
+
+
+<!-- (p1 + p2) / (p3 + p4) + -->
+<!--   plot_annotation(title = "Joint densities", tag_levels = c("A")) -->
+<!-- ``` -->
+
+<!-- ## Exercise 3 -->
+
+
+
