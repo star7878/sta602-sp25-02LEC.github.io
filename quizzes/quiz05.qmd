@@ -6,30 +6,75 @@ To receive credit for this assignment, write your full name at the top of your p
 
 ### Exercise 1
 
-What is the purpose of Gibbs sampling?
+Let $\theta$ be a positive random variable. In the first 100 states of a Markov chain we sample $\theta \in (0, 5)$, then for states 100 through 10000 we sample $\theta$ values $\in$ $(5, \infty)$. This Markov chain is not ____. (Choose one of the following to fill in the blank: *aperiodic*, *irreducible*, *recurrent*).
 
 ### Exercise 2
 
-$\mathbf{x}$ is a $p \times 1$ vector. 
-
-What is the dimension of $\mathbf{x}^T \Sigma \mathbf{x}$?
+Write down the two distributions you need to be able to sample from to write a Gibbs sampler for the following target: $p(\beta_1, \beta_2 | y_1, \ldots, y_n)$.  
 
 ### Exercise 3
 
-Let $\mathbf{y} =  \left[ {\begin{array}{cc}
-   y_1 \\
-   y_2
-  \end{array} } \right]$, 
-  $\boldsymbol{\theta} =  \left[ {\begin{array}{cc}
-   4 \\
-   8
-  \end{array} } \right]$, 
-  $\Sigma =  \left[ {\begin{array}{cc}
-   1 & .2 \\
-   .2 & 1.3\\
-  \end{array} } \right]$. 
-  
-  If $\mathbf{y} | \boldsymbol{\theta}, \Sigma \sim MVN(\boldsymbol{\theta}, \Sigma)$, then $y_1 \sim N(a, b)$. What is $a$ and $b$?
+Which traceplot reveals a Markov chain that hast not reached stationarity? 
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 8
+#| fig-height: 2
+set.seed(360)
+library(tidyverse)
+library(patchwork)
+S = 500
+THETA = NULL
+BETA = NULL
+theta = 0
+for(i in 1:S) {
+  THETA = c(THETA, theta)
+  theta = rnorm(1, theta + .01, .1)
+  BETA = c(BETA, rnorm(1, 5, 1))
+}
+df = data.frame(THETA, BETA)
+p1 = df %>%
+  ggplot(aes(x = 1:S)) +
+  geom_line(aes(y = THETA)) +
+  labs(x = "iteration", y = "theta") +
+  theme_bw() +
+  ggtitle('A')
+
+p2 = df %>%
+  ggplot(aes(x = 1:S)) +
+  geom_line(aes(y = BETA)) +
+  theme_bw() + 
+  labs(x = "iteration", y = "theta") +
+  ggtitle('B')
+
+
+p1 + p2
+```
+
+
+<!-- ### Exercise 1 -->
+
+<!-- $$ -->
+<!-- Y | \theta, \sigma^2 \sim N(\theta, \sigma^2)  -->
+<!-- $$ -->
+
+<!-- What is a conjugate class of priors for $\theta | \sigma^2$? -->
+
+
+<!-- ### Exercise 2 -->
+
+<!-- `TRUE` or `FALSE` -->
+
+<!-- An estimator is a random variable. -->
+
+<!-- ### Exercise 3 -->
+
+<!-- Let $\theta_0$ be the true value of $\theta$. -->
+
+<!-- If $E[\hat{\theta}| \theta = \theta_0] = \theta_0$, we say $\hat{\theta}$ is a ____ estimator of $\theta$. -->
+
 
 ```{r}
 #| echo: false

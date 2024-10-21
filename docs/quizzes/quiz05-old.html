@@ -122,34 +122,20 @@ ul.task-list{list-style: none;}
 <p>To receive credit for this assignment, write your full name at the top of your paper.</p>
 <section id="exercise-1" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-1">Exercise 1</h3>
-<p>Let <span class="math inline">\(\theta\)</span> be a positive random variable. In the first 100 states of a Markov chain we sample <span class="math inline">\(\theta \in (0, 5)\)</span>, then for states 100 through 10000 we sample <span class="math inline">\(\theta\)</span> values <span class="math inline">\(\in\)</span> <span class="math inline">\((5, \infty)\)</span>. This Markov chain is not ____. (Choose one of the following to fill in the blank: <em>aperiodic</em>, <em>irreducible</em>, <em>recurrent</em>).</p>
+<p>What is the purpose of Gibbs sampling?</p>
 </section>
 <section id="exercise-2" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-2">Exercise 2</h3>
-<p>Write down the two distributions you need to be able to sample from to write a Gibbs sampler for the following target: <span class="math inline">\(p(\beta_1, \beta_2 | y_1, \ldots, y_n)\)</span>.</p>
+<p><span class="math inline">\(\mathbf{x}\)</span> is a <span class="math inline">\(p \times 1\)</span> vector.</p>
+<p>What is the dimension of <span class="math inline">\(\mathbf{x}^T \Sigma \mathbf{x}\)</span>?</p>
 </section>
 <section id="exercise-3" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-3">Exercise 3</h3>
-<p>Which traceplot reveals a Markov chain that hast not reached stationarity?</p>
+<p>Let <span class="math inline">\(\mathbf{y} = \left[ {\begin{array}{cc}  y_1 \\  y_2  \end{array} } \right]\)</span>, <span class="math inline">\(\boldsymbol{\theta} = \left[ {\begin{array}{cc}  4 \\  8  \end{array} } \right]\)</span>, <span class="math inline">\(\Sigma = \left[ {\begin{array}{cc}  1 &amp; .2 \\  .2 &amp; 1.3\\  \end{array} } \right]\)</span>.</p>
+<p>If <span class="math inline">\(\mathbf{y} | \boldsymbol{\theta}, \Sigma \sim MVN(\boldsymbol{\theta}, \Sigma)\)</span>, then <span class="math inline">\(y_1 \sim N(a, b)\)</span>. What is <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>?</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="quiz05_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="768"></p>
-</div>
-</div>
-<!-- ### Exercise 1 -->
-<!-- $$ -->
-<!-- Y | \theta, \sigma^2 \sim N(\theta, \sigma^2)  -->
-<!-- $$ -->
-<!-- What is a conjugate class of priors for $\theta | \sigma^2$? -->
-<!-- ### Exercise 2 -->
-<!-- `TRUE` or `FALSE` -->
-<!-- An estimator is a random variable. -->
-<!-- ### Exercise 3 -->
-<!-- Let $\theta_0$ be the true value of $\theta$. -->
-<!-- If $E[\hat{\theta}| \theta = \theta_0] = \theta_0$, we say $\hat{\theta}$ is a ____ estimator of $\theta$. -->
-<div class="cell">
-<div class="cell-output-display">
-<div class="countdown" id="timer_b4d6fd49" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:4em;">
+<div class="countdown" id="timer_a97f30de" data-update-every="1" tabindex="0" style="right:0;bottom:0;font-size:4em;">
 <div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
