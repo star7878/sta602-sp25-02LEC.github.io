@@ -14,56 +14,56 @@ format:
 
 ## The multivariate normal (MVN)
 
-### Motivating examples
+<!-- ### Motivating examples -->
 
-```{r}
-#| echo: false
-#| warning: false
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| warning: false -->
 
-library(palmerpenguins)
-library(tidyverse)
-```
-
-
-Example 1: Twenty two students take a reading comprehension test before and after receiving an instructional method. The result for each student is a bivariate vector $Y_i$ that includes a pre- and post- instructional score.
-
-```{r}
-#| echo: false
-set.seed(123)
-s1 = rnorm(22, 75, sd = 5)
-s2 = s1 + rnorm(22, 15, sd = 3)
-scores = data.frame(s1, s2)
-
-scores %>%
-  ggplot(aes(x = s1, y = s2)) + 
-  geom_point() +
-  theme_bw() +
-  labs(x = "score on first test", y = "score on second test", 
-       title = "Reading comprehension test scores")
-```
+<!-- library(palmerpenguins) -->
+<!-- library(tidyverse) -->
+<!-- ``` -->
 
 
-Example 2: We measure three features of Gentoo penguins: bill length, bill depth and body mass. For each penguin we record $Y_i$, a three-dimensional vector of trait measurements.
+<!-- Example 1: Twenty two students take a reading comprehension test before and after receiving an instructional method. The result for each student is a bivariate vector $Y_i$ that includes a pre- and post- instructional score. -->
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- set.seed(123) -->
+<!-- s1 = rnorm(22, 75, sd = 5) -->
+<!-- s2 = s1 + rnorm(22, 15, sd = 3) -->
+<!-- scores = data.frame(s1, s2) -->
+
+<!-- scores %>% -->
+<!--   ggplot(aes(x = s1, y = s2)) +  -->
+<!--   geom_point() + -->
+<!--   theme_bw() + -->
+<!--   labs(x = "score on first test", y = "score on second test",  -->
+<!--        title = "Reading comprehension test scores") -->
+<!-- ``` -->
 
 
-```{r}
-#| warning: false
-#| echo: false
-library(plotly)
+<!-- Example 2: We measure three features of Gentoo penguins: bill length, bill depth and body mass. For each penguin we record $Y_i$, a three-dimensional vector of trait measurements. -->
 
-penguins = penguins %>%
-  filter(species == "Gentoo")
 
-bill_length = penguins$bill_length_mm
-bill_depth = penguins$bill_depth_mm
-body_mass = penguins$body_mass_g
+<!-- ```{r} -->
+<!-- #| warning: false -->
+<!-- #| echo: false -->
+<!-- library(plotly) -->
 
-plot_ly(x=bill_length, y=bill_depth, z=body_mass,
-        type="scatter3d", mode="markers") %>%
-  layout(scene = list(xaxis = list(title = "bill length (mm)"),
-                      yaxis = list(title = "bill depth (mm)"),
-                      zaxis = list(title = "body mass (g)")))
-```
+<!-- penguins = penguins %>% -->
+<!--   filter(species == "Gentoo") -->
+
+<!-- bill_length = penguins$bill_length_mm -->
+<!-- bill_depth = penguins$bill_depth_mm -->
+<!-- body_mass = penguins$body_mass_g -->
+
+<!-- plot_ly(x=bill_length, y=bill_depth, z=body_mass, -->
+<!--         type="scatter3d", mode="markers") %>% -->
+<!--   layout(scene = list(xaxis = list(title = "bill length (mm)"), -->
+<!--                       yaxis = list(title = "bill depth (mm)"), -->
+<!--                       zaxis = list(title = "body mass (g)"))) -->
+<!-- ``` -->
 
 
 ### Density
@@ -131,7 +131,7 @@ $$
 - the inverse of a matrix $A^{-1}$ works as follows: $A A^{-1} = A^{-1}A = \identity$.
 - the trace of a matrix, tr(A), is the sum of its diagonal elements
 - order matters: $AB \neq BA$ in general.
-- $\Sigma > 0$ is shorthand for saying the matrix is positive definite. This means that for all vectors $\boldsymbol{x}$, the quadratic form $\boldsymbol{x}^T \Sigma \boldsymbol{x} > 0$. $Sigma > 0 \iff$ all eigenvalues of $\Sigma$ are positive.
+- $\Sigma > 0$ is shorthand for saying the matrix is positive definite. This means that for all vectors $\boldsymbol{x}$, the quadratic form $\boldsymbol{x}^T \Sigma \boldsymbol{x} > 0$. $\Sigma > 0 \iff$ all eigenvalues of $\Sigma$ are positive.
 
 Exercise: 
 
@@ -175,6 +175,11 @@ b %*% A
 
 
 ## Semiconjugate priors
+
+::: callout-note
+## Definition
+A **semiconjugate** or **conditionally conjugate** prior is a prior that is conjugate to the full conditional posterior.
+:::
 
 ### semiconjugate prior for $\bt$
 
