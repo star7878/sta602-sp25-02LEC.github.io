@@ -89,8 +89,8 @@ schedule %>%
 | 8    | Mon Oct 14 | NO CLASS                                            |           |                                                                                              |                            |
 |      | Wed Oct 16 | wrap-up diagnostics and MH                          | Ch. 6, 10 |                             [📝](notes/ergodicMarkovChains.pdf)                              |                            |
 |      | Thu Oct 17 | lab: MCMC and conf. bands                           |           |                               [💻](/slides/lab-conf-band.html)                               |                            |
-| 9    | Mon Oct 21 | Gibbs sampling                                      | Ch. 6     |                            [📝](notes/lec10-gibbs-sampling.html)                             |                            |
-|      | Wed Oct 23 | Multivariate normal                                 | Ch. 7     |                                  [📝](notes/lec11-mvn.html)                                  | hw 6                       |
+| 9    | Mon Oct 21 | Gibbs sampling                                      | Ch. 6     |                             [🗒](notes/lec10-gibbs-sampling.html)                             |                            |
+|      | Wed Oct 23 | Multivariate normal                                 | Ch. 7     |                                  [🗒](notes/lec11-mvn.html)                                   | hw 6                       |
 |      | Thu Oct 24 |                                                     |           |                                                                                              |                            |
 | 10   | Mon Oct 28 | intro to Bayesian regression                        |           |                                                                                              |                            |
 |      | Wed Oct 30 | Bayesian regression II                              |           |                                                                                              | hw 7                       |
