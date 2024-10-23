@@ -6,7 +6,7 @@ To receive credit for this assignment, write your full name at the top of your p
 
 ### Exercise 1
 
-Let $\theta$ be a positive random variable. In the first 100 states of a Markov chain we sample $\theta \in (0, 5)$, then for states 100 through 10000 we sample $\theta$ values $\in$ $(5, \infty)$. This Markov chain is not ____. (Choose one of the following to fill in the blank: *aperiodic*, *irreducible*, *recurrent*).
+Let $\theta$ be a positive random variable. In the first 100 states of a Markov chain we sample $\theta \in (0, 5)$, then for states 100 through S we sample $\theta$ values $\in$ $(5, \infty)$ for all S. This Markov chain is not ____. (Choose one of the following to fill in the blank: *aperiodic*, *irreducible*, *recurrent*).
 
 ### Exercise 2
 
