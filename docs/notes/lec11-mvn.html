@@ -156,7 +156,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-multivariate-normal-mvn" id="toc-the-multivariate-normal-mvn" class="nav-link active" data-scroll-target="#the-multivariate-normal-mvn">The multivariate normal (MVN)</a>
+  <li><a href="#visualizing-a-two-dimensional-normal" id="toc-visualizing-a-two-dimensional-normal" class="nav-link active" data-scroll-target="#visualizing-a-two-dimensional-normal">Visualizing a two-dimensional normal</a>
   <ul class="collapse">
   <li><a href="#density" id="toc-density" class="nav-link" data-scroll-target="#density">Density</a></li>
   <li><a href="#key-facts" id="toc-key-facts" class="nav-link" data-scroll-target="#key-facts">Key facts</a></li>
@@ -200,8 +200,147 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="the-multivariate-normal-mvn" class="level2">
-<h2 class="anchored" data-anchor-id="the-multivariate-normal-mvn">The multivariate normal (MVN)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm) </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="visualizing-a-two-dimensional-normal" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-a-two-dimensional-normal">Visualizing a two-dimensional normal</h2>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">parameters</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">simulate mvn data</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">scatterplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">density plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">3d</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">marginals</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="dv">1</span>), </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]  2.0  0.7
+[2,]  0.7  1.0</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">=</span> <span class="fu">rmvnorm</span>(<span class="at">n =</span> <span class="dv">500</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean =</span> mu,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">sigma =</span> Sigma)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>Y[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]       [,2]
+[1,]  2.0834251  0.7384787
+[2,] -0.5817255 -1.0144046
+[3,] -0.2769858 -0.7281417
+[4,] -0.9446903 -0.3398126
+[5,] -0.9972539  0.2615113</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y1 =</span> Y[,<span class="dv">1</span>], <span class="at">y2 =</span> Y[,<span class="dv">2</span>]) </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> y1, <span class="at">y =</span> y2)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>plot1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec11-mvn_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plot1 <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec11-mvn_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="fl">0.25</span>) </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="fl">0.25</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>f  <span class="ot">=</span> <span class="cf">function</span>(x, y) <span class="fu">dmvnorm</span>(<span class="fu">cbind</span>(x, y), mu, Sigma)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="fu">outer</span>(x, y, f)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">persp</span>(x, y, z, <span class="at">theta =</span> <span class="sc">-</span><span class="dv">30</span>, <span class="at">phi =</span> <span class="dv">25</span>, </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">shade =</span> <span class="fl">0.75</span>, <span class="at">col =</span> <span class="st">"steelblue"</span>, <span class="at">expand =</span> <span class="fl">0.5</span>, <span class="at">r =</span> <span class="dv">2</span>, </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">ltheta =</span> <span class="dv">25</span>, <span class="at">ticktype =</span> <span class="st">"detailed"</span>, <span class="at">xlab =</span><span class="st">"y1"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">ylab =</span> <span class="st">"y2"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">zlab =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec11-mvn_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> y1)) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..)) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> y2)) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..)) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lec11-mvn_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<!-- ## 3d interact -->
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| warning: false -->
+<!-- #| message: false -->
+<!-- # SIMULATING MULTIVARIATE DATA -->
+<!-- # https://stat.ethz.ch/pipermail/r-help/2003-September/038314.html -->
+<!-- # lets first simulate a bivariate normal sample -->
+<!-- library(MASS) -->
+<!-- # Simulate bivariate normal data -->
+<!-- mu <- c(0,0)                         # Mean -->
+<!-- Sigma <- matrix(c(1, .5, .5, 1), 2)  # Covariance matrix -->
+<!-- # > Sigma -->
+<!-- # [,1] [,2] -->
+<!-- # [1,]  1.0  0.1 -->
+<!-- # [2,]  0.1  1.0 -->
+<!-- # Generate sample from N(mu, Sigma) -->
+<!-- bivn <- mvrnorm(5000, mu = mu, Sigma = Sigma )  # from Mass package -->
+<!-- # Calculate kernel density estimate -->
+<!-- bivn.kde <- kde2d(bivn[,1], bivn[,2], n = 50)   -->
+<!-- # threejs Javascript plot -->
+<!-- library(threejs) -->
+<!-- # Unpack data from kde grid format -->
+<!-- x <- bivn.kde$x; y <- bivn.kde$y; z <- bivn.kde$z -->
+<!-- # Construct x,y,z coordinates -->
+<!-- xx <- rep(x,times=length(y)) -->
+<!-- yy <- rep(y,each=length(x)) -->
+<!-- zz <- z; dim(zz) <- NULL -->
+<!-- # Set up color range -->
+<!-- ra <- ceiling(16 * zz/max(zz)) -->
+<!-- col <- rainbow(16, 2/3) -->
+<!-- # 3D interactive scatter plot -->
+<!-- scatterplot3js(x=xx,y=yy,z=zz,size=0.4,color = col[ra],bg="white") -->
+<!-- ``` -->
+</div>
+</div>
+</div>
 <!-- ### Motivating examples -->
 <!-- ```{r} -->
 <!-- #| echo: false -->
@@ -306,60 +445,66 @@ p(\boldsymbol{y}| \boldsymbol{\theta}, \Sigma) = (2\pi)^{-p/2} |\Sigma|^{-1/2} \
 <li>order matters: <span class="math inline">\(AB \neq BA\)</span> in general.</li>
 <li><span class="math inline">\(\Sigma &gt; 0\)</span> is shorthand for saying the matrix is positive definite. This means that for all vectors <span class="math inline">\(\boldsymbol{x}\)</span>, the quadratic form <span class="math inline">\(\boldsymbol{x}^T \Sigma \boldsymbol{x} &gt; 0\)</span>. <span class="math inline">\(\Sigma &gt; 0 \iff\)</span> all eigenvalues of <span class="math inline">\(\Sigma\)</span> are positive.</li>
 </ul>
-<p>Exercise:</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Exercise</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <ul>
-<li><span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{b}\)</span> are <span class="math inline">\(p \times 1\)</span> vectors, <span class="math inline">\(A\)</span> is a symmetric matrix. Simplify <span class="math inline">\(\boldsymbol{b}^T A \boldsymbol{\theta}+ \boldsymbol{\theta}^T A \boldsymbol{b}\)</span> what is the dimension of the result?</li>
-<li>what’s the dimension of <span class="math inline">\(V[\boldsymbol{y}]\)</span>?</li>
+<li><p><span class="math inline">\(\boldsymbol{\theta}\)</span> and <span class="math inline">\(\boldsymbol{b}\)</span> are <span class="math inline">\(p \times 1\)</span> vectors, <span class="math inline">\(A\)</span> is a symmetric matrix. Simplify <span class="math inline">\(\boldsymbol{b}^T A \boldsymbol{\theta}+ \boldsymbol{\theta}^T A \boldsymbol{b}\)</span> what is the dimension of the result?</p></li>
+<li><p><span class="math inline">\(\boldsymbol{y}\)</span> is a <span class="math inline">\(p \times 1\)</span> vector. What’s the dimension of <span class="math inline">\(V[\boldsymbol{y}]\)</span>?</p></li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 <section id="matrix-operations-in-r" class="level3">
 <h3 class="anchored" data-anchor-id="matrix-operations-in-r">matrix operations in R</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a matrix A</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,.<span class="dv">2</span>, .<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a matrix A</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,.<span class="dv">2</span>, .<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]  1.0  0.2
 [2,]  0.2  2.0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># invert A (expensive for large matrices)</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Ainv <span class="ot">=</span> <span class="fu">solve</span>(A)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># matrix multiplication</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>Ainv <span class="sc">%*%</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># invert A (expensive for large matrices)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Ainv <span class="ot">=</span> <span class="fu">solve</span>(A)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># matrix multiplication</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>Ainv <span class="sc">%*%</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    1    0
 [2,]    0    1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determinant of A</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">det</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determinant of A</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">det</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.96</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trace of A</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">diag</span>(A))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trace of A</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">diag</span>(A))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a vector b</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">1</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a vector b</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1]
 [1,]    1
 [2,]    2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transpose the vector b</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transpose the vector b</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    1    2</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>b <span class="sc">%*%</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>b <span class="sc">%*%</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in b %*% A: non-conformable arguments</code></pre>
 </div>
@@ -404,7 +549,14 @@ Definition
 \boldsymbol{\mu_n} &amp;= (\Lambda_0^{-1} + n \Sigma^{-1} )^{-1}(\Lambda_0^{-1} \boldsymbol{\mu}_0 + n \Sigma^{-1} \bar{\boldsymbol{y}}).
 \end{aligned}
 \]</span></p>
-<p>Exercise: interpret <span class="math inline">\(E[\boldsymbol{\theta}| \boldsymbol{y}_1, \ldots \boldsymbol{y}_n, \Sigma]\)</span> and <span class="math inline">\(Cov[\boldsymbol{\theta}| \boldsymbol{y}_1, \ldots \boldsymbol{y}_n, \Sigma]\)</span>.</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Exercise</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>Interpret <span class="math inline">\(E[\boldsymbol{\theta}| \boldsymbol{y}_1, \ldots \boldsymbol{y}_n, \Sigma]\)</span> and <span class="math inline">\(Cov[\boldsymbol{\theta}| \boldsymbol{y}_1, \ldots \boldsymbol{y}_n, \Sigma]\)</span>.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="semiconjugate-prior-for-sigma" class="level3">
 <h3 class="anchored" data-anchor-id="semiconjugate-prior-for-sigma">semiconjugate prior for <span class="math inline">\(\Sigma\)</span></h3>
@@ -452,41 +604,48 @@ p(\Sigma | \nu_0, S_0^{-1}) = \left[
 <li>set <span class="math inline">\(\Sigma = (\boldsymbol{Z}^T \boldsymbol{Z})^{-1}\)</span></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm) <span class="co"># contains function rmvnorm</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2x2 example: generating 1 sample from an inv-Wishart</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>nu0 <span class="ot">=</span> <span class="dv">3</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>S0 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">1</span>, .<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>S0inv <span class="ot">=</span> <span class="fu">solve</span>(S0)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">=</span> <span class="fu">rmvnorm</span>(<span class="at">n =</span> nu0, <span class="co"># number of observations of the 2D vector Z</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean =</span> <span class="fu">rep</span>(<span class="dv">0</span>, p), <span class="co"># mean 0</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">sigma =</span> S0inv) <span class="co"># prior variance</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">=</span> <span class="fu">solve</span>(<span class="fu">t</span>(Z) <span class="sc">%*%</span> Z)</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(Sigma)<span class="sc">$</span>values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm) <span class="co"># contains function rmvnorm</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2x2 example: generating 1 sample from an inv-Wishart</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>nu0 <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>S0 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">1</span>, .<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>S0inv <span class="ot">=</span> <span class="fu">solve</span>(S0)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">=</span> <span class="fu">rmvnorm</span>(<span class="at">n =</span> nu0, <span class="co"># number of observations of the 2D vector Z</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean =</span> <span class="fu">rep</span>(<span class="dv">0</span>, p), <span class="co"># mean 0</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">sigma =</span> S0inv) <span class="co"># prior variance</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">=</span> <span class="fu">solve</span>(<span class="fu">t</span>(Z) <span class="sc">%*%</span> Z)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(Sigma)<span class="sc">$</span>values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7821737 0.4174527</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>Sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           [,1]      [,2]
 [1,]  0.5271834 -0.167273
 [2,] -0.1672730  0.672443</code></pre>
 </div>
 </div>
-<p>Exercise/show offline: why does this work? Hint: what is <span class="math inline">\(cov[\boldsymbol{z}]\)</span>?</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Exercise</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p>Why does this work? Hint: what is <span class="math inline">\(Var[\boldsymbol{z}]\)</span>?</p>
+</div>
+</div>
+</div>
 <p>We can also use the <code>monomvn</code> package to simulate from a Wishart more succinctly,</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(monomvn)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">=</span> <span class="fu">solve</span>(<span class="fu">rwish</span>(nu0, S0inv))</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(Sigma)<span class="sc">$</span>values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(monomvn)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">=</span> <span class="fu">solve</span>(<span class="fu">rwish</span>(nu0, S0inv))</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(Sigma)<span class="sc">$</span>values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.692529 0.160428</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>Sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          [,1]      [,2]
 [1,] 0.1899212 0.1217519

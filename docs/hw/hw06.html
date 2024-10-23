@@ -133,6 +133,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="nav-link" href="../syllabus.html">syllabus</a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../notes/exam-notes.html">distributions</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../chapterSummaries.html">notes</a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../links.html">links</a>
   </li>  
 </ul>
@@ -164,7 +170,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Homework 6</h1>
-<p class="subtitle lead">Due Wednesday November 1st at 5:00pm</p>
+<p class="subtitle lead">Due Friday November 1st at 5:00pm</p>
 </div>
 
 
@@ -180,22 +186,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="exercise-1" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-1">Exercise 1</h2>
-<p>6.3 from Hoff. You can simulate from a constrained normal distribution with mean <code>mean</code> and standard deviation <code>sd</code>, constrained to lie in the interval <span class="math inline">\((a,b)\)</span> using the following function:</p>
+<p>6.2 from Hoff. Note the typo: <span class="math inline">\(1/\sigma_j^2\)</span> is gamma, not <span class="math inline">\(1/\sigma_j\)</span>. Use the code below to load the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>rcnorm<span class="ot">&lt;-</span><span class="cf">function</span>(n, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>, <span class="at">a=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">b=</span><span class="cn">Inf</span>){</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="fu">pnorm</span>((a <span class="sc">-</span> mean) <span class="sc">/</span> sd), <span class="fu">pnorm</span>((b <span class="sc">-</span> mean) <span class="sc">/</span> sd))</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  mean <span class="sc">+</span> (sd <span class="sc">*</span> <span class="fu">qnorm</span>(u))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Note that you can use this function to simulate a vector of constrained normal random variables, each with a potentially different mean, standard deviation, and constraints.</p>
-<p>To load the data for this exercise, run the code below</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>divorce <span class="ot">=</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"https://sta360-fa23.github.io/data/divorce.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>glucose <span class="ot">=</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"https://sta360-fa24.github.io/data/glucose.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-2" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
-<p>Show that if <span class="math inline">\(W \sim \text{Wishart}(m, S)\)</span> then <span class="math inline">\(E[W] = mS\)</span>.</p>
+<p>Recall that if <span class="math inline">\(W \sim \text{Wishart}_p(m, S)\)</span> then <span class="math inline">\(W = \sum_{i=1}^m z_i z_i^T\)</span> where <span class="math inline">\(z_1, \ldots, z_m \sim \text{i.i.d. } N_p(0, S)\)</span></p>
+<ol type="a">
+<li><p>Show that <span class="math inline">\(E[W] = mS\)</span>.</p></li>
+<li><p>Show that <span class="math inline">\(W\)</span> is positive definite if <span class="math inline">\(m \geq p\)</span>.</p></li>
+</ol>
 </section>
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
