@@ -564,14 +564,14 @@
     "href": "slides/lab6-mcmc-d-practice.html#exercise-1",
     "title": "MCMC diagnostics practice",
     "section": "Exercise 1",
-    "text": "Exercise 1\nLet \\(p(\\theta_1, \\theta_2 | \\mathbf{y})\\) be our target distribution, i.e. the distribution we are interested in sampling.\nWe construct a Gibbs sampler and look at the trace plots of \\(\\theta_1\\) and \\(\\theta_2\\), produced below. Chat with your neighbor, describe what you observe. Has the chain reached stationarity for each parameter? How well is the sampler mixing? Do you think the parameters are correlated or uncorrelated? Do you believe the Markov chain has converged to the target? Why or why not?"
+    "text": "Exercise 1\nLet \\(p(\\theta_1, \\theta_2 | \\mathbf{y})\\) be our target distribution, i.e. the distribution we are interested in sampling.\nWe construct a Gibbs sampler and look at the trace plots of \\(\\theta_1\\) and \\(\\theta_2\\), produced below. Chat with your neighbor, describe what you observe. Has the chain reached stationarity for each parameter? How well is the sampler mixing? Do you think the parameters are correlated or uncorrelated? Why or why not?"
   },
   {
     "objectID": "slides/lab6-mcmc-d-practice.html#exercise-2",
     "href": "slides/lab6-mcmc-d-practice.html#exercise-2",
     "title": "MCMC diagnostics practice",
     "section": "Exercise 2",
-    "text": "Exercise 2\nBased on the first 1000 iterations of your Gibbs sampler shown on the previous slide, which of the following joint densities is the most plausible for \\(\\theta_1, \\theta_2 | \\mathbf{y}\\)? Why? Hint: it may help to think about where your sampler starts and imagine a particle moving through space according to conditional updates.\n\n\n\n🔗 sta360-fa24.github.io"
+    "text": "Exercise 2\nBased on the first 1000 iterations of your Gibbs sampler shown on the previous slide, which of the following joint densities is the most plausible for \\(\\theta_1, \\theta_2 | \\mathbf{y}\\)? Why? Hint: it may help to think about where your sampler starts and imagine a particle moving through space according to conditional updates."
   },
   {
     "objectID": "slides/lab7-exam2-prep.html#exercise-1",
@@ -1993,5 +1993,19 @@
     "title": "Multivariate normal",
     "section": "Visualizing a two-dimensional normal",
     "text": "Visualizing a two-dimensional normal\n\nparameterssimulate mvn datascatterplotdensity plot3dmarginals\n\n\n\nSigma = matrix(c(2, 0.7, 0.7, 1), \n               nrow = 2, ncol = 2)\nmu = c(0, 0)\n\n\nmu\n\n[1] 0 0\n\nSigma\n\n     [,1] [,2]\n[1,]  2.0  0.7\n[2,]  0.7  1.0\n\n\n\n\n\nset.seed(360)\nY = rmvnorm(n = 500, \n        mean = mu,\n        sigma = Sigma)\n\nY[1:5,]\n\n           [,1]       [,2]\n[1,]  2.0834251  0.7384787\n[2,] -0.5817255 -1.0144046\n[3,] -0.2769858 -0.7281417\n[4,] -0.9446903 -0.3398126\n[5,] -0.9972539  0.2615113\n\n\n\n\n\ndf = data.frame(y1 = Y[,1], y2 = Y[,2]) \nplot1 = df %>%\n  ggplot(aes(x = y1, y = y2)) +\n  geom_point() +\n  theme_bw()\nplot1\n\n\n\n\n\n\n\nplot1 +\n  geom_density_2d()\n\n\n\n\n\n\n\nx = seq(-5, 5, 0.25) \ny = seq(-5, 5, 0.25)\nf  = function(x, y) dmvnorm(cbind(x, y), mu, Sigma)\nz = outer(x, y, f)\npersp(x, y, z, theta = -30, phi = 25, \n      shade = 0.75, col = \"steelblue\", expand = 0.5, r = 2, \n      ltheta = 25, ticktype = \"detailed\", xlab =\"y1\",\n      ylab = \"y2\",\n      zlab = \"\")\n\n\n\n\n\n\n\np1 = df %>%\n  ggplot(aes(x = y1)) +\n  geom_histogram(aes(y = ..density..)) +\n  geom_density() +\n  theme_bw()\n\np2 = df %>%\n  ggplot(aes(x = y2)) +\n  geom_histogram(aes(y = ..density..)) +\n  geom_density() +\n  theme_bw()\n\np1 + p2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDensity\nWe say a \\(p\\) dimensional vector \\(\\boldsymbol{Y}\\) has a multivariate normal distribution if its sampling density is given by\n\\[\np(\\boldsymbol{y}| \\boldsymbol{\\theta}, \\Sigma) = (2\\pi)^{-p/2} |\\Sigma|^{-1/2} \\exp\\{\n-\\frac{1}{2}(\\boldsymbol{y}-\\boldsymbol{\\theta})^T \\Sigma^{-1} (\\boldsymbol{y}- \\boldsymbol{\\theta})\n\\}\n\\]\nwhere\n\\[\n\\boldsymbol{y}=  \\left[ {\\begin{array}{cc}\n   y_1 \\\\\n   y_2\\\\\n   \\vdots\\\\\n   y_p\n  \\end{array} } \\right]\n  ~~~\n   \\boldsymbol{\\theta}= \\left[ {\\begin{array}{cc}\n   \\theta_1 \\\\\n   \\theta_2\\\\\n   \\vdots\\\\\n   \\theta_p\n  \\end{array} } \\right]\n  ~~~\n  \\Sigma =\n  \\left[ {\\begin{array}{cc}\n   \\sigma_1^2 & \\sigma_{12}& \\ldots & \\sigma_{1p}\\\\\n   \\sigma_{12} & \\sigma_2^2 &\\ldots & \\sigma_{2p}\\\\\n   \\vdots & \\vdots & & \\vdots\\\\\n   \\sigma_{1p} & \\ldots & \\ldots & \\sigma_p^2\n  \\end{array} } \\right].\n\\]\n\n\nKey facts\n\n\\(\\boldsymbol{y}\\in \\mathbb{R}^p\\) ; \\(\\boldsymbol{\\theta}\\in \\mathbb{R}^p\\); \\(\\Sigma > 0\\)\n\\(E[\\boldsymbol{y}] = \\boldsymbol{\\theta}\\)\n\\(V[\\boldsymbol{y}] = E[(\\boldsymbol{y}- \\boldsymbol{\\theta})(\\boldsymbol{y}- \\boldsymbol{\\theta})^T] = \\Sigma\\)\nMarginally, \\(y_i \\sim N(\\theta_i, \\sigma_i^2)\\).\nIf \\(\\boldsymbol{\\theta}\\) is a MVN random vector, then the kernel is \\(\\exp\\{-\\frac{1}{2} \\boldsymbol{\\theta}^T A \\boldsymbol{\\theta}+ \\boldsymbol{\\theta}^T \\boldsymbol{b} \\}\\). The mean is \\(A^{-1}\\boldsymbol{b}\\) and the covariance is \\(A^{-1}\\).\n\n\nsampling from a mvt norm\nlibrary(mvtnorm) contains functions we need.\n\nrmvnorm() to sample from a multivariate normal\ndmvnorm() to compute the density\npmvnorm() to compute the distribution function\nqmvnorm() to compute quantiles of the multivariate normal"
+  },
+  {
+    "objectID": "slides/lab6-mcmc-d-practice.html#solution-1",
+    "href": "slides/lab6-mcmc-d-practice.html#solution-1",
+    "title": "MCMC diagnostics practice",
+    "section": "Solution 1",
+    "text": "Solution 1\n\nThe chain has not reached stationarity for either parameter. Different parts of the chain do not look the same.\nSampler appears to be mixing poorly (at least when run for only 1000 iterations) since we jump from one mode to another only once.\nThe parameters look correlated since jumps happen at the same (or nearly the same) iteration."
+  },
+  {
+    "objectID": "slides/lab6-mcmc-d-practice.html#solution-2",
+    "href": "slides/lab6-mcmc-d-practice.html#solution-2",
+    "title": "MCMC diagnostics practice",
+    "section": "Solution 2",
+    "text": "Solution 2\nWe start around (10, 45) and up sampling around (50, 53). This rules out (A) and perhaps also (B). Notice the axes.\nPlot (C) looks like uncorrelated parameters.\nThe only plot with islands of high posterior density at these regions is plot (D), which shows an additional mode that we haven’t sampled at all.\n\n\n🔗 sta360-fa24.github.io"
   }
 ]

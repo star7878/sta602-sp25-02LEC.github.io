@@ -332,7 +332,7 @@
 <section id="exercise-1" class="slide level2">
 <h2>Exercise 1</h2>
 <p>Let <span class="math inline">\(p(\theta_1, \theta_2 | \mathbf{y})\)</span> be our <strong>target distribution</strong>, i.e.&nbsp;the distribution we are interested in sampling.</p>
-<p>We construct a Gibbs sampler and look at the trace plots of <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>, produced below. Chat with your neighbor, describe what you observe. Has the chain reached <strong>stationarity</strong> for each parameter? How well is the sampler <strong>mixing</strong>? Do you think the parameters are correlated or uncorrelated? Do you believe the Markov chain has converged to the target? Why or why not?</p>
+<p>We construct a Gibbs sampler and look at the trace plots of <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>, produced below. Chat with your neighbor, describe what you observe. Has the chain reached <strong>stationarity</strong> for each parameter? How well is the sampler <strong>mixing</strong>? Do you think the parameters are correlated or uncorrelated? Why or why not?</p>
 <!-- Write down a description of the plots below, in 2 paragraphs or less, for a reader who has **not taken this class**. You may assume the reader has taken a course on probability (e.g. similar to STA230/240). -->
 
 <img data-src="lab6-mcmc-d-practice_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
@@ -340,8 +340,27 @@
 <h2>Exercise 2</h2>
 <p>Based on the first 1000 iterations of your Gibbs sampler shown on the previous slide, which of the following joint densities is the most plausible for <span class="math inline">\(\theta_1, \theta_2 | \mathbf{y}\)</span>? Why? Hint: it may help to think about where your sampler starts and imagine a particle moving through space according to conditional updates.</p>
 
+<img data-src="lab6-mcmc-d-practice_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="solutions" class="title-slide slide level1 center">
+<h1>Solutions</h1>
 
-<img data-src="lab6-mcmc-d-practice_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"><div class="footer footer-default">
+</section>
+<section id="solution-1" class="slide level2">
+<h2>Solution 1</h2>
+<ul>
+<li><p>The chain has <strong>not</strong> reached stationarity for either parameter. Different parts of the chain do not look the same.</p></li>
+<li><p>Sampler appears to be mixing poorly (at least when run for only 1000 iterations) since we jump from one mode to another only once.</p></li>
+<li><p>The parameters look correlated since jumps happen at the same (or nearly the same) iteration.</p></li>
+</ul>
+</section>
+<section id="solution-2" class="slide level2">
+<h2>Solution 2</h2>
+<p>We start around (10, 45) and up sampling around (50, 53). This rules out (A) and perhaps also (B). Notice the axes.</p>
+<p>Plot (C) looks like uncorrelated parameters.</p>
+<p>The only plot with islands of high posterior density at these regions is plot (D), which shows an additional mode that we haven’t sampled at all.</p>
+
+<div class="footer footer-default">
 <p><a href="https://sta360-fa24.github.io">🔗 sta360-fa24.github.io</a></p>
 </div>
 </section></section>
