@@ -19,8 +19,8 @@ library(scatterplot3d)
 
 ![](imgs/regression-slide.png){fig-align="center" width="300"}
 
+- **Linear regression** is but a special case of modeling the conditional expectation of one variable $Y$ given other variables $X$ where $E[Y|X] = X \beta$. This is what we will focus on today.
 - A **generalized linear model** states $E[Y|X] = g(X\beta)$, for some invertible "link" function $g$.
-- **Linear regression** is but a special case, $E[Y|X] = X \beta$. This is what we will focus on today.
 - **Least squares regression** (otherwise termed "ordinary least squares" or "OLS") refers to a particular method of estimating $\beta$: minimize the sum of squared residuals.
 
 ### Notation
@@ -145,8 +145,6 @@ $$
 \end{aligned}
 $$
 
-Exercise 1: what other objective functions could we optimize?
-
 The ordinary least squares (OLS) estimate is
 
 $$
@@ -154,7 +152,16 @@ $$
 $$
 - See the [matrix cookbook](https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf) by Petersen and Petersen for all your matrix algebra needs.
 
-Exercise 2: is $\hat{\beta}_{OLS}$ biased? 
+::: panel-tabset
+## Exercise 1
+
+What other objective functions could we optimize?
+
+## Exercise 2
+
+Show that $\hat{\beta}_{OLS}$ is un-biased. In other words, show that $E[\hat{\beta}_{OLS} | \beta] = \beta$.
+:::
+
 
 ### Normal linear regression model
 
@@ -171,15 +178,22 @@ Therefore,
 $$
 \mathbf{y} | X, \beta, \sigma^2 \sim MVN(X\beta, \sigma^2 I)
 $$
+:::panel-tabset
+## Exercise 3
 
-Exercise 3: What is $Var(\hat{\beta}_{OLS})$ under the normal model?
+Show that $Var(\hat{\beta}_{OLS} | \beta, \sigma^2) = \sigma^2(X^TX)^{-1}$ under the normal model above.
+:::
 
 ::: callout-tip 
 ## Hint
 Let $z$ be a random vector. $Var[Az] = A Var(z) A^T$.
 :::
 
-Exercise 4: What is $\hat{\beta}_{MLE}$?
+:::panel-tabset
+## Exercise 4
+
+What is $\hat{\beta}_{MLE}$?
+:::
 
 ### Assumptions
 
@@ -267,8 +281,11 @@ p(\gamma | \mathbf{y}, X, \beta) &\propto p( \mathbf{y} | X, \beta, \sigma^2) p(
 \text{gamma}([\nu_0 + n]/2, [\nu_0 \sigma_0^2 + SSR(\beta)]/2)
 \end{aligned}
 $$
+:::panel-tabset
+## Exercise 5
 
-Exercise 5: write out the pseudo-code of a Gibbs sampler that samples from $p(\beta, \sigma^2| \mathbf{y}, X)$.
+Write out the pseudo-code of a Gibbs sampler that samples from $p(\beta, \sigma^2| \mathbf{y}, X)$.
+:::
 
 ```{r}
 #| eval: false

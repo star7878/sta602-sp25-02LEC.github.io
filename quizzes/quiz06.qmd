@@ -6,23 +6,34 @@ To receive credit for this assignment, write your full name at the top of your p
 
 ### Exercise 1
 
-$$
-Y = X\beta
-$$
 
-Write down $\hat{\beta}_{OLS}$ as a function of $X$ and $Y$. Assume $X$ is full rank.
+Let $\mathbf{y} =  \left[ {\begin{array}{cc}
+   y_1 \\
+   y_2
+  \end{array} } \right]$, 
+  $\boldsymbol{\theta} =  \left[ {\begin{array}{cc}
+   4 \\
+   8
+  \end{array} } \right]$, 
+  $\Sigma =  \left[ {\begin{array}{cc}
+   1 & .2 \\
+   .2 & 1.3\\
+  \end{array} } \right]$. 
+  
+  If $\mathbf{y} | \boldsymbol{\theta}, \Sigma \sim MVN(\boldsymbol{\theta}, \Sigma)$, then $y_1 \sim N(a, b)$. What is $a$ and $b$?
 
-### Exercise 2 
+### Exercise 2
 
-`TRUE` or `FALSE`
+$\mathbf{x}$ is a $p \times 1$ vector. 
 
-$\hat{\beta}_{OLS}$ is biased.
+What is the dimension of $\mathbf{x}^T \Sigma \mathbf{x}$?
 
 ### Exercise 3
 
-`TRUE` or `FALSE`
+$\mathbf{x}$ is a $p \times 1$ vector. 
 
-$y_i = \beta_0 + \beta_1 x_i^2$ is a linear model.
+What is the dimension of $Var[\mathbf{x}]$?
+
 
 
 ```{r}
