@@ -92,7 +92,7 @@ schedule %>%
 | 9    | Mon Oct 21 | Gibbs sampling                                      | Ch. 6     |                             [🗒](notes/lec10-gibbs-sampling.html)                             |                            |
 |      | Wed Oct 23 | Multivariate normal                                 | Ch. 7     |                                  [🗒](notes/lec11-mvn.html)                                   | [hw 6](/hw/hw06.html)      |
 |      | Thu Oct 24 | lab: MCMC diagnostics                               |           |                            [💻](slides/lab6-mcmc-d-practice.html)                            |                            |
-| 10   | Mon Oct 28 | intro to Bayesian regression                        | Ch. 9     |                            [🗒](notes/lec12-regression-intro.html)                            |                            |
+| 10   | Mon Oct 28 | intro to Bayesian regression                        | Ch. 9     |            [🗒](notes/lec12-regression-intro.html)[📝](notes/intro-regression.pdf)            |                            |
 |      | Wed Oct 30 | Bayesian regression II                              |           |                                                                                              | hw 7                       |
 |      | Thu Oct 31 | lab: stan                                           |           |                                                                                              |                            |
 | 11   | Mon Nov 04 | Hierarchical modeling                               |           |                                                                                              | hw 8                       |
