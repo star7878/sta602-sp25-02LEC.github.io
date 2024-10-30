@@ -21,6 +21,7 @@ Ridge regression application: The data set `yX.diabetes.train` contains data on 
 
 ```{r}
 #| eval: false
+# yX<-dget(url("https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.train"))
 yX<-dget(url("https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.train"))
 ```
 
