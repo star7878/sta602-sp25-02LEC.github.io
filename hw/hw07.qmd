@@ -1,0 +1,58 @@
+---
+title: "Homework 7"
+subtitle: "Due Friday November 8 at 5:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Exercise 1
+
+Ridge regression theory: Let $y \sim N_n(X \beta, \sigma^2 I)$. Consider estimating $\beta$ with the prior distribution $\beta | \sigma^2 \sim N_p(0, \sigma^2 I / \lambda)$, where $\lambda$ is known and $\beta$ and $\sigma^2$ are unknown.
+
+a. Derive the conditional distribution of $\beta | y, \sigma^2$ and, in particular, show that $E[\beta | y] = (X^TX + I \lambda)^{-1} X^Ty$. Denote this expectation $\hat{\beta}_\lambda$, which we can use as an estimator of $\beta$. What happens to $\hat{\beta}_\lambda$ as $\lambda \rightarrow 0$?
+
+b. Consider the special case that $X^TX$ is a diagonal matrix with entries $x_1^T x_1, \ldots, x_p^T x_p$. Find the mathematical relationship between each element of $\hat{\beta}_{\lambda}$ and the corresponding element of the OLS estimator $\hat{\beta}_{OLS}$. Explain in words the effect of $\lambda$.
+
+## Exercise 2
+
+Ridge regression application: The data set `yX.diabetes.train` contains data on diabetes progression (first column) and 64 predictor variables. These data can be loaded with with command
+
+```{r}
+#| eval: false
+yX<-dget(url("https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.train"))
+```
+
+a. For each value of $\lambda \in \{0, 1,  \ldots, 99, 100 \}$ compute the estimator $\hat{\beta}_{\lambda}$ based on exercise 1 above. Visualize each $\hat{\beta}$ in some way as a function of $\lambda$ (maybe using `matplot`). Describe any trend(s) you notice in the plots.
+
+b. Load the data set `yX.diabetes.test` using the code below
+
+```{r}
+#| eval: false
+yX.diabetes.test<-dget(
+  url("https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.test"))
+```
+
+Use `yX.diabetes.test` to evaluate the predictive performance of each estimate you obtained in part a. Specifically, compute the predictive error sum of squares $PSS(\lambda) = ||y_{test} - X_{test} \hat{\beta}_{\lambda}||^2$ for each value of $\lambda$ (IMPORTANT: $\hat{\beta}_{\lambda}$ is obtained from the training data in part a, not the test data). Make a plot of PSS versus $\lambda$. How good is the unbiased OLS estimate for prediction, relative to the other estimates?
+
+c. Identify the value of $\lambda$ that has the best predictive performance. For this best value of $\lambda$, report which x-variables have the largest effects.
+
+## Exercise 3
+
+For this exercise, use the code below to load the data
+
+```{r}
+#| eval: false
+yX = readRDS(
+  url("http://www2.stat.duke.edu/~pdh10/Teaching/360/Materials/yXSS.rds"))
+```
+
+
+Source separation: The first column y of the dataset `yXSS.rds` is the vectorization of a spectroscopy image of a water sample taken from the Neuse River in North Carolina. You can view the image with the following code: `y<-yX[,1] ; image(matrix(y,151,43))`. The water sample is of unknown origin, but it is assumed that it is a mix of water from 9 different categories, whose average spectroscopy images are given by the remaining 9 columns $X$ of `yX`. You can view these images with the same code above, applied to each column of $X$.
+
+a. From $y$ and $X$, infer the sources of the water sample using the linear model $E[y|X, \beta] = X\beta$. Assuming the normal linear model and with priors $\beta \sim N_9(1/9, \ldots 1/9), I_9)$, $1/\sigma^2 \sim \text{gamma}(1, 1)$, use a Gibbs sampler to obtain a posterior distribution of $\beta$ and $\sigma^2$ given $y$. Plot the posterior density of $\sigma^2$, and obtain posterior 95% confidence intervals for each element of $\beta$. Which of the nine categories are the main sources of the water sample?
+
+c. Evaluate the assumptions of the normal linear model using some residual plots, addressing the assumption that the entries of $y$ have constant variance, are uncorrelated, and are normally distributed.
+
+d. For this problem it doesn't make sense for the coefficients of $\beta$ to be negative. Think of a modification to the prior distribution for $\beta$ that takes this fact into account, and describe how a Gibbs sampler could be constructed to sample from the corresponding posterior distribution.

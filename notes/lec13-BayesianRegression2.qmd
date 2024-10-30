@@ -239,8 +239,11 @@ p3 = BETA_df %>%
 p1 / p2 / p3
 ```
 
-Exercise: is flipper length or bill length a "more important" predictor of penguin body mass? Why?
+::: panel-tabset
+## Exercise
 
+Is flipper length or bill length a "more important" predictor of penguin body mass? Why?
+:::
 ### Visually
 
 For each iteration of our Gibbs sampler, we're sampling a hyperplane, i.e. a set of $\beta$s.
@@ -283,7 +286,11 @@ outdir = getwd()
 
 <img src="imgs/hyperplane-search.gif" width="600" height="600" />
 
-Exercise: discuss how autocorrelation of $\beta$s would affect our sampler based on the animation above.
+::: panel-tabset
+## Exercise
+
+Discuss how autocorrelation of $\beta$s would affect our sampler based on the animation above.
+:::
 
 # Other priors 
 
@@ -309,6 +316,9 @@ where $\lambda$ is a tuning parameter called the "ridge coefficient".
 Bayesians obtain the same objective via the following prior on $\beta$,
 
 $$
-\beta \sim MVN(0, \sigma^2 I /\lambda)
+\beta | \sigma^2, \lambda \sim MVN(0, \sigma^2 I /\lambda)
 $$
-Exercise: show that $\hat{\beta}_{ridge} = E[\beta | \mathbf{y}, X, \sigma^2] = ((X^TX) + \lambda I)^{-1} X^T \mathbf{y}$.
+:::panel-tabset
+## Exercise
+Show that $\hat{\beta}_{ridge} = E[\beta | \mathbf{y}, X, \sigma^2, \lambda] = ((X^TX) + \lambda I)^{-1} X^T \mathbf{y}$.
+:::

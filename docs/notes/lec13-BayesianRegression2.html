@@ -257,7 +257,7 @@ V = Var[\beta | \mathbf{y}, X, \sigma^2] &amp;=
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="lec14-BayesianRegression2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="lec13-BayesianRegression2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -400,7 +400,7 @@ posteriorMean   -5.723741        0.04801443    0.006336029</code></pre>
 <p>Let’s take a look at the marginal posteriors.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="lec14-BayesianRegression2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="lec13-BayesianRegression2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="panel-tabset">
@@ -447,13 +447,13 @@ posteriorMean   -5.723741        0.04801443    0.006336029</code></pre>
 <p>where <span class="math inline">\(\lambda\)</span> is a tuning parameter called the “ridge coefficient”.</p>
 <p>Bayesians obtain the same objective via the following prior on <span class="math inline">\(\beta\)</span>,</p>
 <p><span class="math display">\[
-\beta \sim MVN(0, \sigma^2 I /\lambda)
+\beta | \sigma^2, \lambda \sim MVN(0, \sigma^2 I /\lambda)
 \]</span></p>
 <div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Exercise</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<p>Show that <span class="math inline">\(\hat{\beta}_{ridge} = E[\beta | \mathbf{y}, X, \sigma^2] = ((X^TX) + \lambda I)^{-1} X^T \mathbf{y}\)</span>.</p>
+<p>Show that <span class="math inline">\(\hat{\beta}_{ridge} = E[\beta | \mathbf{y}, X, \sigma^2, \lambda] = ((X^TX) + \lambda I)^{-1} X^T \mathbf{y}\)</span>.</p>
 </div>
 </div>
 </div>

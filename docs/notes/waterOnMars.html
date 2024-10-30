@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Dr.&nbsp;Alexander Fisher">
 
-<title>STA360 - Homework 7</title>
+<title>STA360 - Water on Mars</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +108,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -151,29 +151,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link active" data-scroll-target="#exercise-1">Exercise 1</a></li>
-  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
-  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Homework 7</h1>
-<p class="subtitle lead">Due Friday November 8 at 5:00pm</p>
+<h1 class="title">Water on Mars</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Alexander Fisher </p>
+          </div>
+  </div>
     
     
   </div>
@@ -181,49 +178,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="exercise-1" class="level2">
-<h2 class="anchored" data-anchor-id="exercise-1">Exercise 1</h2>
-<p>Ridge regression theory: Let <span class="math inline">\(y \sim N_n(X \beta, \sigma^2 I)\)</span>. Consider estimating <span class="math inline">\(\beta\)</span> with the prior distribution <span class="math inline">\(\beta | \sigma^2 \sim N_p(0, \sigma^2 I / \lambda)\)</span>, where <span class="math inline">\(\lambda\)</span> is known and <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span> are unknown.</p>
-<ol type="a">
-<li><p>Derive the conditional distribution of <span class="math inline">\(\beta | y, \sigma^2\)</span> and, in particular, show that <span class="math inline">\(E[\beta | y] = (X^TX + I \lambda)^{-1} X^Ty\)</span>. Denote this expectation <span class="math inline">\(\hat{\beta}_\lambda\)</span>, which we can use as an estimator of <span class="math inline">\(\beta\)</span>. What happens to <span class="math inline">\(\hat{\beta}_\lambda\)</span> as <span class="math inline">\(\lambda \rightarrow 0\)</span>?</p></li>
-<li><p>Consider the special case that <span class="math inline">\(X^TX\)</span> is a diagonal matrix with entries <span class="math inline">\(x_1^T x_1, \ldots, x_p^T x_p\)</span>. Find the mathematical relationship between each element of <span class="math inline">\(\hat{\beta}_{\lambda}\)</span> and the corresponding element of the OLS estimator <span class="math inline">\(\hat{\beta}_{OLS}\)</span>. Explain in words the effect of <span class="math inline">\(\lambda\)</span>.</p></li>
-</ol>
-</section>
-<section id="exercise-2" class="level2">
-<h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
-<p>Ridge regression application: The data set <code>yX.diabetes.train</code> contains data on diabetes progression (first column) and 64 predictor variables. These data can be loaded with with command</p>
+<p>Based on <a href="https://www.pnas.org/doi/epub/10.1073/pnas.2409983121">Liquid water in the Martian mid-crust by Wright, Morzfeld and Manga</a>.</p>
+<p>Watch video <a href="https://www.iris.edu/hq/inclass/animation/1component_seismogram_building_responds_to_p_s_surface_waves">here</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>yX<span class="ot">&lt;-</span><span class="fu">dget</span>(<span class="fu">url</span>(<span class="st">"https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.train"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ol type="a">
-<li><p>For each value of <span class="math inline">\(\lambda \in \{0, 1, \ldots, 99, 100 \}\)</span> compute the estimator <span class="math inline">\(\hat{\beta}_{\lambda}\)</span> based on exercise 1 above. Visualize each <span class="math inline">\(\hat{\beta}\)</span> in some way as a function of <span class="math inline">\(\lambda\)</span> (maybe using <code>matplot</code>). Describe any trend(s) you notice in the plots.</p></li>
-<li><p>Load the data set <code>yX.diabetes.test</code> using the code below</p></li>
-</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>yX.diabetes.test<span class="ot">&lt;-</span><span class="fu">dget</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">url</span>(<span class="st">"https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.test"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>seismic_data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="fl">4.1</span>, <span class="fl">2.5</span>, <span class="dv">2589</span>),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="dv">157</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Use <code>yX.diabetes.test</code> to evaluate the predictive performance of each estimate you obtained in part a. Specifically, compute the predictive error sum of squares <span class="math inline">\(PSS(\lambda) = ||y_{test} - X_{test} \hat{\beta}_{\lambda}||^2\)</span> for each value of <span class="math inline">\(\lambda\)</span> (IMPORTANT: <span class="math inline">\(\hat{\beta}_{\lambda}\)</span> is obtained from the training data in part a, not the test data). Make a plot of PSS versus <span class="math inline">\(\lambda\)</span>. How good is the unbiased OLS estimate for prediction, relative to the other estimates?</p>
-<ol start="3" type="a">
-<li>Identify the value of <span class="math inline">\(\lambda\)</span> that has the best predictive performance. For this best value of <span class="math inline">\(\lambda\)</span>, report which x-variables have the largest effects.</li>
-</ol>
-</section>
-<section id="exercise-3" class="level2">
-<h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
-<p>For this exercise, use the code below to load the data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>yX <span class="ot">=</span> <span class="fu">readRDS</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">url</span>(<span class="st">"http://www2.stat.duke.edu/~pdh10/Teaching/360/Materials/yXSS.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Berryman’s rock physics model </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Vp <span class="ot">=</span> <span class="cf">function</span>(ke, mue, pb) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>((ke <span class="sc">+</span> ((<span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> mue)) <span class="sc">/</span> pb)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>Vs <span class="ot">=</span> <span class="cf">function</span>(mue, pb) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(mue<span class="sc">/</span>pb)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Source separation: The first column y of the dataset <code>yXSS.rds</code> is the vectorization of a spectroscopy image of a water sample taken from the Neuse River in North Carolina. You can view the image with the following code: <code>y&lt;-yX[,1] ; image(matrix(y,151,43))</code>. The water sample is of unknown origin, but it is assumed that it is a mix of water from 9 different categories, whose average spectroscopy images are given by the remaining 9 columns <span class="math inline">\(X\)</span> of <code>yX</code>. You can view these images with the same code above, applied to each column of <span class="math inline">\(X\)</span>.</p>
-<ol type="a">
-<li><p>From <span class="math inline">\(y\)</span> and <span class="math inline">\(X\)</span>, infer the sources of the water sample using the linear model <span class="math inline">\(E[y|X, \beta] = X\beta\)</span>. Assuming the normal linear model and with priors <span class="math inline">\(\beta \sim N_9(1/9, \ldots 1/9), I_9)\)</span>, <span class="math inline">\(1/\sigma^2 \sim \text{gamma}(1, 1)\)</span>, use a Gibbs sampler to obtain a posterior distribution of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma^2\)</span> given <span class="math inline">\(y\)</span>. Plot the posterior density of <span class="math inline">\(\sigma^2\)</span>, and obtain posterior 95% confidence intervals for each element of <span class="math inline">\(\beta\)</span>. Which of the nine categories are the main sources of the water sample?</p></li>
-<li><p>Evaluate the assumptions of the normal linear model using some residual plots, addressing the assumption that the entries of <span class="math inline">\(y\)</span> have constant variance, are uncorrelated, and are normally distributed.</p></li>
-<li><p>For this problem it doesn’t make sense for the coefficients of <span class="math inline">\(\beta\)</span> to be negative. Think of a modification to the prior distribution for <span class="math inline">\(\beta\)</span> that takes this fact into account, and describe how a Gibbs sampler could be constructed to sample from the corresponding posterior distribution.</p></li>
-</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rock_vol <span class="ot">=</span> <span class="dv">2900</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>myBerry <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, H) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  asp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, theta[<span class="dv">1</span>])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  x_phi <span class="ot">&lt;-</span> theta[<span class="dv">2</span>]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  rock_vol <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> theta[<span class="dv">2</span>]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">c</span>(rock_vol, x_phi)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  rock_density <span class="ot">&lt;-</span> theta[<span class="dv">6</span>] <span class="sc">*</span> rock_vol  <span class="co"># density of solid phase</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  gas_density <span class="ot">&lt;-</span> <span class="fl">0.020</span> <span class="sc">*</span> x_phi         <span class="co"># density of fluid phase</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  rhob1 <span class="ot">&lt;-</span> rock_density <span class="sc">+</span> gas_density   <span class="co"># bulk density</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  P_water <span class="ot">&lt;-</span> theta[<span class="dv">3</span>]                   <span class="co"># percentage of water in pore space</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">c</span>(theta[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">1e9</span>, <span class="dv">0</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">c</span>(theta[<span class="dv">5</span>] <span class="sc">*</span> <span class="fl">1e9</span>, <span class="dv">0</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">berryscm</span>(k, mu, asp, x, rhob1, P_water)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
