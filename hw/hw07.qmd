@@ -46,7 +46,7 @@ For this exercise, use the code below to load the data
 ```{r}
 #| eval: false
 yX = readRDS(
-  url("http://www2.stat.duke.edu/~pdh10/Teaching/360/Materials/yXSS.rds"))
+  url("https://sta360-fa24.github.io/data/yXspectroscopy.rds"))
 ```
 
 

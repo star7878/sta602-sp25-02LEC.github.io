@@ -193,7 +193,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
 <p>Ridge regression application: The data set <code>yX.diabetes.train</code> contains data on diabetes progression (first column) and 64 predictor variables. These data can be loaded with with command</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>yX<span class="ot">&lt;-</span><span class="fu">dget</span>(<span class="fu">url</span>(<span class="st">"https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.train"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># yX&lt;-dget(url("https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.train"))</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>yX<span class="ot">&lt;-</span><span class="fu">dget</span>(<span class="fu">url</span>(<span class="st">"https://www2.stat.duke.edu/~pdh10/FCBS/Inline/yX.diabetes.train"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol type="a">
 <li><p>For each value of <span class="math inline">\(\lambda \in \{0, 1, \ldots, 99, 100 \}\)</span> compute the estimator <span class="math inline">\(\hat{\beta}_{\lambda}\)</span> based on exercise 1 above. Visualize each <span class="math inline">\(\hat{\beta}\)</span> in some way as a function of <span class="math inline">\(\lambda\)</span> (maybe using <code>matplot</code>). Describe any trend(s) you notice in the plots.</p></li>
@@ -213,7 +214,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>For this exercise, use the code below to load the data</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>yX <span class="ot">=</span> <span class="fu">readRDS</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">url</span>(<span class="st">"http://www2.stat.duke.edu/~pdh10/Teaching/360/Materials/yXSS.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">url</span>(<span class="st">"https://sta360-fa24.github.io/data/yXspectroscopy.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Source separation: The first column y of the dataset <code>yXSS.rds</code> is the vectorization of a spectroscopy image of a water sample taken from the Neuse River in North Carolina. You can view the image with the following code: <code>y&lt;-yX[,1] ; image(matrix(y,151,43))</code>. The water sample is of unknown origin, but it is assumed that it is a mix of water from 9 different categories, whose average spectroscopy images are given by the remaining 9 columns <span class="math inline">\(X\)</span> of <code>yX</code>. You can view these images with the same code above, applied to each column of <span class="math inline">\(X\)</span>.</p>
 <ol type="a">
