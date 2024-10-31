@@ -65,9 +65,9 @@ glimpse(spam)
 
 You want to build a spam filter that blocks emails that have a high probability of being spam.
 
-In statistical terms, your outcome $Y$ is the type of the email (spam or not) and you have each of the 57 predictors in $x$. $x$ includes the frequency of certain words, the occurrence of certain symbols and the use of capital letters in each email.
+In statistical terms, your outcome $Y$ is the type of the email (spam or not). The 57 predictors from the data set are contained in $x$ and include: the frequency of certain words, the occurrence of certain symbols and the use of capital letters in each email.
 
-Let $X = \{x_1, \ldots, x_n\}$ where $x_i \in \mathbb{R}^58$ (number of predictors + 1 for intercept) and $n =$ the number of emails in the data set. $Y \in \mathbb{R}^n$.
+Let $X = \{x_1, \ldots, x_n\}$ where $x_i \in \mathbb{R}^{58}$ (number of predictors + 1 for intercept) and $n =$ the number of emails in the data set. $Y \in \mathbb{R}^n$.
 
 $$
 \begin{aligned}
@@ -95,7 +95,7 @@ For each $\beta$ associated with the 57 predictors:
 $$
 \beta_i \sim \text{iid}~Laplace(0, .5) \ \ \text{for }i \in \{1, 57\}{}
 $$
-
+:::
 
 ## Standardize the data 
 
@@ -126,6 +126,8 @@ spam_test = spam2[-indices,]
 nrow(spam_train) + nrow(spam_test) == N
 ```
 
+:::
+
 ## Exercise 1 
 
 Read about how to fit Bayesian logistic regression using `rstanarm` here: [https://mc-stan.org/rstanarm/articles/binomial.html](https://mc-stan.org/rstanarm/articles/binomial.html) and write code to fit the `spam_train` data set. 
@@ -138,64 +140,72 @@ fit1 = readRDS(url("https://sta360-fa24.github.io/data/spam-train-fit.rds"))
 
 ## Exercise 2
 
-## Examining the output
+**Examining the output**
 
-- Did `stan_glm` do what we think it did? Did the Markov chain converge?
+- Did `stan_glm` do what we think it did? Did the Markov chain converge? Which parameters, if any, have a posterior mean rounded to 0? 
 
 ::: panel-tabset
 
 ## quick look
 
+Notice `sample: 1000` since half get thrown away by `stan` and is called "burn-in" i.e. a period that the chain spends reaching the target distribution gets discarded.
+
 ```{r}
-summary(model1)
+summary(fit1)
 ```
 
 ## check priors
 
 ```{r}
-prior_summary(model1)
+prior_summary(fit1)
 ```
 ## trace plots
 
 ```{r}
-mcmc_trace(model1)
+#| fig-width: 5
+#| fig-height: 3
+betaNames = names(spam_train)[2:7]
+betaNames
+mcmc_trace(fit1, pars = betaNames)
 ```
 ## marginal posteriors
 
 ```{r}
 #| warning: false
-mcmc_hist(model1)
+#| fig-width: 5
+#| fig-height: 3
+betaNames = names(spam_train)[2:7]
+betaNames
+mcmc_hist(fit1, pars = c(betaNames))
 ```
 ## plotting tips
 
 To plot specific parameters, use the arguemnt `pars`, e.g.
 
-- `mcmc_trace(model1, pars = c("river", "station")`
-- `mcmc_hist(model1, pars = "length")`
+- `mcmc_trace(fit1, pars = c("internet", "george")`
+- `mcmc_hist(fit1, pars = "make")`
 
 To read more about `bayesplot` functionality, see [https://mc-stan.org/bayesplot/articles/plotting-mcmc-draws.html](https://mc-stan.org/bayesplot/articles/plotting-mcmc-draws.html)
 
-## residual plot
+<!-- ## residual plot -->
 
-```{r}
-#| fig-width: 5
-#| fig-height: 3
-df = data.frame(yhat = model1$fitted.values,
-                residual = model1$residuals)
+<!-- ```{r} -->
+<!-- #| fig-width: 5 -->
+<!-- #| fig-height: 3 -->
+<!-- df = data.frame(yhat = fit1$fitted.values, -->
+<!--                 residual = fit1$residuals) -->
 
-df %>%
-  ggplot(aes(x = yhat, y = residual)) +
-  geom_point() +
-  theme_bw()
+<!-- df %>% -->
+<!--   ggplot(aes(x = yhat, y = residual)) + -->
+<!--   geom_point() + -->
+<!--   theme_bw() -->
 
-```
+<!-- ``` -->
 ## get chain
 
 ```{r}
-chain_draws = as_draws(model1)
-print(names(chain_draws))
-
-chain_draws$river[1:5] # first 5 samples of the first chain run by stan
+chain_draws = as_draws(fit1)
+chain_draws$george[1:5] # first 5 samples of the first chain run by stan
 ```
 
 - try the following command: `View(chain_draws)`
@@ -204,16 +214,20 @@ chain_draws$river[1:5] # first 5 samples of the first chain run by stan
 
 Report posterior mean, posterior median and 90% posterior CI.
 
-
 ```{r}
 #| warning: false
-posteriorMean = apply(chain_draws[,1:6], 2, mean)
-posteriorMedian = model1$coefficients
-posteriorCI = posterior_interval(model1, prob = 0.9)
+posteriorMean = apply(chain_draws, 2, mean)
+posteriorMedian = fit1$coefficients
+posteriorCI = posterior_interval(fit1, prob = 0.9)
 cbind(posteriorMean, posteriorMedian, posteriorCI)
 ```
 :::
 
+## Exercise 3
+
+- Test your spam filter on the `spam_test` data set.
+
+- Make a table showing correct and incorrect number of classifications.
 
 
 # Solutions
@@ -231,186 +245,24 @@ fit1 = stan_glm(type ~ ., data = spam_train,
                 chains = 1, iter = 2000)
 ```
 
+## Exercise 2 Solution
+
+- Trace plots look good, can look through more by subsetting others.
+
+- ESS is high
+
+- `receive`, `report`, `num1999`, `capitalAve` 
+
+## Exercise 3 Solution
 
 ```{r}
-#| echo: false
-#| eval: false
-mcmc_trace(fit1)
-chain_draws = as_draws(fit2)
-posteriorMean = apply(chain_draws, 2, mean)
-posteriorCI = posterior_interval(fit1, prob = 0.80)
-cbind(posteriorMean, posteriorCI)
+predicted_spam = posterior_predict(object = fit1, newdata = spam_test)
+
+data.frame(y = spam_test$type, 
+           yhat = predict(object = fit1, newdata = spam_test[,-1], type = "response")) %>%
+  mutate(yhat = ifelse(yhat >= 0.5, 1, 0)) %>%
+  count(y, yhat)
 ```
 
-
-```{r}
-#| echo: false
-#| eval: false
-set.seed(360)
-bass.test = bass %>%
-  select(river, length, mercury)
-
-indices = sample(1:171, 20)
-indices
-bass.train = bass[-indices, ]
-bass.test = bass.test[indices, ]
-
-```
-
-## OLD
-
-## Example
-
-::: panel-tabset
-
-## code
-```{r}
-#| warning: false
-#| message: false
-#| eval: false
-library(tidyverse)
-bass = read_csv(
-     "https://sta101-fa22.netlify.app/static/appex/data/bass.csv")
-glimpse(bass)
-```
-
-## output
-
-```{r}
-#| warning: false
-#| message: false
-#| eval: true
-#| echo: false
-library(tidyverse)
-bass = read_csv(
-     "https://sta101-fa22.netlify.app/static/appex/data/bass.csv")
-glimpse(bass)
-```
-
-:::
-
-**Description** 
-
-Mercury, is a naturally occurring element that can have toxic effects on the nervous, digestive and immune systems of humans.
-In local rivers microbes transform mercury into the highly toxic methyl mercury. Fish accumulate methyl mercury (since they are unable to excrete it) in their tissue over the course of their life.
-
-Bass from the Waccamaw and Lumber Rivers were caught randomly, weighed, and measured. In addition, a filet from each fish caught was sent to the lab so that the tissue concentration of mercury could be determined for each fish. Each fish caught corresponds to a single row of the data frame.
-A code book is provided below.
-
-- river: 0=Lumber, 1=Waccamaw
-- station that the fish was collected at
-- length of the fish in centimeters
-- weight of the fish in grams
-- mercury: concentration of mercury in parts per million (ppm)
-
-The data come from Craig Stowe, Nicholas School of the Environment circa 1990s
-
-## Fitting a normal linear model
-
-Let's consider the model below:
-
-$$
-y_i = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_p x_p + \epsilon_i
-$$
-
-where $\epsilon_i \sim \text{ i.i.d.} N(0, \sigma^2)$. We complete model specification with the priors:
-
-$$
-\begin{aligned}
-\beta_0 &\sim N(0, 100)\\
-\beta_i &\sim \text{ i.i.d } N(0, 1) \text{ for all } i > 0\\
-\sigma &\sim \text{uniform}(0, \infty)
-\end{aligned}
-$$
-Let's look at building this model using the `stan_glm` function of `rstanarm`.
-
-:::callout-note
-We'll always want to access the object we create, so you should save the result, e.g. `model1` below.
-:::
-
-```{r}
-#| eval: false
-# save the result as "model1"
-model1 = stan_glm(mercury ~ ., data = bass, # remove the intercept
-                 family = gaussian(link = "identity"),
-                 seed = 360, # sets a random starting seed
-                 prior_intercept = normal(0, 100), # sets the intercept prior
-                 prior = normal(0, 1), # sets the beta prior
-                 prior_aux = NULL, # set a flat prior on sigma
-                 ) 
-```
-
-```{r}
-#| eval: false
-#| echo: false
-saveRDS(model1, "model1.rds")
-```
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-model1 = readRDS("model1.rds")
-```
-
-
-
-## Exercise: Bayesian logistic regression
-
-Using the `bass` data set, see how well you can predict which river a bass came from, given only its length and mercury level. In other words,
-
-$$
-p(y_i = 1) = \frac{1}{1 + \exp [- (\beta_0 + \beta_1 x_1 + \beta_2 x_2)]}
-$$
-Use the priors
-
-$$
-\beta_i \sim N(0, 4) \text{ for } i \in (0, 1, 2)
-$$
-
-A template for fitting logistic regression using `rstanarm` can be found at [https://mc-stan.org/rstanarm/articles/binomial.html](https://mc-stan.org/rstanarm/articles/binomial.html).
-
-- Does your chain converge?
-- Report $E[\beta_i | y]$ and 80% posterior CI for each $\beta$, i.e. $i \in (0, 1, 2)$
-- Is `length` or `mercury` a more important predictor of which river the bass came from? Why?
-
-```{r}
-#| echo: false
-#| eval: false
-# bass2 = bass
-# bass2$length = (bass2$length - mean(bass2$length)) / sd(bass2$length)
-# bass2$mercury = (bass2$mercury - mean(bass2$mercury)) / sd(bass2$mercury)
-fit1 = stan_glm(river ~ length + mercury, data = bass.train,
-                 family = binomial(link = "logit"),
-                 prior = normal(0, 1), prior_intercept = normal(0, 1),
-                 cores = 2, seed = 360,
-                chains = 2)
-```
-
-```{r}
-#| echo: false
-#| eval: false
-mcmc_trace(fit1)
-chain_draws = as_draws(fit1)
-posteriorMean = apply(chain_draws, 2, mean)
-posteriorCI = posterior_interval(fit1, prob = 0.80)
-cbind(posteriorMean, posteriorCI) %>%
-  head(n = 3)
-
-```
-
-
-```{r}
-#| echo: false
-#| eval: false
-set.seed(360)
-bass.test = bass %>%
-  select(river, length, mercury)
-
-indices = sample(1:171, 20)
-indices
-bass.train = bass[-indices, ]
-bass.test = bass.test[indices, ]
-
-```
+856/921 classifications correct with a cutoff of 0.5. 
 

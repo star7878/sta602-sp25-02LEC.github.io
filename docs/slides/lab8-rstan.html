@@ -399,7 +399,7 @@
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">install.packages</span>(<span class="st">"rstanarm"</span>, <span class="st">"bayesplot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To load the package, run</p>
+<p>To load the packages, run</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">library</span>(rstanarm)</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">library</span>(bayesplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -410,7 +410,7 @@
 <ul>
 <li><p><code>rstanarm</code> contains a host of functions to make Bayesian linear modeling in R easy. See <a href="https://mc-stan.org/rstanarm/articles/">https://mc-stan.org/rstanarm/articles/</a> for a variety of tutorials.</p>
 <ul>
-<li><p>pros: fast and easy to test Bayesian linear models</p></li>
+<li><p>pros: easy to test Bayesian linear models, can be fast (uses Hamiltonian Monte Carlo proposals)</p></li>
 <li><p>cons: limited in scope, e.g.&nbsp;requires differentiable objective and small model adjustments can be cumbersome to implement, e.g.&nbsp;placing a prior on variance versus standard deviation of normal model.</p></li>
 </ul></li>
 <li><p><code>bayesplot</code> contains many useful plotting wrappers that work out of the box with objects created by <code>rstanarm</code> in an intuitive way.</p></li>
@@ -419,264 +419,516 @@
 <section id="example" class="slide level2">
 <h2>Example</h2>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">code</a></li><li><a href="#tabset-1-2">output</a></li></ul>
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Load data</a></li><li><a href="#tabset-1-2">Glimpse data</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>bass <span class="ot">=</span> <span class="fu">read_csv</span>(</span>
-<span id="cb3-3"><a href="#cb3-3"></a>     <span class="st">"https://sta101-fa22.netlify.app/static/appex/data/bass.csv"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">glimpse</span>(bass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2"></a>spam <span class="ot">=</span> <span class="fu">read_csv</span>(</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="st">"https://sta360-fa24.github.io/data/spam.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-1-2">
 <div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">glimpse</span>(spam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 171
-Columns: 5
-$ river   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
-$ station &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
-$ length  &lt;dbl&gt; 47.0, 48.7, 55.7, 45.2, 44.7, 43.8, 38.5, 45.8, 44.0, 40.4, 47…
-$ weight  &lt;dbl&gt; 1616, 1862, 2855, 1199, 1320, 1225, 870, 1455, 1220, 1033, 337…
-$ mercury &lt;dbl&gt; 1.60, 1.50, 1.70, 0.73, 0.56, 0.51, 0.48, 0.95, 1.40, 0.50, 0.…</code></pre>
+<pre><code>Rows: 4,601
+Columns: 58
+$ make              &lt;dbl&gt; 0.00, 0.21, 0.06, 0.00, 0.00, 0.00, 0.00, 0.00, 0.15…
+$ address           &lt;dbl&gt; 0.64, 0.28, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ all               &lt;dbl&gt; 0.64, 0.50, 0.71, 0.00, 0.00, 0.00, 0.00, 0.00, 0.46…
+$ num3d             &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ our               &lt;dbl&gt; 0.32, 0.14, 1.23, 0.63, 0.63, 1.85, 1.92, 1.88, 0.61…
+$ over              &lt;dbl&gt; 0.00, 0.28, 0.19, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ remove            &lt;dbl&gt; 0.00, 0.21, 0.19, 0.31, 0.31, 0.00, 0.00, 0.00, 0.30…
+$ internet          &lt;dbl&gt; 0.00, 0.07, 0.12, 0.63, 0.63, 1.85, 0.00, 1.88, 0.00…
+$ order             &lt;dbl&gt; 0.00, 0.00, 0.64, 0.31, 0.31, 0.00, 0.00, 0.00, 0.92…
+$ mail              &lt;dbl&gt; 0.00, 0.94, 0.25, 0.63, 0.63, 0.00, 0.64, 0.00, 0.76…
+$ receive           &lt;dbl&gt; 0.00, 0.21, 0.38, 0.31, 0.31, 0.00, 0.96, 0.00, 0.76…
+$ will              &lt;dbl&gt; 0.64, 0.79, 0.45, 0.31, 0.31, 0.00, 1.28, 0.00, 0.92…
+$ people            &lt;dbl&gt; 0.00, 0.65, 0.12, 0.31, 0.31, 0.00, 0.00, 0.00, 0.00…
+$ report            &lt;dbl&gt; 0.00, 0.21, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ addresses         &lt;dbl&gt; 0.00, 0.14, 1.75, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ free              &lt;dbl&gt; 0.32, 0.14, 0.06, 0.31, 0.31, 0.00, 0.96, 0.00, 0.00…
+$ business          &lt;dbl&gt; 0.00, 0.07, 0.06, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ email             &lt;dbl&gt; 1.29, 0.28, 1.03, 0.00, 0.00, 0.00, 0.32, 0.00, 0.15…
+$ you               &lt;dbl&gt; 1.93, 3.47, 1.36, 3.18, 3.18, 0.00, 3.85, 0.00, 1.23…
+$ credit            &lt;dbl&gt; 0.00, 0.00, 0.32, 0.00, 0.00, 0.00, 0.00, 0.00, 3.53…
+$ your              &lt;dbl&gt; 0.96, 1.59, 0.51, 0.31, 0.31, 0.00, 0.64, 0.00, 2.00…
+$ font              &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ num000            &lt;dbl&gt; 0.00, 0.43, 1.16, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ money             &lt;dbl&gt; 0.00, 0.43, 0.06, 0.00, 0.00, 0.00, 0.00, 0.00, 0.15…
+$ hp                &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ hpl               &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ george            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ num650            &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ lab               &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ labs              &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ telnet            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ num857            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ data              &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.15…
+$ num415            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ num85             &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ technology        &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ num1999           &lt;dbl&gt; 0.00, 0.07, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ parts             &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ pm                &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ direct            &lt;dbl&gt; 0.00, 0.00, 0.06, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ cs                &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ meeting           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ original          &lt;dbl&gt; 0.00, 0.00, 0.12, 0.00, 0.00, 0.00, 0.00, 0.00, 0.30…
+$ project           &lt;dbl&gt; 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ re                &lt;dbl&gt; 0.00, 0.00, 0.06, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ edu               &lt;dbl&gt; 0.00, 0.00, 0.06, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00…
+$ table             &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ conference        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ charSemicolon     &lt;dbl&gt; 0.000, 0.000, 0.010, 0.000, 0.000, 0.000, 0.000, 0.0…
+$ charRoundbracket  &lt;dbl&gt; 0.000, 0.132, 0.143, 0.137, 0.135, 0.223, 0.054, 0.2…
+$ charSquarebracket &lt;dbl&gt; 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.0…
+$ charExclamation   &lt;dbl&gt; 0.778, 0.372, 0.276, 0.137, 0.135, 0.000, 0.164, 0.0…
+$ charDollar        &lt;dbl&gt; 0.000, 0.180, 0.184, 0.000, 0.000, 0.000, 0.054, 0.0…
+$ charHash          &lt;dbl&gt; 0.000, 0.048, 0.010, 0.000, 0.000, 0.000, 0.000, 0.0…
+$ capitalAve        &lt;dbl&gt; 3.756, 5.114, 9.821, 3.537, 3.537, 3.000, 1.671, 2.4…
+$ capitalLong       &lt;dbl&gt; 61, 101, 485, 40, 40, 15, 4, 11, 445, 43, 6, 11, 61,…
+$ capitalTotal      &lt;dbl&gt; 278, 1028, 2259, 191, 191, 54, 112, 49, 1257, 749, 2…
+$ type              &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 <p><strong>Description</strong></p>
-<p>Mercury, is a naturally occurring element that can have toxic effects on the nervous, digestive and immune systems of humans. In local rivers microbes transform mercury into the highly toxic methyl mercury. Fish accumulate methyl mercury (since they are unable to excrete it) in their tissue over the course of their life.</p>
-<p>Bass from the Waccamaw and Lumber Rivers were caught randomly, weighed, and measured. In addition, a filet from each fish caught was sent to the lab so that the tissue concentration of mercury could be determined for each fish. Each fish caught corresponds to a single row of the data frame. A code book is provided below.</p>
-<ul>
-<li>river: 0=Lumber, 1=Waccamaw</li>
-<li>station that the fish was collected at</li>
-<li>length of the fish in centimeters</li>
-<li>weight of the fish in grams</li>
-<li>mercury: concentration of mercury in parts per million (ppm)</li>
-</ul>
-<p>The data come from Craig Stowe, Nicholas School of the Environment circa 1990s</p>
+<p>4601 emails sent to the inbox of someone named “George” that are classified as <code>type</code> = 1 (spam) or 0 (non-spam). The data was collected at Hewlett-Packard labs and contains 58 variables. The first 48 variables are specific keywords and each observation is the percentage of appearance (frequency) of that word in the message. Click <a href="https://rdrr.io/cran/kernlab/man/spam.html">here</a> to read more.</p>
 </section>
-<section id="fitting-a-normal-linear-model" class="slide level2">
-<h2>Fitting a normal linear model</h2>
-<p>Let’s consider the model below:</p>
-<p><span class="math display">\[
-y_i = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_p x_p + \epsilon_i
-\]</span></p>
-<p>where <span class="math inline">\(\epsilon_i \sim \text{ i.i.d.} N(0, \sigma^2)\)</span>. We complete model specification with the priors:</p>
+<section id="exercise-overview" class="slide level2">
+<h2>Exercise Overview</h2>
+<p>You want to build a spam filter that blocks emails that have a high probability of being spam.</p>
+<p>In statistical terms, your outcome <span class="math inline">\(Y\)</span> is the type of the email (spam or not). The 57 predictors from the data set are contained in <span class="math inline">\(x\)</span> and include: the frequency of certain words, the occurrence of certain symbols and the use of capital letters in each email.</p>
+<p>Let <span class="math inline">\(X = \{x_1, \ldots, x_n\}\)</span> where <span class="math inline">\(x_i \in \mathbb{R}^{58}\)</span> (number of predictors + 1 for intercept) and <span class="math inline">\(n =\)</span> the number of emails in the data set. <span class="math inline">\(Y \in \mathbb{R}^n\)</span>.</p>
 <p><span class="math display">\[
 \begin{aligned}
-\beta_0 &amp;\sim N(0, 100)\\
-\beta_i &amp;\sim \text{ i.i.d } N(0, 1) \text{ for all } i &gt; 0\\
-\sigma &amp;\sim \text{uniform}(0, \infty)
+p(y_i =1 | x_i, \beta) = \theta_i\\
+\text{logit}(\theta_i) = X\beta
 \end{aligned}
 \]</span></p>
-<p>Let’s look at building this model using the <code>stan_glm</code> function of <code>rstanarm</code>.</p>
-<div class="callout callout-note callout-captioned callout-style-default">
-<div class="callout-body">
-<div class="callout-caption">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>We’ll always want to access the object we create, so you should save the result, e.g.&nbsp;<code>model1</code> below.</p>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># save the result as "model1"</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>model1 <span class="ot">=</span> <span class="fu">stan_glm</span>(mercury <span class="sc">~</span> ., <span class="at">data =</span> bass, <span class="co"># remove the intercept</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>                 <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>),</span>
-<span id="cb5-4"><a href="#cb5-4"></a>                 <span class="at">seed =</span> <span class="dv">360</span>, <span class="co"># sets a random starting seed</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>                 <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="co"># sets the intercept prior</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>                 <span class="at">prior =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="co"># sets the beta prior</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>                 <span class="at">prior_aux =</span> <span class="cn">NULL</span>, <span class="co"># set a flat prior on sigma</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>                 ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-
-</div>
-<div class="cell">
-
-</div>
-</section>
-<section id="examining-the-output" class="slide level2">
-<h2>Examining the output</h2>
-<ul>
-<li>Did <code>stan_glm</code> do what we think it did? Did the Markov chain converge?</li>
-</ul>
+<p>A priori, you believe that many of the predictors included in the data set do not in fact help you predict whether the email is spam. You express your beliefs with the prior designated below:</p>
 <div class="panel-tabset">
-<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">quick look</a></li><li><a href="#tabset-2-2">check priors</a></li><li><a href="#tabset-2-3">trace plots</a></li><li><a href="#tabset-2-4">marginal posteriors</a></li><li><a href="#tabset-2-5">plotting tips</a></li><li><a href="#tabset-2-6">residual plot</a></li><li><a href="#tabset-2-7">get chain</a></li><li><a href="#tabset-2-8">summarize</a></li></ul>
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Prior on intercept</a></li><li><a href="#tabset-2-2">Prior on the rest</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1">
+<p>Let <span class="math inline">\(\beta_0\)</span> be the intercept term.</p>
+<p><span class="math display">\[
+\beta_0 \sim Normal(0, 100)
+\]</span></p>
+</div>
+<div id="tabset-2-2">
+<p>For each <span class="math inline">\(\beta\)</span> associated with the 57 predictors:</p>
+<p><span class="math display">\[
+\beta_i \sim \text{iid}~Laplace(0, .5) \ \ \text{for }i \in \{1, 57\}{}
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="standardize-the-data" class="slide level2">
+<h2>Standardize the data</h2>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Standardize data</a></li><li><a href="#tabset-3-2">Training set</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
+<ul>
+<li>Before we fit our model to the data, we need to standardize the predictors (columns of <span class="math inline">\(X\)</span>). Why is this important? Discuss.</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># scale functions re-scales columns of a df</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>spam2 <span class="ot">=</span> <span class="fu">cbind</span>(<span class="st">"type"</span> <span class="ot">=</span> spam<span class="sc">$</span>type, </span>
+<span id="cb6-3"><a href="#cb6-3"></a>              <span class="fu">scale</span>(<span class="fu">select</span>(spam, <span class="sc">-</span><span class="st">"type"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">data.frame</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-3-2">
+<p>To validate our model we will separate it into non-overlapping sets – a training set and a testing set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>) <span class="co"># ensures we get the same subset</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>N <span class="ot">=</span> <span class="fu">nrow</span>(spam2)</span>
+<span id="cb7-3"><a href="#cb7-3"></a>indices <span class="ot">=</span> <span class="fu">sample</span>(N, <span class="at">size =</span> <span class="fl">0.8</span> <span class="sc">*</span> N)</span>
+<span id="cb7-4"><a href="#cb7-4"></a>spam_train <span class="ot">=</span> spam2[indices,]</span>
+<span id="cb7-5"><a href="#cb7-5"></a>spam_test <span class="ot">=</span> spam2[<span class="sc">-</span>indices,]</span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co"># sanity check </span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="fu">nrow</span>(spam_train) <span class="sc">+</span> <span class="fu">nrow</span>(spam_test) <span class="sc">==</span> N</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-1" class="slide level2">
+<h2>Exercise 1</h2>
+<p>Read about how to fit Bayesian logistic regression using <code>rstanarm</code> here: <a href="https://mc-stan.org/rstanarm/articles/binomial.html">https://mc-stan.org/rstanarm/articles/binomial.html</a> and write code to fit the <code>spam_train</code> data set.</p>
+<p>Hint: use the <code>stan_glm</code> function. If you set arguments <code>chains = 1</code>, this will run 1 Markov chain instead of the default 4. You can use the argument <code>iter=2000</code> to manually set the number of iterations in your Markov chain to 2000. This may take anywhere from 1-4 minutes to run locally on your machine. If you are pressed for time, you can load the resulting object directly from the website using the code below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>fit1 <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="fu">url</span>(<span class="st">"https://sta360-fa24.github.io/data/spam-train-fit.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exercise-2" class="slide level2">
+<h2>Exercise 2</h2>
+<p><strong>Examining the output</strong></p>
+<ul>
+<li>Did <code>stan_glm</code> do what we think it did? Did the Markov chain converge? Which parameters, if any, have a posterior mean rounded to 0?</li>
+</ul>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">quick look</a></li><li><a href="#tabset-4-2">check priors</a></li><li><a href="#tabset-4-3">trace plots</a></li><li><a href="#tabset-4-4">marginal posteriors</a></li><li><a href="#tabset-4-5">plotting tips</a></li><li><a href="#tabset-4-6">get chain</a></li><li><a href="#tabset-4-7">summarize</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
+<p>Notice <code>sample: 1000</code> since half get thrown away by <code>stan</code> and is called “burn-in” i.e.&nbsp;a period that the chain spends reaching the target distribution gets discarded.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">summary</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Model Info:
  function:     stan_glm
- family:       gaussian [identity]
- formula:      mercury ~ .
+ family:       binomial [logit]
+ formula:      type ~ .
  algorithm:    sampling
- sample:       4000 (posterior sample size)
+ sample:       1000 (posterior sample size)
  priors:       see help('prior_summary')
- observations: 171
- predictors:   5
+ observations: 3680
+ predictors:   58
 
 Estimates:
-              mean   sd   10%   50%   90%
-(Intercept) -1.4    0.3 -1.9  -1.4  -1.0 
-river       -0.5    0.2 -0.8  -0.5  -0.3 
-station      0.1    0.0  0.1   0.1   0.1 
-length       0.1    0.0  0.0   0.1   0.1 
-weight       0.0    0.0  0.0   0.0   0.0 
-sigma        0.6    0.0  0.5   0.6   0.6 
+                    mean   sd    10%   50%   90%
+(Intercept)        -3.9    0.5  -4.5  -3.9  -3.4
+make               -0.1    0.1  -0.2  -0.1   0.0
+address            -0.2    0.1  -0.4  -0.2  -0.1
+all                 0.1    0.1   0.0   0.1   0.1
+num3d               0.9    0.7   0.2   0.7   1.7
+our                 0.4    0.1   0.3   0.4   0.5
+over                0.2    0.1   0.1   0.2   0.3
+remove              0.9    0.1   0.7   0.9   1.1
+internet            0.2    0.1   0.1   0.2   0.3
+order               0.1    0.1   0.0   0.1   0.2
+mail                0.1    0.0   0.0   0.1   0.1
+receive             0.0    0.1  -0.1   0.0   0.0
+will               -0.2    0.1  -0.3  -0.2  -0.1
+people             -0.1    0.1  -0.1   0.0   0.0
+report              0.0    0.1  -0.1   0.0   0.1
+addresses           0.3    0.2   0.1   0.3   0.5
+free                1.0    0.1   0.8   1.0   1.1
+business            0.5    0.1   0.3   0.5   0.6
+email               0.1    0.1   0.0   0.1   0.2
+you                 0.1    0.1   0.0   0.1   0.2
+credit              0.6    0.2   0.3   0.6   0.9
+your                0.3    0.1   0.2   0.3   0.4
+font                0.2    0.2   0.1   0.2   0.4
+num000              0.7    0.2   0.5   0.7   0.9
+money               0.2    0.1   0.1   0.2   0.3
+hp                 -3.1    0.5  -3.8  -3.1  -2.5
+hpl                -1.0    0.4  -1.5  -1.0  -0.5
+george             -8.5    1.8 -10.9  -8.5  -6.3
+num650              0.2    0.1   0.1   0.2   0.4
+lab                -1.1    0.5  -1.8  -1.0  -0.5
+labs               -0.1    0.1  -0.3  -0.1   0.0
+telnet             -0.3    0.3  -0.8  -0.3   0.0
+num857             -0.2    0.6  -1.0  -0.2   0.4
+data               -0.7    0.2  -1.0  -0.7  -0.5
+num415             -0.6    0.8  -1.7  -0.5   0.2
+num85              -0.8    0.4  -1.3  -0.8  -0.3
+technology          0.4    0.1   0.2   0.4   0.6
+num1999             0.0    0.1  -0.1   0.0   0.1
+parts              -0.2    0.1  -0.4  -0.2  -0.1
+pm                 -0.4    0.2  -0.6  -0.4  -0.2
+direct             -0.2    0.1  -0.3  -0.1   0.0
+cs                 -1.4    0.8  -2.4  -1.2  -0.5
+meeting            -1.5    0.5  -2.2  -1.5  -1.0
+original           -0.4    0.2  -0.8  -0.4  -0.1
+project            -1.3    0.4  -1.8  -1.3  -0.8
+re                 -0.7    0.2  -0.9  -0.7  -0.5
+edu                -1.5    0.3  -1.9  -1.5  -1.1
+table              -0.3    0.1  -0.5  -0.3  -0.1
+conference         -1.1    0.4  -1.7  -1.1  -0.6
+charSemicolon      -0.3    0.1  -0.5  -0.3  -0.2
+charRoundbracket   -0.1    0.1  -0.2  -0.1   0.0
+charSquarebracket  -0.1    0.1  -0.3  -0.1   0.0
+charExclamation     0.2    0.1   0.2   0.2   0.3
+charDollar          1.2    0.2   1.0   1.3   1.5
+charHash            0.7    0.4   0.2   0.7   1.2
+capitalAve          0.0    0.3  -0.3   0.0   0.4
+capitalLong         0.9    0.4   0.4   0.8   1.3
+capitalTotal        0.7    0.1   0.5   0.7   0.8
 
 Fit Diagnostics:
            mean   sd   10%   50%   90%
-mean_PPD 1.2    0.1  1.1   1.2   1.3  
+mean_PPD 0.4    0.0  0.4   0.4   0.4  
 
 The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
 
 MCMC diagnostics
-              mcse Rhat n_eff
-(Intercept)   0.0  1.0  2864 
-river         0.0  1.0  1857 
-station       0.0  1.0  1828 
-length        0.0  1.0  2814 
-weight        0.0  1.0  2861 
-sigma         0.0  1.0  2819 
-mean_PPD      0.0  1.0  3069 
-log-posterior 0.0  1.0  1616 
+                  mcse Rhat n_eff
+(Intercept)       0.0  1.0   740 
+make              0.0  1.0  1161 
+address           0.0  1.0  1156 
+all               0.0  1.0   907 
+num3d             0.0  1.0   958 
+our               0.0  1.0   973 
+over              0.0  1.0  1022 
+remove            0.0  1.0   909 
+internet          0.0  1.0  1188 
+order             0.0  1.0  1064 
+mail              0.0  1.0  1022 
+receive           0.0  1.0  1171 
+will              0.0  1.0  1022 
+people            0.0  1.0  1307 
+report            0.0  1.0   935 
+addresses         0.0  1.0  1115 
+free              0.0  1.0   830 
+business          0.0  1.0  1059 
+email             0.0  1.0   895 
+you               0.0  1.0  1026 
+credit            0.0  1.0  1328 
+your              0.0  1.0  1077 
+font              0.0  1.0  1226 
+num000            0.0  1.0  1124 
+money             0.0  1.0   910 
+hp                0.0  1.0  1161 
+hpl               0.0  1.0  1422 
+george            0.1  1.0   779 
+num650            0.0  1.0  1017 
+lab               0.0  1.0  1477 
+labs              0.0  1.0  1317 
+telnet            0.0  1.0  1002 
+num857            0.0  1.0  1388 
+data              0.0  1.0  1265 
+num415            0.0  1.0  1427 
+num85             0.0  1.0  1247 
+technology        0.0  1.0  1021 
+num1999           0.0  1.0   834 
+parts             0.0  1.0  1227 
+pm                0.0  1.0  1135 
+direct            0.0  1.0   793 
+cs                0.0  1.0  1293 
+meeting           0.0  1.0  1547 
+original          0.0  1.0  1805 
+project           0.0  1.0  1432 
+re                0.0  1.0  1027 
+edu               0.0  1.0  1048 
+table             0.0  1.0  1082 
+conference        0.0  1.0  1492 
+charSemicolon     0.0  1.0  1308 
+charRoundbracket  0.0  1.0   906 
+charSquarebracket 0.0  1.0  1286 
+charExclamation   0.0  1.0  1070 
+charDollar        0.0  1.0  1147 
+charHash          0.0  1.0  1111 
+capitalAve        0.0  1.0  1165 
+capitalLong       0.0  1.0  1421 
+capitalTotal      0.0  1.0  1312 
+mean_PPD          0.0  1.0   909 
+log-posterior     0.5  1.0   338 
 
 For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).</code></pre>
 </div>
 </div>
 </div>
-<div id="tabset-2-2">
+<div id="tabset-4-2">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">prior_summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">prior_summary</span>(fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Priors for model 'model1' 
+<pre><code>Priors for model 'fit1' 
 ------
 Intercept (after predictors centered)
- ~ normal(location = 0, scale = 100)
+ ~ normal(location = 0, scale = 10)
 
 Coefficients
- ~ normal(location = [0,0,0,...], scale = [1,1,1,...])
-
-Auxiliary (sigma)
- ~ flat
+ ~ laplace(location = [0,0,0,...], scale = [0.5,0.5,0.5,...])
 ------
 See help('prior_summary.stanreg') for more details</code></pre>
 </div>
 </div>
 </div>
-<div id="tabset-2-3">
+<div id="tabset-4-3">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">mcmc_trace</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>betaNames <span class="ot">=</span> <span class="fu">names</span>(spam_train)[<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>]</span>
+<span id="cb14-2"><a href="#cb14-2"></a>betaNames</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "make"    "address" "all"     "num3d"   "our"     "over"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">mcmc_trace</span>(fit1, <span class="at">pars =</span> betaNames)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img data-src="lab8-rstan_files/figure-revealjs/unnamed-chunk-10-1.png" width="960"></p>
+<p><img data-src="lab8-rstan_files/figure-revealjs/unnamed-chunk-10-1.png" width="480"></p>
 </div>
 </div>
 </div>
-<div id="tabset-2-4">
+<div id="tabset-4-4">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">mcmc_hist</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>betaNames <span class="ot">=</span> <span class="fu">names</span>(spam_train)[<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>]</span>
+<span id="cb17-2"><a href="#cb17-2"></a>betaNames</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "make"    "address" "all"     "num3d"   "our"     "over"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">mcmc_hist</span>(fit1, <span class="at">pars =</span> <span class="fu">c</span>(betaNames))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img data-src="lab8-rstan_files/figure-revealjs/unnamed-chunk-11-1.png" width="960"></p>
+<p><img data-src="lab8-rstan_files/figure-revealjs/unnamed-chunk-11-1.png" width="480"></p>
 </div>
 </div>
 </div>
-<div id="tabset-2-5">
+<div id="tabset-4-5">
 <p>To plot specific parameters, use the arguemnt <code>pars</code>, e.g.</p>
 <ul>
-<li><code>mcmc_trace(model1, pars = c("river", "station")</code></li>
-<li><code>mcmc_hist(model1, pars = "length")</code></li>
+<li><code>mcmc_trace(fit1, pars = c("internet", "george")</code></li>
+<li><code>mcmc_hist(fit1, pars = "make")</code></li>
 </ul>
 <p>To read more about <code>bayesplot</code> functionality, see <a href="https://mc-stan.org/bayesplot/articles/plotting-mcmc-draws.html">https://mc-stan.org/bayesplot/articles/plotting-mcmc-draws.html</a></p>
+<!-- ## residual plot -->
+<!-- ```{r} -->
+<!-- #| fig-width: 5 -->
+<!-- #| fig-height: 3 -->
+<!-- df = data.frame(yhat = fit1$fitted.values, -->
+<!--                 residual = fit1$residuals) -->
+<!-- df %>% -->
+<!--   ggplot(aes(x = yhat, y = residual)) + -->
+<!--   geom_point() + -->
+<!--   theme_bw() -->
+<!-- ``` -->
 </div>
-<div id="tabset-2-6">
+<div id="tabset-4-6">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">yhat =</span> model1<span class="sc">$</span>fitted.values,</span>
-<span id="cb12-2"><a href="#cb12-2"></a>                <span class="at">residual =</span> model1<span class="sc">$</span>residuals)</span>
-<span id="cb12-3"><a href="#cb12-3"></a></span>
-<span id="cb12-4"><a href="#cb12-4"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> yhat, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img data-src="lab8-rstan_files/figure-revealjs/unnamed-chunk-12-1.png" width="480"></p>
-</div>
-</div>
-</div>
-<div id="tabset-2-7">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>chain_draws <span class="ot">=</span> <span class="fu">as_draws</span>(model1)</span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="fu">print</span>(<span class="fu">names</span>(chain_draws))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>chain_draws <span class="ot">=</span> <span class="fu">as_draws</span>(fit1)</span>
+<span id="cb20-2"><a href="#cb20-2"></a>chain_draws<span class="sc">$</span>george[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="co"># first 5 samples of the first chain run by stan</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "(Intercept)" "river"       "station"     "length"      "weight"     
-[6] "sigma"       ".chain"      ".iteration"  ".draw"      </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>chain_draws<span class="sc">$</span>river[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="co"># first 5 samples of the first chain run by stan</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.3748586 -0.2472218 -0.8788921 -0.4870408 -0.6565987</code></pre>
+<pre><code>[1]  -8.657706  -8.058416  -7.542682  -5.875524 -10.805427</code></pre>
 </div>
 </div>
 <ul>
 <li>try the following command: <code>View(chain_draws)</code></li>
 </ul>
 </div>
-<div id="tabset-2-8">
+<div id="tabset-4-7">
 <p>Report posterior mean, posterior median and 90% posterior CI.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>posteriorMean <span class="ot">=</span> <span class="fu">apply</span>(chain_draws[,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], <span class="dv">2</span>, mean)</span>
-<span id="cb17-2"><a href="#cb17-2"></a>posteriorMedian <span class="ot">=</span> model1<span class="sc">$</span>coefficients</span>
-<span id="cb17-3"><a href="#cb17-3"></a>posteriorCI <span class="ot">=</span> <span class="fu">posterior_interval</span>(model1, <span class="at">prob =</span> <span class="fl">0.9</span>)</span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="fu">cbind</span>(posteriorMean, posteriorMedian, posteriorCI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>posteriorMean <span class="ot">=</span> <span class="fu">apply</span>(chain_draws, <span class="dv">2</span>, mean)</span>
+<span id="cb22-2"><a href="#cb22-2"></a>posteriorMedian <span class="ot">=</span> fit1<span class="sc">$</span>coefficients</span>
+<span id="cb22-3"><a href="#cb22-3"></a>posteriorCI <span class="ot">=</span> <span class="fu">posterior_interval</span>(fit1, <span class="at">prob =</span> <span class="fl">0.9</span>)</span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="fu">cbind</span>(posteriorMean, posteriorMedian, posteriorCI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            posteriorMean posteriorMedian            5%           95%
-(Intercept) -1.4320242215    -1.435098280 -2.0129526891 -8.767706e-01
-river       -0.5368486696    -0.538925449 -0.8441961657 -2.299097e-01
-station      0.0777090920     0.078115486  0.0461303215  1.092244e-01
-length       0.0622405968     0.062062419  0.0429862421  8.203404e-02
-weight      -0.0001059707    -0.000104737 -0.0002995203  8.105592e-05
-sigma        0.5568710635    -1.435098280  0.5088456218  6.111942e-01</code></pre>
+<pre><code>                  posteriorMean posteriorMedian            5%          95%
+(Intercept)         -3.92819676     -3.89842329  -4.688486640 -3.214996079
+make                -0.10511093     -0.10291579  -0.234925630  0.007473911
+address             -0.23994990     -0.22496984  -0.459838123 -0.079085239
+all                  0.06181680      0.06204777  -0.032348802  0.162371165
+num3d                0.86239227      0.69068831   0.094477008  2.262920466
+our                  0.36326097      0.36517847   0.252660614  0.482222431
+over                 0.22388788      0.22526813   0.104903413  0.345376589
+remove               0.89046939      0.88519560   0.660560624  1.124715173
+internet             0.19219955      0.18873972   0.084482068  0.313373050
+order                0.14088547      0.14175852   0.022540540  0.262790934
+mail                 0.07091792      0.07049483  -0.004812217  0.148380741
+receive             -0.04641076     -0.04704090  -0.155648064  0.056349226
+will                -0.19669579     -0.19506749  -0.323302246 -0.079179801
+people              -0.05080340     -0.04939546  -0.170276558  0.067469609
+report              -0.01152332     -0.01105396  -0.102076144  0.078218538
+addresses            0.27381609      0.26410052   0.016663808  0.554382803
+free                 0.95909363      0.95496752   0.738679361  1.184988932
+business             0.46684266      0.46497563   0.276894271  0.663670058
+email                0.10488455      0.10024984   0.001909845  0.222419640
+you                  0.10146793      0.10210904  -0.005066755  0.212057793
+credit               0.60260737      0.58770051   0.245466733  1.011651069
+your                 0.29510195      0.29496631   0.185160138  0.408134909
+font                 0.23712284      0.22816521   0.014405002  0.514370136
+num000               0.71052738      0.69647322   0.470113449  0.973663603
+money                0.20621767      0.19864778   0.101091758  0.340661983
+hp                  -3.12311740     -3.10880324  -4.016671505 -2.304686191
+hpl                 -1.03485238     -1.03298227  -1.697441864 -0.401214421
+george              -8.54020532     -8.47338329 -11.651960267 -5.719147532
+num650               0.23079106      0.22722517   0.066179720  0.417323354
+lab                 -1.06217022     -0.98480464  -2.007243002 -0.334531315
+labs                -0.12552567     -0.11162875  -0.398538494  0.091786582
+telnet              -0.34336793     -0.26439840  -0.971412117  0.026123689
+num857              -0.24559769     -0.15437261  -1.410789083  0.608907729
+data                -0.73133589     -0.71699338  -1.108487928 -0.382954624
+num415              -0.64101304     -0.47534569  -2.093090996  0.285482781
+num85               -0.79569146     -0.76847847  -1.439452875 -0.215331103
+technology           0.39271940      0.38676108   0.173703662  0.625821033
+num1999             -0.01626319     -0.01501346  -0.146351106  0.113311375
+parts               -0.19387536     -0.17594695  -0.420298806 -0.034525634
+pm                  -0.36307678     -0.35286882  -0.654982493 -0.099008434
+direct              -0.16079193     -0.14842066  -0.405108058  0.023707001
+cs                  -1.35347826     -1.21771081  -2.748096259 -0.377142268
+meeting             -1.54394154     -1.48634297  -2.451147222 -0.853955898
+original            -0.44492327     -0.43068267  -0.889558420 -0.068304526
+project             -1.27091449     -1.25700373  -1.901896255 -0.691331691
+re                  -0.68897480     -0.68667471  -0.941480034 -0.439694059
+edu                 -1.52342346     -1.51146322  -2.056088445 -1.041884151
+table               -0.27888780     -0.25736694  -0.549891396 -0.077155657
+conference          -1.10733935     -1.06265166  -1.864536810 -0.460671052
+charSemicolon       -0.32588657     -0.31416332  -0.514101364 -0.166688438
+charRoundbracket    -0.08698799     -0.08292353  -0.212643020  0.023441788
+charSquarebracket   -0.14980893     -0.13280261  -0.342135625 -0.004178006
+charExclamation      0.23238206      0.22752584   0.137507390  0.351658871
+charDollar           1.24928427      1.25351495   0.944702156  1.558125382
+charHash             0.71795213      0.70213467   0.122922001  1.368832748
+capitalAve          -0.01033156     -0.03262611  -0.401092859  0.470713740
+capitalLong          0.85197631      0.82214223   0.303300262  1.493571408
+capitalTotal         0.67337732      0.67245181   0.471182694  0.893198052</code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="exercise-bayesian-logistic-regression" class="slide level2">
-<h2>Exercise: Bayesian logistic regression</h2>
-<p>Using the <code>bass</code> data set, see how well you can predict which river a bass came from, given only its length and mercury level. In other words,</p>
-<p><span class="math display">\[
-p(y_i = 1) = \frac{1}{1 + \exp [- (\beta_0 + \beta_1 x_1 + \beta_2 x_2)]}
-\]</span></p>
-<p>Use the priors</p>
-<p><span class="math display">\[
-\beta_i \sim N(0, 4) \text{ for } i \in (0, 1, 2)
-\]</span></p>
-<p>A template for fitting logistic regression using <code>rstanarm</code> can be found at <a href="https://mc-stan.org/rstanarm/articles/binomial.html">https://mc-stan.org/rstanarm/articles/binomial.html</a>.</p>
+<section id="exercise-3" class="slide level2">
+<h2>Exercise 3</h2>
 <ul>
-<li>Does your chain converge?</li>
-<li>Report <span class="math inline">\(E[\beta_i | y]\)</span> and 80% posterior CI for each <span class="math inline">\(\beta\)</span>, i.e.&nbsp;<span class="math inline">\(i \in (0, 1, 2)\)</span></li>
-<li>Is <code>length</code> or <code>mercury</code> a more important predictor of which river the bass came from? Why?</li>
+<li><p>Test your spam filter on the <code>spam_test</code> data set.</p></li>
+<li><p>Make a table showing correct and incorrect number of classifications.</p></li>
 </ul>
-<div class="cell">
+</section></section>
+<section>
+<section id="solutions" class="title-slide slide level1 center">
+<h1>Solutions</h1>
 
-</div>
+</section>
+<section id="exercise-1-solution" class="slide level2">
+<h2>Exercise 1 solution</h2>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>fit1 <span class="ot">=</span> <span class="fu">stan_glm</span>(type <span class="sc">~</span> ., <span class="at">data =</span> spam_train,</span>
+<span id="cb24-2"><a href="#cb24-2"></a>                 <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb24-3"><a href="#cb24-3"></a>                 <span class="at">prior =</span> <span class="fu">laplace</span>(<span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb24-4"><a href="#cb24-4"></a>                 <span class="at">prior_intercept =</span> <span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>),</span>
+<span id="cb24-5"><a href="#cb24-5"></a>                 <span class="at">cores =</span> <span class="dv">2</span>, <span class="at">seed =</span> <span class="dv">360</span>,</span>
+<span id="cb24-6"><a href="#cb24-6"></a>                <span class="at">chains =</span> <span class="dv">1</span>, <span class="at">iter =</span> <span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="exercise-2-solution" class="slide level2">
+<h2>Exercise 2 Solution</h2>
+<ul>
+<li><p>Trace plots look good, can look through more by subsetting others.</p></li>
+<li><p>ESS is high</p></li>
+<li><p><code>receive</code>, <code>report</code>, <code>num1999</code>, <code>capitalAve</code></p></li>
+</ul>
+</section>
+<section id="exercise-3-solution" class="slide level2">
+<h2>Exercise 3 Solution</h2>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>predicted_spam <span class="ot">=</span> <span class="fu">posterior_predict</span>(<span class="at">object =</span> fit1, <span class="at">newdata =</span> spam_test)</span>
+<span id="cb25-2"><a href="#cb25-2"></a></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="fu">data.frame</span>(<span class="at">y =</span> spam_test<span class="sc">$</span>type, </span>
+<span id="cb25-4"><a href="#cb25-4"></a>           <span class="at">yhat =</span> <span class="fu">predict</span>(<span class="at">object =</span> fit1, <span class="at">newdata =</span> spam_test[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">type =</span> <span class="st">"response"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a>  <span class="fu">mutate</span>(<span class="at">yhat =</span> <span class="fu">ifelse</span>(yhat <span class="sc">&gt;=</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>  <span class="fu">count</span>(y, yhat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  y yhat   n
+1 0    0 529
+2 0    1  26
+3 1    0  31
+4 1    1 335</code></pre>
 </div>
+</div>
+<p>856/921 classifications correct with a cutoff of 0.5.</p>
 
 <div class="footer footer-default">
-<p><a href="https://sta360-fa23.github.io">🔗 sta360-fa23.github.io</a></p>
+<p><a href="https://sta360-fa24.github.io">🔗 sta360-fa24.github.io</a></p>
 </div>
 </section></section>
     </div>
