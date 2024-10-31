@@ -132,19 +132,105 @@ Read about how to fit Bayesian logistic regression using `rstanarm` here: [https
 
 Hint: use the `stan_glm` function. If you set arguments  `chains = 1`, this will run 1 Markov chain instead of the default 4. You can use the argument `iter=2000` to manually set the number of iterations in your Markov chain to 2000. This may take anywhere from 1-4 minutes to run locally on your machine. If you are pressed for time, you can load the resulting object directly from the website using the code below.
 
+```{r}
+fit1 = readRDS(url("https://sta360-fa24.github.io/data/spam-train-fit.rds"))
+```
+
+## Exercise 2
+
+## Examining the output
+
+- Did `stan_glm` do what we think it did? Did the Markov chain converge?
+
+::: panel-tabset
+
+## quick look
+
+```{r}
+summary(model1)
+```
+
+## check priors
+
+```{r}
+prior_summary(model1)
+```
+## trace plots
+
+```{r}
+mcmc_trace(model1)
+```
+## marginal posteriors
+
+```{r}
+#| warning: false
+mcmc_hist(model1)
+```
+## plotting tips
+
+To plot specific parameters, use the arguemnt `pars`, e.g.
+
+- `mcmc_trace(model1, pars = c("river", "station")`
+- `mcmc_hist(model1, pars = "length")`
+
+To read more about `bayesplot` functionality, see [https://mc-stan.org/bayesplot/articles/plotting-mcmc-draws.html](https://mc-stan.org/bayesplot/articles/plotting-mcmc-draws.html)
+
+## residual plot
+
+```{r}
+#| fig-width: 5
+#| fig-height: 3
+df = data.frame(yhat = model1$fitted.values,
+                residual = model1$residuals)
+
+df %>%
+  ggplot(aes(x = yhat, y = residual)) +
+  geom_point() +
+  theme_bw()
+
+```
+## get chain
+
+```{r}
+chain_draws = as_draws(model1)
+print(names(chain_draws))
+
+chain_draws$river[1:5] # first 5 samples of the first chain run by stan
+```
+
+- try the following command: `View(chain_draws)`
+
+## summarize
+
+Report posterior mean, posterior median and 90% posterior CI.
+
+
+```{r}
+#| warning: false
+posteriorMean = apply(chain_draws[,1:6], 2, mean)
+posteriorMedian = model1$coefficients
+posteriorCI = posterior_interval(model1, prob = 0.9)
+cbind(posteriorMean, posteriorMedian, posteriorCI)
+```
+:::
+
+
+
+# Solutions
 
 ## Exercise 1 solution
 
 ```{r}
-#| echo: false
+#| echo: true
 #| eval: false
-fit3 = stan_glm(type ~ ., data = spam_train,
+fit1 = stan_glm(type ~ ., data = spam_train,
                  family = binomial(link = "logit"),
                  prior = laplace(0, 0.5),
                  prior_intercept = normal(0, 10),
                  cores = 2, seed = 360,
                 chains = 1, iter = 2000)
 ```
+
 
 ```{r}
 #| echo: false
@@ -154,9 +240,6 @@ chain_draws = as_draws(fit2)
 posteriorMean = apply(chain_draws, 2, mean)
 posteriorCI = posterior_interval(fit1, prob = 0.80)
 cbind(posteriorMean, posteriorCI)
-
-
-
 ```
 
 
@@ -271,81 +354,6 @@ model1 = readRDS("model1.rds")
 ```
 
 
-## Examining the output
-
-- Did `stan_glm` do what we think it did? Did the Markov chain converge?
-
-::: panel-tabset
-
-## quick look
-
-```{r}
-summary(model1)
-```
-
-## check priors
-
-```{r}
-prior_summary(model1)
-```
-## trace plots
-
-```{r}
-mcmc_trace(model1)
-```
-## marginal posteriors
-
-```{r}
-#| warning: false
-mcmc_hist(model1)
-```
-## plotting tips
-
-To plot specific parameters, use the arguemnt `pars`, e.g.
-
-- `mcmc_trace(model1, pars = c("river", "station")`
-- `mcmc_hist(model1, pars = "length")`
-
-To read more about `bayesplot` functionality, see [https://mc-stan.org/bayesplot/articles/plotting-mcmc-draws.html](https://mc-stan.org/bayesplot/articles/plotting-mcmc-draws.html)
-
-## residual plot
-
-```{r}
-#| fig-width: 5
-#| fig-height: 3
-df = data.frame(yhat = model1$fitted.values,
-                residual = model1$residuals)
-
-df %>%
-  ggplot(aes(x = yhat, y = residual)) +
-  geom_point() +
-  theme_bw()
-
-```
-## get chain
-
-```{r}
-chain_draws = as_draws(model1)
-print(names(chain_draws))
-
-chain_draws$river[1:5] # first 5 samples of the first chain run by stan
-```
-
-- try the following command: `View(chain_draws)`
-
-## summarize
-
-Report posterior mean, posterior median and 90% posterior CI.
-
-
-```{r}
-#| warning: false
-posteriorMean = apply(chain_draws[,1:6], 2, mean)
-posteriorMedian = model1$coefficients
-posteriorCI = posterior_interval(model1, prob = 0.9)
-cbind(posteriorMean, posteriorMedian, posteriorCI)
-```
-:::
 
 ## Exercise: Bayesian logistic regression
 
