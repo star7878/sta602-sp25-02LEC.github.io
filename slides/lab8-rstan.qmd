@@ -53,27 +53,95 @@ spam = read_csv(
 ## Glimpse data
 
 ```{r}
-
+glimpse(spam)
 ```
-
 :::
+
 **Description**
 
-## Exercise
+4601 emails sent to the inbox of someone named "George" that are classified as `type` = 1 (spam) or 0 (non-spam). The data was collected at Hewlett-Packard labs and contains 58 variables. The first 48 variables are specific keywords and each observation is the percentage of appearance (frequency) of that word in the message. Click [here](https://rdrr.io/cran/kernlab/man/spam.html) to read more.
+
+## Exercise Overview
+
+You want to build a spam filter that blocks emails that have a high probability of being spam.
+
+In statistical terms, your outcome $Y$ is the type of the email (spam or not) and you have each of the 57 predictors in $x$. $x$ includes the frequency of certain words, the occurrence of certain symbols and the use of capital letters in each email.
+
+Let $X = \{x_1, \ldots, x_n\}$ where $x_i \in \mathbb{R}^58$ (number of predictors + 1 for intercept) and $n =$ the number of emails in the data set. $Y \in \mathbb{R}^n$.
+
+$$
+\begin{aligned}
+p(y_i =1 | x_i, \beta) = \theta_i\\
+\text{logit}(\theta_i) = X\beta
+\end{aligned}
+$$
+
+A priori, you believe that many of the predictors included in the data set do not in fact help you predict whether the email is spam. You express your beliefs with the prior designated below:
+
+::: panel-tabset
+
+## Prior on intercept
+
+Let $\beta_0$ be the intercept term.
+
+$$
+\beta_0 \sim Normal(0, 100)
+$$
+
+## Prior on the rest
+
+For each $\beta$ associated with the 57 predictors:
+
+$$
+\beta_i \sim \text{iid}~Laplace(0, .5) \ \ \text{for }i \in \{1, 57\}{}
+$$
+
+
+## Standardize the data 
+
+:::panel-tabset
+
+## Standardize data
+
+- Before we fit our model to the data, we need to standardize the predictors (columns of $X$). Why is this important? Discuss.
 
 ```{r}
+# scale functions re-scales columns of a df
 spam2 = cbind("type" = spam$type, 
               scale(select(spam, -"type"))) %>%
   data.frame()
 ```
 
+## Training set
+
+To validate our model we will separate it into non-overlapping sets -- a training set and a testing set. 
+
+```{r}
+set.seed(360) # ensures we get the same subset
+N = nrow(spam2)
+indices = sample(N, size = 0.8 * N)
+spam_train = spam2[indices,]
+spam_test = spam2[-indices,]
+# sanity check 
+nrow(spam_train) + nrow(spam_test) == N
+```
+
+## Exercise 1 
+
+Read about how to fit Bayesian logistic regression using `rstanarm` here: [https://mc-stan.org/rstanarm/articles/binomial.html](https://mc-stan.org/rstanarm/articles/binomial.html) and write code to fit the `spam_train` data set. 
+
+Hint: use the `stan_glm` function. If you set arguments  `chains = 1`, this will run 1 Markov chain instead of the default 4. You can use the argument `iter=2000` to manually set the number of iterations in your Markov chain to 2000. This may take anywhere from 1-4 minutes to run locally on your machine. If you are pressed for time, you can load the resulting object directly from the website using the code below.
+
+
+## Exercise 1 solution
 
 ```{r}
 #| echo: false
 #| eval: false
-fit2 = stan_glm(type ~ ., data = spam,
+fit3 = stan_glm(type ~ ., data = spam_train,
                  family = binomial(link = "logit"),
-                 prior = laplace(0, 1), prior_intercept = normal(0, 1),
+                 prior = laplace(0, 0.5),
+                 prior_intercept = normal(0, 10),
                  cores = 2, seed = 360,
                 chains = 1, iter = 2000)
 ```
