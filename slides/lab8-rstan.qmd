@@ -18,7 +18,7 @@ To download `rstanarm` and `bayesplot` run the code below
 install.packages("rstanarm", "bayesplot")
 ```
 
-To load the package, run 
+To load the packages, run 
 
 ```{r}
 #| warning: false
@@ -31,11 +31,82 @@ library(bayesplot)
 
 - `rstanarm` contains a host of functions to make Bayesian linear modeling in R easy. See [https://mc-stan.org/rstanarm/articles/](https://mc-stan.org/rstanarm/articles/) for a variety of tutorials.
 
-  - pros: fast and easy to test Bayesian linear models
+  - pros: easy to test Bayesian linear models, can be fast (uses Hamiltonian Monte Carlo proposals)
   
   - cons: limited in scope, e.g. requires differentiable objective and small model adjustments can be cumbersome to implement, e.g. placing a  prior on variance versus standard deviation of normal model.
 
 - `bayesplot` contains many useful plotting wrappers that work out of the box with objects created by `rstanarm` in an intuitive way.
+
+## Example
+
+:::panel-tabset
+
+## Load data
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse)
+spam = read_csv(
+  "https://sta360-fa24.github.io/data/spam.csv")
+```
+
+## Glimpse data
+
+```{r}
+
+```
+
+:::
+**Description**
+
+## Exercise
+
+```{r}
+spam2 = cbind("type" = spam$type, 
+              scale(select(spam, -"type"))) %>%
+  data.frame()
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+fit2 = stan_glm(type ~ ., data = spam,
+                 family = binomial(link = "logit"),
+                 prior = laplace(0, 1), prior_intercept = normal(0, 1),
+                 cores = 2, seed = 360,
+                chains = 1, iter = 2000)
+```
+
+```{r}
+#| echo: false
+#| eval: false
+mcmc_trace(fit1)
+chain_draws = as_draws(fit2)
+posteriorMean = apply(chain_draws, 2, mean)
+posteriorCI = posterior_interval(fit1, prob = 0.80)
+cbind(posteriorMean, posteriorCI)
+
+
+
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+set.seed(360)
+bass.test = bass %>%
+  select(river, length, mercury)
+
+indices = sample(1:171, 20)
+indices
+bass.train = bass[-indices, ]
+bass.test = bass.test[indices, ]
+
+```
+
+## OLD
 
 ## Example
 
