@@ -108,6 +108,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -151,7 +152,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#parameter-table" id="toc-parameter-table" class="nav-link active" data-scroll-target="#parameter-table">Parameter Table</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Code</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -187,6 +195,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>seismic_data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="fl">4.1</span>, <span class="fl">2.5</span>, <span class="dv">2589</span>),</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="dv">157</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="parameter-table" class="level2">
+<h2 class="anchored" data-anchor-id="parameter-table">Parameter Table</h2>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\alpha\)</span></td>
+<td>Pore shape aspect ratio</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\phi\)</span></td>
+<td>Porosity</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\gamma_w\)</span></td>
+<td>Water saturation (%)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\kappa_m\)</span></td>
+<td>Mineral bulk modulus (GPa)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mu_m\)</span></td>
+<td>Mineral shear modulus (GPa)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\rho_m\)</span></td>
+<td>Mineral density (kg/m<span class="math inline">\(^3\)</span>)</td>
+</tr>
+</tbody>
+</table>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Berryman’s rock physics model </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Vp <span class="ot">=</span> <span class="cf">function</span>(ke, mue, pb) {</span>
@@ -195,30 +233,167 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>Vs <span class="ot">=</span> <span class="cf">function</span>(mue, pb) {</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(mue<span class="sc">/</span>pb)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>getParameters <span class="ot">=</span> <span class="cf">function</span>(alpha, phi, gw, km, mum, rhom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rock_vol <span class="ot">=</span> <span class="dv">2900</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>myBerry <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, H) {</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  asp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, theta[<span class="dv">1</span>])</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  x_phi <span class="ot">&lt;-</span> theta[<span class="dv">2</span>]</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  rock_vol <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> theta[<span class="dv">2</span>]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">c</span>(rock_vol, x_phi)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  rock_density <span class="ot">&lt;-</span> theta[<span class="dv">6</span>] <span class="sc">*</span> rock_vol  <span class="co"># density of solid phase</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  gas_density <span class="ot">&lt;-</span> <span class="fl">0.020</span> <span class="sc">*</span> x_phi         <span class="co"># density of fluid phase</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  rhob1 <span class="ot">&lt;-</span> rock_density <span class="sc">+</span> gas_density   <span class="co"># bulk density</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  P_water <span class="ot">&lt;-</span> theta[<span class="dv">3</span>]                   <span class="co"># percentage of water in pore space</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">c</span>(theta[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">1e9</span>, <span class="dv">0</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">c</span>(theta[<span class="dv">5</span>] <span class="sc">*</span> <span class="fl">1e9</span>, <span class="dv">0</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">berryscm</span>(k, mu, asp, x, rhob1, P_water)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>berryscm <span class="ot">&lt;-</span> <span class="cf">function</span>(k, mu, asp, x) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initialize output</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  kbr <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">0</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  mubr <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">0</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ensure inputs are column vectors</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(k)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(mu)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  asp <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(asp)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(x)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Adjust aspect ratio for perfectly spherical inclusions</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  asp[asp <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.99</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initialize variables</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(asp))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  fn <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(asp))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate theta and fn for oblate spheroids</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  obdx <span class="ot">&lt;-</span> <span class="fu">which</span>(asp <span class="sc">&lt;</span> <span class="dv">1</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  theta[obdx] <span class="ot">&lt;-</span> (asp[obdx] <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> asp[obdx]<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>))) <span class="sc">*</span> </span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                  (<span class="fu">acos</span>(asp[obdx]) <span class="sc">-</span> asp[obdx] <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> asp[obdx]<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  fn[obdx] <span class="ot">&lt;-</span> (asp[obdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> asp[obdx]<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> theta[obdx] <span class="sc">-</span> <span class="dv">2</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate theta and fn for prolate spheroids</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  prdx <span class="ot">&lt;-</span> <span class="fu">which</span>(asp <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  theta[prdx] <span class="ot">&lt;-</span> (asp[prdx] <span class="sc">/</span> ((asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">^</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>))) <span class="sc">*</span> </span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                  (asp[prdx] <span class="sc">*</span> <span class="fu">sqrt</span>(asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">-</span> <span class="fu">acosh</span>(asp[prdx]))</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  fn[prdx] <span class="ot">&lt;-</span> (asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> theta[prdx])</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initial values for ksc and musc</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  ksc <span class="ot">&lt;-</span> <span class="fu">sum</span>(k <span class="sc">*</span> x)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  musc <span class="ot">&lt;-</span> <span class="fu">sum</span>(mu <span class="sc">*</span> x)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  knew <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  munew <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  tol <span class="ot">&lt;-</span> <span class="fl">1e-6</span> <span class="sc">*</span> k[<span class="dv">1</span>]</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  del <span class="ot">&lt;-</span> <span class="fu">abs</span>(ksc <span class="sc">-</span> knew)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  niter <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Iterative calculation</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (del <span class="sc">&gt;</span> <span class="fu">abs</span>(tol) <span class="sc">&amp;</span> niter <span class="sc">&lt;</span> <span class="dv">3000</span>) {</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    nusc <span class="ot">&lt;-</span> (<span class="dv">3</span> <span class="sc">*</span> ksc <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> musc) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> ksc <span class="sc">+</span> musc))</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> mu <span class="sc">/</span> musc <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="dv">3</span>) <span class="sc">*</span> (k <span class="sc">/</span> ksc <span class="sc">-</span> mu <span class="sc">/</span> musc)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    r <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> nusc) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> nusc))</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    f1 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> ((<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (fn <span class="sc">+</span> theta) <span class="sc">-</span> r <span class="sc">*</span> ((<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> fn <span class="sc">+</span> (<span class="dv">5</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> theta <span class="sc">-</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">3</span>)))</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    f2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (fn <span class="sc">+</span> theta) <span class="sc">-</span> (r <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> fn <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> theta)) <span class="sc">+</span> b <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    f2 <span class="ot">&lt;-</span> f2 <span class="sc">+</span> (a <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (a <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> b) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r) <span class="sc">*</span> (fn <span class="sc">+</span> theta <span class="sc">-</span> r <span class="sc">*</span> (fn <span class="sc">-</span> theta <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> theta<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    f3 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> (fn <span class="sc">+</span> (<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> theta) <span class="sc">+</span> r <span class="sc">*</span> (fn <span class="sc">+</span> theta))</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    f4 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> (a <span class="sc">/</span> <span class="dv">4</span>) <span class="sc">*</span> (fn <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> theta <span class="sc">-</span> r <span class="sc">*</span> (fn <span class="sc">-</span> theta))</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    f5 <span class="ot">&lt;-</span> a <span class="sc">*</span> (<span class="sc">-</span>fn <span class="sc">+</span> r <span class="sc">*</span> (fn <span class="sc">+</span> theta <span class="sc">-</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">3</span>))) <span class="sc">+</span> b <span class="sc">*</span> theta <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    f6 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> fn <span class="sc">-</span> r <span class="sc">*</span> (fn <span class="sc">+</span> theta)) <span class="sc">+</span> b <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    f7 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> (a <span class="sc">/</span> <span class="dv">4</span>) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> fn <span class="sc">+</span> <span class="dv">9</span> <span class="sc">*</span> theta <span class="sc">-</span> r <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> fn <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> theta)) <span class="sc">+</span> b <span class="sc">*</span> theta <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    f8 <span class="ot">&lt;-</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> r <span class="sc">+</span> (fn <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> (theta <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (<span class="dv">5</span> <span class="sc">*</span> r <span class="sc">-</span> <span class="dv">3</span>)) <span class="sc">+</span> b <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    f9 <span class="ot">&lt;-</span> a <span class="sc">*</span> ((r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> fn <span class="sc">-</span> r <span class="sc">*</span> theta) <span class="sc">+</span> b <span class="sc">*</span> theta <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">*</span> f1 <span class="sc">/</span> f2</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    q <span class="ot">&lt;-</span> (<span class="dv">2</span> <span class="sc">/</span> f3) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">/</span> f4) <span class="sc">+</span> ((f4 <span class="sc">*</span> f5 <span class="sc">+</span> f6 <span class="sc">*</span> f7 <span class="sc">-</span> f8 <span class="sc">*</span> f9) <span class="sc">/</span> (f2 <span class="sc">*</span> f4))</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> p <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    q <span class="ot">&lt;-</span> q <span class="sc">/</span> <span class="dv">5</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update ksc and musc</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    knew <span class="ot">&lt;-</span> <span class="fu">sum</span>(x <span class="sc">*</span> k <span class="sc">*</span> p) <span class="sc">/</span> <span class="fu">sum</span>(x <span class="sc">*</span> p)</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    munew <span class="ot">&lt;-</span> <span class="fu">sum</span>(x <span class="sc">*</span> mu <span class="sc">*</span> q) <span class="sc">/</span> <span class="fu">sum</span>(x <span class="sc">*</span> q)</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    del <span class="ot">&lt;-</span> <span class="fu">abs</span>(ksc <span class="sc">-</span> knew)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    ksc <span class="ot">&lt;-</span> knew</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>    musc <span class="ot">&lt;-</span> munew</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    niter <span class="ot">&lt;-</span> niter <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  kbr <span class="ot">&lt;-</span> ksc</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>  mubr <span class="ot">&lt;-</span> musc</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">kbr =</span> kbr, <span class="at">mubr =</span> mubr))</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>myBerry <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, <span class="at">H =</span> <span class="dv">3</span>) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  asp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, theta[<span class="dv">1</span>])</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  x_phi <span class="ot">&lt;-</span> theta[<span class="dv">2</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  rock_vol <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> theta[<span class="dv">2</span>]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">c</span>(rock_vol, x_phi)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  rock_density <span class="ot">&lt;-</span> theta[<span class="dv">6</span>] <span class="sc">*</span> rock_vol  <span class="co"># density of solid phase</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  gas_density <span class="ot">&lt;-</span> <span class="fl">0.020</span> <span class="sc">*</span> x_phi         <span class="co"># density of fluid phase</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  rhob1 <span class="ot">&lt;-</span> rock_density <span class="sc">+</span> gas_density   <span class="co"># bulk density</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  P_water <span class="ot">&lt;-</span> theta[<span class="dv">3</span>]                   <span class="co"># percentage of water in pore space</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">c</span>(theta[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">1e9</span>, <span class="dv">0</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">c</span>(theta[<span class="dv">5</span>] <span class="sc">*</span> <span class="fl">1e9</span>, <span class="dv">0</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">berryscm</span>(k, mu, asp, x)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(result, <span class="st">"rhob"</span> <span class="ot">=</span> rhob1))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># theta is vector of parameters </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[1] = alpha </span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[2] = phi = porosity</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[3] = gamma_w = % water</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[4] = kappa = Mineral bulk modulus</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[5] = mu = Mineral shear modulus</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[6] = rho_m = total mineral density </span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>porosity <span class="ot">=</span> <span class="fl">0.25</span> <span class="co">#runif(1, 0.05, 0.50)</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>saturation <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>kappa_m <span class="ot">=</span> <span class="dv">78</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>mu_m <span class="ot">=</span> <span class="dv">33</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>rhom <span class="ot">=</span> <span class="dv">3000</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">=</span> <span class="fu">c</span>(alpha, porosity, saturation, kappa_m, mu_m, rhom)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">myBerry</span>(theta)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>vp <span class="ot">=</span> result<span class="sc">$</span>kbr</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>vs <span class="ot">=</span> result<span class="sc">$</span>mubr</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># H = unlist(myBerry(theta))</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>vp <span class="sc">/</span> <span class="fl">1e3</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>vs <span class="sc">/</span> <span class="fl">1e3</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>rhob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">sum</span>(H) <span class="sc">==</span> <span class="dv">3</span>) {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">c</span>(vp <span class="sc">/</span> <span class="fl">1e3</span>, vs <span class="sc">/</span> <span class="fl">1e3</span>, rhob)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">sum</span>(H) <span class="sc">==</span> <span class="dv">2</span>) {</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (H[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> H[<span class="dv">2</span>] <span class="sc">==</span> <span class="dv">1</span>) {  <span class="co"># vp and vs</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">c</span>(vp <span class="sc">/</span> <span class="fl">1e3</span>, vs <span class="sc">/</span> <span class="fl">1e3</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (H[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> H[<span class="dv">3</span>] <span class="sc">==</span> <span class="dv">1</span>) {  <span class="co"># vp and rho</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">c</span>(vp <span class="sc">/</span> <span class="fl">1e3</span>, rhob)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (H[<span class="dv">2</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> H[<span class="dv">3</span>] <span class="sc">==</span> <span class="dv">1</span>) {  <span class="co"># vs and rho</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">c</span>(vs <span class="sc">/</span> <span class="fl">1e3</span>, rhob)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"What?"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">sum</span>(H) <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (H[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> vp <span class="sc">/</span> <span class="fl">1e3</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (H[<span class="dv">2</span>] <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> vs <span class="sc">/</span> <span class="fl">1e3</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (H[<span class="dv">3</span>] <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> rhob</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"What?"</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  out</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
