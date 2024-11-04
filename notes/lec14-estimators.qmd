@@ -215,6 +215,74 @@ $$
 <!-- # ``` -->
 
 - Compute $MSE[\hat{\theta}_e|\theta_0]$ and $MSE[\hat{\theta_b}|\theta_0]$ and plot the ratio $MSE[\hat{\theta}_b]/MSE[\hat{\theta}_e|\theta_0]$ as a function of $n$ for $\kappa_0 = 0, 1, 2, 3$.
+
+## plot
+```{r}
+#| echo: false
+# MSE of the sample mean = sigma^2 / n 
+sigma2 = 3.3 
+MSE_empirical = function(n) {
+  sigma2 / n
+}
+
+MSE_bayesian = function(k0, n) {
+  w = n / (k0 + n)
+  (w^2 * sigma2 / n) + (((1-w) * (46.2 - 48.8))^2)
+}
+
+MSE_ratio = function(k0, n) {
+  MSE_bayesian(k0, n) / MSE_empirical(n)
+}
+
+data.frame(x = 1:100) %>%
+  ggplot(aes(x = x)) +
+  stat_function(aes(col = '0'), alpha = 0.5, fun = MSE_ratio,
+                args = list(k0 = 0)) +
+  stat_function(aes(col = '1'), alpha = 0.5, fun = MSE_ratio,
+                args = list(k0 = 1)) +
+  stat_function(aes(col = '2'), alpha = 0.5, fun = MSE_ratio,
+                args = list(k0 = 2)) +
+  stat_function(aes(col = '3'), alpha = 0.5, fun = MSE_ratio,
+                args = list(k0 = 3)) +
+  labs(x = "n", y = "MSE ratio", col = "k0") +
+  theme_bw()
+```
+
+## code
+
+
+```{r}
+#| eval: false
+# MSE of the sample mean = sigma^2 / n 
+sigma2 = 3.3 
+MSE_empirical = function(n) {
+  sigma2 / n
+}
+
+MSE_bayesian = function(k0, n) {
+  w = n / (k0 + n)
+  (w^2 * sigma2 / n) + (((1-w) * (46.2 - 48.8))^2)
+}
+
+MSE_ratio = function(k0, n) {
+  MSE_bayesian(k0, n) / MSE_empirical(n)
+}
+
+data.frame(x = 1:100) %>%
+  ggplot(aes(x = x)) +
+  stat_function(aes(col = '0'), alpha = 0.5, fun = MSE_ratio,
+                args = list(k0 = 0)) +
+  stat_function(aes(col = '1'), alpha = 0.5, fun = MSE_ratio,
+                args = list(k0 = 1)) +
+  stat_function(aes(col = '2'), alpha = 0.5, fun = MSE_ratio,
+                args = list(k0 = 2)) +
+  stat_function(aes(col = '3'), alpha = 0.5, fun = MSE_ratio,
+                args = list(k0 = 3)) +
+  labs(x = "n", y = "MSE ratio", col = "k0") +
+  theme_bw()
+```
+
+
 :::
 
 ::: panel-tabset
@@ -234,4 +302,5 @@ Consider the normal model from the previous lecture. Compare the MSE for the lea
 <!--   ggplot(aes(x = bill_length_mm, fill = species)) +  -->
 <!--   geom_histogram() -->
 <!-- ``` -->
+
 

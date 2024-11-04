@@ -365,7 +365,7 @@ MSE[\hat{\theta}|\theta_0] &amp;= E[(\hat{\theta} - \theta_0)^2 | \theta_0]\\
 <!-- # library(palmerpenguins) -->
 <!-- # ``` -->
 <div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Exercise 4</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Exercise 4</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">code</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <p>Suppose you know that you know Gentoo penguins are closely related to Chinstrap penguins. Previously, you’ve measured the bill length of three Gentoo penguins and found their mean bill length to be 46.2. Accordingly, you set <span class="math inline">\(\mu_0 = 46.2\)</span>.</p>
@@ -393,6 +393,44 @@ MSE[\hat{\theta}|\theta_0] &amp;= E[(\hat{\theta} - \theta_0)^2 | \theta_0]\\
 <ul>
 <li>Compute <span class="math inline">\(MSE[\hat{\theta}_e|\theta_0]\)</span> and <span class="math inline">\(MSE[\hat{\theta_b}|\theta_0]\)</span> and plot the ratio <span class="math inline">\(MSE[\hat{\theta}_b]/MSE[\hat{\theta}_e|\theta_0]\)</span> as a function of <span class="math inline">\(n\)</span> for <span class="math inline">\(\kappa_0 = 0, 1, 2, 3\)</span>.</li>
 </ul>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec14-estimators_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MSE of the sample mean = sigma^2 / n </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="ot">=</span> <span class="fl">3.3</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>MSE_empirical <span class="ot">=</span> <span class="cf">function</span>(n) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  sigma2 <span class="sc">/</span> n</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>MSE_bayesian <span class="ot">=</span> <span class="cf">function</span>(k0, n) {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  w <span class="ot">=</span> n <span class="sc">/</span> (k0 <span class="sc">+</span> n)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  (w<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> sigma2 <span class="sc">/</span> n) <span class="sc">+</span> (((<span class="dv">1</span><span class="sc">-</span>w) <span class="sc">*</span> (<span class="fl">46.2</span> <span class="sc">-</span> <span class="fl">48.8</span>))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>MSE_ratio <span class="ot">=</span> <span class="cf">function</span>(k0, n) {</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MSE_bayesian</span>(k0, n) <span class="sc">/</span> <span class="fu">MSE_empirical</span>(n)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="fu">aes</span>(<span class="at">col =</span> <span class="st">'0'</span>), <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">fun =</span> MSE_ratio,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">k0 =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="fu">aes</span>(<span class="at">col =</span> <span class="st">'1'</span>), <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">fun =</span> MSE_ratio,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">k0 =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="fu">aes</span>(<span class="at">col =</span> <span class="st">'2'</span>), <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">fun =</span> MSE_ratio,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">k0 =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="fu">aes</span>(<span class="at">col =</span> <span class="st">'3'</span>), <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">fun =</span> MSE_ratio,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">k0 =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"n"</span>, <span class="at">y =</span> <span class="st">"MSE ratio"</span>, <span class="at">col =</span> <span class="st">"k0"</span>) <span class="sc">+</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div>
