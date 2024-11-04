@@ -205,7 +205,7 @@ Definition
 <p>A <strong>point estimator</strong> of an unknown parameter <span class="math inline">\(\theta\)</span> is a function that converts data into a single element of parameter space <span class="math inline">\(\Theta\)</span>.</p>
 </div>
 </div>
-<p>Example: imagine <span class="math inline">\(\theta\)</span> is the population mean. The following are each point estimators of <span class="math inline">\(\theta\)</span>:</p>
+<p><strong>Example</strong>: Let <span class="math inline">\(Y_1, \ldots, Y_n | \theta, \sigma^2 \sim \text{iid }~N(\theta, \sigma^2)\)</span>. Further assume some prior <span class="math inline">\(p(\theta, \sigma^2)\)</span>. The following are each point estimators of <span class="math inline">\(\theta\)</span>:</p>
 <ul>
 <li><span class="math inline">\(\bar{y}\)</span></li>
 <li><span class="math inline">\(y_1\)</span></li>
@@ -221,7 +221,7 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>It is convention to write the population parameter as a Greek character and the estimator as the same Greek character, but with a “hat”. For example, <span class="math inline">\(\theta\)</span> is the parameter and <span class="math inline">\(\hat{\theta}\)</span> is the estimator.</p>
+<p>It is convention to write estimators the same way we write the parameter but with a “hat”. For example, <span class="math inline">\(\theta\)</span> is the parameter and <span class="math inline">\(\hat{\theta}\)</span> is the estimator.</p>
 </div>
 </div>
 <p><strong>Sampling properties</strong> of a point estimator refer to the estimator’s behavior under hypothetical repeatable surveys or experiments.</p>
@@ -234,7 +234,14 @@ Important
 <section id="intuition" class="level4">
 <h4 class="anchored" data-anchor-id="intuition">Intuition</h4>
 <p>Before we discuss bias, variance and mean squared error of an estimator, it’s important to understand that <strong>an estimator is a statistic (function of the data) and therefore a random variable</strong>. Because of this, estimator’s have a <strong>sampling distribution</strong>.</p>
-<p>Exercise: What does the example below show? What is x?</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Exercise 1</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>What does the example below show? What is x?</p>
+</div>
+</div>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -251,6 +258,19 @@ Important
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"The variance of x is "</span>, <span class="fu">round</span>(<span class="fu">var</span>(x), <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The variance of x is  0.291</code></pre>
+</div>
+</div>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Exercise 2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Imagine <span class="math inline">\(\hat{\theta}_a\)</span> and <span class="math inline">\(\hat{\theta}_b\)</span> are two different estimators of <span class="math inline">\(\theta\)</span>. The true value of <span class="math inline">\(\theta\)</span> is <span class="math inline">\(\theta_0 = 0\)</span>. The sampling distributions of the two estimators are given below. Which estimator do you prefer?</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec14-estimators_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -273,12 +293,6 @@ Definition
 <li><p>If <span class="math inline">\(E[\hat{\theta} | \theta = \theta_0] = \theta_0\)</span>, then we say <span class="math inline">\(\hat{\theta}\)</span> is an <strong>unbiased estimator</strong> of <span class="math inline">\(\theta\)</span>.</p></li>
 <li><p>If <span class="math inline">\(E[\hat{\theta} | \theta = \theta_0] \neq \theta_0\)</span>, then we say <span class="math inline">\(\hat{\theta}\)</span> is a <strong>biased estimator</strong> of <span class="math inline">\(\theta\)</span>.</p></li>
 </ul>
-</div>
-</div>
-<p>Exercise: Imagine <span class="math inline">\(\hat{\theta}_a\)</span> and <span class="math inline">\(\hat{\theta}_b\)</span> are two different estimators of <span class="math inline">\(\theta\)</span>. The true value of <span class="math inline">\(\theta\)</span> is <span class="math inline">\(\theta_0 = 0\)</span>. The sampling distributions of the two estimators are given below. Which estimator do you prefer?</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="lec14-estimators_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
@@ -331,7 +345,14 @@ MSE[\hat{\theta}|\theta_0] &amp;= E[(\hat{\theta} - \theta_0)^2 | \theta_0]\\
 <p><span class="math display">\[
 \hat{\theta}_b = E[\theta | y_1,\ldots y_n] = \frac{n}{\kappa_0 + n} \bar{y} + \frac{\kappa_0}{\kappa_0 + n} \mu_0 = w\bar{y} + (1-w) \mu_0
 \]</span></p>
-<p>Exercise: compare <span class="math inline">\(\hat{\theta}_b\)</span> to the estimator <span class="math inline">\(\hat{\theta}_e = \bar{y}\)</span>. Compute the expected value of each estimator, which one is biased? Compute the variance of each estimator. Which has lower variance?</p>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Exercise 3</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>Compare <span class="math inline">\(\hat{\theta}_b\)</span> to the estimator <span class="math inline">\(\hat{\theta}_e = \bar{y}\)</span>. Compute the expected value of each estimator, which one is biased? Compute the variance of each estimator. Which has lower variance?</p>
+</div>
+</div>
+</div>
 <ul>
 <li>Let’s compute the MSE and discuss when the Bayesian estimator <span class="math inline">\(\hat{\theta}_b\)</span> has lower MSE than the sample mean offline.</li>
 </ul>
@@ -343,6 +364,10 @@ MSE[\hat{\theta}|\theta_0] &amp;= E[(\hat{\theta} - \theta_0)^2 | \theta_0]\\
 <!-- # library(tidyverse) -->
 <!-- # library(palmerpenguins) -->
 <!-- # ``` -->
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Exercise 4</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <p>Suppose you know that you know Gentoo penguins are closely related to Chinstrap penguins. Previously, you’ve measured the bill length of three Gentoo penguins and found their mean bill length to be 46.2. Accordingly, you set <span class="math inline">\(\mu_0 = 46.2\)</span>.</p>
 <!-- # ```{r} -->
 <!-- # set.seed(360) -->
@@ -368,6 +393,17 @@ MSE[\hat{\theta}|\theta_0] &amp;= E[(\hat{\theta} - \theta_0)^2 | \theta_0]\\
 <ul>
 <li>Compute <span class="math inline">\(MSE[\hat{\theta}_e|\theta_0]\)</span> and <span class="math inline">\(MSE[\hat{\theta_b}|\theta_0]\)</span> and plot the ratio <span class="math inline">\(MSE[\hat{\theta}_b]/MSE[\hat{\theta}_e|\theta_0]\)</span> as a function of <span class="math inline">\(n\)</span> for <span class="math inline">\(\kappa_0 = 0, 1, 2, 3\)</span>.</li>
 </ul>
+</div>
+</div>
+</div>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Exercise 5</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>Consider the normal model from the previous lecture. Compare the MSE for the least squares estimator <span class="math inline">\(\hat{\beta}_{OLS}\)</span> to the MSE for the ridge estimator <span class="math inline">\(\hat{\beta}_{ridge}\)</span>.</p>
+</div>
+</div>
+</div>
 <!-- ```{r} -->
 <!-- penguins %>% -->
 <!--   group_by(species) %>% -->

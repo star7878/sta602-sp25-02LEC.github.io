@@ -15,14 +15,14 @@ format:
 A **point estimator** of an unknown parameter $\theta$ is a function that converts data into a single element of parameter space $\Theta$.
 :::
 
-Example: imagine $\theta$ is the population mean. The following are each point estimators of $\theta$: 
+**Example**:  Let $Y_1, \ldots, Y_n | \theta, \sigma^2 \sim \text{iid }~N(\theta, \sigma^2)$. Further assume some prior $p(\theta, \sigma^2)$. The following are each point estimators of $\theta$: 
 
 - $\bar{y}$ 
 - $y_1$
 - $\frac{y_1 + y_2}{2}$
 
 ::: callout-important
-It is convention to write the population parameter as a Greek character and the estimator as the same Greek character, but with a "hat". For example, $\theta$ is the parameter and $\hat{\theta}$ is the estimator.
+It is convention to write estimators the same way we write the parameter but with a "hat". For example, $\theta$ is the parameter and $\hat{\theta}$ is the estimator.
 :::
 
 **Sampling properties** of a point estimator refer to the estimator's behavior under hypothetical repeatable surveys or experiments.
@@ -37,7 +37,12 @@ Three common sampling properties of estimators we will see again and again are:
 
 Before we discuss bias, variance and mean squared error of an estimator, it's important to understand that **an estimator is a statistic (function of the data) and therefore a random variable**. Because of this, estimator's have a **sampling distribution**.
 
-Exercise: What does the example below show? What is x?
+::: panel-tabset
+## Exercise 1
+
+What does the example below show? What is x?
+
+:::
 
 ```{r}
 set.seed(360)
@@ -53,24 +58,12 @@ abline(v = mean(x), col= "steelblue", lwd = 4)
 cat("The variance of x is ", round(var(x), 3))
 ```
 
-### Bias, variance and mean squared error
 
-In the rest of these notes, let $\theta_0$ be the true value of the population parameter $\theta$.
-
-::: callout-note
-## Definition
-
-**Bias** is the the difference between the expected value of the estimator and the true value of the parameter.
-
-- $E[\hat{\theta} | \theta = \theta_ 0] - \theta_0$ is the bias of $\hat{\theta}$.
-
-- If $E[\hat{\theta} | \theta = \theta_0] = \theta_0$, then we say $\hat{\theta}$ is an **unbiased estimator** of $\theta$.
-- If $E[\hat{\theta} | \theta = \theta_0] \neq \theta_0$, then we say $\hat{\theta}$ is a **biased estimator** of $\theta$.
-
+:::panel-tabset
+## Exercise 2
+Imagine $\hat{\theta}_a$ and $\hat{\theta}_b$ are two different estimators of $\theta$. The true value of $\theta$ is $\theta_0 = 0$. The sampling distributions of the two estimators are given below. Which estimator do you prefer?
 :::
 
-
-Exercise: Imagine $\hat{\theta}_a$ and $\hat{\theta}_b$ are two different estimators of $\theta$. The true value of $\theta$ is $\theta_0 = 0$. The sampling distributions of the two estimators are given below. Which estimator do you prefer?
 
 ```{r}
 #| echo: false
@@ -122,6 +115,23 @@ p1 / p2
 ```
 
 
+
+### Bias, variance and mean squared error
+
+In the rest of these notes, let $\theta_0$ be the true value of the population parameter $\theta$.
+
+::: callout-note
+## Definition
+
+**Bias** is the the difference between the expected value of the estimator and the true value of the parameter.
+
+- $E[\hat{\theta} | \theta = \theta_ 0] - \theta_0$ is the bias of $\hat{\theta}$.
+
+- If $E[\hat{\theta} | \theta = \theta_0] = \theta_0$, then we say $\hat{\theta}$ is an **unbiased estimator** of $\theta$.
+- If $E[\hat{\theta} | \theta = \theta_0] \neq \theta_0$, then we say $\hat{\theta}$ is a **biased estimator** of $\theta$.
+
+:::
+
 ::: callout-note
 ## Definition
 Recall: **variance** is average squared distance from the mean. In this context, the variance of an estimator refers to the variance of the sampling distribution of $\hat{\theta}$. We write this mathematically, 
@@ -161,7 +171,10 @@ $$
 \hat{\theta}_b = E[\theta | y_1,\ldots y_n] = \frac{n}{\kappa_0 + n} \bar{y} + \frac{\kappa_0}{\kappa_0 + n} \mu_0 = w\bar{y} + (1-w) \mu_0
 $$
 
-Exercise: compare $\hat{\theta}_b$ to the estimator $\hat{\theta}_e = \bar{y}$. Compute the expected value of each estimator, which one is biased? Compute the variance of each estimator. Which has lower variance?
+:::panel-tabset
+## Exercise 3
+Compare $\hat{\theta}_b$ to the estimator $\hat{\theta}_e = \bar{y}$. Compute the expected value of each estimator, which one is biased? Compute the variance of each estimator. Which has lower variance?
+:::
 
 - Let's compute the MSE and discuss when the Bayesian estimator $\hat{\theta}_b$ has lower MSE than the sample mean offline.
 
@@ -173,6 +186,8 @@ Exercise: compare $\hat{\theta}_b$ to the estimator $\hat{\theta}_e = \bar{y}$. 
 <!-- # library(palmerpenguins) -->
 <!-- # ``` -->
 
+:::panel-tabset
+## Exercise 4
 Suppose you know that you know Gentoo penguins are closely related to Chinstrap penguins. Previously, you've measured the bill length of three Gentoo penguins and found their mean bill length to be 46.2. Accordingly, you set $\mu_0 = 46.2$.
 
 <!-- # ```{r} -->
@@ -200,7 +215,12 @@ $$
 <!-- # ``` -->
 
 - Compute $MSE[\hat{\theta}_e|\theta_0]$ and $MSE[\hat{\theta_b}|\theta_0]$ and plot the ratio $MSE[\hat{\theta}_b]/MSE[\hat{\theta}_e|\theta_0]$ as a function of $n$ for $\kappa_0 = 0, 1, 2, 3$.
+:::
 
+::: panel-tabset
+## Exercise 5
+Consider the normal model from the previous lecture. Compare the MSE for the least squares estimator $\hat{\beta}_{OLS}$ to the MSE for the ridge estimator $\hat{\beta}_{ridge}$.
+:::
 
 <!-- ```{r} -->
 <!-- penguins %>% -->
