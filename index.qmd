@@ -64,7 +64,7 @@ schedule %>%
 ```
 ::: heatMap
 | Week | Date       | Topic                                               | Reading      |                                            Notes                                             | Assignment                 |
-|:---------|:---------|:---------|----------|:----------------------:|:---------|
+|:----------|:----------|:----------|-----------|:--------------:|:----------|
 | 1    | Mon Aug 26 | intro, history, notation                            | Ch. 2        |                                                                                              | [hw 0](/hw/hw00.html)      |
 |      | Wed Aug 28 | probability, exchangeability                        | Ch. 2        |       [🗒](/notes/lec01-probability.html) [📝](/notes/Probability-Exchangeability.pdf)        | [hw 1](/hw/hw01.html)      |
 |      | Thu Aug 29 | lab: welcome                                        |              |                               [💻](/slides/lab0-welcome.html)                                | [hello R](/labs/lab0.html) |
@@ -96,8 +96,8 @@ schedule %>%
 |      | Wed Oct 30 | Bayesian regression II                              | Ch. 9        |                          [🗒](notes/lec13-BayesianRegression2.html)                           | [hw 7](/hw/hw07.html)      |
 |      | Thu Oct 31 | lab: rstanarm                                       |              |                                 [💻](slides/lab8-rstan.html)                                 |                            |
 | 11   | Mon Nov 04 | Estimators                                          | Ch. 5 sec. 4 |              [🗒](notes/lec14-estimators.html)[📝](notes/estimator-notes-24.pdf)              |                            |
-|      | Wed Nov 06 | Hierarchical modeling                               | Ch. 8        |                                                                                              | hw 8                       |
-|      | Thu Nov 07 | lab: estimators                                     |              |                                                                                              |                            |
+|      | Wed Nov 06 | Hierarchical modeling                               | Ch. 8        |                           [🗒](notes/lec15-hierarchical-intro.html)                           | hw 8                       |
+|      | Thu Nov 07 | lab: estimators                                     |              |                               [💻](slides/estimator-lab.html)                                |                            |
 | 12   | Mon Nov 11 | review                                              |              |                                                                                              |                            |
 |      | Wed Nov 13 | Exam II                                             |              |                                                                                              |                            |
 |      | Thu Nov 14 | lab                                                 |              |                                                                                              |                            |

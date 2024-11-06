@@ -1,0 +1,101 @@
+---
+title: "Estimators"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# Exercises
+
+## Exercise 1: estimators
+
+Let $Y_1,\ldots Y_n$ be iid random variables with expectation $\theta$ and variance $\sigma^2$.
+
+Show that $\frac{1}{n} \sum_{i = 1}^n (Y_i -\bar{Y})^2$ is a biased estimator of $\sigma^2$.
+
+
+## Exercise 2: estimators
+
+$$
+\begin{aligned}
+Y_1, \ldots, Y_n &\sim \text{ i.i.d. binary}(\theta)\\
+\theta &\sim \text{beta}(a, b)
+\end{aligned}
+$$
+
+- Compute $\hat{\theta}_{MLE}$
+- Compute $\hat{\theta}_{B} = E[\theta | y_1,\ldots y_n]$.
+- Compare $MSE(\hat{\theta}_{MLE})$ to $MSE(\hat{\theta}_{B})$). Under what conditions is the MSE of $\hat{\theta}_B$ smaller?
+
+<!-- ## Exercise 3: MVN -->
+
+<!-- Consider a single observation $(y_1, y_2)$ drawn from a bivariate normal distribution with mean $(\theta_1, \theta_2)$ and fixed, known $2 \times 2$ covariance matrix $\Sigma = \left[ {\begin{array}{cc} -->
+<!--    1 & .5 \\ -->
+<!--    .5 & 1 -->
+<!--   \end{array} } \right]$. Consider a uniform prior on $\theta = (\theta_1, \theta_2)$ : $p(\theta_1, \theta_2) \propto 1$.  -->
+
+<!-- (a.) Derive the joint posterior for $\theta_1, \theta_2 | y_1, y_2, \Sigma$. Describe a direct sampler for this distribution. -->
+
+<!-- (b.) Write down full conditionals $p(\theta_1 | \theta_2, y_1, y_2, \Sigma)$ and $p(\theta_2 | \theta_1, y_1, y_2, \Sigma)$. Write pseudo-code to describe a Gibbs sampling procedure. Hint: you can use the result from HW6 Ex 3. -->
+
+<!-- (c.) Will the direct sampler from part (a) or the Gibbs sampler in part (b) have higher ESS? Why? -->
+
+# Solutions
+
+## Solution 1
+
+Let $\hat{\sigma}^2 = \frac{1}{n} \sum_{i = 1}^n (Y_i -\bar{Y})^2$.
+
+$$
+\begin{aligned}
+Bias(\hat{\sigma}^2 | \sigma^2 = \sigma_0^2) &= E[\hat{\sigma}^2|\sigma_0^2] - \sigma_0^2\\
+&=  - \sigma_0^2 + \frac{1}{n} \sum_{i = 1}^n E[(Y_i -\bar{Y})^2|\sigma_0^2]\\
+&= - \sigma_0^2 + \frac{1}{n} \sum_{i=1}^n \left[
+E[Y_i^2 |\sigma_0^2] - 2E[Y_i \bar{Y}|\sigma_0^2] + E[\bar{Y}^2 | \sigma_0^2]
+\right]
+\end{aligned}
+$$
+
+Recall that for any random variable X, $Var(X) = E[X^2] - E[X]^2$. Using this fact, we continue our proof above:
+
+$$
+\begin{aligned}
+&= -\sigma_0^2 +(\sigma_0^2  + \theta^2) 
+-2 \frac{1}{n} \sum_{i=1}^n \left[  E~\left(Y_i \frac{1}{n}\sum_j Y_j\right) | \sigma_0^2    \right]
++ \left(\frac{\sigma_0^2}{n} + \theta^2\right)\\
+&= 2\theta^2 + \frac{\sigma_0^2}{n} - \frac{2}{n} 
+\left(n\theta^2  - \sigma_0^2
+\right)\\
+&= \frac{(n-1)\sigma_0^2}{n}
+\end{aligned}
+$$
+
+## Solution 2
+
+$$
+\begin{aligned}
+\hat{\theta}_{MLE} &= \bar{Y} = \frac{1}{n}\sum_{i=1}^n Y_i\\
+\hat{\theta}_B &= \frac{n\bar{y}+a}{n+a+b} = 
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+MSE(\hat{\theta}_{MLE}|\theta) &= \frac{\theta(1-\theta)}{n}\\
+MSE(\hat{\theta}_B|\theta) &= \frac{n}{n + a + b}\bar{Y} + \frac{a + b}{n + a + b} \frac{a}{a + b} =  w \bar{Y} + (1-w)\frac{a}{a+b}\\
+&= w^2Var(\bar{Y} | \theta) +  (1-w)^2 \left(\frac{a}{a+b} - \theta\right)^2\\
+&= {w^2} \frac{\theta(1-\theta)}{n} + (1-w)^2  \left(\frac{a}{a+b} - \theta\right)^2
+\end{aligned}
+$$
+For the Bayesian estimator to have smaller MSE than the MLE, we need
+
+$$
+\begin{aligned}
+ \left(\frac{a}{a+b} - \theta\right)^2 &\leq \frac{\theta(1 - \theta)}{n} \frac{1 + w}{1 - w}\\
+ &\leq \frac{\theta(1 - \theta) (2n + a + b)}{n^2}
+ \end{aligned}
+$$
+
+In words, if our prior guess $a / (a+b)$ is "close enough" to $\theta$, where "close enough" is defined by the inequality above and is proportional to the variance of the estimator, then the MSE of the Bayesian estimator is smaller. 
+
