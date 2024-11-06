@@ -26,7 +26,7 @@ library(coda)
 ```{r}
 #| warning: false
 # load data
-mathScores = read_csv("https://sta360-fa23.github.io/data/mathScores.csv")
+mathScores = read_csv("https://sta360-fa24.github.io/data/mathScores.csv")
 ```
 
 ```{r}

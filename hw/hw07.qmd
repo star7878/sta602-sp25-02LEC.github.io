@@ -57,4 +57,4 @@ a. From $y$ and $X$, infer the sources of the water sample using the linear mode
 
 c. Evaluate the assumptions of the normal linear model using some residual plots, addressing the assumption that the entries of $y$ have constant variance, are uncorrelated, and are normally distributed. Hint: plots residuals vs yhat and a QQ plot.
 
-d. For this problem it doesn't make sense for the coefficients of $\beta$ to be negative. Think of a modification to the prior distribution for $\beta$ that takes this fact into account, and describe how a Gibbs sampler could be constructed to sample from the corresponding posterior distribution.
+d. For this problem it doesn't make sense for the coefficients of $\beta$ to be negative. Think of a modification to the prior distribution for $\beta$ that takes this fact into account, and describe *how you could* sample $\beta$ under this updated model (you don't have to implement it).
