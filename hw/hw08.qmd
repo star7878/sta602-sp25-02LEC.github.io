@@ -30,7 +30,7 @@ divorce = readr::read_csv("https://sta360-fa24.github.io/data/divorce.csv")
 
 ## Exercise 2
 
-<stan problem> 
+TBD
 
 ## Exercise 3
 

@@ -7,20 +7,20 @@ format:
     toc: true
 ---
 
+```{r}
+#| warning: false
+#| code-summary: view packages used in these notes
+#| code-fold: true
+# load packages
+library(tidyverse)
+library(coda)
+```
+
 ## Data set: school test scores
 
 - Example from Hoff Ch. 8
 
 Each year, students across North Carolina take an identical standardized test. In our sample, we observe scores from students at $m$ different schools. At the $j$th school, $n_j$ students take the exam and $j \in \{1, \ldots m\}$. The exam is designed to give an average score of 50 on a 0 to 100 scale.
-
-### A glimpse of the data
-
-```{r}
-#| warning: false
-# load packages
-library(tidyverse)
-library(coda)
-```
 
 
 ```{r}
@@ -29,15 +29,34 @@ library(coda)
 mathScores = read_csv("https://sta360-fa24.github.io/data/mathScores.csv")
 ```
 
-```{r}
-head(mathScores, n = 3)
-```
+::: panel-tabset
 
-**Codebook**
+## Codebook and glimpse
 
 - `school`: which school the math score came from
-- `mathScore`: score from 0 to 100 of an individual student
+- `mathscore`: score from 0 to 100 of an individual student
 
+```{r}
+#| echo: false
+glimpse(mathScores)
+```
+
+
+## School scores
+
+```{r}
+#| warning: false
+#| echo: false
+mathScores %>%
+  filter(school %in% c(1, 10, 41, 51)) %>%
+  ggplot(aes(x = mathscore)) +
+  geom_histogram() +
+  theme_bw() +
+  facet_wrap(vars(school)) +
+  labs(title = "Distribution of raw math scores in four schools")
+```
+
+## All mean scores
 ```{r}
 #| echo: false
 #| warning: false
@@ -46,11 +65,12 @@ mathScores %>%
   summarize(ybar = mean(mathscore)) %>%
   ggplot(aes(x = ybar)) +
   geom_histogram(bins = 12) +
-  labs(x = "ybar", y = "count", 
-       title = "Histogram of school-specific average scores") + 
+  labs(x = "school-specific average score", y = "count", 
+       title = "Distribution of school-specific average score") + 
   theme_bw()
 ```
 
+:::
 
 ```{r}
 #| code-fold: true
@@ -90,11 +110,15 @@ In words, school-specific parameters are conditionally i.i.d. given some populat
 
 Finally, if our hierarchy stops there, then to complete model specification, we may describe our prior beliefs about $\psi$ according to some prior density $p(\psi)$.
 
-Exercise: Imagine variability among scores is the same across all schools, but there does exist heterogeneity in the mean scores of the schools. Write down the mathemtical form of a  model that describes this using the normal distribution. What are some priors you could pick on relevant parameters to make sure full conditionals are easy to compute for Gibbs sampling? What are the full conditionals?
+::: panel-tabset
+
+## Exercise
+
+Imagine variability among scores is the same across all schools, but there does exist heterogeneity in the mean scores of the schools. Write down the mathematical form of a  model that describes this using the normal distribution. What are some priors you could pick on relevant parameters to make sure full conditionals are easy to compute for Gibbs sampling? What are the full conditionals?
 
 <!--comment out begins here 001-->
 
-Solution:
+## Solution
 
 - sampling distributions:
 
@@ -114,7 +138,7 @@ $$
 \mu &\sim N(\mu_0, \gamma_0^2)
 \end{aligned}
 $$
-
+:::
 ---
 
 To facilitate Gibbs sampling, notice
