@@ -99,7 +99,7 @@ schedule %>%
 |      | Wed Nov 06 | Hierarchical modeling                               | Ch. 8        |                           [🗒](notes/lec15-hierarchical-intro.html)                           | hw 8                       |
 |      | Thu Nov 07 | lab: estimators                                     |              |                               [💻](slides/estimator-lab.html)                                |                            |
 | 12   | Mon Nov 11 | review                                              |              |                                                                                              |                            |
-|      | Wed Nov 13 | Exam II                                             |              |                                                                                              |                            |
+|      | Wed Nov 13 | [Exam II](/notes/exam-notes.html)                   |              |                                                                                              |                            |
 |      | Thu Nov 14 | lab                                                 |              |                                                                                              |                            |
 | 13   | Mon Nov 18 | Dynamical systems                                   |              |                                                                                              |                            |
 |      | Wed Nov 20 | Hamiltonian Monte Carlo                             |              |                                                                                              | hw 9                       |

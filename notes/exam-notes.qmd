@@ -15,6 +15,12 @@ A random variable $X \in \mathbb{R}$ has a $N(\theta, \sigma^2)$ distribution if
 
 $p(x | \theta, \sigma^2) = (2 \pi \sigma^2)^{-\frac{1}{2}} e^{-\frac{1}{2\sigma^2}(x - \theta)^2} \ \ \ \text{ for } -\infty < x < \infty.$
 
+#### multivariate normal
+
+A random vector $X \in \mathbb{R}^p$ has a $MVN(\theta, \Sigma)$ distribution if $\Sigma > 0$ and
+
+$p(x| \theta, \Sigma) = (2\pi)^{-p/2} |\Sigma|^{-1/2} \exp\{ -\frac{1}{2}(x - \theta)^T \Sigma^{-1} (x - \theta) \}$
+
 #### gamma
 
 A random variable $X \in (0, \infty)$ has a gamma(a,b) distribution if $a > 0, b > 0$ and
@@ -31,6 +37,14 @@ $p(x|a,b) = \frac{b^a}{\Gamma(a)} x^{-a-1} e^{-b/x} \ \ \ \text{ for } x > 0.$
 $E[X|a,b] = \frac{b}{a-1}$ if $a>=1$, $\infty$ if $0<a<1$  
 $Var[X|a,b] = \frac{b^2}{(a-1)^2(a-2)}$ if $a\geq2$, $\infty$ if $0<a<2$
 
+#### inverse-Wishart
+
+A random $p \times p$ matrix $\Sigma$ has an inverse-Wishart distribution if 
+$p(\Sigma | \nu_0, S_0^{-1}) \propto |\Sigma|^{-(\nu_0 + p + 1)/2} \times \exp \{ -\frac{1}{2}tr(S_0 \Sigma^{-1})\}$.
+
+- the support is $\Sigma > 0$ and $\Sigma$ symmetric $p \times p$ matrix. $\nu_0 \in \mathbb{N}^+$ and $\nu_0 \geq p$. $S_0$ is a $p \times p$ symmetric positive definite matrix.
+
+- $E[\Sigma^{-1}] = \nu_0 S_0^{-1}$ and $E[\Sigma] = \frac{1}{\nu_0 - p - 1} S_0$.
 
 #### binomial
 

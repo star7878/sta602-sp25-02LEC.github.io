@@ -122,6 +122,11 @@ ul.task-list{list-style: none;}
 <p>A random variable <span class="math inline">\(X \in \mathbb{R}\)</span> has a <span class="math inline">\(N(\theta, \sigma^2)\)</span> distribution if <span class="math inline">\(\sigma^2 &gt; 0\)</span> and</p>
 <p><span class="math inline">\(p(x | \theta, \sigma^2) = (2 \pi \sigma^2)^{-\frac{1}{2}} e^{-\frac{1}{2\sigma^2}(x - \theta)^2} \ \ \ \text{ for } -\infty &lt; x &lt; \infty.\)</span></p>
 </section>
+<section id="multivariate-normal" class="level4">
+<h4 class="anchored" data-anchor-id="multivariate-normal">multivariate normal</h4>
+<p>A random vector <span class="math inline">\(X \in \mathbb{R}^p\)</span> has a <span class="math inline">\(MVN(\theta, \Sigma)\)</span> distribution if <span class="math inline">\(\Sigma &gt; 0\)</span> and</p>
+<p><span class="math inline">\(p(x| \theta, \Sigma) = (2\pi)^{-p/2} |\Sigma|^{-1/2} \exp\{ -\frac{1}{2}(x - \theta)^T \Sigma^{-1} (x - \theta) \}\)</span></p>
+</section>
 <section id="gamma" class="level4">
 <h4 class="anchored" data-anchor-id="gamma">gamma</h4>
 <p>A random variable <span class="math inline">\(X \in (0, \infty)\)</span> has a gamma(a,b) distribution if <span class="math inline">\(a &gt; 0, b &gt; 0\)</span> and</p>
@@ -134,6 +139,14 @@ ul.task-list{list-style: none;}
 <span class="math inline">\(p(x|a,b) = \frac{b^a}{\Gamma(a)} x^{-a-1} e^{-b/x} \ \ \ \text{ for } x &gt; 0.\)</span><br>
 <span class="math inline">\(E[X|a,b] = \frac{b}{a-1}\)</span> if <span class="math inline">\(a&gt;=1\)</span>, <span class="math inline">\(\infty\)</span> if <span class="math inline">\(0&lt;a&lt;1\)</span><br>
 <span class="math inline">\(Var[X|a,b] = \frac{b^2}{(a-1)^2(a-2)}\)</span> if <span class="math inline">\(a\geq2\)</span>, <span class="math inline">\(\infty\)</span> if <span class="math inline">\(0&lt;a&lt;2\)</span></p>
+</section>
+<section id="inverse-wishart" class="level4">
+<h4 class="anchored" data-anchor-id="inverse-wishart">inverse-Wishart</h4>
+<p>A random <span class="math inline">\(p \times p\)</span> matrix <span class="math inline">\(\Sigma\)</span> has an inverse-Wishart distribution if <span class="math inline">\(p(\Sigma | \nu_0, S_0^{-1}) \propto |\Sigma|^{-(\nu_0 + p + 1)/2} \times \exp \{ -\frac{1}{2}tr(S_0 \Sigma^{-1})\}\)</span>.</p>
+<ul>
+<li><p>the support is <span class="math inline">\(\Sigma &gt; 0\)</span> and <span class="math inline">\(\Sigma\)</span> symmetric <span class="math inline">\(p \times p\)</span> matrix. <span class="math inline">\(\nu_0 \in \mathbb{N}^+\)</span> and <span class="math inline">\(\nu_0 \geq p\)</span>. <span class="math inline">\(S_0\)</span> is a <span class="math inline">\(p \times p\)</span> symmetric positive definite matrix.</p></li>
+<li><p><span class="math inline">\(E[\Sigma^{-1}] = \nu_0 S_0^{-1}\)</span> and <span class="math inline">\(E[\Sigma] = \frac{1}{\nu_0 - p - 1} S_0\)</span>.</p></li>
+</ul>
 </section>
 <section id="binomial" class="level4">
 <h4 class="anchored" data-anchor-id="binomial">binomial</h4>
