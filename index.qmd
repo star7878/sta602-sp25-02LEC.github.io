@@ -100,7 +100,7 @@ schedule %>%
 |      | Thu Nov 07 | lab: estimators                                     |              |                               [💻](slides/estimator-lab.html)                                |                            |
 | 12   | Mon Nov 11 | review                                              |              |                                                                                              |                            |
 |      | Wed Nov 13 | [Exam II](/notes/exam-notes.html)                   |              |                                                                                              |                            |
-|      | Thu Nov 14 | lab                                                 |              |                                                                                              |                            |
+|      | Thu Nov 14 | NO LAB                                              |              |                                                                                              |                            |
 | 13   | Mon Nov 18 | Dynamical systems                                   |              |                                                                                              |                            |
 |      | Wed Nov 20 | Hamiltonian Monte Carlo                             |              |                                                                                              | hw 9                       |
 |      | Thu Nov 21 | lab                                                 |              |                                                                                              |                            |

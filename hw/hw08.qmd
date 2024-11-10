@@ -7,8 +7,7 @@ format:
     toc: true
 ---
 
-## Exercise 1 
-
+## Exercise 1
 
 6.3 from Hoff. You can simulate from a constrained normal distribution with mean `mean` and standard deviation `sd`, constrained to lie in the interval $(a,b)$ using the following function:
 
@@ -30,10 +29,66 @@ divorce = readr::read_csv("https://sta360-fa24.github.io/data/divorce.csv")
 
 ## Exercise 2
 
-TBD
+Weighted regression: Suppose $y_i \sim N(\beta x_i, \sigma^2 / w_i)$ independently for $i = 1,\ldots n$, where $x_1, \ldots, x_n$ and $w_1, \ldots w_n$ are known scalars, and $\beta$ and $\sigma^2$ are unknown.
+
+a. Find the formula for the OLS estimator $\hat{\beta}_{OLS}$ and compute its variance $V[\hat{\beta}_{OLS} | \beta, \sigma^2]$.
+
+b. Write out the sampling density $p(y_1, \ldots, y_n | \sigma^2, \beta)$ as a function of $\beta$ (i.e. the likelihood) and find the value of $\beta$ that maximizes this function (the MLE). Denote this maximizing value as $\hat{\beta}_{MLE}$. Compute $V[\hat{\beta}_{MLE}  | \beta, \sigma^2]$ and compare it to that of $\hat{\beta}_{OLS}$.
+
+c. Under the prior distribution $\beta \sim N(0, \tau^2)$, find $E[\beta | y_1, \ldots, y_n, \sigma^2]$. What does this estimator get close to as the prior precision goes to zero ($\tau^2 \rightarrow \infty$)? 
 
 ## Exercise 3
 
-TBD
+Handwritten digit classification.
+Data originally sourced from U.S. postal envelopes.
 
-<!-- <dynamical systems problem> -->
+Exercise inspired by [Prof. Hua Zhou's](https://hua-zhou.github.io) Biostat M280.
+
+![](imgs/handwritten_digits.png){fig-align="center" width="453"}
+
+In this exercise, you will build a very simple Bayesian image classifier. Load the training and test data sets using the code below.
+
+```{r}
+#| eval: false
+yTrain = readr::read_csv(
+  "https://sta360-fa24.github.io/data/hw-digits-train.csv")
+
+yTest = readr::read_csv(
+  "https://sta360-fa24.github.io/data/hw-digits-test.csv"
+)
+```
+
+The training data set contains 3822 images like the ones displayed above. 
+Each image is a 32 x 32 bitmap, i.e. 1024 pixels, where each pixel is either black (0) or white (1). 
+The 1024 pixels are divided into 64 blocks of 4 x 4 pixels. 
+Each digit in the data set is represented by a vector of these blocks $\mathbf{x} = (x_1, \ldots, x_{64})$ where each element is a count of the white pixels in a block (a number between 0 and 16).
+
+The 65th column of the data set (`id`) is the actual digit label. 
+
+a. How many of each digit are in the training data set? Create a histogram to show the distribution of `block10` white pixels for each digit. What do you notice?
+
+b. Assume each digit (i.e. each `id`) has its own multinomial data generative model. You can read about the multinomial distribution using `?rmultinom` in R. 
+
+  - Write down the joint density for images with id "j", $\prod_{k = 1}^{n_j} p(\mathbf{x}_k^{(j)} | \boldsymbol{\pi}^{(j)})$. Here $n_j$ is the number of images of type $j$ and $\boldsymbol{\pi}^{(j)} = \{\pi_1^{(j)}, \ldots, \pi_{64}^{(j)} \}$
+
+  - How many total unknown parameters are in the complete joint density of all images?
+
+c. The Dirichlet distribution is the multivariate generalization of the beta distribution. You can read more about it [here](https://en.wikipedia.org/wiki/Dirichlet_distribution).  Place a Dirichlet prior on the probability parameters for each of your multinomial models in part b. Let the  concentration parameters be all identically 1.
+
+  - Sample from the posterior using any method you choose and compute the posterior mean $\hat{\boldsymbol{\pi}}^{(j)}$ for each $j$. Hint: you may need to look up how to sample from a Dirichlet distribution in R. You may do this manually or find a package with built-in functions.
+
+d. For each image $\mathbf{x}$ in your testing data set, compute your predicted id according to $\text{argmax}_{j}~~p(\mathbf{x}| \boldsymbol{\hat{\pi}}^{(j)})p(j)$, where $p(j)$ is the proportion of digit $j$ in the training set. Report the number of correct and incorrect classifications in your testing data set.
+
+<!-- Let $j$ be the true digit the image depicts. -->
+<!-- For each digit $j$, we define a multinomial data generative process, -->
+
+<!-- $$ -->
+<!-- p(\mathbf{x}^{(j)} | \theta_1^{(j)}, \ldots, \theta^{(j)}_{64}) = \frac{|\mathbf{x}|!}{x_1!\cdot x_2! \cdots x_{64}!} \prod_{i=1}^{64} \left(\theta_i^{(j)}\right)^{x_i}, -->
+<!-- $$ -->
+<!-- where $|\mathbf{x}| = \sum_{i=1}^{64} x_i$. -->
+
+<!-- Write down the joint density of all the data using this notation. -->
+
+<!-- hierarchical modeling -->
+
+<!-- stan -->
