@@ -1,0 +1,17 @@
+---
+title: "Homework 9"
+subtitle: "Due Wednesday December 4 at 5:00pm"
+mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Exercise 1
+
+## Exercise 2
+
+## Exercise 3
+<!-- hierarchical modeling -->
+
+<!-- stan -->

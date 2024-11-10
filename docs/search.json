@@ -2420,5 +2420,19 @@
     "title": "Handwritten digit recognition",
     "section": "Prior",
     "text": "Prior\n\n\n\n\n\n\nnames(y) = c(paste0(\"block\", 1:64), \"id\")\ny0 = y %>%\n  filter(id == 0)\n\ntheta0 = c(0, rep(1/64, 63))\ntheta0 = y0[1,-65]\ntheta0 = t(theta0) %>% as.vector()\ndmultinom(y0[1,-65], prob = theta0, log = TRUE)\ndmultinom(y0[10, -65], prob = theta0, log = TRUE)\n\n\nN = 5000\n\nposteriorMeans = NULL\nfor(i in 0:9) {\n  df = y %>% \n    filter(id == i) %>%\n    select(-id)\n  alpha = colSums(df) + 1\n  # assign(paste0(\"posteriorMeans\", i), \n  #        rdirichlet(N, alpha) %>% colMeans())\n  posteriorMeans = cbind(posteriorMeans, \n                           rdirichlet(N, alpha) %>% colMeans())\n}\n\n\n# alpha0 = colSums(y0) + 1\n# posteriorMeans0 = rdirichlet(N, alpha0) %>%\n#   colMeans()\n\ndim(posteriorMeans)\n\n\nytest = read_csv(\"~/Downloads/optdigits.tes\")\nnames(ytest) = c(paste0(\"block\", 1:64), \"id\")\n\n\nprediction = vector(length = nrow(ytest))\nfor(i in 1:nrow(ytest)) {\n  prediction[i] = \napply(posteriorMeans, MARGIN = 2, FUN = function(p) dmultinom(x = ytest[i,-65], prob = p, log = TRUE)) %>%\n  which.max() - 1\n}\n\ndf2 = data.frame(truth = ytest$id, prediction)\ndf2 %>%\n  mutate(correct = truth == prediction) %>%\n  summarize(mean(correct))\n\nIdea\n\nDifferent set of thetas for each digit category.\nLearn thetas.\nCompute posterior mean of theta in each category\nclassify according to which set of thetas yields maximum likelihood…"
+  },
+  {
+    "objectID": "hw/hw09.html#exercise-2",
+    "href": "hw/hw09.html#exercise-2",
+    "title": "Homework 9",
+    "section": "Exercise 2",
+    "text": "Exercise 2"
+  },
+  {
+    "objectID": "hw/hw09.html#exercise-3",
+    "href": "hw/hw09.html#exercise-3",
+    "title": "Homework 9",
+    "section": "Exercise 3",
+    "text": "Exercise 3"
   }
 ]
