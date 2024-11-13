@@ -257,6 +257,7 @@ result$ro2
 
 
 ```{r}
+#| eval: false
 set.seed(360)
 dtruncnormL = function(x, a, b, mean, sd) {
   log(dtruncnorm(x, a=a, b=b, mean = mean, sd = sd))
@@ -301,7 +302,7 @@ theta = c(alpha, porosity, saturation, kappa_m, mu_m, rhom)
 ## indicator that parameters are in proper ranges * constant * indicator that Vp > Vs
 
 # MCMC 
-S = 10000
+S = 50000
 accept = rep(0, length(theta))
 
 THETA = NULL
@@ -341,17 +342,17 @@ for(i in 1:S) {
    }
   
   thetaStar = theta
-  thetaStar[3] = rcnorm(1, mean = theta[3], sd = .05,
+  thetaStar[3] = rcnorm(1, mean = theta[3], sd = 0.05,
                         a = 0, b = 1)
   
   log.r = logPosterior(thetaStar) +
     dtruncnormL(thetaStar[3], 
-                a=0, b=100, 
-                mean = theta[3], sd = 3) - 
+                a=0, b=1, 
+                mean = theta[3], sd = 0.05) - 
      logPosterior(theta) - 
     dtruncnormL(thetaStar[3], 
-                a=0, b=100, 
-                mean = theta[3], sd = 3)
+                a=0, b=1, 
+                mean = theta[3], sd = 0.05)
    
    if(log(runif(1)) < log.r)  {
     theta = thetaStar
@@ -421,6 +422,12 @@ for(i in 1:S) {
 ## Results
 
 ```{r}
+THETA = read_csv("../data/MarsWaterUniform.csv")
+THETA
+```
+
+
+```{r}
 THETA %>%
   apply(FUN = effectiveSize, MARGIN = 2)
 
@@ -433,8 +440,205 @@ myBerry(posteriorMeans)[c("vp", "vs", "ro2")]
 ```
 
 ```{r}
-hist(THETA[,1])
-hist(THETA[,2])
+hist(THETA$theta1)
+hist(THETA$theta2)
+hist(THETA$theta3)
 ```
 
+```{r}
+#| eval: false
+#| echo: false
+colnames(THETA) = paste0("theta", 1:6)
+THETA
+rownames(THETA) = NULL
+df = data.frame(THETA)
+rownames(df) = NULL
+# df[10000:50000,]%>%
+#   write_csv("../data/MarsWaterUniform.csv")
+```
+
+## Shameless code duplication
+
+```{r}
+set.seed(360)
+dtruncnormL = function(x, a, b, mean, sd) {
+  log(dtruncnorm(x, a=a, b=b, mean = mean, sd = sd))
+}
+
+rcnorm<-function(n, mean=0, sd=1, a=-Inf, b=Inf){
+  u = runif(n, pnorm((a - mean) / sd), pnorm((b - mean) / sd))
+  mean + (sd * qnorm(u))
+}
+
+logPosterior = function(theta) {
+  result = myBerry(theta)
+  y = c(result$vp / 1000, result$vs / 1000, result$ro2)
+  if(result$vp < result$vs) {
+    return(-Inf)
+  }
+  else{
+  return(
+    sum(dnorm(y, mean = seismic_data$y, sd = seismic_data$sd,
+            log = TRUE)) + 
+      dbeta(theta[3], .1, .5, log = TRUE)
+  )
+  }
+}
+
+# THETA[1] = alpha
+# THETA[2] = porosity
+# THETA[3] = saturation
+# THETA[4] = kappa_m
+# THETA[5] = mu_m
+# THETA[6] = rho_m
+
+# starting point
+alpha = 0.5
+porosity = 0.25 #runif(1, 0.05, 0.50)
+saturation = 0.05 #0 to 1
+kappa_m = 78
+mu_m = 33
+rhom = 3000
+theta = c(alpha, porosity, saturation, kappa_m, mu_m, rhom)
+
+# prior
+## indicator that parameters are in proper ranges * constant * indicator that Vp > Vs
+
+# MCMC 
+S = 5000
+accept = rep(0, length(theta))
+
+THETA = NULL
+for(i in 1:S) {
+  thetaStar = theta 
+  thetaStar[1] = rcnorm(1, mean = theta[1], sd = .05,
+                        a = 0.03, b = 0.99)
+   log.r = logPosterior(thetaStar) + 
+     dtruncnormL(theta[1], 
+                a=0.03, b=0.99, 
+                mean = thetaStar[1], sd = .05) - 
+     logPosterior(theta) - 
+     dtruncnormL(thetaStar[1], 
+                a=0.03, b=0.99, 
+                mean = theta[1], sd = .05)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[1] = accept[1] + 1 
+   }
+  
+  thetaStar = theta
+  thetaStar[2] = rcnorm(1, mean = theta[2], sd = .05,
+                        a = 0.05, b = 0.5)
+  log.r = logPosterior(thetaStar) +
+    dtruncnormL(thetaStar[2], 
+                a=0.05, b=0.5, 
+                mean = theta[2], sd = .05) - 
+     logPosterior(theta) - 
+      dtruncnormL(thetaStar[2], 
+                a=0.05, b=0.5, 
+                mean = theta[2], sd = .05)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[2] = accept[2] + 1 
+   }
+  
+  thetaStar = theta
+  thetaStar[3] = rcnorm(1, mean = theta[3], sd = 0.05,
+                        a = 0, b = 1)
+  
+  log.r = logPosterior(thetaStar) +
+    dtruncnormL(thetaStar[3], 
+                a=0, b=1, 
+                mean = theta[3], sd = 0.05) - 
+     logPosterior(theta) - 
+    dtruncnormL(thetaStar[3], 
+                a=0, b=1, 
+                mean = theta[3], sd = 0.05)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[3] = accept[3] + 1 
+   }
+  
+  thetaStar = theta
+  thetaStar[4] = rcnorm(1, mean = theta[4], sd = .5,
+                        a = 76.5, b = 80)
+  
+  log.r = logPosterior(thetaStar) +
+    dtruncnormL(thetaStar[4], 
+                a=76.5, b=80, 
+                mean = theta[4], sd = .5) - 
+     logPosterior(theta) -
+    dtruncnormL(thetaStar[4], 
+                a=76.5, b=80, 
+                mean = theta[4], sd = .5)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[4] = accept[4] + 1 
+   }
+  
+  thetaStar = theta
+  thetaStar[5] = rcnorm(1, mean = theta[5], sd = 1,
+                        a = 25.6, b = 40)
+  
+  log.r = logPosterior(thetaStar) +
+    dtruncnormL(thetaStar[5], 
+                a=25.6, b=40, 
+                mean = theta[5], sd = 1) - 
+     logPosterior(theta) -
+    dtruncnormL(thetaStar[5], 
+                a=25.6, b=40, 
+                mean = theta[5], sd = 1)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[5] = accept[5] + 1 
+   }
+  
+  thetaStar = theta
+  thetaStar[6] = rcnorm(1, mean = theta[6], sd = 20,
+                        a = 2689, b = 2900)
+  
+   log.r = logPosterior(thetaStar) +
+    dtruncnormL(thetaStar[6], 
+                a=2689, b=2900, 
+                mean = theta[6], sd = 20) - 
+     logPosterior(theta) -
+    dtruncnormL(thetaStar[6], 
+                a=2689, b=2900, 
+                mean = theta[6], sd = 20)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[6] = accept[6] + 1 
+   }
+  
+   THETA = rbind(THETA, theta)
+}
+```
+
+```{r}
+dim(THETA)
+
+effectiveSize(THETA[,3])
+
+hist(THETA[,3])
+```
+
+```{r}
+#| eval: false
+xx = apply(THETA2, MARGIN = 2, FUN = median) # THETA2 = og data set
+logPosterior(xx)
+
+x2 = xx
+x2[3] = .99
+logPosterior(x2)
+
+x3 = xx
+x3[3] = 0.01
+logPosterior(x3)
+```
 
