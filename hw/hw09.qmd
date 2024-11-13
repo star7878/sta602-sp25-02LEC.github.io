@@ -15,3 +15,7 @@ format:
 <!-- hierarchical modeling -->
 
 <!-- stan -->
+
+<!--
+open ended q: breast cancer prediction
+https://archive.ics.uci.edu/dataset/15/breast+cancer+wisconsin+original -->
