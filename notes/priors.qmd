@@ -79,7 +79,7 @@ Let $Y_1,\ldots,Y_n \sim \text{iid } p(y|\theta)$. Let $l(\theta | y_1,\ldots,y_
 
 - Let $Y_1,\ldots,Y_n \sim \text{iid binary}(\theta)$. Find $\hat{\theta}_{MLE}$.
 
-- Find the unit information prior $p(\theta)$. Hint: find a density $p(\theta)$ such that $\log p(\thtea) = l(\theta | y_1,\ldots,y_n) + c$ where $c$ is a constant that doesn't depend on $\theta$. 
+- Find the unit information prior $p(\theta)$. Hint: find a density $p(\theta)$ such that $\log p(\theta) = l(\theta | y_1,\ldots,y_n) + c$ where $c$ is a constant that doesn't depend on $\theta$. 
 :::
 
 ## Improper uniform priors
