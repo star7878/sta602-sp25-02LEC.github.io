@@ -10,13 +10,60 @@ execute:
 ---
 
 ```{r}
+#| warning: false
+#| message: false
 library(truncnorm)
 library(tidyverse)
 library(coda)
 ```
 
+## Bayesian inverse problems 
 
-Based on [Liquid water in the Martian mid-crust by Wright, Morzfeld and Manga](https://www.pnas.org/doi/epub/10.1073/pnas.2409983121).
+Idea: writing the likelihood is difficult or impossible in closed form.
+
+As usual, we wish to estimate some parameter vector $\theta$. However, $\theta$ relates to our observations $y$ via some function $y = f(\theta)$. The catch is, we cannot write $f(\theta)$ directly, nor compute it exactly. Most often, all we can do is simulate from $f(\theta)$.
+
+<!-- Example: $y$ is the solution of a differential equation with no closed form solution. $\frac{dy}{dt} = g(y, \theta)$. -->
+
+<!-- ### Toy example: logistic growth of a population. -->
+
+<!-- $$ -->
+<!-- \frac{dN}{dt} = rN ( 1 - \frac{N}{K}) -->
+<!-- $$ -->
+
+<!-- where $N(t)$ is the number of individuals at time $t$, $r$ is the per capita growth rate, and $K$ is the carrying capacity. -->
+
+<!-- $$ -->
+<!-- \frac{dN}{dt} = rN ( 1 - \frac{N}{K}) -->
+<!-- $$ -->
+
+<!-- ```{r} -->
+<!-- #| echo: false  -->
+<!-- f = function(theta) {  -->
+<!--   rnorm(1, mea) -->
+<!--   } -->
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+<!-- # y = c(9, 10, 11) -->
+<!-- #  -->
+<!-- # S = 1000 -->
+<!-- # for(i in 1:S) { -->
+<!-- #   theta_star =  -->
+<!-- #   f_theta = rnorm(3, theta/2, 1) -->
+<!-- # } -->
+<!-- ``` -->
+
+
+<!-- A more realistic example is when $y(t)$ is the solution to a dynamical system. -->
+
+## Example
+
+Today's example comes from [Liquid water in the Martian mid-crust by Wright, Morzfeld and Manga](https://www.pnas.org/doi/epub/10.1073/pnas.2409983121).
+
+The Interior [Exploration using Seismic Investigations, Geodesy and Heat Transport (InSight)](https://science.nasa.gov/mission/insight/) mission from NASA sent a robotic lander to Mars on May 5, 2018. The goal of the mission, which ended December 2022, was to study the crust, mantle and core of Mars. 
+
 
 Watch video [here](https://www.iris.edu/hq/inclass/animation/1component_seismogram_building_responds_to_p_s_surface_waves).
 

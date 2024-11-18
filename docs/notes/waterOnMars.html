@@ -156,8 +156,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#parameter-table" id="toc-parameter-table" class="nav-link active" data-scroll-target="#parameter-table">Parameter Table</a></li>
+  <li><a href="#bayesian-inverse-problems" id="toc-bayesian-inverse-problems" class="nav-link active" data-scroll-target="#bayesian-inverse-problems">Bayesian inverse problems</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#parameter-table" id="toc-parameter-table" class="nav-link" data-scroll-target="#parameter-table">Parameter Table</a></li>
   <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Code</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#shameless-code-duplication" id="toc-shameless-code-duplication" class="nav-link" data-scroll-target="#shameless-code-duplication">Shameless code duplication</a></li>
   </ul>
 </nav>
     </div>
@@ -186,15 +190,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>Based on <a href="https://www.pnas.org/doi/epub/10.1073/pnas.2409983121">Liquid water in the Martian mid-crust by Wright, Morzfeld and Manga</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(truncnorm)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coda)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="bayesian-inverse-problems" class="level2">
+<h2 class="anchored" data-anchor-id="bayesian-inverse-problems">Bayesian inverse problems</h2>
+<p>Idea: writing the likelihood is difficult or impossible in closed form.</p>
+<p>As usual, we wish to estimate some parameter vector <span class="math inline">\(\theta\)</span>. However, <span class="math inline">\(\theta\)</span> relates to our observations <span class="math inline">\(y\)</span> via some function <span class="math inline">\(y = f(\theta)\)</span>. The catch is, we cannot write <span class="math inline">\(f(\theta)\)</span> directly, nor compute it exactly. Most often, all we can do is simulate from <span class="math inline">\(f(\theta)\)</span>.</p>
+<!-- Example: $y$ is the solution of a differential equation with no closed form solution. $\frac{dy}{dt} = g(y, \theta)$. -->
+<!-- ### Toy example: logistic growth of a population. -->
+<!-- $$ -->
+<!-- \frac{dN}{dt} = rN ( 1 - \frac{N}{K}) -->
+<!-- $$ -->
+<!-- where $N(t)$ is the number of individuals at time $t$, $r$ is the per capita growth rate, and $K$ is the carrying capacity. -->
+<!-- $$ -->
+<!-- \frac{dN}{dt} = rN ( 1 - \frac{N}{K}) -->
+<!-- $$ -->
+<!-- ```{r} -->
+<!-- #| echo: false  -->
+<!-- f = function(theta) {  -->
+<!--   rnorm(1, mea) -->
+<!--   } -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- # y = c(9, 10, 11) -->
+<!-- #  -->
+<!-- # S = 1000 -->
+<!-- # for(i in 1:S) { -->
+<!-- #   theta_star =  -->
+<!-- #   f_theta = rnorm(3, theta/2, 1) -->
+<!-- # } -->
+<!-- ``` -->
+<!-- A more realistic example is when $y(t)$ is the solution to a dynamical system. -->
+</section>
+<section id="example" class="level2">
+<h2 class="anchored" data-anchor-id="example">Example</h2>
+<p>Today’s example comes from <a href="https://www.pnas.org/doi/epub/10.1073/pnas.2409983121">Liquid water in the Martian mid-crust by Wright, Morzfeld and Manga</a>.</p>
+<p>The Interior <a href="https://science.nasa.gov/mission/insight/">Exploration using Seismic Investigations, Geodesy and Heat Transport (InSight)</a> mission from NASA sent a robotic lander to Mars on May 5, 2018. The goal of the mission, which ended December 2022, was to study the crust, mantle and core of Mars.</p>
 <p>Watch video <a href="https://www.iris.edu/hq/inclass/animation/1component_seismogram_building_responds_to_p_s_surface_waves">here</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>seismic_data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="fl">4.1</span>, <span class="fl">2.5</span>, <span class="dv">2589</span>),</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="dv">157</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>seismic_data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">c</span>(<span class="fl">4.1</span>, <span class="fl">2.5</span>, <span class="dv">2589</span>),</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="dv">157</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
 <section id="parameter-table" class="level2">
 <h2 class="anchored" data-anchor-id="parameter-table">Parameter Table</h2>
 <table class="table">
@@ -226,170 +269,574 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Berryman’s rock physics model </span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Vp <span class="ot">=</span> <span class="cf">function</span>(ke, mue, pb) {</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>((ke <span class="sc">+</span> ((<span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> mue)) <span class="sc">/</span> pb)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>Vs <span class="ot">=</span> <span class="cf">function</span>(mue, pb) {</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(mue<span class="sc">/</span>pb)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>getParameters <span class="ot">=</span> <span class="cf">function</span>(alpha, phi, gw, km, mum, rhom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>berryscm <span class="ot">&lt;-</span> <span class="cf">function</span>(k, mu, asp, x) {</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initialize output</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  kbr <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">0</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  mubr <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">0</span>)</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Berryman’s rock physics model </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Vp <span class="ot">=</span> <span class="cf">function</span>(ke, mue, pb) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>((ke <span class="sc">+</span> ((<span class="dv">4</span><span class="sc">/</span><span class="dv">3</span>) <span class="sc">*</span> mue)) <span class="sc">/</span> pb)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ensure inputs are column vectors</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(k)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(mu)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  asp <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(asp)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(x)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Adjust aspect ratio for perfectly spherical inclusions</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  asp[asp <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.99</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initialize variables</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(asp))</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  fn <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(asp))</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate theta and fn for oblate spheroids</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  obdx <span class="ot">&lt;-</span> <span class="fu">which</span>(asp <span class="sc">&lt;</span> <span class="dv">1</span>)</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  theta[obdx] <span class="ot">&lt;-</span> (asp[obdx] <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> asp[obdx]<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>))) <span class="sc">*</span> </span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                  (<span class="fu">acos</span>(asp[obdx]) <span class="sc">-</span> asp[obdx] <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> asp[obdx]<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  fn[obdx] <span class="ot">&lt;-</span> (asp[obdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> asp[obdx]<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> theta[obdx] <span class="sc">-</span> <span class="dv">2</span>)</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate theta and fn for prolate spheroids</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  prdx <span class="ot">&lt;-</span> <span class="fu">which</span>(asp <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  theta[prdx] <span class="ot">&lt;-</span> (asp[prdx] <span class="sc">/</span> ((asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">^</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>))) <span class="sc">*</span> </span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                  (asp[prdx] <span class="sc">*</span> <span class="fu">sqrt</span>(asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">-</span> <span class="fu">acosh</span>(asp[prdx]))</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  fn[prdx] <span class="ot">&lt;-</span> (asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> theta[prdx])</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initial values for ksc and musc</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  ksc <span class="ot">&lt;-</span> <span class="fu">sum</span>(k <span class="sc">*</span> x)</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  musc <span class="ot">&lt;-</span> <span class="fu">sum</span>(mu <span class="sc">*</span> x)</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  knew <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  munew <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  tol <span class="ot">&lt;-</span> <span class="fl">1e-6</span> <span class="sc">*</span> k[<span class="dv">1</span>]</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  del <span class="ot">&lt;-</span> <span class="fu">abs</span>(ksc <span class="sc">-</span> knew)</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  niter <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Iterative calculation</span></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (del <span class="sc">&gt;</span> <span class="fu">abs</span>(tol) <span class="sc">&amp;</span> niter <span class="sc">&lt;</span> <span class="dv">3000</span>) {</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    nusc <span class="ot">&lt;-</span> (<span class="dv">3</span> <span class="sc">*</span> ksc <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> musc) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> ksc <span class="sc">+</span> musc))</span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> mu <span class="sc">/</span> musc <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="dv">3</span>) <span class="sc">*</span> (k <span class="sc">/</span> ksc <span class="sc">-</span> mu <span class="sc">/</span> musc)</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    r <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> nusc) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> nusc))</span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    f1 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> ((<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (fn <span class="sc">+</span> theta) <span class="sc">-</span> r <span class="sc">*</span> ((<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> fn <span class="sc">+</span> (<span class="dv">5</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> theta <span class="sc">-</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">3</span>)))</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    f2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (fn <span class="sc">+</span> theta) <span class="sc">-</span> (r <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> fn <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> theta)) <span class="sc">+</span> b <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    f2 <span class="ot">&lt;-</span> f2 <span class="sc">+</span> (a <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (a <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> b) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r) <span class="sc">*</span> (fn <span class="sc">+</span> theta <span class="sc">-</span> r <span class="sc">*</span> (fn <span class="sc">-</span> theta <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> theta<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    f3 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> (fn <span class="sc">+</span> (<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> theta) <span class="sc">+</span> r <span class="sc">*</span> (fn <span class="sc">+</span> theta))</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    f4 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> (a <span class="sc">/</span> <span class="dv">4</span>) <span class="sc">*</span> (fn <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> theta <span class="sc">-</span> r <span class="sc">*</span> (fn <span class="sc">-</span> theta))</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    f5 <span class="ot">&lt;-</span> a <span class="sc">*</span> (<span class="sc">-</span>fn <span class="sc">+</span> r <span class="sc">*</span> (fn <span class="sc">+</span> theta <span class="sc">-</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">3</span>))) <span class="sc">+</span> b <span class="sc">*</span> theta <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    f6 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> fn <span class="sc">-</span> r <span class="sc">*</span> (fn <span class="sc">+</span> theta)) <span class="sc">+</span> b <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    f7 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> (a <span class="sc">/</span> <span class="dv">4</span>) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> fn <span class="sc">+</span> <span class="dv">9</span> <span class="sc">*</span> theta <span class="sc">-</span> r <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> fn <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> theta)) <span class="sc">+</span> b <span class="sc">*</span> theta <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    f8 <span class="ot">&lt;-</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> r <span class="sc">+</span> (fn <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> (theta <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (<span class="dv">5</span> <span class="sc">*</span> r <span class="sc">-</span> <span class="dv">3</span>)) <span class="sc">+</span> b <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    f9 <span class="ot">&lt;-</span> a <span class="sc">*</span> ((r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> fn <span class="sc">-</span> r <span class="sc">*</span> theta) <span class="sc">+</span> b <span class="sc">*</span> theta <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">*</span> f1 <span class="sc">/</span> f2</span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    q <span class="ot">&lt;-</span> (<span class="dv">2</span> <span class="sc">/</span> f3) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">/</span> f4) <span class="sc">+</span> ((f4 <span class="sc">*</span> f5 <span class="sc">+</span> f6 <span class="sc">*</span> f7 <span class="sc">-</span> f8 <span class="sc">*</span> f9) <span class="sc">/</span> (f2 <span class="sc">*</span> f4))</span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> p <span class="sc">/</span> <span class="dv">3</span></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    q <span class="ot">&lt;-</span> q <span class="sc">/</span> <span class="dv">5</span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update ksc and musc</span></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    knew <span class="ot">&lt;-</span> <span class="fu">sum</span>(x <span class="sc">*</span> k <span class="sc">*</span> p) <span class="sc">/</span> <span class="fu">sum</span>(x <span class="sc">*</span> p)</span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    munew <span class="ot">&lt;-</span> <span class="fu">sum</span>(x <span class="sc">*</span> mu <span class="sc">*</span> q) <span class="sc">/</span> <span class="fu">sum</span>(x <span class="sc">*</span> q)</span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    del <span class="ot">&lt;-</span> <span class="fu">abs</span>(ksc <span class="sc">-</span> knew)</span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    ksc <span class="ot">&lt;-</span> knew</span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>    musc <span class="ot">&lt;-</span> munew</span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    niter <span class="ot">&lt;-</span> niter <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  kbr <span class="ot">&lt;-</span> ksc</span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>  mubr <span class="ot">&lt;-</span> musc</span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">kbr =</span> kbr, <span class="at">mubr =</span> mubr))</span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>Vs <span class="ot">=</span> <span class="cf">function</span>(mue, pb) {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(mue<span class="sc">/</span>pb)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>getParameters <span class="ot">=</span> <span class="cf">function</span>(alpha, phi, gw, km, mum, rhom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>myBerry <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, <span class="at">H =</span> <span class="dv">3</span>) {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  asp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, theta[<span class="dv">1</span>])</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  x_phi <span class="ot">&lt;-</span> theta[<span class="dv">2</span>]</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  rock_vol <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> theta[<span class="dv">2</span>]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">c</span>(rock_vol, x_phi)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  rock_density <span class="ot">&lt;-</span> theta[<span class="dv">6</span>] <span class="sc">*</span> rock_vol  <span class="co"># density of solid phase</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  gas_density <span class="ot">&lt;-</span> <span class="fl">0.020</span> <span class="sc">*</span> x_phi         <span class="co"># density of fluid phase</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  rhob1 <span class="ot">&lt;-</span> rock_density <span class="sc">+</span> gas_density   <span class="co"># bulk density</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  P_water <span class="ot">&lt;-</span> theta[<span class="dv">3</span>]                   <span class="co"># percentage of water in pore space</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">c</span>(theta[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">1e9</span>, <span class="dv">0</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">c</span>(theta[<span class="dv">5</span>] <span class="sc">*</span> <span class="fl">1e9</span>, <span class="dv">0</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">berryscm</span>(k, mu, asp, x)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(result, <span class="st">"rhob"</span> <span class="ot">=</span> rhob1))</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>berry_scm <span class="ot">&lt;-</span> <span class="cf">function</span>(k, mu, asp, x, ro1, P_water) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># BERRYSCM - Effective elastic moduli for multi-component composite</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># using Berryman's Self-Consistent (Coherent Potential Approximation) method.</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Arguments:</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># k: Bulk moduli of the N constituent phases (numeric vector)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mu: Shear moduli of the N constituent phases (numeric vector)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># asp: Aspect ratio for the inclusions of the N phases (numeric vector)</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># x: Fraction of each phase. Solid, then fluid phase (numeric vector)</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ro1: Density of the original rock (numeric scalar)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># P_water: Proportion of water (numeric scalar)</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">#</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Returns:</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># kbr: Effective bulk modulus (numeric scalar)</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mubr: Effective shear modulus (numeric scalar)</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># vp: P-wave velocity (numeric scalar)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># vs: S-wave velocity (numeric scalar)</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ro2: Final rock density after fluid substitution (numeric scalar)</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># k2: Rock bulk modulus after fluid substitution (numeric scalar)</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ensure inputs are column vectors (equivalent to MATLAB's k(:), mu(:), etc.)</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(k)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(mu)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  asp <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(asp)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(x)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Modify aspect ratios of inclusions that are equal to 1</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  asp[asp <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">0.99</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initialize variables</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(asp))</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  fn <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(asp))</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute theta and fn for oblate and prolate spheroids</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  obdx <span class="ot">&lt;-</span> <span class="fu">which</span>(asp <span class="sc">&lt;</span> <span class="dv">1</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  prdx <span class="ot">&lt;-</span> <span class="fu">which</span>(asp <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  theta[obdx] <span class="ot">&lt;-</span> (asp[obdx] <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> asp[obdx]<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>))) <span class="sc">*</span> (<span class="fu">acos</span>(asp[obdx]) <span class="sc">-</span> asp[obdx] <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> asp[obdx]<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  fn[obdx] <span class="ot">&lt;-</span> (asp[obdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> asp[obdx]<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> theta[obdx] <span class="sc">-</span> <span class="dv">2</span>)</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  theta[prdx] <span class="ot">&lt;-</span> (asp[prdx] <span class="sc">/</span> ((asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">^</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">2</span>))) <span class="sc">*</span> (asp[prdx] <span class="sc">*</span> <span class="fu">sqrt</span>(asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">-</span> <span class="fu">acosh</span>(asp[prdx]))</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  fn[prdx] <span class="ot">&lt;-</span> (asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (asp[prdx]<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">*</span> (<span class="dv">2</span> <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> theta[prdx])</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initialize initial bulk and shear moduli</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  ksc <span class="ot">&lt;-</span> <span class="fu">sum</span>(k <span class="sc">*</span> x)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>  musc <span class="ot">&lt;-</span> <span class="fu">sum</span>(mu <span class="sc">*</span> x)</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initialize iteration parameters</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>  knew <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>  tol <span class="ot">&lt;-</span> <span class="fl">1e-6</span> <span class="sc">*</span> k[<span class="dv">1</span>]</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>  del <span class="ot">&lt;-</span> <span class="fu">abs</span>(ksc <span class="sc">-</span> knew)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>  niter <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Iterative solution for effective moduli</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (del <span class="sc">&gt;</span> <span class="fu">abs</span>(tol) <span class="sc">&amp;&amp;</span> niter <span class="sc">&lt;</span> <span class="dv">3000</span>) {</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>    nusc <span class="ot">&lt;-</span> (<span class="dv">3</span> <span class="sc">*</span> ksc <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> musc) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> ksc <span class="sc">+</span> musc))</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> mu <span class="sc">/</span> musc <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">/</span> <span class="dv">3</span>) <span class="sc">*</span> (k <span class="sc">/</span> ksc <span class="sc">-</span> mu <span class="sc">/</span> musc)</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>    r <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> nusc) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> nusc))</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    f1 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> ((<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (fn <span class="sc">+</span> theta) <span class="sc">-</span> r <span class="sc">*</span> ((<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> fn <span class="sc">+</span> (<span class="dv">5</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> theta <span class="sc">-</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">3</span>)))</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    f2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> (<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (fn <span class="sc">+</span> theta) <span class="sc">-</span> (r <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> fn <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> theta)) <span class="sc">+</span> b <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    f2 <span class="ot">&lt;-</span> f2 <span class="sc">+</span> (a <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (a <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> b) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r) <span class="sc">*</span> (fn <span class="sc">+</span> theta <span class="sc">-</span> r <span class="sc">*</span> (fn <span class="sc">-</span> theta <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> theta<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>    f3 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> (fn <span class="sc">+</span> (<span class="dv">3</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> theta) <span class="sc">+</span> r <span class="sc">*</span> (fn <span class="sc">+</span> theta))</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    f4 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> (a <span class="sc">/</span> <span class="dv">4</span>) <span class="sc">*</span> (fn <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> theta <span class="sc">-</span> r <span class="sc">*</span> (fn <span class="sc">-</span> theta))</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    f5 <span class="ot">&lt;-</span> a <span class="sc">*</span> (<span class="sc">-</span>fn <span class="sc">+</span> r <span class="sc">*</span> (fn <span class="sc">+</span> theta <span class="sc">-</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">3</span>))) <span class="sc">+</span> b <span class="sc">*</span> theta <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>    f6 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> fn <span class="sc">-</span> r <span class="sc">*</span> (fn <span class="sc">+</span> theta)) <span class="sc">+</span> b <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    f7 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> (a <span class="sc">/</span> <span class="dv">4</span>) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> fn <span class="sc">+</span> <span class="dv">9</span> <span class="sc">*</span> theta <span class="sc">-</span> r <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">*</span> fn <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> theta)) <span class="sc">+</span> b <span class="sc">*</span> theta <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>    f8 <span class="ot">&lt;-</span> a <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> r <span class="sc">+</span> (fn <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> (theta <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (<span class="dv">5</span> <span class="sc">*</span> r <span class="sc">-</span> <span class="dv">3</span>)) <span class="sc">+</span> b <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> theta) <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>    f9 <span class="ot">&lt;-</span> a <span class="sc">*</span> ((r <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> fn <span class="sc">-</span> r <span class="sc">*</span> theta) <span class="sc">+</span> b <span class="sc">*</span> theta <span class="sc">*</span> (<span class="dv">3</span> <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> r)</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">*</span> f1 <span class="sc">/</span> f2</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>    q <span class="ot">&lt;-</span> (<span class="dv">2</span> <span class="sc">/</span> f3) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">/</span> f4) <span class="sc">+</span> ((f4 <span class="sc">*</span> f5 <span class="sc">+</span> f6 <span class="sc">*</span> f7 <span class="sc">-</span> f8 <span class="sc">*</span> f9) <span class="sc">/</span> (f2 <span class="sc">*</span> f4))</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> p <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>    q <span class="ot">&lt;-</span> q <span class="sc">/</span> <span class="dv">5</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update moduli</span></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>    knew <span class="ot">&lt;-</span> <span class="fu">sum</span>(x <span class="sc">*</span> k <span class="sc">*</span> p) <span class="sc">/</span> <span class="fu">sum</span>(x <span class="sc">*</span> p)</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>    munew <span class="ot">&lt;-</span> <span class="fu">sum</span>(x <span class="sc">*</span> mu <span class="sc">*</span> q) <span class="sc">/</span> <span class="fu">sum</span>(x <span class="sc">*</span> q)</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>    del <span class="ot">&lt;-</span> <span class="fu">abs</span>(ksc <span class="sc">-</span> knew)</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>    ksc <span class="ot">&lt;-</span> knew</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>    musc <span class="ot">&lt;-</span> munew</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>    niter <span class="ot">&lt;-</span> niter <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>  kbr <span class="ot">&lt;-</span> ksc</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>  mubr <span class="ot">&lt;-</span> musc</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Density and fluid substitution</span></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>  rofl1 <span class="ot">&lt;-</span> <span class="fl">0.020</span>    <span class="co"># density of gas</span></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>  kfl1 <span class="ot">&lt;-</span> <span class="dv">0</span>         <span class="co"># bulk modulus of gas</span></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>  ro_water <span class="ot">&lt;-</span> <span class="dv">1000</span>   <span class="co"># density of water</span></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>  k_water <span class="ot">&lt;-</span> <span class="fl">2.2e9</span>  <span class="co"># bulk modulus of water</span></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>  P_gas <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> P_water</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>  rofl2 <span class="ot">&lt;-</span> P_gas <span class="sc">*</span> rofl1 <span class="sc">+</span> P_water <span class="sc">*</span> ro_water</span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>  kfl2 <span class="ot">&lt;-</span> P_gas <span class="sc">*</span> kfl1 <span class="sc">+</span> P_water <span class="sc">*</span> k_water</span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>  k0 <span class="ot">&lt;-</span> k[<span class="dv">1</span>]        <span class="co"># bulk modulus of solid mineral phase</span></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>  phi <span class="ot">&lt;-</span> x[<span class="dv">2</span>]       <span class="co"># porosity of rock</span></span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>  k1 <span class="ot">&lt;-</span> kbr         <span class="co"># dry bulk modulus</span></span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Perform fluid substitution using Gassmann equation</span></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> k1 <span class="sc">/</span> (k0 <span class="sc">-</span> k1) <span class="sc">-</span> kfl1 <span class="sc">/</span> (phi <span class="sc">*</span> (k0 <span class="sc">-</span> kfl1)) <span class="sc">+</span> kfl2 <span class="sc">/</span> (phi <span class="sc">*</span> (k0 <span class="sc">-</span> kfl2))</span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>  k2 <span class="ot">&lt;-</span> k0 <span class="sc">*</span> a <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> a)   <span class="co"># bulk modulus after fluid substitution</span></span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute final density after fluid substitution</span></span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>  ro2 <span class="ot">&lt;-</span> ro1 <span class="sc">-</span> phi <span class="sc">*</span> rofl1 <span class="sc">+</span> phi <span class="sc">*</span> rofl2</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute seismic velocities after fluid substitution</span></span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>  mu2 <span class="ot">&lt;-</span> mubr</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>  vp <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((k2 <span class="sc">+</span> (<span class="dv">4</span> <span class="sc">/</span> <span class="dv">3</span>) <span class="sc">*</span> mu2) <span class="sc">/</span> ro2)</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>  vs <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(mu2 <span class="sc">/</span> ro2)</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">kbr =</span> kbr, <span class="at">mubr =</span> mubr, <span class="at">vp =</span> vp, <span class="at">vs =</span> vs, <span class="at">ro2 =</span> ro2, <span class="at">k2 =</span> k2))</span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>myBerry <span class="ot">&lt;-</span> <span class="cf">function</span>(theta, <span class="at">H =</span> <span class="dv">3</span>) {</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extract parameters from theta</span></span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>  asp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, theta[<span class="dv">1</span>])   <span class="co"># Aspect ratio</span></span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>  x_phi <span class="ot">&lt;-</span> theta[<span class="dv">2</span>]       <span class="co"># Proportion of fluid (phi)</span></span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>  rock_vol <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> theta[<span class="dv">2</span>] <span class="co"># Volume of solid phase (rock)</span></span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">c</span>(rock_vol, x_phi)  <span class="co"># Fraction of phases</span></span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>  rock_density <span class="ot">&lt;-</span> theta[<span class="dv">6</span>] <span class="sc">*</span> rock_vol  <span class="co"># Density of solid phase (basalt)</span></span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>  gas_density <span class="ot">&lt;-</span> <span class="fl">0.020</span> <span class="sc">*</span> x_phi         <span class="co"># Density of fluid phase (gas)</span></span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>  rhob1 <span class="ot">&lt;-</span> rock_density <span class="sc">+</span> gas_density  <span class="co"># Bulk density</span></span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Percentage of water in pore space</span></span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>  P_water <span class="ot">&lt;-</span> theta[<span class="dv">3</span>]</span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Bulk and shear moduli (scaled by 1e9 as per MATLAB code)</span></span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">c</span>(theta[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">1e9</span>, <span class="dv">0</span>)  <span class="co"># Bulk modulus (first element)</span></span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">c</span>(theta[<span class="dv">5</span>] <span class="sc">*</span> <span class="fl">1e9</span>, <span class="dv">0</span>) <span class="co"># Shear modulus (first element)</span></span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Call berryscm function (ensure berryscm function is defined in your R environment)</span></span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">berry_scm</span>(k, mu, asp, x, rhob1, P_water)</span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the required output from berryscm</span></span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># myBerry &lt;- function(theta, H = 3) {</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   asp &lt;- c(1, theta[1])</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   x_phi &lt;- theta[2]</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   rock_vol &lt;- 1 - theta[2]</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   x &lt;- c(rock_vol, x_phi)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   </span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   rock_density &lt;- theta[6] * rock_vol  # density of solid phase</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   gas_density &lt;- 0.020 * x_phi         # density of fluid phase</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   rhob1 &lt;- rock_density + gas_density   # bulk density</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   P_water &lt;- theta[3]                   # percentage of water in pore space</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   k &lt;- c(theta[4] * 1e9, 0)</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   mu &lt;- c(theta[5] * 1e9, 0)</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   result &lt;- berry_scm(k, mu, asp, x)</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   return(c(result, "rhob" = rhob1))</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="code" class="level2">
 <h2 class="anchored" data-anchor-id="code">Code</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># theta is vector of parameters </span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[1] = alpha </span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[2] = phi = porosity</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[3] = gamma_w = % water</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[4] = kappa = Mineral bulk modulus</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[5] = mu = Mineral shear modulus</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[6] = rho_m = total mineral density </span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.5</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>porosity <span class="ot">=</span> <span class="fl">0.25</span> <span class="co">#runif(1, 0.05, 0.50)</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>saturation <span class="ot">=</span> <span class="fl">0.05</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>kappa_m <span class="ot">=</span> <span class="dv">78</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>mu_m <span class="ot">=</span> <span class="dv">33</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>rhom <span class="ot">=</span> <span class="dv">3000</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">=</span> <span class="fu">c</span>(alpha, porosity, saturation, kappa_m, mu_m, rhom)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">myBerry</span>(theta)</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>vp <span class="ot">=</span> result<span class="sc">$</span>kbr</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>vs <span class="ot">=</span> result<span class="sc">$</span>mubr</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># H = unlist(myBerry(theta))</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>vp <span class="sc">/</span> <span class="fl">1e3</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>vs <span class="sc">/</span> <span class="fl">1e3</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>rhob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># theta is vector of parameters </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[1] = alpha </span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[2] = phi = porosity</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[3] = gamma_w = % water</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[4] = kappa = Mineral bulk modulus</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[5] = mu = Mineral shear modulus</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># theta[6] = rho_m = total mineral density </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>porosity <span class="ot">=</span> <span class="fl">0.25</span> <span class="co">#runif(1, 0.05, 0.50)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>saturation <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>kappa_m <span class="ot">=</span> <span class="dv">78</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>mu_m <span class="ot">=</span> <span class="dv">33</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>rhom <span class="ot">=</span> <span class="dv">3000</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">=</span> <span class="fu">c</span>(alpha, porosity, saturation, kappa_m, mu_m, rhom)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">myBerry</span>(theta)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(result<span class="sc">$</span>vp, result<span class="sc">$</span>vs) <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>ro2</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># vp = result$kbr</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># vs = result$mubr</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co"># # H = unlist(myBerry(theta))</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># vp / 1e3</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co"># vs / 1e3</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co"># result$rhob</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">sum</span>(H) <span class="sc">==</span> <span class="dv">3</span>) {</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">c</span>(vp <span class="sc">/</span> <span class="fl">1e3</span>, vs <span class="sc">/</span> <span class="fl">1e3</span>, rhob)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">sum</span>(H) <span class="sc">==</span> <span class="dv">2</span>) {</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (H[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> H[<span class="dv">2</span>] <span class="sc">==</span> <span class="dv">1</span>) {  <span class="co"># vp and vs</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">c</span>(vp <span class="sc">/</span> <span class="fl">1e3</span>, vs <span class="sc">/</span> <span class="fl">1e3</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (H[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> H[<span class="dv">3</span>] <span class="sc">==</span> <span class="dv">1</span>) {  <span class="co"># vp and rho</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">c</span>(vp <span class="sc">/</span> <span class="fl">1e3</span>, rhob)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (H[<span class="dv">2</span>] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> H[<span class="dv">3</span>] <span class="sc">==</span> <span class="dv">1</span>) {  <span class="co"># vs and rho</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">c</span>(vs <span class="sc">/</span> <span class="fl">1e3</span>, rhob)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"What?"</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">sum</span>(H) <span class="sc">==</span> <span class="dv">1</span>) {</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (H[<span class="dv">1</span>] <span class="sc">==</span> <span class="dv">1</span>) {</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> vp <span class="sc">/</span> <span class="fl">1e3</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (H[<span class="dv">2</span>] <span class="sc">==</span> <span class="dv">1</span>) {</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> vs <span class="sc">/</span> <span class="fl">1e3</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (H[<span class="dv">3</span>] <span class="sc">==</span> <span class="dv">1</span>) {</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> rhob</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"What?"</span>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  out</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>dtruncnormL <span class="ot">=</span> <span class="cf">function</span>(x, a, b, mean, sd) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>(<span class="fu">dtruncnorm</span>(x, <span class="at">a=</span>a, <span class="at">b=</span>b, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>rcnorm<span class="ot">&lt;-</span><span class="cf">function</span>(n, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>, <span class="at">a=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">b=</span><span class="cn">Inf</span>){</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="fu">pnorm</span>((a <span class="sc">-</span> mean) <span class="sc">/</span> sd), <span class="fu">pnorm</span>((b <span class="sc">-</span> mean) <span class="sc">/</span> sd))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  mean <span class="sc">+</span> (sd <span class="sc">*</span> <span class="fu">qnorm</span>(u))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>logPosterior <span class="ot">=</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> <span class="fu">myBerry</span>(theta)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">=</span> <span class="fu">c</span>(result<span class="sc">$</span>vp <span class="sc">/</span> <span class="dv">1000</span>, result<span class="sc">$</span>vs <span class="sc">/</span> <span class="dv">1000</span>, result<span class="sc">$</span>ro2)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(result<span class="sc">$</span>vp <span class="sc">&lt;</span> result<span class="sc">$</span>vs) {</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="sc">-</span><span class="cn">Inf</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>{</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> seismic_data<span class="sc">$</span>y, <span class="at">sd =</span> seismic_data<span class="sc">$</span>sd,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[1] = alpha</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[2] = porosity</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[3] = saturation</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[4] = kappa_m</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[5] = mu_m</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[6] = rho_m</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co"># starting point</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>porosity <span class="ot">=</span> <span class="fl">0.25</span> <span class="co">#runif(1, 0.05, 0.50)</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>saturation <span class="ot">=</span> <span class="fl">0.05</span> <span class="co">#0 to 1</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>kappa_m <span class="ot">=</span> <span class="dv">78</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>mu_m <span class="ot">=</span> <span class="dv">33</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>rhom <span class="ot">=</span> <span class="dv">3000</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">=</span> <span class="fu">c</span>(alpha, porosity, saturation, kappa_m, mu_m, rhom)</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co"># prior</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="do">## indicator that parameters are in proper ranges * constant * indicator that Vp &gt; Vs</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="co"># MCMC </span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>S <span class="ot">=</span> <span class="dv">50000</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>accept <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(theta))</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>THETA <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>S) {</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta </span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">1</span>], <span class="at">sd =</span> .<span class="dv">05</span>,</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">0.03</span>, <span class="at">b =</span> <span class="fl">0.99</span>)</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>   log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span> </span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dtruncnormL</span>(theta[<span class="dv">1</span>], </span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.03</span>, <span class="at">b=</span><span class="fl">0.99</span>, </span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> thetaStar[<span class="dv">1</span>], <span class="at">sd =</span> .<span class="dv">05</span>) <span class="sc">-</span> </span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span> </span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">1</span>], </span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.03</span>, <span class="at">b=</span><span class="fl">0.99</span>, </span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">1</span>], <span class="at">sd =</span> .<span class="dv">05</span>)</span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">1</span>] <span class="ot">=</span> accept[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">2</span>], <span class="at">sd =</span> .<span class="dv">05</span>,</span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">0.05</span>, <span class="at">b =</span> <span class="fl">0.5</span>)</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">2</span>], </span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.05</span>, <span class="at">b=</span><span class="fl">0.5</span>, </span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">2</span>], <span class="at">sd =</span> .<span class="dv">05</span>) <span class="sc">-</span> </span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span> </span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>      <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">2</span>], </span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.05</span>, <span class="at">b=</span><span class="fl">0.5</span>, </span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">2</span>], <span class="at">sd =</span> .<span class="dv">05</span>)</span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">2</span>] <span class="ot">=</span> accept[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">3</span>], <span class="at">sd =</span> <span class="fl">0.05</span>,</span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">3</span>], </span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="dv">0</span>, <span class="at">b=</span><span class="dv">1</span>, </span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">3</span>], <span class="at">sd =</span> <span class="fl">0.05</span>) <span class="sc">-</span> </span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span> </span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">3</span>], </span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="dv">0</span>, <span class="at">b=</span><span class="dv">1</span>, </span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">3</span>], <span class="at">sd =</span> <span class="fl">0.05</span>)</span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">3</span>] <span class="ot">=</span> accept[<span class="dv">3</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">4</span>], <span class="at">sd =</span> .<span class="dv">5</span>,</span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">76.5</span>, <span class="at">b =</span> <span class="dv">80</span>)</span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">4</span>], </span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">76.5</span>, <span class="at">b=</span><span class="dv">80</span>, </span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">4</span>], <span class="at">sd =</span> .<span class="dv">5</span>) <span class="sc">-</span> </span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span></span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">4</span>], </span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">76.5</span>, <span class="at">b=</span><span class="dv">80</span>, </span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">4</span>], <span class="at">sd =</span> .<span class="dv">5</span>)</span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">4</span>] <span class="ot">=</span> accept[<span class="dv">4</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">5</span>], <span class="at">sd =</span> <span class="dv">1</span>,</span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">25.6</span>, <span class="at">b =</span> <span class="dv">40</span>)</span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">5</span>], </span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">25.6</span>, <span class="at">b=</span><span class="dv">40</span>, </span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">5</span>], <span class="at">sd =</span> <span class="dv">1</span>) <span class="sc">-</span> </span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span></span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">5</span>], </span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">25.6</span>, <span class="at">b=</span><span class="dv">40</span>, </span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">5</span>], <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">5</span>] <span class="ot">=</span> accept[<span class="dv">5</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
+<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">6</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">6</span>], <span class="at">sd =</span> <span class="dv">20</span>,</span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="dv">2689</span>, <span class="at">b =</span> <span class="dv">2900</span>)</span>
+<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a>   log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">6</span>], </span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="dv">2689</span>, <span class="at">b=</span><span class="dv">2900</span>, </span>
+<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">6</span>], <span class="at">sd =</span> <span class="dv">20</span>) <span class="sc">-</span> </span>
+<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span></span>
+<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">6</span>], </span>
+<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="dv">2689</span>, <span class="at">b=</span><span class="dv">2900</span>, </span>
+<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">6</span>], <span class="at">sd =</span> <span class="dv">20</span>)</span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">6</span>] <span class="ot">=</span> accept[<span class="dv">6</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a>   THETA <span class="ot">=</span> <span class="fu">rbind</span>(THETA, theta)</span>
+<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>THETA <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"../data/MarsWaterUniform.csv"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>THETA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>THETA <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="at">FUN =</span> effectiveSize, <span class="at">MARGIN =</span> <span class="dv">2</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>posteriorMeans <span class="ot">=</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  THETA <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colMeans</span>()</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>posteriorMeans</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">myBerry</span>(posteriorMeans)[<span class="fu">c</span>(<span class="st">"vp"</span>, <span class="st">"vs"</span>, <span class="st">"ro2"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(THETA<span class="sc">$</span>theta1)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(THETA<span class="sc">$</span>theta2)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(THETA<span class="sc">$</span>theta3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+</section>
+<section id="shameless-code-duplication" class="level2">
+<h2 class="anchored" data-anchor-id="shameless-code-duplication">Shameless code duplication</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>dtruncnormL <span class="ot">=</span> <span class="cf">function</span>(x, a, b, mean, sd) {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>(<span class="fu">dtruncnorm</span>(x, <span class="at">a=</span>a, <span class="at">b=</span>b, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>rcnorm<span class="ot">&lt;-</span><span class="cf">function</span>(n, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>, <span class="at">a=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">b=</span><span class="cn">Inf</span>){</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="fu">pnorm</span>((a <span class="sc">-</span> mean) <span class="sc">/</span> sd), <span class="fu">pnorm</span>((b <span class="sc">-</span> mean) <span class="sc">/</span> sd))</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  mean <span class="sc">+</span> (sd <span class="sc">*</span> <span class="fu">qnorm</span>(u))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>logPosterior <span class="ot">=</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> <span class="fu">myBerry</span>(theta)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">=</span> <span class="fu">c</span>(result<span class="sc">$</span>vp <span class="sc">/</span> <span class="dv">1000</span>, result<span class="sc">$</span>vs <span class="sc">/</span> <span class="dv">1000</span>, result<span class="sc">$</span>ro2)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(result<span class="sc">$</span>vp <span class="sc">&lt;</span> result<span class="sc">$</span>vs) {</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="sc">-</span><span class="cn">Inf</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>{</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> seismic_data<span class="sc">$</span>y, <span class="at">sd =</span> seismic_data<span class="sc">$</span>sd,</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span> </span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">dbeta</span>(theta[<span class="dv">3</span>], .<span class="dv">1</span>, .<span class="dv">5</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[1] = alpha</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[2] = porosity</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[3] = saturation</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[4] = kappa_m</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[5] = mu_m</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[6] = rho_m</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="co"># starting point</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.5</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>porosity <span class="ot">=</span> <span class="fl">0.25</span> <span class="co">#runif(1, 0.05, 0.50)</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>saturation <span class="ot">=</span> <span class="fl">0.05</span> <span class="co">#0 to 1</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>kappa_m <span class="ot">=</span> <span class="dv">78</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>mu_m <span class="ot">=</span> <span class="dv">33</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>rhom <span class="ot">=</span> <span class="dv">3000</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">=</span> <span class="fu">c</span>(alpha, porosity, saturation, kappa_m, mu_m, rhom)</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="co"># prior</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="do">## indicator that parameters are in proper ranges * constant * indicator that Vp &gt; Vs</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="co"># MCMC </span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>S <span class="ot">=</span> <span class="dv">5000</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>accept <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(theta))</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>THETA <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>S) {</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta </span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">1</span>], <span class="at">sd =</span> .<span class="dv">05</span>,</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">0.03</span>, <span class="at">b =</span> <span class="fl">0.99</span>)</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>   log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span> </span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dtruncnormL</span>(theta[<span class="dv">1</span>], </span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.03</span>, <span class="at">b=</span><span class="fl">0.99</span>, </span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> thetaStar[<span class="dv">1</span>], <span class="at">sd =</span> .<span class="dv">05</span>) <span class="sc">-</span> </span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span> </span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">1</span>], </span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.03</span>, <span class="at">b=</span><span class="fl">0.99</span>, </span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">1</span>], <span class="at">sd =</span> .<span class="dv">05</span>)</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">1</span>] <span class="ot">=</span> accept[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">2</span>], <span class="at">sd =</span> .<span class="dv">05</span>,</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">0.05</span>, <span class="at">b =</span> <span class="fl">0.5</span>)</span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">2</span>], </span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.05</span>, <span class="at">b=</span><span class="fl">0.5</span>, </span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">2</span>], <span class="at">sd =</span> .<span class="dv">05</span>) <span class="sc">-</span> </span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span> </span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>      <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">2</span>], </span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.05</span>, <span class="at">b=</span><span class="fl">0.5</span>, </span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">2</span>], <span class="at">sd =</span> .<span class="dv">05</span>)</span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">2</span>] <span class="ot">=</span> accept[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">3</span>], <span class="at">sd =</span> <span class="fl">0.05</span>,</span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>)</span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">3</span>], </span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="dv">0</span>, <span class="at">b=</span><span class="dv">1</span>, </span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">3</span>], <span class="at">sd =</span> <span class="fl">0.05</span>) <span class="sc">-</span> </span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span> </span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">3</span>], </span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="dv">0</span>, <span class="at">b=</span><span class="dv">1</span>, </span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">3</span>], <span class="at">sd =</span> <span class="fl">0.05</span>)</span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">3</span>] <span class="ot">=</span> accept[<span class="dv">3</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">4</span>], <span class="at">sd =</span> .<span class="dv">5</span>,</span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">76.5</span>, <span class="at">b =</span> <span class="dv">80</span>)</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">4</span>], </span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">76.5</span>, <span class="at">b=</span><span class="dv">80</span>, </span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">4</span>], <span class="at">sd =</span> .<span class="dv">5</span>) <span class="sc">-</span> </span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span></span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">4</span>], </span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">76.5</span>, <span class="at">b=</span><span class="dv">80</span>, </span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">4</span>], <span class="at">sd =</span> .<span class="dv">5</span>)</span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">4</span>] <span class="ot">=</span> accept[<span class="dv">4</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">5</span>], <span class="at">sd =</span> <span class="dv">1</span>,</span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">25.6</span>, <span class="at">b =</span> <span class="dv">40</span>)</span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
+<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">5</span>], </span>
+<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">25.6</span>, <span class="at">b=</span><span class="dv">40</span>, </span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">5</span>], <span class="at">sd =</span> <span class="dv">1</span>) <span class="sc">-</span> </span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span></span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">5</span>], </span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">25.6</span>, <span class="at">b=</span><span class="dv">40</span>, </span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">5</span>], <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb12-136"><a href="#cb12-136" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">5</span>] <span class="ot">=</span> accept[<span class="dv">5</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">6</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">6</span>], <span class="at">sd =</span> <span class="dv">20</span>,</span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="dv">2689</span>, <span class="at">b =</span> <span class="dv">2900</span>)</span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a>   log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">6</span>], </span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="dv">2689</span>, <span class="at">b=</span><span class="dv">2900</span>, </span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">6</span>], <span class="at">sd =</span> <span class="dv">20</span>) <span class="sc">-</span> </span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span></span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">6</span>], </span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="dv">2689</span>, <span class="at">b=</span><span class="dv">2900</span>, </span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">6</span>], <span class="at">sd =</span> <span class="dv">20</span>)</span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
+<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
+<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">6</span>] <span class="ot">=</span> accept[<span class="dv">6</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
+<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a>   THETA <span class="ot">=</span> <span class="fu">rbind</span>(THETA, theta)</span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(THETA)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">effectiveSize</span>(THETA[,<span class="dv">3</span>])</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(THETA[,<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>xx <span class="ot">=</span> <span class="fu">apply</span>(THETA2, <span class="at">MARGIN =</span> <span class="dv">2</span>, <span class="at">FUN =</span> median) <span class="co"># THETA2 = og data set</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">logPosterior</span>(xx)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">=</span> xx</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>x2[<span class="dv">3</span>] <span class="ot">=</span> .<span class="dv">99</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">logPosterior</span>(x2)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">=</span> xx</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>x3[<span class="dv">3</span>] <span class="ot">=</span> <span class="fl">0.01</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">logPosterior</span>(x3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

@@ -1,0 +1,133 @@
+---
+title: "Priors"
+author: "Dr. Alexander Fisher"
+# mainfont: Lato
+format: 
+  html:
+    toc: true
+---
+
+## Improper priors
+
+::: callout-note
+## Definition
+A **proper** prior is a density function that:
+
+- does not depend on data and 
+- integrates to 1.  
+
+If a prior is not proper, we call the prior **improper**.
+
+If a prior integrates to a positive finite value, it is an un-normalized density. This is different from being an improper prior. An un-normalized density can be normalized by being multiplied by a constant to integrate to 1. 
+:::
+
+#### Example: 
+
+$$
+\begin{aligned}
+Y | \theta, \sigma^2 &\sim N(\theta, \sigma^2)\\
+p(\theta, \sigma^2) &= \frac{1}{\sigma^2}
+\end{aligned}
+$$
+$p(\theta, \sigma^2)$ is an improper prior. $p(\theta, \sigma^2)$ does not integrate to a finite value and thus cannot be renormalized. It is not a probability density. However, it yields a tractable posterior for $\theta$ and $\sigma^2$ (see p 79 of Hoff).
+
+## Unit information prior
+
+Priors are meant to describe our state of knowledge **before examining data**.
+
+::: callout-note
+## Definition
+A **unit information prior** is an improper, data-dependent prior that contains the same amount of information as would be contained in a single observation.
+:::
+
+#### Example: 
+
+$$
+\begin{aligned}
+Y &\sim N_n(X \beta, \sigma^2 I_n)\\
+\beta &\sim N_p(\beta_0, \Sigma_0)\\
+1/\sigma^2  &\sim \text{gamma}(\nu_0/2, \nu_0/2 \sigma_0^2)
+\end{aligned}
+$$
+
+where 
+
+$$
+\begin{aligned}
+\beta_0 &= (X^TX)^{-1}X^Ty\\
+\Sigma_0 &= \left((X^TX)/n\sigma^2\right)^{-1}\\
+\nu_0 &= 1\\
+\sigma_0^2 &= \text{SSR}(\hat{\beta}_{OLS})/ n
+\end{aligned}
+$$
+
+This is using the MLE (or equivalently OLS estimator) as 'unit information'. Notice $\beta_0 = \hat{\beta}_{OLS}$ and the variance $\Sigma_0$ is just 1/n the precision of the MLE: $\left(Var[\hat{\beta}_{OLS}]\right)^{-1}$.
+
+Similarly, $\nu_0 = 1$ (implying unit information) and $\sigma_0^2$ is the MLE of $\sigma^2$.
+
+#### In practice
+
+Procedurally, one can construct a unit information prior in the following way:
+
+Let $Y_1,\ldots,Y_n \sim \text{iid } p(y|\theta)$. Let $l(\theta | y_1,\ldots,y_n) = \sum_{i=1}^n \log p(y_i|\theta)$.
+1. Compute the MLE, $\hat{\theta}_{MLE} = \text{argmax}_{\theta}~ l(\theta|y_1,\ldots,y_n)$.
+2. Compute the negative of the curvature of the log-likelihood: $J(\theta) = - \frac{\partial^2}{\partial \theta^2} l(\theta | y_1,\ldots, y_n)$.
+3. Center the prior on the MLE, and let the curvature of the prior be $- \frac{\partial^2}{\partial \theta^2} p(\theta) = J(\theta) / n$.
+
+::: panel-tabset
+## Exercise
+
+- Let $Y_1,\ldots,Y_n \sim \text{iid binary}(\theta)$. Find $\hat{\theta}_{MLE}$.
+
+- Find the unit information prior $p(\theta)$. Hint: find a density $p(\theta)$ such that $\log p(\thtea) = l(\theta | y_1,\ldots,y_n) + c$ where $c$ is a constant that doesn't depend on $\theta$. 
+:::
+
+## Improper uniform priors
+
+In some cases we may wish to describe our ignorance a priori using a vague prior that plays a minimal role in the posterior distribution.
+
+A common trap is to imagine that a flat, or uniform prior is uninformative. However, we know that uniform priors *are often informative*. For example, you showed on a previous homework that a uniform prior on binary probability of success $\theta$ is informative on the log-odds $\log \left(\frac{\theta}{(1-\theta)}\right)$. 
+
+However, when a uniform prior is improper, it is informative because it states that most of the mass is infinitely far away.
+
+#### Example:
+
+$$
+\begin{aligned}
+Y |\theta &\sim Poisson(\theta)\\
+p(\theta) &\propto 1 \text{ for } \theta \in (0, \infty)
+\end{aligned}
+$$
+
+## Jeffreys prior
+
+::: callout-note
+## Definition
+The Jeffreys prior 
+
+$$
+J(\theta) \propto \sqrt{I(\theta)}
+$$
+where $I(\theta) = -E[\frac{\partial}{\partial\theta^2} \log p(Y|\theta) | \theta]$ is the *Fisher information*.
+:::
+
+The defining feature of Jeffreys prior is that is invariant under monotonic transformations. This principle of invariance is one approach to non-informative priors that works well for single parameter priors. Multiparameter extensions are often less useful.
+
+
+
+#### Example:
+
+$$
+\begin{aligned}
+Y | \theta &\sim \text{Poisson}(\theta)\\
+p(\theta) &\propto \theta^{-1/2}
+\end{aligned}
+$$
+
+::: panel-tabset
+## Exercise
+
+- Prove that $p(\theta) \propto \theta^{-1/2}$ is the Jeffreys prior for the Poisson model above.
+
+- Assume you observe $\{y_1,\ldots, y_n\}$. To what family of distributions does the posterior $p(\theta|y_1,\ldots,y_n)$ belong? Note: you are assuming $Y_i \sim \text{iid Poisson}(\theta)$. What are the parameters?
+:::
