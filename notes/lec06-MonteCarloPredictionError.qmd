@@ -38,7 +38,7 @@ where we proceed by following the iterative procedure below
 
 - this can be useful to see if a prior for $p(\theta)$ actually translate to reasonable prior beliefs about the data.
 
-::: callout-important
+::: panel-tabset
 ## Exercise
 For $p(\theta) = \text{gamma}(8,2)$, plot $p(\tilde{y})$ assuming $\tilde{y} | \theta \sim \text{Poisson}(\theta)$.
 :::
@@ -177,10 +177,7 @@ df %>%
 ::: panel-tabset 
 
 ## Exercise
-::: callout-important
-## Exercise
 Let $\mathbf{y}$ be a vector of length 111. Let $t(\mathbf{y})$ be the ratio of $2$s to $1$s in $\mathbf{y}$. For our observed data, this test statistic $t(\mathbf{y}_{obs}) = 38 / 19 = 2$. What is the tail probability $p(t(\tilde{\mathbf{Y}}) \geq t(\mathbf{y}_{obs}))$ under the posterior predictive distribution?
-:::
 
 ## Solution
 ```{r}
@@ -262,7 +259,7 @@ ub = round(xbar + (2*se), 3)
 
 For `r paste("N = ", N)` Monte Carlo samples, The posterior mean of $\theta$ is $\bar{\theta} =$ `r xbar` with 95% confidence interval (`r paste(lb, ub)`).
 
-::: callout-important
+::: panel-tabset
 ## Exercise
 
 Above we estimate $Var(\theta)$ to be `r round(xvar, 3)` and the standard error for $N = 100$ was `r round(se, 3)`.
