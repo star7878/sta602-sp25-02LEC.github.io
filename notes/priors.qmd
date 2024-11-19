@@ -108,7 +108,7 @@ The Jeffreys prior
 $$
 J(\theta) \propto \sqrt{I(\theta)}
 $$
-where $I(\theta) = -E[\frac{\partial}{\partial\theta^2} \log p(Y|\theta) | \theta]$ is the *Fisher information*.
+where $I(\theta) = -E[\frac{\partial^2}{\partial\theta^2} \log p(Y|\theta) | \theta]$ is the *Fisher information*.
 :::
 
 The defining feature of Jeffreys prior is that is invariant under monotonic transformations. This principle of invariance is one approach to non-informative priors that works well for single parameter priors. Multiparameter extensions are often less useful.
@@ -130,4 +130,35 @@ $$
 - Prove that $p(\theta) \propto \theta^{-1/2}$ is the Jeffreys prior for the Poisson model above.
 
 - Assume you observe $\{y_1,\ldots, y_n\}$. To what family of distributions does the posterior $p(\theta|y_1,\ldots,y_n)$ belong? Note: you are assuming $Y_i \sim \text{iid Poisson}(\theta)$. What are the parameters?
+
+## Solution
+
+$$
+\begin{aligned}
+I(\theta) = -E\left[\frac{\partial^2}{\partial\theta^2} \log p(Y|\theta) | \theta \right] 
+&=
+-E\left[\frac{\partial^2}{\partial\theta^2} \left(y \log \theta -\theta - \log y! \right) | \theta\right]\\
+&= E\left[ \frac{y}{\theta^2} | \theta\right]\\
+&= \frac{1}{\theta}
+\end{aligned}
+$$
+Therefore, $J(\theta) \propto \theta^{-1/2}$.
+
+- Posterior is $\text{gamma}(\sum y_i + \frac{1}{2}, n)$
+
+## Bonus
+
+Examine the prior under re-parameterization. 
+
+Let $\phi = \log \theta$. Then $\log p(y | \phi) = y \phi - e^\phi$.
+
+$$
+\begin{aligned}
+I(\phi) = -E\left[\frac{\partial^2}{\partial\phi^2} \log p(Y|\phi) | \phi \right] &= -E\left[ -e^\phi |\phi\right]\\
+&= e^\phi
+\end{aligned}
+$$
+Therefore, $J(\phi) \propto e^{\phi/2}$.
+
+Separately, using the Jeffreys prior we obtained in $\theta$, one can use the change of variables formula: $p(\phi) = p(\theta) \left|\frac{d\theta}{d\phi}\right|$ to show that $J(\phi) \propto e^{\phi/2}$.
 :::

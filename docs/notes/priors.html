@@ -242,7 +242,7 @@ Definition
 <p><span class="math display">\[
 J(\theta) \propto \sqrt{I(\theta)}
 \]</span></p>
-<p>where <span class="math inline">\(I(\theta) = -E[\frac{\partial}{\partial\theta^2} \log p(Y|\theta) | \theta]\)</span> is the <em>Fisher information</em>.</p>
+<p>where <span class="math inline">\(I(\theta) = -E[\frac{\partial^2}{\partial\theta^2} \log p(Y|\theta) | \theta]\)</span> is the <em>Fisher information</em>.</p>
 </div>
 </div>
 <p>The defining feature of Jeffreys prior is that is invariant under monotonic transformations. This principle of invariance is one approach to non-informative priors that works well for single parameter priors. Multiparameter extensions are often less useful.</p>
@@ -255,13 +255,40 @@ p(\theta) &amp;\propto \theta^{-1/2}
 \end{aligned}
 \]</span></p>
 <div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Exercise</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Exercise</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Solution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Bonus</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <ul>
 <li><p>Prove that <span class="math inline">\(p(\theta) \propto \theta^{-1/2}\)</span> is the Jeffreys prior for the Poisson model above.</p></li>
 <li><p>Assume you observe <span class="math inline">\(\{y_1,\ldots, y_n\}\)</span>. To what family of distributions does the posterior <span class="math inline">\(p(\theta|y_1,\ldots,y_n)\)</span> belong? Note: you are assuming <span class="math inline">\(Y_i \sim \text{iid Poisson}(\theta)\)</span>. What are the parameters?</p></li>
 </ul>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p><span class="math display">\[
+\begin{aligned}
+I(\theta) = -E\left[\frac{\partial^2}{\partial\theta^2} \log p(Y|\theta) | \theta \right]
+&amp;=
+-E\left[\frac{\partial^2}{\partial\theta^2} \left(y \log \theta -\theta - \log y! \right) | \theta\right]\\
+&amp;= E\left[ \frac{y}{\theta^2} | \theta\right]\\
+&amp;= \frac{1}{\theta}
+\end{aligned}
+\]</span></p>
+<p>Therefore, <span class="math inline">\(J(\theta) \propto \theta^{-1/2}\)</span>.</p>
+<ul>
+<li>Posterior is <span class="math inline">\(\text{gamma}(\sum y_i + \frac{1}{2}, n)\)</span></li>
+</ul>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<p>Examine the prior under re-parameterization.</p>
+<p>Let <span class="math inline">\(\phi = \log \theta\)</span>. Then <span class="math inline">\(\log p(y | \phi) = y \phi - e^\phi\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+I(\phi) = -E\left[\frac{\partial^2}{\partial\phi^2} \log p(Y|\phi) | \phi \right] &amp;= -E\left[ -e^\phi |\phi\right]\\
+&amp;= e^\phi
+\end{aligned}
+\]</span></p>
+<p>Therefore, <span class="math inline">\(J(\phi) \propto e^{\phi/2}\)</span>.</p>
+<p>Separately, using the Jeffreys prior we obtained in <span class="math inline">\(\theta\)</span>, one can use the change of variables formula: <span class="math inline">\(p(\phi) = p(\theta) \left|\frac{d\theta}{d\phi}\right|\)</span> to show that <span class="math inline">\(J(\phi) \propto e^{\phi/2}\)</span>.</p>
 </div>
 </div>
 </div>
