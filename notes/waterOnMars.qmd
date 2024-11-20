@@ -571,6 +571,58 @@ rbind(dataFromPostMean, seismic_data$y) %>%
 
 ## Discussion
 
+### Prior sensitivity
+
+::: panel-tabset
+## Exercise
+
+Discuss with a neighbor: do you think the results are sensitive to the choice of prior?
+
+:::
+
+::: panel-tabset 
+## Alternate prior
+
+- $beta(1/2, 1/2)$ prior on water saturation.
+```{r}
+#| eval: false
+logPosterior = function(theta) {
+  result = myBerry(theta)
+  y = c(result$vp / 1000, result$vs / 1000, result$ro2)
+  if(result$vp < result$vs) {
+    return(-Inf)
+  }
+  else{
+  return(
+    sum(dnorm(y, mean = seismic_data$y, sd = seismic_data$sd,
+            log = TRUE)) + 
+      dbeta(theta[3], .5, .5, log = TRUE)
+  )
+  }
+}
+```
+
+## Marginal posteriors
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+THETA3 = read_csv("../data/MarsWaterBetaHalf.csv")
+THETA3 %>%
+  mutate(iteration = 1:nrow(THETA3)) %>%
+  filter(iteration > 20000) %>%
+  pivot_longer(cols = 1:6) %>%
+  ggplot(aes(x = value)) +
+  geom_histogram(aes(y = ..density..), alpha = 0.5) +
+  geom_density() +
+  facet_wrap(~ name, scales = "free") +
+  theme_bw()
+```
+
+:::
+
+
 ### Model selection
 
 Let $M_1$ be the hypothesis that there is water present under the surface of Mars and let $M_0$ be the hypothesis that there is not. Really, we want to select between these two hypotheses.
@@ -599,13 +651,14 @@ $$
 Notice that the Bayes factor **does depend** on the prior $p(\theta | M_i)$.
 :::
 
-### Approximating the Bayes factor
+<!-- ### Approximating the Bayes factor -->
 
 <!-- ## Shameless code duplication -->
 
-Below I assume $M_0$ is true, i.e. there is no water on Mars and thus `theta3` is fixed to 0. I sample from the posterior of the other five parameters.
+<!-- Below I assume $M_0$ is true, i.e. there is no water on Mars and thus `theta3` is fixed to 0. I sample from the posterior of the other five parameters. -->
 
 ```{r}
+#| echo: false
 #| code-fold: true
 #| code-summary: Shameless code duplication
 #| eval: false
@@ -785,11 +838,12 @@ rownames(THETA2) = NULL
 THETA2 = read_csv("../data/MarsWaterH0.csv")
 ```
 
-Finally, we compute the posterior distribution of the likelihood ratio.
+<!-- Finally, we compute the posterior distribution of the likelihood ratio. -->
 
 ```{r}
 #| code-fold: true
 #| eval: false
+#| echo: false
 
 getLogLikelihood =  function(y) {
   stopifnot(length(y) == 3)
@@ -842,6 +896,8 @@ logDiff = read_csv("../data/MartianLR.csv")
 
 
 ```{r}
+#| echo: false
+#| eval: false
 #| warning: false
 #| message: false
 #| code-fold: true
@@ -853,7 +909,7 @@ logDiff %>%
   theme_bw()
 ```
 
-The posterior median of the likelihood ratio is `r median(exp(logDiff$logDiff)) %>% round(2)`.
+<!-- The posterior median of the likelihood ratio is `r median(exp(logDiff$logDiff)) %>% round(2)`. -->
 
 <!-- OLD CODE BELOW HERE -->
 
@@ -880,7 +936,7 @@ logPosterior = function(theta) {
   return(
     sum(dnorm(y, mean = seismic_data$y, sd = seismic_data$sd,
             log = TRUE)) + 
-      dbeta(theta[3], .1, .5, log = TRUE)
+      dbeta(theta[3], .5, .5, log = TRUE)
   )
   }
 }
@@ -905,10 +961,10 @@ theta = c(alpha, porosity, saturation, kappa_m, mu_m, rhom)
 ## indicator that parameters are in proper ranges * constant * indicator that Vp > Vs
 
 # MCMC 
-S = 5000
+S = 50000
 accept = rep(0, length(theta))
 
-THETA = NULL
+THETA3 = NULL
 for(i in 1:S) {
   thetaStar = theta 
   thetaStar[1] = rcnorm(1, mean = theta[1], sd = .05,
@@ -1016,8 +1072,13 @@ for(i in 1:S) {
     accept[6] = accept[6] + 1 
    }
   
-   THETA = rbind(THETA, theta)
+   THETA3 = rbind(THETA3, theta)
 }
+
+THETA3 = data.frame(THETA3)
+colnames(THETA3) = c(paste0("theta", 1:6))
+rownames(THETA3) = NULL
+write_csv(THETA3, "../data/MarsWaterBetaHalf.csv")
 ```
 
 

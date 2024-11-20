@@ -167,8 +167,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a>
   <ul class="collapse">
+  <li><a href="#prior-sensitivity" id="toc-prior-sensitivity" class="nav-link" data-scroll-target="#prior-sensitivity">Prior sensitivity</a></li>
   <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">Model selection</a></li>
-  <li><a href="#approximating-the-bayes-factor" id="toc-approximating-the-bayes-factor" class="nav-link" data-scroll-target="#approximating-the-bayes-factor">Approximating the Bayes factor</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -775,6 +775,50 @@ What priors are chosen for each unknown?</p>
 </section>
 <section id="discussion" class="level2">
 <h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<section id="prior-sensitivity" class="level3">
+<h3 class="anchored" data-anchor-id="prior-sensitivity">Prior sensitivity</h3>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Exercise</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>Discuss with a neighbor: do you think the results are sensitive to the choice of prior?</p>
+</div>
+</div>
+</div>
+<div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Alternate prior</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Marginal posteriors</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<ul>
+<li><span class="math inline">\(beta(1/2, 1/2)\)</span> prior on water saturation.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>logPosterior <span class="ot">=</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> <span class="fu">myBerry</span>(theta)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">=</span> <span class="fu">c</span>(result<span class="sc">$</span>vp <span class="sc">/</span> <span class="dv">1000</span>, result<span class="sc">$</span>vs <span class="sc">/</span> <span class="dv">1000</span>, result<span class="sc">$</span>ro2)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(result<span class="sc">$</span>vp <span class="sc">&lt;</span> result<span class="sc">$</span>vs) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="sc">-</span><span class="cn">Inf</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>{</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> seismic_data<span class="sc">$</span>y, <span class="at">sd =</span> seismic_data<span class="sc">$</span>sd,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span> </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">dbeta</span>(theta[<span class="dv">3</span>], .<span class="dv">5</span>, .<span class="dv">5</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="waterOnMars_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
 <section id="model-selection" class="level3">
 <h3 class="anchored" data-anchor-id="model-selection">Model selection</h3>
 <p>Let <span class="math inline">\(M_1\)</span> be the hypothesis that there is water present under the surface of Mars and let <span class="math inline">\(M_0\)</span> be the hypothesis that there is not. Really, we want to select between these two hypotheses.</p>
@@ -807,241 +851,26 @@ Important
 <p>Notice that the Bayes factor <strong>does depend</strong> on the prior <span class="math inline">\(p(\theta | M_i)\)</span>.</p>
 </div>
 </div>
-</section>
-<section id="approximating-the-bayes-factor" class="level3">
-<h3 class="anchored" data-anchor-id="approximating-the-bayes-factor">Approximating the Bayes factor</h3>
+<!-- ### Approximating the Bayes factor -->
 <!-- ## Shameless code duplication -->
-<p>Below I assume <span class="math inline">\(M_0\)</span> is true, i.e.&nbsp;there is no water on Mars and thus <code>theta3</code> is fixed to 0. I sample from the posterior of the other five parameters.</p>
+<!-- Below I assume $M_0$ is true, i.e. there is no water on Mars and thus `theta3` is fixed to 0. I sample from the posterior of the other five parameters. -->
 <div class="cell">
-<details>
-<summary>Shameless code duplication</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">360</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dtruncnormL <span class="ot">=</span> <span class="cf">function</span>(x, a, b, mean, sd) {</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>(<span class="fu">dtruncnorm</span>(x, <span class="at">a=</span>a, <span class="at">b=</span>b, <span class="at">mean =</span> mean, <span class="at">sd =</span> sd))</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>rcnorm<span class="ot">&lt;-</span><span class="cf">function</span>(n, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">1</span>, <span class="at">a=</span><span class="sc">-</span><span class="cn">Inf</span>, <span class="at">b=</span><span class="cn">Inf</span>){</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="fu">pnorm</span>((a <span class="sc">-</span> mean) <span class="sc">/</span> sd), <span class="fu">pnorm</span>((b <span class="sc">-</span> mean) <span class="sc">/</span> sd))</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  mean <span class="sc">+</span> (sd <span class="sc">*</span> <span class="fu">qnorm</span>(u))</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>logPosterior <span class="ot">=</span> <span class="cf">function</span>(theta) {</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> <span class="fu">myBerry</span>(theta)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">=</span> <span class="fu">c</span>(result<span class="sc">$</span>vp <span class="sc">/</span> <span class="dv">1000</span>, result<span class="sc">$</span>vs <span class="sc">/</span> <span class="dv">1000</span>, result<span class="sc">$</span>ro2)</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(result<span class="sc">$</span>vp <span class="sc">&lt;</span> result<span class="sc">$</span>vs) {</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="sc">-</span><span class="cn">Inf</span>)</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>{</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> seismic_data<span class="sc">$</span>y, <span class="at">sd =</span> seismic_data<span class="sc">$</span>sd,</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">log =</span> <span class="cn">TRUE</span>)) <span class="co">#+ </span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>      <span class="co"># dbeta(theta[3], .1, .5, log = TRUE)</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[1] = alpha</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[2] = porosity</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[3] = saturation</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[4] = kappa_m</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[5] = mu_m</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co"># THETA[6] = rho_m</span></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="co"># starting point</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fl">0.5</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>porosity <span class="ot">=</span> <span class="fl">0.25</span> <span class="co">#runif(1, 0.05, 0.50)</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>saturation <span class="ot">=</span> <span class="dv">0</span> <span class="co">#0 to 1</span></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>kappa_m <span class="ot">=</span> <span class="dv">78</span></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>mu_m <span class="ot">=</span> <span class="dv">33</span></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>rhom <span class="ot">=</span> <span class="dv">3000</span></span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">=</span> <span class="fu">c</span>(alpha, porosity, saturation, kappa_m, mu_m, rhom)</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="co"># prior</span></span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="do">## indicator that parameters are in proper ranges * constant * indicator that Vp &gt; Vs</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="co"># MCMC </span></span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>S <span class="ot">=</span> <span class="dv">50000</span></span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>accept <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(theta))</span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>THETA2 <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>S) {</span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta </span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">1</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">1</span>], <span class="at">sd =</span> .<span class="dv">05</span>,</span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">0.03</span>, <span class="at">b =</span> <span class="fl">0.99</span>)</span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>   log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span> </span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dtruncnormL</span>(theta[<span class="dv">1</span>], </span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.03</span>, <span class="at">b=</span><span class="fl">0.99</span>, </span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> thetaStar[<span class="dv">1</span>], <span class="at">sd =</span> .<span class="dv">05</span>) <span class="sc">-</span> </span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span> </span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">1</span>], </span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.03</span>, <span class="at">b=</span><span class="fl">0.99</span>, </span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">1</span>], <span class="at">sd =</span> .<span class="dv">05</span>)</span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">1</span>] <span class="ot">=</span> accept[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>   }</span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">2</span>], <span class="at">sd =</span> .<span class="dv">05</span>,</span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">0.05</span>, <span class="at">b =</span> <span class="fl">0.5</span>)</span>
-<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
-<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">2</span>], </span>
-<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.05</span>, <span class="at">b=</span><span class="fl">0.5</span>, </span>
-<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">2</span>], <span class="at">sd =</span> .<span class="dv">05</span>) <span class="sc">-</span> </span>
-<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span> </span>
-<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>      <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">2</span>], </span>
-<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">0.05</span>, <span class="at">b=</span><span class="fl">0.5</span>, </span>
-<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">2</span>], <span class="at">sd =</span> .<span class="dv">05</span>)</span>
-<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
-<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
-<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">2</span>] <span class="ot">=</span> accept[<span class="dv">2</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
-<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a>   }</span>
-<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a>  <span class="co"># thetaStar = theta</span></span>
-<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>  <span class="co"># thetaStar[3] = rcnorm(1, mean = theta[3], sd = 0.05,</span></span>
-<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                       a = 0, b = 1)</span></span>
-<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
-<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a>  <span class="co"># log.r = logPosterior(thetaStar) +</span></span>
-<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   dtruncnormL(thetaStar[3], </span></span>
-<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a>  <span class="co">#               a=0, b=1, </span></span>
-<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a>  <span class="co">#               mean = theta[3], sd = 0.05) - </span></span>
-<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a>  <span class="co">#    logPosterior(theta) - </span></span>
-<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   dtruncnormL(thetaStar[3], </span></span>
-<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a>  <span class="co">#               a=0, b=1, </span></span>
-<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>  <span class="co">#               mean = theta[3], sd = 0.05)</span></span>
-<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a>  <span class="co">#  </span></span>
-<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a>  <span class="co">#  if(log(runif(1)) &lt; log.r)  {</span></span>
-<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   theta = thetaStar</span></span>
-<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a>  <span class="co">#   accept[3] = accept[3] + 1 </span></span>
-<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a>  <span class="co">#  }</span></span>
-<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
-<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">4</span>], <span class="at">sd =</span> .<span class="dv">5</span>,</span>
-<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">76.5</span>, <span class="at">b =</span> <span class="dv">80</span>)</span>
-<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
-<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">4</span>], </span>
-<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">76.5</span>, <span class="at">b=</span><span class="dv">80</span>, </span>
-<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">4</span>], <span class="at">sd =</span> .<span class="dv">5</span>) <span class="sc">-</span> </span>
-<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span></span>
-<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">4</span>], </span>
-<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">76.5</span>, <span class="at">b=</span><span class="dv">80</span>, </span>
-<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">4</span>], <span class="at">sd =</span> .<span class="dv">5</span>)</span>
-<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
-<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
-<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">4</span>] <span class="ot">=</span> accept[<span class="dv">4</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
-<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a>   }</span>
-<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
-<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">5</span>], <span class="at">sd =</span> <span class="dv">1</span>,</span>
-<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="fl">25.6</span>, <span class="at">b =</span> <span class="dv">40</span>)</span>
-<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>  log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
-<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">5</span>], </span>
-<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">25.6</span>, <span class="at">b=</span><span class="dv">40</span>, </span>
-<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">5</span>], <span class="at">sd =</span> <span class="dv">1</span>) <span class="sc">-</span> </span>
-<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span></span>
-<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">5</span>], </span>
-<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="fl">25.6</span>, <span class="at">b=</span><span class="dv">40</span>, </span>
-<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">5</span>], <span class="at">sd =</span> <span class="dv">1</span>)</span>
-<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
-<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
-<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">5</span>] <span class="ot">=</span> accept[<span class="dv">5</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
-<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a>   }</span>
-<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a>  thetaStar <span class="ot">=</span> theta</span>
-<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a>  thetaStar[<span class="dv">6</span>] <span class="ot">=</span> <span class="fu">rcnorm</span>(<span class="dv">1</span>, <span class="at">mean =</span> theta[<span class="dv">6</span>], <span class="at">sd =</span> <span class="dv">20</span>,</span>
-<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a>                        <span class="at">a =</span> <span class="dv">2689</span>, <span class="at">b =</span> <span class="dv">2900</span>)</span>
-<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a>   log.r <span class="ot">=</span> <span class="fu">logPosterior</span>(thetaStar) <span class="sc">+</span></span>
-<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">6</span>], </span>
-<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="dv">2689</span>, <span class="at">b=</span><span class="dv">2900</span>, </span>
-<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">6</span>], <span class="at">sd =</span> <span class="dv">20</span>) <span class="sc">-</span> </span>
-<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a>     <span class="fu">logPosterior</span>(theta) <span class="sc">-</span></span>
-<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dtruncnormL</span>(thetaStar[<span class="dv">6</span>], </span>
-<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a>                <span class="at">a=</span><span class="dv">2689</span>, <span class="at">b=</span><span class="dv">2900</span>, </span>
-<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a>                <span class="at">mean =</span> theta[<span class="dv">6</span>], <span class="at">sd =</span> <span class="dv">20</span>)</span>
-<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>)) <span class="sc">&lt;</span> log.r)  {</span>
-<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">=</span> thetaStar</span>
-<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a>    accept[<span class="dv">6</span>] <span class="ot">=</span> accept[<span class="dv">6</span>] <span class="sc">+</span> <span class="dv">1</span> </span>
-<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a>   }</span>
-<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a>   THETA2 <span class="ot">=</span> <span class="fu">rbind</span>(THETA2, theta)</span>
-<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a>THETA2 <span class="ot">=</span> <span class="fu">data.frame</span>(THETA2)</span>
-<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(THETA2) <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"theta"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>))</span>
-<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(THETA2) <span class="ot">=</span> <span class="cn">NULL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+
 </div>
 <div class="cell">
 
 </div>
-<p>Finally, we compute the posterior distribution of the likelihood ratio.</p>
+<!-- Finally, we compute the posterior distribution of the likelihood ratio. -->
 <div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>getLogLikelihood <span class="ot">=</span>  <span class="cf">function</span>(y) {</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">length</span>(y) <span class="sc">==</span> <span class="dv">3</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">dnorm</span>(y, <span class="at">mean =</span> seismic_data<span class="sc">$</span>y, <span class="at">sd =</span> seismic_data<span class="sc">$</span>sd,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>num_posterior <span class="ot">=</span> <span class="dv">20000</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>M1 <span class="ot">=</span> THETA <span class="sc">%&gt;%</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_tail</span>(<span class="at">n =</span> num_posterior) <span class="sc">%&gt;%</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> myBerry)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>M0 <span class="ot">=</span> THETA2 <span class="sc">%&gt;%</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_tail</span>(<span class="at">n =</span> num_posterior) <span class="sc">%&gt;%</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> myBerry)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>X1 <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(M1)) {</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> <span class="fu">unlist</span>(M1[[i]][<span class="fu">c</span>(<span class="st">"vp"</span>, <span class="st">"vs"</span>, <span class="st">"ro2"</span>)])</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">=</span> x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">/</span> <span class="dv">1000</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  X1 <span class="ot">=</span> <span class="fu">rbind</span>(X1, x)</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>X0 <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(M0)) {</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> <span class="fu">unlist</span>(M0[[i]][<span class="fu">c</span>(<span class="st">"vp"</span>, <span class="st">"vs"</span>, <span class="st">"ro2"</span>)])</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">=</span> x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">/</span> <span class="dv">1000</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  X0 <span class="ot">=</span> <span class="fu">rbind</span>(X0, x)</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>M1_ll <span class="ot">=</span> X1 <span class="sc">%&gt;%</span></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> getLogLikelihood)</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>M0_ll <span class="ot">=</span> X0 <span class="sc">%&gt;%</span></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> getLogLikelihood)</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>logDiff <span class="ot">=</span> M1_ll <span class="sc">-</span> M0_ll</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>logDiff <span class="ot">=</span> <span class="fu">data.frame</span>(logDiff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+
 </div>
 <div class="cell">
 
 </div>
 <div class="cell">
-<details>
-<summary>plot code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>logDiff <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> logDiff)) <span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<p><img src="waterOnMars_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+
 </div>
-</div>
-<p>The posterior median of the likelihood ratio is 0.82.</p>
+<!-- The posterior median of the likelihood ratio is 0.82. -->
 <!-- OLD CODE BELOW HERE -->
 <div class="cell">
 

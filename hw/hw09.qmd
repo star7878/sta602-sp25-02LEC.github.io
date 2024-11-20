@@ -7,15 +7,126 @@ format:
     toc: true
 ---
 
+```{r}
+#| code-fold: true
+#| code-summary: load-libraries
+#| warning: false
+#| message: false
+library(tidyverse)
+```
+
+
 ## Exercise 1
 
 3.12 from Hoff.
 
 ## Exercise 2
 
+ Hares-Lynx population dynamics
+
+A Canadian business, *Hudson's Bay company* is North America's longest continually operating company (founded in 1670). During the 19th and 20th century, the company bought animal pelts of both snowshoe hares and lynx from trappers. Lynx are the most predominant natural predator of snowshoe hares. The counts of pelts provide an approximation to the population size of each animal. Data sourced from [here](https://jmahaffy.sdsu.edu/courses/f00/math122/labs/labj/q3v1.htm).
+
+```{r}
+#| label: load-data
+#| warning: false
+#| message: false
+
+hares_lynx = read_csv("../data/hares-lynx.csv")
+glimpse(hares_lynx)
+```
+
+-   `year` is the year of record
+-   `hares` is the number of hare pelts (thousands)
+-   `lynx` is the number of lynx pelts (thousands)
+
+### Dynamical System
+
+The following system is an example known as "Lotka-Volterra" dynamics which describe an interactive model of the population of predator and prey.
+
+|              |                                |
+|--------------|--------------------------------|
+| $H(t)$       | Number of hares at time t      |
+| $H(0) = H_0$ | Number of hares at time 0      |
+| $L(t)$       | Number of lynx at time t       |
+| $L(0) = L_0$ | Number of lynx at time 0       |
+| $a_1$        | Per capita birth rate of hares |
+| $b_1$        | Per capita death rate of lynx  |
+| $a_2$        | Rate at which lynx eat hares   |
+| $b_2$        | Rate at which prey affects predator growth                               |
+
+
+Some assumptions: 
+
+1. The prey population finds ample food at all times.
+2. The food supply of the predator population depends entirely on the size of the prey population.
+3. The rate of change of population is proportional to its size.
+4. During the process, the environment does not change in favor of one species, and genetic adaptation is inconsequential.
+5. Predators have limitless appetite.
+6. Both populations can be described by a single variable. This amounts to assuming that the populations do not have a spatial or age distribution that contributes to the dynamics.
+
+$$
+\begin{aligned}
+\frac{dH(t)}{dt} &= a_1 H(t) - a_2 H(t)L(t)\\
+\frac{dL(t)}{dt} &= - b_1 L(t) + b_2 H(t)L(t)
+\end{aligned}
+$$
+
+
+### Statistical model
+
+One more assumption: we will assume multivariate normal noise in our observations $H(t), L(t)$.
+
+$$
+  \begin{align}
+   \begin{bmatrix}
+           H(t) \\
+           L(t)
+         \end{bmatrix}
+         &\sim
+         MVN \left(
+         \begin{bmatrix}
+           \tilde{H}(t) \\
+           \tilde{L}(t)
+         \end{bmatrix}, 
+         I_2
+          \right)
+  \end{align}
+$$
+
+where $\tilde{H}(t), \tilde{L}(t)$ is the solution of the system of differential equations and is a function of $H(0), L(0), a_1, a_2, b_1, b_2$ as well as $t$.
+
+$I_2$ is a $2 \times 2$ identity matrix.
+
+Use the function below to simulate a $\{H(t), L(t)\}$ given a set of parameters.
+
+::: callout-important
+todo: add Lotka-Volterra integration via Euler's method
+:::
+
+(a) Place reasonable priors on each unknown. Explain why the prior choices make sense.
+
+(b) Construct an MCMC sampler of your choice to sample from the posterior $p(a_1, a_2, b_1, b_2, H(0), L(0) | data)$. 
+
+(c) Examine MCMC diagnostics and discuss whether or not your posterior converged. 
+
+(d) Using the posterior mean estimates of each unknown, forward simulate a data set $\{H^*(t), L^*(t) \}$ for each time 1900, ..., 1920. Plot a time series of the predicted population and compare to the empirical trajectory of the populations.
+
+<!-- We place priors on the unknowns -->
+
+<!-- $$ -->
+<!-- \begin{aligned} -->
+<!-- a_1 &\sim N()\\ -->
+<!-- a_2 &\sim \text{log-normal}\\ -->
+<!-- b_1 &\sim N()\\ -->
+<!-- b_2 &\sim \text{gamma}() -->
+<!-- \end{aligned} -->
+<!-- $$ -->
+
 
 
 ## Exercise 3
+
+TBD
 <!-- hierarchical modeling -->
 
 <!--dynamical systems -->
