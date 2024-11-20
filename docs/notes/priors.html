@@ -197,7 +197,12 @@ Y &amp;\sim N_n(X \beta, \sigma^2 I_n)\\
 <section id="in-practice" class="level4">
 <h4 class="anchored" data-anchor-id="in-practice">In practice</h4>
 <p>Procedurally, one can construct a unit information prior in the following way:</p>
-<p>Let <span class="math inline">\(Y_1,\ldots,Y_n \sim \text{iid } p(y|\theta)\)</span>. Let <span class="math inline">\(l(\theta | y_1,\ldots,y_n) = \sum_{i=1}^n \log p(y_i|\theta)\)</span>. 1. Compute the MLE, <span class="math inline">\(\hat{\theta}_{MLE} = \text{argmax}_{\theta}~ l(\theta|y_1,\ldots,y_n)\)</span>. 2. Compute the negative of the curvature of the log-likelihood: <span class="math inline">\(J(\theta) = - \frac{\partial^2}{\partial \theta^2} l(\theta | y_1,\ldots, y_n)\)</span>. 3. Center the prior on the MLE, and let the curvature of the prior be <span class="math inline">\(- \frac{\partial^2}{\partial \theta^2} p(\theta) = J(\theta) / n\)</span>.</p>
+<p>Let <span class="math inline">\(Y_1,\ldots,Y_n \sim \text{iid } p(y|\theta)\)</span>. Let <span class="math inline">\(l(\theta | y_1,\ldots,y_n) = \sum_{i=1}^n \log p(y_i|\theta)\)</span>.</p>
+<ol type="1">
+<li><p>Compute the MLE, <span class="math inline">\(\hat{\theta}_{MLE} = \text{argmax}_{\theta}~ l(\theta|y_1,\ldots,y_n)\)</span>.</p></li>
+<li><p>Compute the negative of the curvature of the log-likelihood: <span class="math inline">\(J(\theta) = - \frac{\partial^2}{\partial \theta^2} l(\theta | y_1,\ldots, y_n)\)</span>.</p></li>
+<li><p>Center the prior on the MLE, and let the curvature of the prior be <span class="math inline">\(- \frac{\partial^2}{\partial \theta^2} p(\theta) = J(\theta) / n\)</span>.</p></li>
+</ol>
 <div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Exercise</a></li></ul>
 <div class="tab-content">

@@ -70,8 +70,11 @@ Similarly, $\nu_0 = 1$ (implying unit information) and $\sigma_0^2$ is the MLE o
 Procedurally, one can construct a unit information prior in the following way:
 
 Let $Y_1,\ldots,Y_n \sim \text{iid } p(y|\theta)$. Let $l(\theta | y_1,\ldots,y_n) = \sum_{i=1}^n \log p(y_i|\theta)$.
+
 1. Compute the MLE, $\hat{\theta}_{MLE} = \text{argmax}_{\theta}~ l(\theta|y_1,\ldots,y_n)$.
+
 2. Compute the negative of the curvature of the log-likelihood: $J(\theta) = - \frac{\partial^2}{\partial \theta^2} l(\theta | y_1,\ldots, y_n)$.
+
 3. Center the prior on the MLE, and let the curvature of the prior be $- \frac{\partial^2}{\partial \theta^2} p(\theta) = J(\theta) / n$.
 
 ::: panel-tabset

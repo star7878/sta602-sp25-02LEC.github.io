@@ -6,93 +6,111 @@ format:
   html:
     toc: true
 execute: 
-  eval: false
+  eval: true
 ---
 
 ```{r}
-#| warning: false
+#| label: "load-libraries"
+#| code-summary: load libraries
+#| code-fold: true
 #| message: false
+#| warning: false
 library(truncnorm)
 library(tidyverse)
 library(coda)
 ```
 
-## Bayesian inverse problems 
+## Bayesian inverse problems
 
 Idea: writing the likelihood is difficult or impossible in closed form.
 
-As usual, we wish to estimate some parameter vector $\theta$. However, $\theta$ relates to our observations $y$ via some function $y = f(\theta)$. The catch is, we cannot write $f(\theta)$ directly, nor compute it exactly. Most often, all we can do is simulate from $f(\theta)$.
+As usual, we wish to estimate some parameter vector $\theta$. However, $\theta$ relates to our observations $y$ via some function $y = f(\theta)$. The catch is, we cannot write $f(\theta)$ directly, nor compute it exactly. Most often, all we can do is simulate from $f(\theta)$.\
+\
+![](imgs/martian-water.png)
 
 <!-- Example: $y$ is the solution of a differential equation with no closed form solution. $\frac{dy}{dt} = g(y, \theta)$. -->
 
 <!-- ### Toy example: logistic growth of a population. -->
 
 <!-- $$ -->
+
 <!-- \frac{dN}{dt} = rN ( 1 - \frac{N}{K}) -->
+
 <!-- $$ -->
 
 <!-- where $N(t)$ is the number of individuals at time $t$, $r$ is the per capita growth rate, and $K$ is the carrying capacity. -->
 
 <!-- $$ -->
+
 <!-- \frac{dN}{dt} = rN ( 1 - \frac{N}{K}) -->
+
 <!-- $$ -->
 
 <!-- ```{r} -->
-<!-- #| echo: false  -->
-<!-- f = function(theta) {  -->
-<!--   rnorm(1, mea) -->
-<!--   } -->
-<!-- ``` -->
 
+<!-- #| echo: false  -->
+
+<!-- f = function(theta) {  -->
+
+<!--   rnorm(1, mea) -->
+
+<!--   } -->
+
+<!-- ``` -->
 
 <!-- ```{r} -->
-<!-- # y = c(9, 10, 11) -->
-<!-- #  -->
-<!-- # S = 1000 -->
-<!-- # for(i in 1:S) { -->
-<!-- #   theta_star =  -->
-<!-- #   f_theta = rnorm(3, theta/2, 1) -->
-<!-- # } -->
-<!-- ``` -->
 
+<!-- # y = c(9, 10, 11) -->
+
+<!-- #  -->
+
+<!-- # S = 1000 -->
+
+<!-- # for(i in 1:S) { -->
+
+<!-- #   theta_star =  -->
+
+<!-- #   f_theta = rnorm(3, theta/2, 1) -->
+
+<!-- # } -->
+
+<!-- ``` -->
 
 <!-- A more realistic example is when $y(t)$ is the solution to a dynamical system. -->
 
-## Example
+## Example: Liquid water in the Martian mid-crust [^1]
 
-Today's example comes from [Liquid water in the Martian mid-crust by Wright, Morzfeld and Manga](https://www.pnas.org/doi/epub/10.1073/pnas.2409983121).
+[^1]: Wright, V., Morzfeld, M., & Manga, M. (2024). Liquid water in the Martian mid-crust. Proceedings of the National Academy of Sciences, 121(35), [e2409983121](https://www.pnas.org/doi/epub/10.1073/pnas.2409983121).
 
-The Interior [Exploration using Seismic Investigations, Geodesy and Heat Transport (InSight)](https://science.nasa.gov/mission/insight/) mission from NASA sent a robotic lander to Mars on May 5, 2018. The goal of the mission, which ended December 2022, was to study the crust, mantle and core of Mars. 
+![InSight. Photo credit: NASA. Image retrieved from https://science.nasa.gov/mission/insight/](imgs/InSight.png)
 
+The [Interior Exploration using Seismic Investigations, Geodesy and Heat Transport (InSight)](https://science.nasa.gov/mission/insight/) mission from NASA sent a robotic lander to Mars on May 5, 2018. The goal of the mission, which ended December 2022, was to study the crust, mantle and core of Mars.
 
-Watch video [here](https://www.iris.edu/hq/inclass/animation/1component_seismogram_building_responds_to_p_s_surface_waves).
+### Data
 
-```{r}
-#| label: "load-libraries"
-#| message: false
-#| warning: false
-library(tidyverse)
-```
+Watch the video [here](https://www.iris.edu/hq/inclass/animation/1component_seismogram_building_responds_to_p_s_surface_waves) to see the data that InSight collects from earthquakes on Mars.
 
 ```{r}
 seismic_data = data.frame(y = c(4.1, 2.5, 2589),
                           sd = c(0.2, 0.3, 157))
 ```
 
-## Parameter Table
+### Parameter Table
 
-|            |                             |
-|------------|-----------------------------|
-| $\alpha$   | Pore shape aspect ratio     |
-| $\phi$     | Porosity                    |
-| $\gamma_w$ | Water saturation (%)        |
-| $\kappa_m$ | Mineral bulk modulus (GPa)  |
-| $\mu_m$    | Mineral shear modulus (GPa) |
-| $\rho_m$   | Mineral density (kg/m$^3$)  |
+Here our parameter vector $\theta = (\alpha, \phi, \gamma_w, \kappa_m, \mu_m, \rho_m)$. These parameters describe the medium through which the earthquake waves propagate.
 
-
+| Symbol in paper | Code       | Definition                  |
+|-----------------|------------|-----------------------------|
+| $\alpha$        | `theta[1]` | Pore shape aspect ratio     |
+| $\phi$          | `theta[2]` | Porosity                    |
+| $\gamma_w$      | `theta[3]` | Water saturation (%)        |
+| $\kappa_m$      | `theta[4]` | Mineral bulk modulus (GPa)  |
+| $\mu_m$         | `theta[5]` | Mineral shear modulus (GPa) |
+| $\rho_m$        | `theta[6]` | Mineral density (kg/m$^3$)  |
 
 ```{r}
+#| echo: false
+#| eval: false
 # Berryman’s rock physics model 
 Vp = function(ke, mue, pb) {
   sqrt((ke + ((4/3) * mue)) / pb)
@@ -105,8 +123,15 @@ Vs = function(mue, pb) {
 getParameters = function(alpha, phi, gw, km, mum, rhom)
 ```
 
+### Berryman self-consistent rock physics model
+
+The function $f(\theta)$ that forward simulates data given our set of parameters is `myBerry` in the code below. This function serves as a wrapper to the `berry_scm` function, also defined below. Functions are translated into R from original MATLAB code by Wright, Morzfeld and Manga from the paper and publicly available on GitHub. [^2]
+
+[^2]: <https://github.com/mattimorzfeld/WMM24>
 
 ```{r}
+#| code-fold: true
+#| code-summary: Show Berryman functions
 berry_scm <- function(k, mu, asp, x, ro1, P_water) {
   # BERRYSCM - Effective elastic moduli for multi-component composite
   # using Berryman's Self-Consistent (Coherent Potential Approximation) method.
@@ -247,12 +272,11 @@ myBerry <- function(theta, H = 3) {
   # Return the required output from berryscm
   return(result)
 }
-
-
 ```
 
-
 ```{r}
+#| echo: false
+#| eval: false
 # myBerry <- function(theta, H = 3) {
 #   asp <- c(1, theta[1])
 #   x_phi <- theta[2]
@@ -271,9 +295,9 @@ myBerry <- function(theta, H = 3) {
 # }
 ```
 
-
-## Code
 ```{r}
+#| eval: false
+#| echo: false
 # theta is vector of parameters 
 # theta[1] = alpha 
 # theta[2] = phi = porosity
@@ -302,8 +326,31 @@ result$ro2
 # result$rhob
 ```
 
+### Likelihood and prior
+
+::: panel-tabset
+## Exercise
+
+Why does a normal likelihood make sense?\
+\
+What priors are chosen for each unknown?
+:::
+
+## Inference
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+THETA = read_csv("../data/MarsWaterUniform.csv")
+# glimpse(THETA)
+```
+
+::: panel-tabset
+## MCMC Code
+
+```{r}
+#| code-fold: true
 #| eval: false
 set.seed(360)
 dtruncnormL = function(x, a, b, mean, sd) {
@@ -465,48 +512,318 @@ for(i in 1:S) {
 
 ```
 
+## Diagnostics
+
+```{r}
+#| code-fold: true
+N = nrow(THETA)
+THETA = THETA %>%
+  mutate(iteration = seq(1,N))
+
+THETA %>%
+  filter(iteration > 30000) %>%
+  pivot_longer(cols = 1:6) %>%
+  ggplot(aes(x = iteration, y = value)) +
+  geom_line() +
+  facet_wrap(~ name, scales = "free_y")
+```
+
+## Marginal posteriors
+
+```{r}
+#| code-fold: true
+#| warning: false
+#| message: false
+THETA %>%
+  filter(iteration > 20000) %>%
+  pivot_longer(cols = 1:6) %>%
+  ggplot(aes(x = value)) +
+  geom_histogram(aes(y = ..density..), alpha = 0.5) +
+  geom_density() +
+  facet_wrap(~ name, scales = "free") +
+  theme_bw()
+```
 
 ## Results
 
 ```{r}
-THETA = read_csv("../data/MarsWaterUniform.csv")
-THETA
-```
-
-
-```{r}
-THETA %>%
-  apply(FUN = effectiveSize, MARGIN = 2)
-
-cat("\n")
+#| code-fold: true
+library(knitr)
+# posterior means of parameters
 posteriorMeans = 
   THETA %>%
+  select(-iteration) %>%
   colMeans()
-posteriorMeans
-myBerry(posteriorMeans)[c("vp", "vs", "ro2")]
+
+posteriorMeans %>% 
+  kable(col.names = c("parameter", "posteriorMean"))
 ```
 
 ```{r}
-hist(THETA$theta1)
-hist(THETA$theta2)
-hist(THETA$theta3)
+#| code-fold: true
+# generating data from posterior means 
+result = myBerry(posteriorMeans)
+dataFromPostMean = c(result$vp / 1000, result$vs / 1000, result$ro2)
+rbind(dataFromPostMean, seismic_data$y) %>%
+  kable(col.names = c("Vp", "Vs", "Rho"), digits = 3)
 ```
+:::
+
+## Discussion
+
+### Model selection
+
+Let $M_1$ be the hypothesis that there is water present under the surface of Mars and let $M_0$ be the hypothesis that there is not. Really, we want to select between these two hypotheses.
+
+To do this, consider the ratio of posterior probabilities
+
+$$
+\begin{aligned}
+\underbrace{\frac{Pr(M_1 | data)}{Pr(M_0 |data)}}_{\text{posterior odds}}
+= 
+\underbrace{\frac{p({data} | M_1)}{p(data | M_0}}_{\text{Bayes factor}}
+\underbrace{\frac{p(M_1)}{p(M_0)}}_{\text{prior odds}}
+\end{aligned}
+$$
+
+The Bayes factor tells us how the data supports one hypothesis over another. Notice that we cannot compute the Bayes factor directly. We must expand,
+
+$$
+\begin{aligned}
+p(data | M_i) &= \int p(data, \theta | M_i) d\theta\\
+&= \int p(data | \theta) p(\theta | M_i) d \theta
+\end{aligned}
+$$ 
+
+::: callout-important
+Notice that the Bayes factor **does depend** on the prior $p(\theta | M_i)$.
+:::
+
+### Approximating the Bayes factor
+
+<!-- ## Shameless code duplication -->
+
+Below I assume $M_0$ is true, i.e. there is no water on Mars and thus `theta3` is fixed to 0. I sample from the posterior of the other five parameters.
 
 ```{r}
+#| code-fold: true
+#| code-summary: Shameless code duplication
 #| eval: false
-#| echo: false
-colnames(THETA) = paste0("theta", 1:6)
-THETA
-rownames(THETA) = NULL
-df = data.frame(THETA)
-rownames(df) = NULL
-# df[10000:50000,]%>%
-#   write_csv("../data/MarsWaterUniform.csv")
+set.seed(360)
+dtruncnormL = function(x, a, b, mean, sd) {
+  log(dtruncnorm(x, a=a, b=b, mean = mean, sd = sd))
+}
+
+rcnorm<-function(n, mean=0, sd=1, a=-Inf, b=Inf){
+  u = runif(n, pnorm((a - mean) / sd), pnorm((b - mean) / sd))
+  mean + (sd * qnorm(u))
+}
+
+logPosterior = function(theta) {
+  result = myBerry(theta)
+  y = c(result$vp / 1000, result$vs / 1000, result$ro2)
+  if(result$vp < result$vs) {
+    return(-Inf)
+  }
+  else{
+  return(
+    sum(dnorm(y, mean = seismic_data$y, sd = seismic_data$sd,
+            log = TRUE)) #+ 
+      # dbeta(theta[3], .1, .5, log = TRUE)
+  )
+  }
+}
+
+# THETA[1] = alpha
+# THETA[2] = porosity
+# THETA[3] = saturation
+# THETA[4] = kappa_m
+# THETA[5] = mu_m
+# THETA[6] = rho_m
+
+# starting point
+alpha = 0.5
+porosity = 0.25 #runif(1, 0.05, 0.50)
+saturation = 0 #0 to 1
+kappa_m = 78
+mu_m = 33
+rhom = 3000
+theta = c(alpha, porosity, saturation, kappa_m, mu_m, rhom)
+
+# prior
+## indicator that parameters are in proper ranges * constant * indicator that Vp > Vs
+
+# MCMC 
+S = 5000
+accept = rep(0, length(theta))
+
+THETA2 = NULL
+for(i in 1:S) {
+  thetaStar = theta 
+  thetaStar[1] = rcnorm(1, mean = theta[1], sd = .05,
+                        a = 0.03, b = 0.99)
+   log.r = logPosterior(thetaStar) + 
+     dtruncnormL(theta[1], 
+                a=0.03, b=0.99, 
+                mean = thetaStar[1], sd = .05) - 
+     logPosterior(theta) - 
+     dtruncnormL(thetaStar[1], 
+                a=0.03, b=0.99, 
+                mean = theta[1], sd = .05)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[1] = accept[1] + 1 
+   }
+  
+  thetaStar = theta
+  thetaStar[2] = rcnorm(1, mean = theta[2], sd = .05,
+                        a = 0.05, b = 0.5)
+  log.r = logPosterior(thetaStar) +
+    dtruncnormL(thetaStar[2], 
+                a=0.05, b=0.5, 
+                mean = theta[2], sd = .05) - 
+     logPosterior(theta) - 
+      dtruncnormL(thetaStar[2], 
+                a=0.05, b=0.5, 
+                mean = theta[2], sd = .05)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[2] = accept[2] + 1 
+   }
+  
+  # thetaStar = theta
+  # thetaStar[3] = rcnorm(1, mean = theta[3], sd = 0.05,
+  #                       a = 0, b = 1)
+  # 
+  # log.r = logPosterior(thetaStar) +
+  #   dtruncnormL(thetaStar[3], 
+  #               a=0, b=1, 
+  #               mean = theta[3], sd = 0.05) - 
+  #    logPosterior(theta) - 
+  #   dtruncnormL(thetaStar[3], 
+  #               a=0, b=1, 
+  #               mean = theta[3], sd = 0.05)
+  #  
+  #  if(log(runif(1)) < log.r)  {
+  #   theta = thetaStar
+  #   accept[3] = accept[3] + 1 
+  #  }
+  
+  thetaStar = theta
+  thetaStar[4] = rcnorm(1, mean = theta[4], sd = .5,
+                        a = 76.5, b = 80)
+  
+  log.r = logPosterior(thetaStar) +
+    dtruncnormL(thetaStar[4], 
+                a=76.5, b=80, 
+                mean = theta[4], sd = .5) - 
+     logPosterior(theta) -
+    dtruncnormL(thetaStar[4], 
+                a=76.5, b=80, 
+                mean = theta[4], sd = .5)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[4] = accept[4] + 1 
+   }
+  
+  thetaStar = theta
+  thetaStar[5] = rcnorm(1, mean = theta[5], sd = 1,
+                        a = 25.6, b = 40)
+  
+  log.r = logPosterior(thetaStar) +
+    dtruncnormL(thetaStar[5], 
+                a=25.6, b=40, 
+                mean = theta[5], sd = 1) - 
+     logPosterior(theta) -
+    dtruncnormL(thetaStar[5], 
+                a=25.6, b=40, 
+                mean = theta[5], sd = 1)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[5] = accept[5] + 1 
+   }
+  
+  thetaStar = theta
+  thetaStar[6] = rcnorm(1, mean = theta[6], sd = 20,
+                        a = 2689, b = 2900)
+  
+   log.r = logPosterior(thetaStar) +
+    dtruncnormL(thetaStar[6], 
+                a=2689, b=2900, 
+                mean = theta[6], sd = 20) - 
+     logPosterior(theta) -
+    dtruncnormL(thetaStar[6], 
+                a=2689, b=2900, 
+                mean = theta[6], sd = 20)
+   
+   if(log(runif(1)) < log.r)  {
+    theta = thetaStar
+    accept[6] = accept[6] + 1 
+   }
+  
+   THETA2 = rbind(THETA2, theta)
+}
+
+THETA2 = data.frame(THETA2)
+colnames(THETA2) = c(paste0("theta", 1:6))
+rownames(THETA2) = NULL
+
 ```
 
-## Shameless code duplication
+
+Finally, we compute the posterior distribution of the likelihood ratio.
 
 ```{r}
+#| code-fold: true
+#| eval: false
+
+getLogLikelihood =  function(y) {
+  stopifnot(length(y) == 3)
+  sum(dnorm(y, mean = seismic_data$y, sd = seismic_data$sd,
+            log = TRUE))
+}
+
+M1 = THETA %>%
+  slice_tail(n = 2500) %>%
+  apply(MARGIN = 1, FUN = myBerry)
+M0 = THETA2 %>%
+  slice_tail(n = 2500) %>%
+  apply(MARGIN = 1, FUN = myBerry)
+
+X1 = NULL
+for (i in 1:length(M1)) {
+  x = unlist(M1[[i]][c("vp", "vs", "ro2")])
+  x[1:2] = x[1:2] / 1000
+  X1 = rbind(X1, x)
+}
+
+X0 = NULL
+for (i in 1:length(M0)) {
+  x = unlist(M0[[i]][c("vp", "vs", "ro2")])
+  x[1:2] = x[1:2] / 1000
+  X0 = rbind(X0, x)
+}
+
+M1_ll = X1 %>%
+  apply(MARGIN = 1, FUN = getLogLikelihood)
+
+M0_ll = X0 %>%
+  apply(MARGIN = 1, FUN = getLogLikelihood)
+
+logDiff = M1_ll - M0_ll
+hist(logDiff)
+mean(exp(logDiff))
+```
+
+<!-- OLD CODE BELOW HERE -->
+
+```{r}
+#| echo: false
+#| eval: false
 set.seed(360)
 dtruncnormL = function(x, a, b, mean, sd) {
   log(dtruncnorm(x, a=a, b=b, mean = mean, sd = sd))
@@ -667,15 +984,32 @@ for(i in 1:S) {
 }
 ```
 
+
+
 ```{r}
-dim(THETA)
-
-effectiveSize(THETA[,3])
-
-hist(THETA[,3])
+#| echo: false
+#| eval: false
+hist(THETA$theta1)
+hist(THETA$theta2)
+hist(THETA$theta3)
 ```
 
 ```{r}
+#| eval: false
+#| echo: false
+
+## WRITING DATA ##
+colnames(THETA) = paste0("theta", 1:6)
+THETA
+rownames(THETA) = NULL
+df = data.frame(THETA)
+rownames(df) = NULL
+# df[10000:50000,]%>%
+#   write_csv("../data/MarsWaterUniform.csv")
+```
+
+```{r}
+#| echo: false
 #| eval: false
 xx = apply(THETA2, MARGIN = 2, FUN = median) # THETA2 = og data set
 logPosterior(xx)
@@ -688,4 +1022,3 @@ x3 = xx
 x3[3] = 0.01
 logPosterior(x3)
 ```
-
