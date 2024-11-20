@@ -654,7 +654,7 @@ theta = c(alpha, porosity, saturation, kappa_m, mu_m, rhom)
 ## indicator that parameters are in proper ranges * constant * indicator that Vp > Vs
 
 # MCMC 
-S = 5000
+S = 50000
 accept = rep(0, length(theta))
 
 THETA2 = NULL
@@ -775,6 +775,16 @@ rownames(THETA2) = NULL
 ```
 
 
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+
+# write_csv(THETA2, "../data/MarsWaterH0.csv")
+THETA2 = read_csv("../data/MarsWaterH0.csv")
+```
+
 Finally, we compute the posterior distribution of the likelihood ratio.
 
 ```{r}
@@ -787,11 +797,13 @@ getLogLikelihood =  function(y) {
             log = TRUE))
 }
 
+num_posterior = 20000
+
 M1 = THETA %>%
-  slice_tail(n = 2500) %>%
+  slice_tail(n = num_posterior) %>%
   apply(MARGIN = 1, FUN = myBerry)
 M0 = THETA2 %>%
-  slice_tail(n = 2500) %>%
+  slice_tail(n = num_posterior) %>%
   apply(MARGIN = 1, FUN = myBerry)
 
 X1 = NULL
@@ -815,9 +827,33 @@ M0_ll = X0 %>%
   apply(MARGIN = 1, FUN = getLogLikelihood)
 
 logDiff = M1_ll - M0_ll
-hist(logDiff)
-mean(exp(logDiff))
+logDiff = data.frame(logDiff)
 ```
+
+```{r}
+#| echo: false
+#| eval: true
+#| message: false
+#| warning: false
+
+# write_csv(logDiff, "../data/MartianLR.csv")
+logDiff = read_csv("../data/MartianLR.csv")
+```
+
+
+```{r}
+#| warning: false
+#| message: false
+#| code-fold: true
+#| code-summary: plot code
+logDiff %>%
+  ggplot(aes(x = logDiff)) +
+  geom_histogram(alpha = 0.5) +
+  geom_density() +
+  theme_bw()
+```
+
+The posterior median of the likelihood ratio is `r median(exp(logDiff$logDiff)) %>% round(2)`.
 
 <!-- OLD CODE BELOW HERE -->
 
