@@ -1,0 +1,106 @@
+---
+title: "Bayesian inverse problem practice"
+format: 
+    revealjs:
+      mainfont: Lato
+      smaller: true
+---
+
+# Estimating $R_0$
+
+## Install packages
+
+We will use the library `deSolve` "differential equation solve" to solve a system of differential equations in this lab. You can install the package using the code below.
+```{r}
+#| eval: false
+install.packages("deSolve")
+```
+and then load the package with the following code chunk.
+
+```{r}
+#| message: false
+#| warning: false
+library(deSolve)
+```
+## Data
+
+## Exercise
+
+## Solution
+
+```{r}
+sir_equations <- function(time, variables, parameters) {
+  with(as.list(c(variables, parameters)), {
+    dS <- -beta * I * S
+    dI <-  beta * I * S - gamma * I
+    dR <-  gamma * I
+    return(list(c(dS, dI, dR)))
+  })
+}
+```
+
+
+```{r}
+parameters_values <- c(
+  beta  = 0.004, # infectious contact rate (/person/day)
+  gamma = 0.5    # recovery rate (/day)
+)
+```
+
+```{r}
+initial_values <- c(
+  S = 999,  # number of susceptibles at time = 0
+  I =   1,  # number of infectious at time = 0
+  R =   0   # number of recovered (and immune) at time = 0
+)
+time_values <- seq(0, 10) # days
+ls()
+```
+
+```{r}
+sir_values_1 <- ode(
+  y = initial_values,
+  times = time_values,
+  func = sir_equations,
+  parms = parameters_values 
+)
+
+sir_values_1
+```
+
+```{r}
+sir_1 <- function(beta, gamma, S0, I0, R0, times) {
+  require(deSolve) # for the "ode" function
+  
+# the differential equations:
+  sir_equations <- function(time, variables, parameters) {
+    with(as.list(c(variables, parameters)), {
+      dS <- -beta * I * S
+      dI <-  beta * I * S - gamma * I
+      dR <-  gamma * I
+      return(list(c(dS, dI, dR)))
+    })
+  }
+  
+# the parameters values:
+  parameters_values <- c(beta  = beta, gamma = gamma)
+
+# the initial values of variables:
+  initial_values <- c(S = S0, I = I0, R = R0)
+  
+# solving
+  out <- ode(initial_values, times, sir_equations, parameters_values)
+
+# returning the output:
+  as.data.frame(out)
+}
+```
+
+```{r}
+sir_1(beta = 0.004, gamma = 0.5, S0 = 999, I0 = 1, R0 = 0, times = seq(0, 10))
+```
+
+```{r} 
+
+```
+

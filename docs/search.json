@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Bayesian methods and modern statistics",
     "section": "",
-    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\nCh. 2\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\nCh. 2\n🗒 📝\nhw 1\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\nCh. 3\n\n\n\n\n\nWed Sep 04\nbeta-binomial model\nCh. 3\n🗒 📝\nhw 2\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n💻\n\n\n\n3\nMon Sep 09\nPoisson-gamma model, exp families\nCh. 3\n🗒 📝\n\n\n\n\nWed Sep 11\nreliability (conf. intervals, hpd, Laplace approx.)\nCh. 3\n🗒 📝\nhw 3\n\n\n\nThu Sep 12\nlab: exp. families and transformations\n\n💻\n\n\n\n4\nMon Sep 16\nintro to Monte Carlo\nCh. 4\n🗒 📝\n\n\n\n\nWed Sep 18\npredictive checks and MC error\nCh. 4\n🗒\nhw 4\n\n\n\nThu Sep 19\nlab: mixture densities\n\n💻\n\n\n\n5\nMon Sep 23\nthe normal model\nCh. 5\n🗒📝\n\n\n\n\nWed Sep 25\nthe normal model II\nCh. 5\n📝\n\n\n\n\nThu Sep 26\nlab: normal data\n\n💻\n\n\n\n6\nMon Sep 30\nreview\n\n\n\n\n\n\nWed Oct 02\nExam I\n\n\n\n\n\n\nThu Oct 03\nNO LAB\n\n\n\n\n\n7\nMon Oct 07\nMetropolis algorithm\nCh. 10\n🗒\n\n\n\n\nWed Oct 09\nMCMC diagnostics\nCh. 6\n🗒\nhw 5\n\n\n\nThu Oct 10\nlab: Metropolis algo.\n\n💻\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\nwrap-up diagnostics and MH\nCh. 6, 10\n📝\n\n\n\n\nThu Oct 17\nlab: MCMC and conf. bands\n\n💻\n\n\n\n9\nMon Oct 21\nGibbs sampling\nCh. 6\n🗒\n\n\n\n\nWed Oct 23\nMultivariate normal\nCh. 7\n🗒\nhw 6\n\n\n\nThu Oct 24\nlab: MCMC diagnostics\n\n💻\n\n\n\n10\nMon Oct 28\nintro to Bayesian regression\nCh. 9\n🗒📝\n\n\n\n\nWed Oct 30\nBayesian regression II\nCh. 9\n🗒\nhw 7\n\n\n\nThu Oct 31\nlab: rstanarm\n\n💻\n\n\n\n11\nMon Nov 04\nEstimators\nCh. 5 sec. 4\n🗒📝\n\n\n\n\nWed Nov 06\nHierarchical modeling\nCh. 8\n🗒📝\nhw 8\n\n\n\nThu Nov 07\nlab: estimators\n\n💻\n\n\n\n12\nMon Nov 11\nreview\n\n\n\n\n\n\nWed Nov 13\nExam II\n\n\n\n\n\n\nThu Nov 14\nNO LAB\n\n\n\n\n\n13\nMon Nov 18\nPriors\n\n🗒\n\n\n\n\nWed Nov 20\nBayesian inverse problems\n📖\n🗒\nhw 9\n\n\n\nThu Nov 21\nlab\n\n\n\n\n\n14\nMon Nov 25\nHamiltonian Monte Carlo\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\nModel averaging\n\n\n\n\n\n\nWed Dec 04\nreview\n\n\n\n\n\n\nThu Dec 05\nlab"
+    "text": "Week\nDate\nTopic\nReading\nNotes\nAssignment\n\n\n\n\n1\nMon Aug 26\nintro, history, notation\nCh. 2\n\nhw 0\n\n\n\nWed Aug 28\nprobability, exchangeability\nCh. 2\n🗒 📝\nhw 1\n\n\n\nThu Aug 29\nlab: welcome\n\n💻\nhello R\n\n\n2\nMon Sep 02\nNO CLASS\nCh. 3\n\n\n\n\n\nWed Sep 04\nbeta-binomial model\nCh. 3\n🗒 📝\nhw 2\n\n\n\nThu Sep 05\nlab: MLE and MAP estimator\n\n💻\n\n\n\n3\nMon Sep 09\nPoisson-gamma model, exp families\nCh. 3\n🗒 📝\n\n\n\n\nWed Sep 11\nreliability (conf. intervals, hpd, Laplace approx.)\nCh. 3\n🗒 📝\nhw 3\n\n\n\nThu Sep 12\nlab: exp. families and transformations\n\n💻\n\n\n\n4\nMon Sep 16\nintro to Monte Carlo\nCh. 4\n🗒 📝\n\n\n\n\nWed Sep 18\npredictive checks and MC error\nCh. 4\n🗒\nhw 4\n\n\n\nThu Sep 19\nlab: mixture densities\n\n💻\n\n\n\n5\nMon Sep 23\nthe normal model\nCh. 5\n🗒📝\n\n\n\n\nWed Sep 25\nthe normal model II\nCh. 5\n📝\n\n\n\n\nThu Sep 26\nlab: normal data\n\n💻\n\n\n\n6\nMon Sep 30\nreview\n\n\n\n\n\n\nWed Oct 02\nExam I\n\n\n\n\n\n\nThu Oct 03\nNO LAB\n\n\n\n\n\n7\nMon Oct 07\nMetropolis algorithm\nCh. 10\n🗒\n\n\n\n\nWed Oct 09\nMCMC diagnostics\nCh. 6\n🗒\nhw 5\n\n\n\nThu Oct 10\nlab: Metropolis algo.\n\n💻\n\n\n\n8\nMon Oct 14\nNO CLASS\n\n\n\n\n\n\nWed Oct 16\nwrap-up diagnostics and MH\nCh. 6, 10\n📝\n\n\n\n\nThu Oct 17\nlab: MCMC and conf. bands\n\n💻\n\n\n\n9\nMon Oct 21\nGibbs sampling\nCh. 6\n🗒\n\n\n\n\nWed Oct 23\nMultivariate normal\nCh. 7\n🗒\nhw 6\n\n\n\nThu Oct 24\nlab: MCMC diagnostics\n\n💻\n\n\n\n10\nMon Oct 28\nintro to Bayesian regression\nCh. 9\n🗒📝\n\n\n\n\nWed Oct 30\nBayesian regression II\nCh. 9\n🗒\nhw 7\n\n\n\nThu Oct 31\nlab: rstanarm\n\n💻\n\n\n\n11\nMon Nov 04\nEstimators\nCh. 5 sec. 4\n🗒📝\n\n\n\n\nWed Nov 06\nHierarchical modeling\nCh. 8\n🗒📝\nhw 8\n\n\n\nThu Nov 07\nlab: estimators\n\n💻\n\n\n\n12\nMon Nov 11\nreview\n\n\n\n\n\n\nWed Nov 13\nExam II\n\n\n\n\n\n\nThu Nov 14\nNO LAB\n\n\n\n\n\n13\nMon Nov 18\nPriors\n\n🗒\n\n\n\n\nWed Nov 20\nBayesian inverse problems\n📖\n🗒\nhw 9\n\n\n\nThu Nov 21\nlab: Bayesian inverse practice\n\n💻\n\n\n\n14\nMon Nov 25\nHamiltonian Monte Carlo\n\n\n\n\n\n\nWed Nov 27\nNO CLASS\n\n\n\n\n\n\nThu Nov 28\nNO CLASS\n\n\n\n\n\n15\nMon Dec 02\nModel averaging\n\n\n\n\n\n\nWed Dec 04\nreview\n\n\n\n\n\n\nThu Dec 05\nlab"
   },
   {
     "objectID": "notes/lec02-estimation.html",
@@ -2602,5 +2602,82 @@
     "title": "Homework 9",
     "section": "Exercise 1",
     "text": "Exercise 1\n3.12 from Hoff."
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#exercise",
+    "href": "slides/BayesianInverseProblem.html#exercise",
+    "title": "Bayesian inverse problem practice",
+    "section": "Exercise",
+    "text": "Exercise\nYour task is to determine the measurment error of the machine \\(\\sigma^2\\).\nIt is well known that E coli takes about 20 minutes in laboratory conditions to double in size. Given this, we’d expect \\(r\\) to be about \\(\\frac{\\log(2)}{20}\\).\nFurthermore, we know the carrying capacity of the petri dish is at least \\(10^8\\) CFU.\n\nIdentify each unknown.\nUse the information above to develop reasonable priors over each unknown.\nWrite pseudo-code of an MCMC sampler to make inference about the parameters.\n(optional) Implement your sampler."
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#metropolis-hastings-algorithm",
+    "href": "slides/BayesianInverseProblem.html#metropolis-hastings-algorithm",
+    "title": "MCMC Practice",
+    "section": "Metropolis-Hastings algorithm",
+    "text": "Metropolis-Hastings algorithm\nLet \\(\\pi(\\theta)\\) be the target distribution. The Metropolis-Hastings algorithm proceeds:\n\nsample \\(\\theta^{*} \\sim J(\\theta | \\theta^{(s)})\\);\ncompute the acceptance ratio\n\n\\[\nr = \\frac{\\pi(\\theta^*)}{\\pi(\\theta^{(s)})} \\times\n\\frac{J(\\theta^{(s)}| \\theta^*)}{\nJ(\\theta^{*}| \\theta^{(s)})\n}\n\\]\n\nset \\(\\theta^{(s+1)}\\) to \\(\\theta^*\\) with probability \\(\\min(1, r)\\), otherwise set \\(\\theta^{(s+1)}\\) to \\(\\theta^{(s)}\\).\n\nImportant: We correct for asymmetry; the proposal distribution \\(J\\) need not be symmetric!"
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#exercise-1",
+    "href": "slides/BayesianInverseProblem.html#exercise-1",
+    "title": "MCMC Practice",
+    "section": "Exercise",
+    "text": "Exercise\nMetropolis-Hastings lets us work with non-symmetric proposals. Re-write the algorithm of the previous exercise using the non-symmetric proposal \\(J(\\theta = j | \\theta^{(s)} = i)\\) such that\n\\[\n\\theta  = \\begin{cases}\n1 & \\text{ with prob } & 0.05\\\\\n2 & \\text{ with prob } & 0.15\\\\\n3 & \\text{ with prob } & 0.2\\\\\n4 & \\text{ with prob } & 0.15\\\\\n5 & \\text{ with prob } & 0.15\\\\\n6 & \\text{ with prob } & 0.3\\\\\n\\end{cases}\n\\]\n\ncompare your results to that those of the previous exercise. In particular, compare the ESS of \\(\\theta\\) in each chain. Which do you prefer? How might you explain this difference in ESS?\n\n\n\n\n\n\n🔗 sta360-fa24.github.io"
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#install-packages",
+    "href": "slides/BayesianInverseProblem.html#install-packages",
+    "title": "Bayesian inverse problem practice",
+    "section": "Install packages",
+    "text": "Install packages\nWe will use the library deSolve “differential equation solve” to solve a system of differential equations in this lab. You can install the package using the code below.\n\ninstall.packages(\"deSolve\")\n\nand then load the package with the following code chunk.\n\nlibrary(deSolve)"
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#logistic-growth",
+    "href": "slides/BayesianInverseProblem.html#logistic-growth",
+    "title": "Bayesian inverse problem practice",
+    "section": "Logistic growth",
+    "text": "Logistic growth\nE. coli grows in a petri dish according to the logistic growth equation,\n\\[\n\\frac{dN}{dt} = rN ( 1 - \\frac{N}{K})\n\\]\nwhere \\(N(t)\\) is the population size at time \\(t\\), \\(r\\) is the per capita growth rate, and \\(K\\) is the carrying capacity of the dish.\nThis toy example can be solved analytically,\n\\[\nN(t) = \\frac{K}{1 + Ae^{-rt}}\n\\]\nwhere \\(A = \\frac{K - N(0)}{N(0)}\\) and \\(N(0)\\) is the initial population at time 0."
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#data",
+    "href": "slides/BayesianInverseProblem.html#data",
+    "title": "Bayesian inverse problem practice",
+    "section": "Data",
+    "text": "Data\nBacterial populations are measured in CFU (colony forming units). At time \\(t = 0\\), 1 colony forming unit was placed into a dish.\n\npopulationFunction = function(K, r, t) {\n  P0 = 1\n  A = (K - P0) / P0\n  round(K / (1 + (A * exp(-r * t))))\n}\n\nIn the past, CFU are counted manually in a small pipetted sample and then the CFU per unit volume are multiplied by the total volume in the dish to estimate the total population size of bacteria at a given time \\(t\\).\nA new machine has been created to replace this mundane task by automating the counting of CFUs in a sample. The machine counts the bacteria in the dish every fifteen minutes since the start of the experiment. Data are provided below.\n\n\n\n\ny = read_csv(\"../data/E_coli.csv\")\nglimpse(y)\n\nRows: 24\nColumns: 2\n$ P    <dbl> 180, 288, 471, 760, 1342, 2178, 3681, 6351, 10312, 18588, 31862, …\n$ time <dbl> 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 2…\n\n\nNote: time is in minutes."
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#model",
+    "href": "slides/BayesianInverseProblem.html#model",
+    "title": "Bayesian inverse problem practice",
+    "section": "Model",
+    "text": "Model\nWe know \\(P_0 = 1\\). Let \\(\\theta = \\{r, K\\}\\)\nWe assume the machine has some normal measurement error that is proportional to the size of the population. Thus the data generative model is given by\n\\[\nP(t) |r,K \\sim N(f(\\theta, t),\\sigma^2 f(\\theta, t))\n\\]\nwhere \\(f(\\theta, t)\\) is computed by populationFunction on the previous slide."
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#e.-coli",
+    "href": "slides/BayesianInverseProblem.html#e.-coli",
+    "title": "Bayesian inverse problem practice",
+    "section": "E. coli",
+    "text": "E. coli\n\n\nCode\nlibrary(tidyverse)\n\n\nE. coli grows in a petri dish according to the logistic growth equation,\n\\[\n\\frac{dP}{dt} = rP( 1 - \\frac{P}{K})\n\\]\nwhere \\(P(t)\\) is the population size at time \\(t\\), \\(r\\) is the per capita growth rate, and \\(K\\) is the carrying capacity of the dish.\nThis equation can be solved analytically (which is what makes this a toy example),\n\\[\nP(t) = \\frac{K}{1 + Ae^{-rt}}\n\\]\nwhere \\(A = \\frac{K - P_0}{P_0}\\) and \\(P_0\\) is the initial population size at time 0."
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#solution-priors",
+    "href": "slides/BayesianInverseProblem.html#solution-priors",
+    "title": "Bayesian inverse problem practice",
+    "section": "Solution (priors)",
+    "text": "Solution (priors)\nSome priors\nMaybe we think it takes somewhere between 10 minutes and 30 minutes for the population size to double under our lab conditions.\n\\[\n\\begin{aligned}\nr &\\sim \\text{Uniform}(\\log(2)/30, \\log(2)/10)\\\\\nK &\\propto 1 \\text{ if } K > 10^8\\\\\\\n\\sigma^2 &\\sim \\text{inverse-gamma}(1, 1)\n\\end{aligned}\n\\]"
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#solution-mcmc",
+    "href": "slides/BayesianInverseProblem.html#solution-mcmc",
+    "title": "Bayesian inverse problem practice",
+    "section": "Solution MCMC",
+    "text": "Solution MCMC\n\nset.seed(360)\n\nrcnorm<-function(n, mean=0, sd=1, a=-Inf, b=Inf){\n  u = runif(n, pnorm((a - mean) / sd), pnorm((b - mean) / sd))\n  mean + (sd * qnorm(u))\n}\n\n# starting points\nK_s =  1E9\nK = NULL\n\nr0_s = runif(1, min = log(2)/30, max = log(2)/10)\nr0 = NULL\n\nsigma2_s = 1 / rgamma(1, 1, 1)\nsigma2 = NULL\n\nS = 100000 # number of iterations\n\ndelta_r = .02 # proposal variance\naccept_r = 0 # keep track of acceptance rate\n\ndelta_sigma = 0.05\naccept_sigma = 0\n\naccept_k = 0\n\ngetLogPosterior = function(K, r, sigma2) {\n  sigma = sqrt(sigma2)\n  mu = populationFunction(K = K, r = r, t = y$time)\n  if (K < 10^8) {\n    return(-Inf)\n  }\n  if(r < log(2)/10) {\n    return(-Inf)\n  }\n  if(r > log(2)/30) {\n    return(-Inf)\n  }\n  else {\n  return(sum(dnorm(y$P, mu, sd = sqrt(mu)*sigma), log = TRUE) + \n           dgamma(1 / sigma2, 1, 1, log = TRUE))\n  }\n}\n\nfor (s in 1:S) {\n  # log everything for numerical stability #\n  \n  ## propose K\n  K_proposal = rnorm(1, mean = K_s, sd = 1E6)\n  log.r = getLogPosterior(K = K_proposal, r = r0_s, sigma2 = sigma2_s) -\n    getLogPosterior(K = K_s, r = r0_s, sigma2 = sigma2_s)\n  \n   if(log(runif(1)) < log.r)  {\n    K_s = K_proposal\n    accept_k = accept_k + 1 \n   }\n\n  ## propose r\n\n  r0_proposal = rnorm(1, r0_s, delta_r)\n\n  log.r = getLogPosterior(K = K_s, r = r0_proposal, sigma2 = sigma2_s) -\n    getLogPosterior(K = K_s, r = r0_s, sigma2 = sigma2_s)\n\n   if(log(runif(1)) < log.r)  {\n    r0_s = r0_proposal\n    accept_r = accept_r + 1\n   }\n  \n  ## propose sigma2\n  \n  sigma2_proposal = rnorm(1, sigma2_s, delta_sigma)\n  \n  log.r = getLogPosterior(K = K_s, r = r0_s, sigma2 = sigma2_proposal) -\n    getLogPosterior(K = K_s, r = r0_s, sigma2 = sigma2_s)\n\n   if(log(runif(1)) < log.r)  {\n    sigma2_s = sigma2_proposal\n    accept_sigma = accept_sigma + 1\n   }\n  \n  if(s %% 10 == 0) {\n  r0 = c(r0, r0_s)\n  K = c(K, K_s)\n  sigma2 = c(sigma2, sigma2_s)\n  }\n}\n\n\n\n🔗 sta360-fa24.github.io"
+  },
+  {
+    "objectID": "slides/BayesianInverseProblem.html#solution",
+    "href": "slides/BayesianInverseProblem.html#solution",
+    "title": "Bayesian inverse problem practice",
+    "section": "Solution",
+    "text": "Solution\nThe unknowns are \\(r, K, \\sigma^2\\).\nMaybe we think it takes somewhere between 15 minutes and 25 minutes for the population size to double under our lab conditions. Some plausible prior choices are\n\\[\n\\begin{aligned}\nr &\\sim \\text{Uniform}(\\log(2)/25, \\log(2)/15)\\\\\nK &\\propto 1 \\text{ if } K > 10^8\\\\\\\n\\sigma^2 &\\sim \\text{inverse-gamma}(1, 1)\n\\end{aligned}\n\\]\nPseudocode:\ninitialize r, K, sigma^2 \nS = large number\nfor (i in 1:S) {\n - sample r* ~ cnorm(1, r_s, .01, a = log(2)/25, b = log(2)/15)\n - compute MH ratio: [posterior(r*)/posterior(r_s)] * [J(r_s | r*)/J(r* | r_s)]\n - accept/reject\n - sample K* ~ cnorm(1, K_s, 1E5, a = 1E8)\n - compute MH ratio like above and accept/reject\n - sample sigma^2* ~ cnorm(1, sigma^2_s, .1, a = 0)\n - compute MH ratio like above and accept/reject\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n🔗 sta360-fa24.github.io"
   }
 ]
