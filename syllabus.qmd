@@ -59,6 +59,8 @@ Part II: Statistical model building and analysis
 3. Generalized linear models
 4. Hierarchical models
 
+\newpage
+
 ### Evaluation
 
 | Assignment          | Description                        |
@@ -98,6 +100,8 @@ I will conduct myself honorably in all my endeavors; and
 I will act if the Standard is compromised.
 
 Any violations of academic integrity will automatically result in a 0 for the assignment and will be reported to the Office of Student Conduct for further action. For the Exams and Quizzes, students are required to work alone. For the Homework assignments, students may work with a study group but each student must write up and submit their own answers.
+
+\newpage 
 
 **Late work**
 

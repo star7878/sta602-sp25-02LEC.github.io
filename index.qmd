@@ -64,7 +64,7 @@ schedule %>%
 ```
 ::: heatMap
 | Week | Date       | Topic                                               | Reading                                                |                                            Notes                                             | Assignment                 |
-|:---------|:---------|:---------|----------|:---------------------:|:---------|
+|:-----------|:-----------|:-----------|------------|:--------------:|:-----------|
 | 1    | Mon Aug 26 | intro, history, notation                            | Ch. 2                                                  |                                                                                              | [hw 0](/hw/hw00.html)      |
 |      | Wed Aug 28 | probability, exchangeability                        | Ch. 2                                                  |       [🗒](/notes/lec01-probability.html) [📝](/notes/Probability-Exchangeability.pdf)        | [hw 1](/hw/hw01.html)      |
 |      | Thu Aug 29 | lab: welcome                                        |                                                        |                               [💻](/slides/lab0-welcome.html)                                | [hello R](/labs/lab0.html) |
@@ -104,7 +104,7 @@ schedule %>%
 | 13   | Mon Nov 18 | Priors                                              |                                                        |                                    [🗒](notes/priors.html)                                    |                            |
 |      | Wed Nov 20 | Bayesian inverse problems                           | [📖](https://www.pnas.org/doi/10.1073/pnas.2409983121) |                                 [🗒](notes/waterOnMars.html)                                  | [hw 9](/hw/hw09.html)      |
 |      | Thu Nov 21 | lab: Bayesian inverse practice                      |                                                        |                          [💻](/slides/BayesianInverseProblem.html)                           |                            |
-| 14   | Mon Nov 25 | Hamiltonian Monte Carlo                             |                                                        |                                                                                              |                            |
+| 14   | Mon Nov 25 | Hamiltonian Monte Carlo                             | [📖](/readings/readHMC.html)                           |                            [🗒](notes/HamiltonianMonteCarlo.html)                             |                            |
 |      | Wed Nov 27 | NO CLASS                                            |                                                        |                                                                                              |                            |
 |      | Thu Nov 28 | NO CLASS                                            |                                                        |                                                                                              |                            |
 | 15   | Mon Dec 02 | Model averaging                                     |                                                        |                                                                                              |                            |

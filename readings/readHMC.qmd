@@ -1,0 +1,11 @@
+---
+title: "Preparatory reading: HMC"
+# mainfont: Lato
+format: 
+  html:
+    toc: false
+---
+
+- [Michael Betancourt's conceptual intro](https://arxiv.org/pdf/1701.02434.pdf)
+- [Radford Neal's comprehensive book chapter](https://arxiv.org/pdf/1206.1901.pdf)
+
