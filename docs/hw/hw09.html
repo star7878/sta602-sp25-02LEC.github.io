@@ -156,11 +156,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link active" data-scroll-target="#exercise-1">Exercise 1</a></li>
-  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a>
-  <ul class="collapse">
-  <li><a href="#dynamical-system" id="toc-dynamical-system" class="nav-link" data-scroll-target="#dynamical-system">Dynamical System</a></li>
-  <li><a href="#statistical-model" id="toc-statistical-model" class="nav-link" data-scroll-target="#statistical-model">Statistical model</a></li>
-  </ul></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a></li>
   <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a></li>
   </ul>
 </nav>
@@ -197,138 +193,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="exercise-2" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
-<p>Hares-Lynx population dynamics</p>
-<p>A Canadian business, <em>Hudson’s Bay company</em> is North America’s longest continually operating company (founded in 1670). During the 19th and 20th century, the company bought animal pelts of both snowshoe hares and lynx from trappers. Lynx are the most predominant natural predator of snowshoe hares. The counts of pelts provide an approximation to the population size of each animal. Data sourced from <a href="https://jmahaffy.sdsu.edu/courses/f00/math122/labs/labj/q3v1.htm">here</a>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>hares_lynx <span class="ot">=</span> <span class="fu">read_csv</span>(<span class="st">"../data/hares-lynx.csv"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(hares_lynx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 21
-Columns: 3
-$ year  &lt;dbl&gt; 1900, 1901, 1902, 1903, 1904, 1905, 1906, 1907, 1908, 1909, 1910…
-$ hares &lt;dbl&gt; 30.0, 47.2, 70.2, 77.4, 36.3, 20.6, 18.1, 21.4, 22.0, 25.4, 27.1…
-$ lynx  &lt;dbl&gt; 4.0, 6.1, 9.8, 35.2, 59.4, 41.7, 19.0, 13.0, 8.3, 9.1, 7.4, 8.0,…</code></pre>
-</div>
-</div>
-<ul>
-<li><code>year</code> is the year of record</li>
-<li><code>hares</code> is the number of hare pelts (thousands)</li>
-<li><code>lynx</code> is the number of lynx pelts (thousands)</li>
-</ul>
-<section id="dynamical-system" class="level3">
-<h3 class="anchored" data-anchor-id="dynamical-system">Dynamical System</h3>
-<p>The following system is an example known as “Lotka-Volterra” dynamics which describe an interactive model of the population of predator and prey.</p>
-<table class="table">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 69%">
-</colgroup>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(H(t)\)</span></td>
-<td>Number of hares at time t</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(H(0) = H_0\)</span></td>
-<td>Number of hares at time 0</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(L(t)\)</span></td>
-<td>Number of lynx at time t</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(L(0) = L_0\)</span></td>
-<td>Number of lynx at time 0</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(a_1\)</span></td>
-<td>Per capita birth rate of hares</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(b_1\)</span></td>
-<td>Per capita death rate of lynx</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(a_2\)</span></td>
-<td>Rate at which lynx eat hares</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(b_2\)</span></td>
-<td>Rate at which prey affects predator growth</td>
-</tr>
-</tbody>
-</table>
-<p>Some assumptions:</p>
-<ol type="1">
-<li>The prey population finds ample food at all times.</li>
-<li>The food supply of the predator population depends entirely on the size of the prey population.</li>
-<li>The rate of change of population is proportional to its size.</li>
-<li>During the process, the environment does not change in favor of one species, and genetic adaptation is inconsequential.</li>
-<li>Predators have limitless appetite.</li>
-<li>Both populations can be described by a single variable. This amounts to assuming that the populations do not have a spatial or age distribution that contributes to the dynamics.</li>
-</ol>
-<p><span class="math display">\[
-\begin{aligned}
-\frac{dH(t)}{dt} &amp;= a_1 H(t) - a_2 H(t)L(t)\\
-\frac{dL(t)}{dt} &amp;= - b_1 L(t) + b_2 H(t)L(t)
-\end{aligned}
-\]</span></p>
-</section>
-<section id="statistical-model" class="level3">
-<h3 class="anchored" data-anchor-id="statistical-model">Statistical model</h3>
-<p>One more assumption: we will assume multivariate normal noise in our observations <span class="math inline">\(H(t), L(t)\)</span>.</p>
-<p><span class="math display">\[
-  \begin{align}
-   \begin{bmatrix}
-           H(t) \\
-           L(t)
-         \end{bmatrix}
-         &amp;\sim
-         MVN \left(
-         \begin{bmatrix}
-           \tilde{H}(t) \\
-           \tilde{L}(t)
-         \end{bmatrix},
-         I_2
-          \right)
-  \end{align}
-\]</span></p>
-<p>where <span class="math inline">\(\tilde{H}(t), \tilde{L}(t)\)</span> is the solution of the system of differential equations and is a function of <span class="math inline">\(H(0), L(0), a_1, a_2, b_1, b_2\)</span> as well as <span class="math inline">\(t\)</span>.</p>
-<p><span class="math inline">\(I_2\)</span> is a <span class="math inline">\(2 \times 2\)</span> identity matrix.</p>
-<p>Use the function below to simulate a <span class="math inline">\(\{H(t), L(t)\}\)</span> given a set of parameters.</p>
-<div class="callout-important callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>todo: add Lotka-Volterra integration via Euler’s method</p>
-</div>
-</div>
-<ol type="a">
-<li><p>Place reasonable priors on each unknown. Explain why the prior choices make sense.</p></li>
-<li><p>Construct an MCMC sampler of your choice to sample from the posterior <span class="math inline">\(p(a_1, a_2, b_1, b_2, H(0), L(0) | data)\)</span>.</p></li>
-<li><p>Examine MCMC diagnostics and discuss whether or not your posterior converged.</p></li>
-<li><p>Using the posterior mean estimates of each unknown, forward simulate a data set <span class="math inline">\(\{H^*(t), L^*(t) \}\)</span> for each time 1900, …, 1920. Plot a time series of the predicted population and compare to the empirical trajectory of the populations.</p></li>
-</ol>
-<!-- We place priors on the unknowns -->
-<!-- $$ -->
-<!-- \begin{aligned} -->
-<!-- a_1 &\sim N()\\ -->
-<!-- a_2 &\sim \text{log-normal}\\ -->
-<!-- b_1 &\sim N()\\ -->
-<!-- b_2 &\sim \text{gamma}() -->
-<!-- \end{aligned} -->
-<!-- $$ -->
-</section>
+<p>8.1 from Hoff. Note there is a typo in this exercise. Every <span class="math inline">\(\theta_i\)</span> in the exercise prompt should be replaced by <span class="math inline">\(\theta_j\)</span>.</p>
 </section>
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
-<p>TBD <!-- hierarchical modeling --></p>
+<p>8.3 from Hoff</p>
+<p>Run the code below to load the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">"school"</span>, i), </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>       <span class="fu">read_csv</span>(<span class="fu">glue</span>(<span class="st">"https://sta360-fa24.github.io/data/school{i}.csv"</span>)))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!-- hierarchical modeling -->
 <!--dynamical systems -->
 <!-- stan -->
 <!--
