@@ -28,7 +28,7 @@ library(tidyverse)
 
 ## Exercise 3
 
-8.3 from Hoff
+8.3 from Hoff: find the problem setup (definitions of each Greek letter) on page 132 and 132 of the book. Also see, e.g. the [notes on hierarchical modeling](https://sta360-fa24.github.io/notes/lec15-hierarchical-intro.html).
 
 Run the code below to load the data.
 
