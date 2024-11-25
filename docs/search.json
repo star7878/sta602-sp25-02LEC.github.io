@@ -431,7 +431,7 @@
     "href": "quizzes/quiz07.html",
     "title": "Quiz 7",
     "section": "",
-    "text": "Exercise 1\nTRUE or FALSE: The Metropolis-Hastings algorithm is a generalization of both the Metropolis algorithm and the Gibbs sampler.\n\n\nExercise 2\nTRUE or FALSE: the Metropolis-Hastings algorithm requires symmetric proposal \\(J(\\theta^* | \\theta^{(s)})\\).\n\n\nExercise 3\nTRUE or FALSE: for any valid proposal distribution J, \\(J(\\theta^* | \\theta^{(1)}, \\ldots, \\theta^{(s)}) = J(\\theta^* | \\theta^{(s)})\\).\n\n\n\n−+\n03:00"
+    "text": "Exercise 1\nLet \\(\\hat{\\theta}\\) be an estimator of \\(\\theta\\). What does it mean for \\(\\hat{\\theta}\\) to be unbiased?\n\n\nExercise 2\nTRUE or FALSE: Bayes factors do not depend on priors.\n\n\nExercise 3\nTRUE or FALSE: \\(\\theta \\sim N(\\bar{y}, 1)\\) is a proper prior.\n\n\n\n−+\n03:00"
   },
   {
     "objectID": "slides/lab-5.html#full-conditionals-are-proportional-to-the-joint",
@@ -2714,5 +2714,19 @@
     "title": "Preparatory reading: HMC",
     "section": "",
     "text": "Michael Betancourt’s conceptual intro\nRadford Neal’s comprehensive book chapter"
+  },
+  {
+    "objectID": "quizzes/quiz07-old.html",
+    "href": "quizzes/quiz07-old.html",
+    "title": "Quiz 7",
+    "section": "",
+    "text": "Exercise 1\nTRUE or FALSE: The Metropolis-Hastings algorithm is a generalization of both the Metropolis algorithm and the Gibbs sampler.\n\n\nExercise 2\nTRUE or FALSE: the Metropolis-Hastings algorithm requires symmetric proposal \\(J(\\theta^* | \\theta^{(s)})\\).\n\n\nExercise 3\nTRUE or FALSE: for any valid proposal distribution J, \\(J(\\theta^* | \\theta^{(1)}, \\ldots, \\theta^{(s)}) = J(\\theta^* | \\theta^{(s)})\\).\n\n\n\n−+\n03:00"
+  },
+  {
+    "objectID": "quizzes/quiz-bonus.html",
+    "href": "quizzes/quiz-bonus.html",
+    "title": "Bonus quiz",
+    "section": "",
+    "text": "Assume \\(Y| \\theta \\sim \\text{Poisson}(\\theta)\\).\nMatch each exercise with solution choices (a), (b), or (c) below to provide the name of each of the following priors.\n\nExercise 1\n\\[\n\\theta \\sim \\text{gamma}(\\frac{1}{2}, \\frac{1}{2} \\bar{y})\n\\]\n\n\nExercise 2\n\\[\n\\begin{aligned}\np(\\theta) &\\propto 1 \\text{ if } \\theta > 0\\\\\n&= 0 \\text{ otherwise }\n\\end{aligned}\n\\]\n\n\nExercise 3\n\\[\np(\\theta) \\propto \\theta ^{-1/2}\n\\]\n\n\nSolution choices\n\n(a): Jeffreys prior\n(b): Improper uniform prior\n(c): Unit information prior\n\n\n\n\n−+\n03:00"
   }
 ]

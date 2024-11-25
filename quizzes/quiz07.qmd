@@ -6,15 +6,15 @@ To receive credit for this assignment, write your full name at the top of your p
 
 ### Exercise 1
 
-`TRUE` or `FALSE`: The Metropolis-Hastings algorithm is a generalization of both the Metropolis algorithm and the Gibbs sampler.
+Let $\hat{\theta}$ be an estimator of $\theta$. What does it mean for $\hat{\theta}$ to be unbiased?
 
 ### Exercise 2
 
-`TRUE` or `FALSE`: the Metropolis-Hastings algorithm requires symmetric proposal $J(\theta^* | \theta^{(s)})$.
+`TRUE` or `FALSE`: Bayes factors do not depend on priors.
 
 ### Exercise 3
 
-`TRUE` or `FALSE`: for any valid proposal distribution J, $J(\theta^* | \theta^{(1)}, \ldots, \theta^{(s)}) = J(\theta^* | \theta^{(s)})$. 
+`TRUE` or `FALSE`: $\theta \sim N(\bar{y}, 1)$ is a proper prior.
 
 ```{r}
 #| echo: false
