@@ -2433,7 +2433,7 @@
     "href": "hw/hw09.html#exercise-3",
     "title": "Homework 9",
     "section": "Exercise 3",
-    "text": "Exercise 3\n8.3 from Hoff: find the problem setup (definitions of each Greek letter) on page 132 and 132 of the book. Also see, e.g. the notes on hierarchical modeling.\nRun the code below to load the data.\n\nlibrary(readr)\nlibrary(glue)\n\nfor(i in 1:8) {\nassign(paste0(\"school\", i), \n       read_csv(glue(\"https://sta360-fa24.github.io/data/school{i}.csv\")))\n}"
+    "text": "Exercise 3\n8.3 from Hoff: find the problem setup (definitions of each Greek letter) on page 132 and 133 of the book. Also see, e.g. the notes on hierarchical modeling.\nRun the code below to load the data.\n\nlibrary(readr)\nlibrary(glue)\n\nfor(i in 1:8) {\nassign(paste0(\"school\", i), \n       read_csv(glue(\"https://sta360-fa24.github.io/data/school{i}.csv\")))\n}"
   },
   {
     "objectID": "notes/waterOnMars.html#bayesian-inverse-problems",
