@@ -1,0 +1,15 @@
+---
+title: "Practice for final exam"
+# mainfont: Lato
+format: 
+  html:
+    toc: true
+execute: 
+  eval: true
+---
+
+1. Find the practice exam on [Canvas](https://go.canvas.duke.edu/) under "Files" > "Exams" > `final-exam-fall2023.pdf`
+
+2. You can work on the practice exam with others in class. 
+
+3. The final exam will cover all content through November 21st. In other words, *Hamiltonian Monte Carlo* and *Bayesian model averaging* are the only two lecture topics that cannot be on the final exam.
