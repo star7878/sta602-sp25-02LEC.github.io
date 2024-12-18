@@ -1,0 +1,11 @@
+---
+title: "STA 360: Quizzes"
+subtitle: "Fall 2024"
+listing:
+  contents:
+    - "/quizzes/*"
+  sort:
+    - "title desc"
+format:
+  html: default
+---
