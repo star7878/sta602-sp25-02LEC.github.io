@@ -120,7 +120,7 @@ Vs = function(mue, pb) {
   sqrt(mue/pb)
 }
 
-getParameters = function(alpha, phi, gw, km, mum, rhom)
+# getParameters = function(alpha, phi, gw, km, mum, rhom)
 ```
 
 ### Berryman self-consistent rock physics model

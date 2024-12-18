@@ -4,7 +4,7 @@ subtitle: "Fall 2024"
 # mainfont: Lato
 format:
   html: default
-  pdf: default
+  # pdf: default
 # format: 
 #    html: 
 #     page-layout: full
@@ -51,13 +51,13 @@ Part I: The Bayesian modeling toolkit
 2. Conjugate statistical models
 3. Posterior summaries and Monte Carlo sampling
 4. Markov chain Monte Carlo (Metropolis-Hastings)
+5. Semi-conjugate models and Gibbs sampling
 
 Part II: Statistical model building and analysis
 
-1. Semi-conjugate models and Gibbs sampling
-2. Linear regression
-3. Generalized linear models
-4. Hierarchical models
+1. Linear regression
+2. Generalized linear models
+3. Hierarchical models
 
 \newpage
 

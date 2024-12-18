@@ -64,7 +64,7 @@ schedule %>%
 ```
 ::: heatMap
 | Week | Date       | Topic                                               | Reading                                                |                                            Notes                                             | Assignment                 |
-|:-----------|:-----------|:-----------|------------|:-----------:|:-----------|
+|:-----|:-----------|:----------------------------------------------------|--------------------------------------------------------|:--------------------------------------------------------------------------------------------:|:---------------------------|
 | 1    | Mon Aug 26 | intro, history, notation                            | Ch. 2                                                  |                                                                                              | [hw 0](/hw/hw00.html)      |
 |      | Wed Aug 28 | probability, exchangeability                        | Ch. 2                                                  |       [🗒](/notes/lec01-probability.html) [📝](/notes/Probability-Exchangeability.pdf)        | [hw 1](/hw/hw01.html)      |
 |      | Thu Aug 29 | lab: welcome                                        |                                                        |                               [💻](/slides/lab0-welcome.html)                                | [hello R](/labs/lab0.html) |
