@@ -1962,7 +1962,7 @@
   {
     "objectID": "quizzes/quiz05-old.html",
     "href": "quizzes/quiz05-old.html",
-    "title": "Quiz 5",
+    "title": "Quiz 5 (2023)",
     "section": "",
     "text": "Exercise 1\nWhat is the purpose of Gibbs sampling?\n\n\nExercise 2\n\\(\\mathbf{x}\\) is a \\(p \\times 1\\) vector.\nWhat is the dimension of \\(\\mathbf{x}^T \\Sigma \\mathbf{x}\\)?\n\n\nExercise 3\nLet \\(\\mathbf{y} = \\left[ {\\begin{array}{cc}  y_1 \\\\  y_2  \\end{array} } \\right]\\), \\(\\boldsymbol{\\theta} = \\left[ {\\begin{array}{cc}  4 \\\\  8  \\end{array} } \\right]\\), \\(\\Sigma = \\left[ {\\begin{array}{cc}  1 & .2 \\\\  .2 & 1.3\\\\  \\end{array} } \\right]\\).\nIf \\(\\mathbf{y} | \\boldsymbol{\\theta}, \\Sigma \\sim MVN(\\boldsymbol{\\theta}, \\Sigma)\\), then \\(y_1 \\sim N(a, b)\\). What is \\(a\\) and \\(b\\)?\n\n\n\n−+\n03:00"
   },
@@ -2025,7 +2025,7 @@
   {
     "objectID": "quizzes/quiz06-old.html",
     "href": "quizzes/quiz06-old.html",
-    "title": "Quiz 6",
+    "title": "Quiz 6 (2023)",
     "section": "",
     "text": "Exercise 1\n\\[\nY = X\\beta\n\\]\nWrite down \\(\\hat{\\beta}_{OLS}\\) as a function of \\(X\\) and \\(Y\\). Assume \\(X\\) is full rank.\n\n\nExercise 2\nTRUE or FALSE\n\\(\\hat{\\beta}_{OLS}\\) is biased.\n\n\nExercise 3\nTRUE or FALSE\n\\(y_i = \\beta_0 + \\beta_1 x_i^2\\) is a linear model.\n\n\n\n−+\n03:00"
   },
@@ -2718,7 +2718,7 @@
   {
     "objectID": "quizzes/quiz07-old.html",
     "href": "quizzes/quiz07-old.html",
-    "title": "Quiz 7",
+    "title": "Quiz 7 (2023)",
     "section": "",
     "text": "Exercise 1\nTRUE or FALSE: The Metropolis-Hastings algorithm is a generalization of both the Metropolis algorithm and the Gibbs sampler.\n\n\nExercise 2\nTRUE or FALSE: the Metropolis-Hastings algorithm requires symmetric proposal \\(J(\\theta^* | \\theta^{(s)})\\).\n\n\nExercise 3\nTRUE or FALSE: for any valid proposal distribution J, \\(J(\\theta^* | \\theta^{(1)}, \\ldots, \\theta^{(s)}) = J(\\theta^* | \\theta^{(s)})\\).\n\n\n\n−+\n03:00"
   },
@@ -2784,5 +2784,26 @@
     "title": "STA 360: Quizzes",
     "section": "",
     "text": "No matching items"
+  },
+  {
+    "objectID": "old-quizzes/quiz05-old.html",
+    "href": "old-quizzes/quiz05-old.html",
+    "title": "Quiz 5 (2023)",
+    "section": "",
+    "text": "Exercise 1\nWhat is the purpose of Gibbs sampling?\n\n\nExercise 2\n\\(\\mathbf{x}\\) is a \\(p \\times 1\\) vector.\nWhat is the dimension of \\(\\mathbf{x}^T \\Sigma \\mathbf{x}\\)?\n\n\nExercise 3\nLet \\(\\mathbf{y} = \\left[ {\\begin{array}{cc}  y_1 \\\\  y_2  \\end{array} } \\right]\\), \\(\\boldsymbol{\\theta} = \\left[ {\\begin{array}{cc}  4 \\\\  8  \\end{array} } \\right]\\), \\(\\Sigma = \\left[ {\\begin{array}{cc}  1 & .2 \\\\  .2 & 1.3\\\\  \\end{array} } \\right]\\).\nIf \\(\\mathbf{y} | \\boldsymbol{\\theta}, \\Sigma \\sim MVN(\\boldsymbol{\\theta}, \\Sigma)\\), then \\(y_1 \\sim N(a, b)\\). What is \\(a\\) and \\(b\\)?\n\n\n\n−+\n03:00"
+  },
+  {
+    "objectID": "old-quizzes/quiz06-old.html",
+    "href": "old-quizzes/quiz06-old.html",
+    "title": "Quiz 6 (2023)",
+    "section": "",
+    "text": "Exercise 1\n\\[\nY = X\\beta\n\\]\nWrite down \\(\\hat{\\beta}_{OLS}\\) as a function of \\(X\\) and \\(Y\\). Assume \\(X\\) is full rank.\n\n\nExercise 2\nTRUE or FALSE\n\\(\\hat{\\beta}_{OLS}\\) is biased.\n\n\nExercise 3\nTRUE or FALSE\n\\(y_i = \\beta_0 + \\beta_1 x_i^2\\) is a linear model.\n\n\n\n−+\n03:00"
+  },
+  {
+    "objectID": "old-quizzes/quiz07-old.html",
+    "href": "old-quizzes/quiz07-old.html",
+    "title": "Quiz 7 (2023)",
+    "section": "",
+    "text": "Exercise 1\nTRUE or FALSE: The Metropolis-Hastings algorithm is a generalization of both the Metropolis algorithm and the Gibbs sampler.\n\n\nExercise 2\nTRUE or FALSE: the Metropolis-Hastings algorithm requires symmetric proposal \\(J(\\theta^* | \\theta^{(s)})\\).\n\n\nExercise 3\nTRUE or FALSE: for any valid proposal distribution J, \\(J(\\theta^* | \\theta^{(1)}, \\ldots, \\theta^{(s)}) = J(\\theta^* | \\theta^{(s)})\\).\n\n\n\n−+\n03:00"
   }
 ]
