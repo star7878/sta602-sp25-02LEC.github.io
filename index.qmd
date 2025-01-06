@@ -102,9 +102,9 @@ schedule %>%
 |      | Fri Mar 28 | review                                              |         |                                 |                            |
 | 13   | Mon Mar 31 |                                                     |         |                                 |                            |
 |      | Wed Apr 02 | Tentative Exam Date                                 |         |                                 |                            |
-|      | Fri Apr 04 | Hamiltonian Monte Carlo                             |         |                                 |                            |
+|      | Fri Apr 04 | model averaging                                     |         |                                 |                            |
 | 14   | Mon Apr 07 |                                                     |         |                                 |                            |
-|      | Wed Apr 09 | model averaging                                     |         |                                 |                            |
+|      | Wed Apr 09 | Hamiltonian Monte Carlo                             |         |                                 |                            |
 |      | Fri Apr 11 | Bayesian inverse problems                           |         |                                 |                            |
 | 15   | Mon Apr 14 |                                                     |         |                                 |                            |
 |      | Wed Apr 16 | practice for final                                  |         |                                 |                            |
