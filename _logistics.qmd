@@ -2,16 +2,17 @@
 
 |                      | Contact                                                     | Office hours         | Location              |
 |------------------|------------------|------------------|------------------|
-| Dr. Alexander Fisher | [aaf29\@duke.edu](aaf29@duke.edu)                           | Mo/We: 10:30-11:30am | Old Chem 223B         |
-| Matt O'Donnell       | [matthew.l.odonnell\@duke.edu](matthew.l.odonnell@duke.edu) | Mo: 5:00-7:00pm      | Old Chem 203B         |
-| Shuo Wang            | [shuo.wang717\@duke.edu](shuo.wang717@duke.edu)             | Tu: 3:00-5:00pm      | Old Chem 203B         |
-| Bo Liu               | [bo.liu1997\@duke.edu](bo.liu1997@duke.edu)                 | We: 12:45-2:45pm     | Old Chem 203B         |
-| Minh-Anh To          | [minhanh.to\@duke.edu](minhanh.to@duke.edu)                 | Fr: 3:00-5:00pm      | Zoom (link on Canvas) |
+| Dr. Alexander Fisher | [aaf29\@duke.edu](aaf29@duke.edu)                           | We/Th/Fr: 10:00a-11:00am | Old Chem 223B         |
+| Christine Shen       | [yueming.shen@duke.edu](yueming.shen@duke.edu) | TBD      | Old Chem 203B         |
+| Benedetta Bruni           | [benedetta.bruni@duke.edu](benedetta.bruni@duke.edu)             | TBD     | Old Chem 203B         |
+| Jaehoan Kim              | [jaehoan.kim@duke.edu](jaehoan.kim@duke.edu)                 | TBD    | Old Chem 203B         |
+| Haochen Qin        | [haocheng.qin@duke.edu](haocheng.qin@duke.edu)                 | TBD     | Old Chem 203B |
 
 #### Meetings
 
 |         |                     |                           |
 |---------|---------------------|---------------------------|
-| Lecture | Mo/We 3:05 - 4:20pm | Reuben-Cooke Building 130 |
-| Lab 01  | Th 1:25pm - 2:40pm  | LSRC A155                 |
-| Lab 02  | Th 3:05pm - 4:20pm  | Old Chemistry 003         |
+| Lecture | We/Fr 8:30am - 9:45am | Old Chemistry 116 |
+| Lab 01  | Mo 1:25pm - 2:40pm  | Old Chemistry 201           |
+| Lab 02  | Mo 3:05pm - 4:20pm  | LSRC A156         |
+| Lab 03  | Mo 3:05pm - 4:20pm  | Biological Sciences 154         |

@@ -1,6 +1,6 @@
 ---
-title: "Bayesian methods and modern statistics"
-subtitle: "Fall 2024"
+title: "Bayesian Statistical Modeling and Data Analysis"
+subtitle: "Spring 2025"
 mainfont: Lato
 format:
    html: 
@@ -17,12 +17,12 @@ library(knitr)
 
 ```{r smart-date-setup, echo = F, message = F, eval = F}
 # set these:
-firstDay = as.Date("2024-08-26")
-firstDayID = "Mon"
-lastDay = as.Date("2024-12-06")
-lectureDays = c("Mon", "Wed")
-labDays = c("Thu")
-holidays = as.Date(c("2024-09-02", "2024-10-14", "2024-10-15", "2024-11-27", "2024-11-28", "2024-11-29"))
+firstDay = as.Date("2025-01-08")
+firstDayID = "Wed"
+lastDay = as.Date("2025-4-16")
+lectureDays = c("Wed", "Fri")
+labDays = c("Mon")
+holidays = as.Date(c("2025-01-20", "2025-03-10", "2025-03-12", "2025-03-14"))
 
 ### render table
 allDates = seq(from = firstDay, to = lastDay, by = 'day')
@@ -35,12 +35,12 @@ schedule = schedule %>%
   mutate(Date = format(allDates, format = "%b %d")) %>%
   mutate(Date = paste(dayOfWeek, Date)) %>%
   mutate(Week = rep("", nrow(schedule))) %>%
-  mutate(Prepare = rep("", nrow(schedule))) %>%
-  mutate(AE = rep("", nrow(schedule))) %>%
+  mutate(Reading = rep("", nrow(schedule))) %>%
+  mutate(Notes = rep("", nrow(schedule))) %>%
   mutate(Assignment = rep("", nrow(schedule))) %>%
   mutate(Exam = rep("", nrow(schedule))) %>%
   mutate(Project = rep("", nrow(schedule))) %>%
-  select(Week, Date, Topic, Prepare, AE, Assignment, Exam, Project)
+  select(Week, Date, Topic, Reading, Notes, Assignment)
 # to be pasted into console then pasted into markdown:
 schedule %>%
   kable(format = "markdown")
@@ -63,145 +63,145 @@ schedule %>%
 </style>
 ```
 ::: heatMap
-| Week | Date       | Topic                                               | Reading                                                |                                            Notes                                             | Assignment                 |
-|:-----|:-----------|:----------------------------------------------------|--------------------------------------------------------|:--------------------------------------------------------------------------------------------:|:---------------------------|
-| 1    | Mon Aug 26 | intro, history, notation                            | Ch. 2                                                  |                                                                                              | [hw 0](/hw/hw00.html)      |
-|      | Wed Aug 28 | probability, exchangeability                        | Ch. 2                                                  |       [🗒](/notes/lec01-probability.html) [📝](/notes/Probability-Exchangeability.pdf)        | [hw 1](/hw/hw01.html)      |
-|      | Thu Aug 29 | lab: welcome                                        |                                                        |                               [💻](/slides/lab0-welcome.html)                                | [hello R](/labs/lab0.html) |
-| 2    | Mon Sep 02 | NO CLASS                                            | Ch. 3                                                  |                                                                                              |                            |
-|      | Wed Sep 04 | beta-binomial model                                 | Ch. 3                                                  |               [🗒](/notes/lec02-estimation.html) [📝](/notes/beta-binomial.pdf)               | [hw 2](/hw/hw02.html)      |
-|      | Thu Sep 05 | lab: MLE and MAP estimator                          |                                                        |                                   [💻](/slides/lab1.html)                                    |                            |
-| 3    | Mon Sep 09 | Poisson-gamma model, exp families                   | Ch. 3                                                  | [🗒](notes/lec03-Poisson-gamma-exp-families.html) [📝](/notes/Poisson-gamma-exp-families.pdf) |                            |
-|      | Wed Sep 11 | reliability (conf. intervals, hpd, Laplace approx.) | Ch. 3                                                  |         [🗒](/notes/lec04-reliability.html) [📝](/notes/reliability-handwritten.pdf)          | [hw 3](/hw/hw03.html)      |
-|      | Thu Sep 12 | lab: exp. families and transformations              |                                                        |                             [💻](/slides/lab-exp-families.html)                              |                            |
-| 4    | Mon Sep 16 | intro to Monte Carlo                                | Ch. 4                                                  |         [🗒](/notes/lec05-introMonteCarlo.html) [📝](/notes/posteriorPredictive.pdf)          |                            |
-|      | Wed Sep 18 | predictive checks and MC error                      | Ch. 4                                                  |                       [🗒](/notes/lec06-MonteCarloPredictionError.html)                       | [hw 4](/hw/hw04.html)      |
-|      | Thu Sep 19 | lab: mixture densities                              |                                                        |                               [💻](/slides/lab-mixtures.html)                                |                            |
-| 5    | Mon Sep 23 | the normal model                                    | Ch. 5                                                  |             [🗒](/notes/lec07-normalModel.html)[📝](/notes/completeTheSquare.pdf)             |                            |
-|      | Wed Sep 25 | the normal model II                                 | Ch. 5                                                  |                                 [📝](notes/normalNotes2.pdf)                                 |                            |
-|      | Thu Sep 26 | lab: normal data                                    |                                                        |                                [💻](/slides/lab-normal.html)                                 |                            |
-| 6    | Mon Sep 30 | review                                              |                                                        |                                                                                              |                            |
-|      | Wed Oct 02 | [Exam I](/notes/exam-notes.html)                    |                                                        |                                                                                              |                            |
-|      | Thu Oct 03 | NO LAB                                              |                                                        |                                                                                              |                            |
-| 7    | Mon Oct 07 | Metropolis algorithm                                | Ch. 10                                                 |                         [🗒](/notes/lec08-Metropolis-algorithm.html)                          |                            |
-|      | Wed Oct 09 | MCMC diagnostics                                    | Ch. 6                                                  |                                 [🗒](/notes/lec09-MCMC.html)                                  | [hw 5](/hw/hw05.html)      |
-|      | Thu Oct 10 | lab: Metropolis algo.                               |                                                        |                               [💻](/slides/lab9-MH-MCMC.html)                                |                            |
-| 8    | Mon Oct 14 | NO CLASS                                            |                                                        |                                                                                              |                            |
-|      | Wed Oct 16 | wrap-up diagnostics and MH                          | Ch. 6, 10                                              |                             [📝](notes/ergodicMarkovChains.pdf)                              |                            |
-|      | Thu Oct 17 | lab: MCMC and conf. bands                           |                                                        |                               [💻](/slides/lab-conf-band.html)                               |                            |
-| 9    | Mon Oct 21 | Gibbs sampling                                      | Ch. 6                                                  |                             [🗒](notes/lec10-gibbs-sampling.html)                             |                            |
-|      | Wed Oct 23 | multivariate normal                                 | Ch. 7                                                  |                                  [🗒](notes/lec11-mvn.html)                                   | [hw 6](/hw/hw06.html)      |
-|      | Thu Oct 24 | lab: MCMC diagnostics                               |                                                        |                            [💻](slides/lab6-mcmc-d-practice.html)                            |                            |
-| 10   | Mon Oct 28 | intro to Bayesian regression                        | Ch. 9                                                  |            [🗒](notes/lec12-regression-intro.html)[📝](notes/intro-regression.pdf)            |                            |
-|      | Wed Oct 30 | Bayesian regression II                              | Ch. 9                                                  |                          [🗒](notes/lec13-BayesianRegression2.html)                           | [hw 7](/hw/hw07.html)      |
-|      | Thu Oct 31 | lab: rstanarm                                       |                                                        |                                 [💻](slides/lab8-rstan.html)                                 |                            |
-| 11   | Mon Nov 04 | estimators                                          | Ch. 5 sec. 4                                           |              [🗒](notes/lec14-estimators.html)[📝](notes/estimator-notes-24.pdf)              |                            |
-|      | Wed Nov 06 | hierarchical modeling                               | Ch. 8                                                  |          [🗒](notes/lec15-hierarchical-intro.html)[📝](notes/hierarchical-notes.pdf)          | [hw 8](/hw/hw08.html)      |
-|      | Thu Nov 07 | lab: estimators                                     |                                                        |                               [💻](slides/estimator-lab.html)                                |                            |
-| 12   | Mon Nov 11 | review                                              |                                                        |                                                                                              |                            |
-|      | Wed Nov 13 | [Exam II](/notes/exam-notes.html)                   |                                                        |                                                                                              |                            |
-|      | Thu Nov 14 | NO LAB                                              |                                                        |                                                                                              |                            |
-| 13   | Mon Nov 18 | priors                                              |                                                        |                                    [🗒](notes/priors.html)                                    |                            |
-|      | Wed Nov 20 | Bayesian inverse problems                           | [📖](https://www.pnas.org/doi/10.1073/pnas.2409983121) |                                 [🗒](notes/waterOnMars.html)                                  | [hw 9](/hw/hw09.html)      |
-|      | Thu Nov 21 | lab: Bayesian inverse practice                      |                                                        |                          [💻](/slides/BayesianInverseProblem.html)                           |                            |
-| 14   | Mon Nov 25 | Hamiltonian Monte Carlo                             | [📖](/readings/readHMC.html)                           |                            [🗒](notes/HamiltonianMonteCarlo.html)                             |                            |
-|      | Wed Nov 27 | NO CLASS                                            |                                                        |                                                                                              |                            |
-|      | Thu Nov 28 | NO CLASS                                            |                                                        |                                                                                              |                            |
-| 15   | Mon Dec 02 | model averaging                                     | Ch. 9 sec. 3                                           |                            [🗒](notes/BayesianModelAveraging.html)                            |                            |
-|      | Wed Dec 04 | practice for final                                  |                                                        |                                [🗒](notes/practiceFinal.html)                                 |                            |
-|      | Thu Dec 05 | lab: review                                         |                                                        |                                                                                              |                            |
+| Week | Date       | Topic        | Reading | Notes                                | Assignment                    |
+|:-----|:-----------|:-------------|:--------:|:-------------------------------------:|:------------------------------|
+| 1    | Wed Jan 08 | lab: welcome |         | [💻](/slides/lab0-welcome.html)    |  [hello R](/labs/lab0.html) |
+|      | Fri Jan 10 |              |         |                                      |                               |
+| 2    | Mon Jan 13 |              |         |                                      |                               |
+|      | Wed Jan 15 |              |         |                                      |                               |
+|      | Fri Jan 17 |              |         |                                      |                               |
+| 3    | Mon Jan 20 | NO CLASS     |         |                                      |                               |
+|      | Wed Jan 22 |              |         |                                      |                               |
+|      | Fri Jan 24 |              |         |                                      |                               |
+| 4    | Mon Jan 27 |              |         |                                      |                               |
+|      | Wed Jan 29 |              |         |                                      |                               |
+|      | Fri Jan 31 |              |         |                                      |                               |
+| 5    | Mon Feb 03 |              |         |                                      |                               |
+|      | Wed Feb 05 |              |         |                                      |                               |
+|      | Fri Feb 07 |              |         |                                      |                               |
+| 6    | Mon Feb 10 |              |         |                                      |                               |
+|      | Wed Feb 12 |              |         |                                      |                               |
+|      | Fri Feb 14 |              |         |                                      |                               |
+| 7    | Mon Feb 17 |              |         |                                      |                               |
+|      | Wed Feb 19 |              |         |                                      |                               |
+|      | Fri Feb 21 |              |         |                                      |                               |
+| 8    | Mon Feb 24 |              |         |                                      |                               |
+|      | Wed Feb 26 |              |         |                                      |                               |
+|      | Fri Feb 28 |              |         |                                      |                               |
+| 9    | Mon Mar 03 |              |         |                                      |                               |
+|      | Wed Mar 05 |              |         |                                      |                               |
+|      | Fri Mar 07 |              |         |                                      |                               |
+| 10   | Mon Mar 10 | NO CLASS     |         |                                      |                               |
+|      | Wed Mar 12 | NO CLASS     |         |                                      |                               |
+|      | Fri Mar 14 | NO CLASS     |         |                                      |                               |
+| 11   | Mon Mar 17 |              |         |                                      |                               |
+|      | Wed Mar 19 |              |         |                                      |                               |
+|      | Fri Mar 21 |              |         |                                      |                               |
+| 12   | Mon Mar 24 |              |         |                                      |                               |
+|      | Wed Mar 26 |              |         |                                      |                               |
+|      | Fri Mar 28 |              |         |                                      |                               |
+| 13   | Mon Mar 31 |              |         |                                      |                               |
+|      | Wed Apr 02 |              |         |                                      |                               |
+|      | Fri Apr 04 |              |         |                                      |                               |
+| 14   | Mon Apr 07 |              |         |                                      |                               |
+|      | Wed Apr 09 |              |         |                                      |                               |
+|      | Fri Apr 11 |              |         |                                      |                               |
+| 15   | Mon Apr 14 |              |         |                                      |                               |
+|      | Wed Apr 16 |              |         |                                      |                               |
 :::
 
-<!-- | Week | Date       | Topic                                          | Reading |                                    Notes                                     | Assignment                  | -->
+<!-- | Week | Date       | Topic                                               | Reading                                                |                                            Notes                                             | Assignment                 | -->
 
-<!-- |:-----------|:-----------|:-----------|------------|:----------:|:-----------| -->
+<!-- |:-----|:-----------|:----------------------------------------------------|--------------------------------------------------------|:--------------------------------------------------------------------------------------------:|:---------------------------| -->
 
-<!-- | 1    | Mon Aug 28 | lab: welcome                                   |         |                       [💻](/slides/lab0-welcome.html)                        | [hello R](/labs/lab0.html)  | -->
+<!-- | 1    | Mon Aug 26 | intro, history, notation                            | Ch. 2                                                  |                                                                                              | [hw 0](/hw/hw00.html)      | -->
 
-<!-- |      | Tue Aug 29 | intro, history, notation                       | Ch. 2   |                                                                              | [hw 0](/hw/hw00.html)       | -->
+<!-- |      | Wed Aug 28 | probability, exchangeability                        | Ch. 2                                                  |       [🗒](/notes/lec01-probability.html) [📝](/notes/Probability-Exchangeability.pdf)        | [hw 1](/hw/hw01.html)      | -->
 
-<!-- |      | Thu Aug 31 | probability, exchangeability                   | Ch. 2   |                     [💻](/notes/lec01-probability.html)                      | [hw 1](/hw/hw01.html)       | -->
+<!-- |      | Thu Aug 29 | lab: welcome                                        |                                                        |                               [💻](/slides/lab0-welcome.html)                                | [hello R](/labs/lab0.html) | -->
 
-<!-- | 2    | Mon Sep 04 | NO LAB                                         |         |                                                                              |                             | -->
+<!-- | 2    | Mon Sep 02 | NO CLASS                                            | Ch. 3                                                  |                                                                                              |                            | -->
 
-<!-- |      | Tue Sep 05 | single parameter estimation                    | Ch. 3   |                      [💻](/notes/lec02-estimation.html)                      |                             | -->
+<!-- |      | Wed Sep 04 | beta-binomial model                                 | Ch. 3                                                  |               [🗒](/notes/lec02-estimation.html) [📝](/notes/beta-binomial.pdf)               | [hw 2](/hw/hw02.html)      | -->
 
-<!-- |      | Thu Sep 07 | Poisson model and conjugacy                    | Ch. 3   |                                                                              | [hw 2](/hw/hw02.html)       | -->
+<!-- |      | Thu Sep 05 | lab: MLE and MAP estimator                          |                                                        |                                   [💻](/slides/lab1.html)                                    |                            | -->
 
-<!-- | 3    | Mon Sep 11 | lab: MLE and MAP estimator                     |         |                           [💻](/slides/lab1.html)                            |                             | -->
+<!-- | 3    | Mon Sep 09 | Poisson-gamma model, exp families                   | Ch. 3                                                  | [🗒](notes/lec03-Poisson-gamma-exp-families.html) [📝](/notes/Poisson-gamma-exp-families.pdf) |                            | -->
 
-<!-- |      | Tue Sep 12 | reliability, exp. families                     | Ch. 3   | [💻](/notes/lec03-reliability.html), [📝](/notes/ReliabilityExpFamilies.pdf) |                             | -->
+<!-- |      | Wed Sep 11 | reliability (conf. intervals, hpd, Laplace approx.) | Ch. 3                                                  |         [🗒](/notes/lec04-reliability.html) [📝](/notes/reliability-handwritten.pdf)          | [hw 3](/hw/hw03.html)      | -->
 
-<!-- |      | Thu Sep 14 | prediction, Monte Carlo intro                  | Ch. 4   |    [💻](/notes/lec04-prediction.html), [📝](/notes/predictionOffline.pdf)    | [hw 3](/hw/hw03.html)       | -->
+<!-- |      | Thu Sep 12 | lab: exp. families and transformations              |                                                        |                             [💻](/slides/lab-exp-families.html)                              |                            | -->
 
-<!-- | 4    | Mon Sep 18 | lab: prior sensitivity and change of variables |         |                           [💻](/slides/lab2.html)                            |                             | -->
+<!-- | 4    | Mon Sep 16 | intro to Monte Carlo                                | Ch. 4                                                  |         [🗒](/notes/lec05-introMonteCarlo.html) [📝](/notes/posteriorPredictive.pdf)          |                            | -->
 
-<!-- |      | Tue Sep 19 | Monte Carlo integration                        | Ch. 4   |                      [💻](/notes/lec05-MonteCarlo.html)                      |                             | -->
+<!-- |      | Wed Sep 18 | predictive checks and MC error                      | Ch. 4                                                  |                       [🗒](/notes/lec06-MonteCarloPredictionError.html)                       | [hw 4](/hw/hw04.html)      | -->
 
-<!-- |      | Thu Sep 21 | the normal model                               | Ch. 5   |                     [💻](/notes/lec06-normalModel.html)                      |                             | -->
+<!-- |      | Thu Sep 19 | lab: mixture densities                              |                                                        |                               [💻](/slides/lab-mixtures.html)                                |                            | -->
 
-<!-- | 5    | Mon Sep 25 | practice and review                            |         |                        [💻](/slides/lab3-review.html)                        |                             | -->
+<!-- | 5    | Mon Sep 23 | the normal model                                    | Ch. 5                                                  |             [🗒](/notes/lec07-normalModel.html)[📝](/notes/completeTheSquare.pdf)             |                            | -->
 
-<!-- |      | Tue Sep 26 | catch up / review                              |         |                                                                              |                             | -->
+<!-- |      | Wed Sep 25 | the normal model II                                 | Ch. 5                                                  |                                 [📝](notes/normalNotes2.pdf)                                 |                            | -->
 
-<!-- |      | Thu Sep 28 | [Exam I](/notes/exam-notes.html)               |         |                                                                              |                             | -->
+<!-- |      | Thu Sep 26 | lab: normal data                                    |                                                        |                                [💻](/slides/lab-normal.html)                                 |                            | -->
 
-<!-- | 6    | Mon Oct 02 | NO LAB                                         |         |                                                                              |                             | -->
+<!-- | 6    | Mon Sep 30 | review                                              |                                                        |                                                                                              |                            | -->
 
-<!-- |      | Tue Oct 03 | the normal model II                            | Ch. 5   |                                                                              | [hw 4](/hw/hw04.html)       | -->
+<!-- |      | Wed Oct 02 | [Exam I](/notes/exam-notes.html)                    |                                                        |                                                                                              |                            | -->
 
-<!-- |      | Thu Oct 05 | estimators                                     | Ch. 5   |     [💻](/notes/lec07-estimators.html), [📝](/notes/estimator-notes.pdf)     |                             | -->
+<!-- |      | Thu Oct 03 | NO LAB                                              |                                                        |                                                                                              |                            | -->
 
-<!-- | 7    | Mon Oct 09 | lab: predictive checks and bias                |         |                           [💻](/slides/lab4.html)                            |                             | -->
+<!-- | 7    | Mon Oct 07 | Metropolis algorithm                                | Ch. 10                                                 |                         [🗒](/notes/lec08-Metropolis-algorithm.html)                          |                            | -->
 
-<!-- |      | Tue Oct 10 | Gibbs sampling                                 | Ch. 6   |                        [💻](/notes/lec08-gibbs.html)                         | [ec](/hw/extra-credit.html) | -->
+<!-- |      | Wed Oct 09 | MCMC diagnostics                                    | Ch. 6                                                  |                                 [🗒](/notes/lec09-MCMC.html)                                  | [hw 5](/hw/hw05.html)      | -->
 
-<!-- |      | Thu Oct 12 | MCMC diagnostics                               | Ch. 6   |                   [💻](/notes/lec09-mcmc-diagnostics.html)                   | [hw 5](/hw/hw05.html)       | -->
+<!-- |      | Thu Oct 10 | lab: Metropolis algo.                               |                                                        |                               [💻](/slides/lab9-MH-MCMC.html)                                |                            | -->
 
-<!-- | 8    | Mon Oct 16 | NO LAB                                         |         |                                                                              |                             | -->
+<!-- | 8    | Mon Oct 14 | NO CLASS                                            |                                                        |                                                                                              |                            | -->
 
-<!-- |      | Tue Oct 17 | NO CLASS                                       |         |                                                                              |                             | -->
+<!-- |      | Wed Oct 16 | wrap-up diagnostics and MH                          | Ch. 6, 10                                              |                             [📝](notes/ergodicMarkovChains.pdf)                              |                            | -->
 
-<!-- |      | Thu Oct 19 | multivariate normal (mvn)                      | Ch. 7   | [💻](/notes/lec10-mvn.html)                                                                              |                             | -->
+<!-- |      | Thu Oct 17 | lab: MCMC and conf. bands                           |                                                        |                               [💻](/slides/lab-conf-band.html)                               |                            | -->
 
-<!-- | 9    | Mon Oct 23 | full conditional review                                               |         |                                                                              |                             | -->
+<!-- | 9    | Mon Oct 21 | Gibbs sampling                                      | Ch. 6                                                  |                             [🗒](notes/lec10-gibbs-sampling.html)                             |                            | -->
 
-<!-- |      | Tue Oct 24 | mvn parameter estimation                       | Ch. 7   |  [💻](/notes/lec11-missing-data-mvn.html), [📝](/notes/missingDataOffline.pdf)                                                                             | [hw 6](/hw/hw06.html)                        | -->
+<!-- |      | Wed Oct 23 | multivariate normal                                 | Ch. 7                                                  |                                  [🗒](notes/lec11-mvn.html)                                   | [hw 6](/hw/hw06.html)      | -->
 
-<!-- |      | Thu Oct 26 | hierarchical modeling intro                    | Ch. 8   | [💻](/notes/lec12-hierarchical-intro.html)                                                                            |                             | -->
+<!-- |      | Thu Oct 24 | lab: MCMC diagnostics                               |                                                        |                            [💻](slides/lab6-mcmc-d-practice.html)                            |                            | -->
 
-<!-- | 10   | Mon Oct 30 | traceplots and MCMC diagnostics                                              |         | [💻](/slides/lab6-mcmc-d-practice.html)                                                                               |                             | -->
+<!-- | 10   | Mon Oct 28 | intro to Bayesian regression                        | Ch. 9                                                  |            [🗒](notes/lec12-regression-intro.html)[📝](notes/intro-regression.pdf)            |                            | -->
 
-<!-- |      | Tue Oct 31 | intro to Bayesian regression                       | Ch. 9   | [💻](/notes/lec13-regression-intro.html)                                                                                |    [hw 7](/hw/hw07.html)                     | -->
+<!-- |      | Wed Oct 30 | Bayesian regression II                              | Ch. 9                                                  |                          [🗒](notes/lec13-BayesianRegression2.html)                           | [hw 7](/hw/hw07.html)      | -->
 
-<!-- |      | Thu Nov 02 | Bayesian regression II                          | Ch. 9   | [💻](/notes/lec14-BayesianRegression2.html)                                                                              |                            | -->
+<!-- |      | Thu Oct 31 | lab: rstanarm                                       |                                                        |                                 [💻](slides/lab8-rstan.html)                                 |                            | -->
 
-<!-- | 11   | Mon Nov 06 | Hierarchical modeling and Gibbs sampling practice                                              |         |                                                                              |                             | -->
+<!-- | 11   | Mon Nov 04 | estimators                                          | Ch. 5 sec. 4                                           |              [🗒](notes/lec14-estimators.html)[📝](notes/estimator-notes-24.pdf)              |                            | -->
 
-<!-- |      | Tue Nov 07 | Bayesian regression III <br> *Guest lecture:* Prof. Peter Hoff                     | Ch. 9   |                                                                              | [hw 8](/hw/hw08.html)                        | -->
+<!-- |      | Wed Nov 06 | hierarchical modeling                               | Ch. 8                                                  |          [🗒](notes/lec15-hierarchical-intro.html)[📝](notes/hierarchical-notes.pdf)          | [hw 8](/hw/hw08.html)      | -->
 
-<!-- |      | Thu Nov 09 | NO CLASS: read [chapter summaries](/chapterSummaries.html)                                               |         |                                                                              |                             | -->
+<!-- |      | Thu Nov 07 | lab: estimators                                     |                                                        |                               [💻](slides/estimator-lab.html)                                |                            | -->
 
-<!-- | 12   | Mon Nov 13 |  exam practice                                              |         |                [💻](/slides/lab7-exam2-prep.html)                                                                |                             | -->
+<!-- | 12   | Mon Nov 11 | review                                              |                                                        |                                                                                              |                            | -->
 
-<!-- |      | Tue Nov 14 | review                                         |         |                                                                              |                             | -->
+<!-- |      | Wed Nov 13 | [Exam II](/notes/exam-notes.html)                   |                                                        |                                                                                              |                            | -->
 
-<!-- |      | Thu Nov 16 |  [Exam II](/notes/exam-notes-2.pdf)                                       |         |                                                                              |                             | -->
+<!-- |      | Thu Nov 14 | NO LAB                                              |                                                        |                                                                                              |                            | -->
 
-<!-- | 13   | Mon Nov 20 | NO LAB                                         |         |                                                                              |                             | -->
+<!-- | 13   | Mon Nov 18 | priors                                              |                                                        |                                    [🗒](notes/priors.html)                                    |                            | -->
 
-<!-- |      | Tue Nov 21 |  Bayesian regression example + stan intro                                          |       |                                                                           |                             | -->
+<!-- |      | Wed Nov 20 | Bayesian inverse problems                           | [📖](https://www.pnas.org/doi/10.1073/pnas.2409983121) |                                 [🗒](notes/waterOnMars.html)                                  | [hw 9](/hw/hw09.html)      | -->
 
-<!-- |      | Thu Nov 23 | NO CLASS                                       |         |                                                                              |                             | -->
+<!-- |      | Thu Nov 21 | lab: Bayesian inverse practice                      |                                                        |                          [💻](/slides/BayesianInverseProblem.html)                           |                            | -->
 
-<!-- | 14   | Mon Nov 27 |  rstanarm                                            |         |                                               [💻](/slides/lab8-rstan.html)                                 |                             | -->
+<!-- | 14   | Mon Nov 25 | Hamiltonian Monte Carlo                             | [📖](/readings/readHMC.html)                           |                            [🗒](notes/HamiltonianMonteCarlo.html)                             |                            | -->
 
-<!-- |      | Tue Nov 28 | intro to Metropolis algorithm                                             |   Ch. 10      | [📝](/notes/Metropolis-intro.pdf)                                                                             | [hw 9](/hw/hw09.html)                        | -->
+<!-- |      | Wed Nov 27 | NO CLASS                                            |                                                        |                                                                                              |                            | -->
 
-<!-- |      | Thu Nov 30 |  Metropolis-Hastings                                              |  Ch. 10        |  [💻](/notes/lec15-MetropolisHastings.html)                                                                         |                             | -->
+<!-- |      | Thu Nov 28 | NO CLASS                                            |                                                        |                                                                                              |                            | -->
 
-<!-- | 15   | Mon Dec 04 | MCMC practice                                             |         |       [💻](/slides/lab9-MH-MCMC.html)                                                                       |                             | -->
+<!-- | 15   | Mon Dec 02 | model averaging                                     | Ch. 9 sec. 3                                           |                            [🗒](notes/BayesianModelAveraging.html)                            |                            | -->
 
-<!-- |      | Tue Dec 05 | MCMC and HMC                                              | Ch. 10         |   [💻](/notes/lec16-MCMC-and-HMC.html)                                                                              |                             | -->
+<!-- |      | Wed Dec 04 | practice for final                                  |                                                        |                                [🗒](notes/practiceFinal.html)                                 |                            | -->
 
-<!-- |      | Thu Dec 07 |   final review                                             |         |                                                                              |                             | -->
+<!-- |      | Thu Dec 05 | lab: review                                         |                                                        |                                                                                              |                            | -->
+
+<!-- ::: -->

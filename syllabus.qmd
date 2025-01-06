@@ -1,6 +1,6 @@
 ---
-title: "STA 360: Bayesian methods and modern statistics"
-subtitle: "Fall 2024"
+title: "STA 602 Bayesian Statistical Modeling and Data Analysis"
+subtitle: "Spring 2025"
 # mainfont: Lato
 format:
   html: default
@@ -24,7 +24,7 @@ By the end of this course students should feel comfortable (1) writing Bayesian 
 
 {{< include _logistics.qmd >}}
 
-Course website: [sta360-fa24.github.io](https://sta360-fa24.github.io/)
+Course website: [sta602-sp25.github.io](https://sta602-sp25.github.io/)
 
 <!-- Instructor: Dr. Alexander Fisher   -->
 <!-- TA: TBD   -->
