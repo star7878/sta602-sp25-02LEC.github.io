@@ -9,7 +9,7 @@ project:
   - "!/teaching-materials"
 
 website:
-  title: "STA360"
+  title: "STA602"
   search: false
   navbar:
     background: "#2774AE"

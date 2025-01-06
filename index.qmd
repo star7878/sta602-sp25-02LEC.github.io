@@ -63,51 +63,51 @@ schedule %>%
 </style>
 ```
 ::: heatMap
-| Week | Date       | Topic        | Reading | Notes                                | Assignment                    |
-|:-----|:-----------|:-------------|:--------:|:-------------------------------------:|:------------------------------|
-| 1    | Wed Jan 08 | lab: welcome |         | [💻](/slides/lab0-welcome.html)    |  [hello R](/labs/lab0.html) |
-|      | Fri Jan 10 |              |         |                                      |                               |
-| 2    | Mon Jan 13 |              |         |                                      |                               |
-|      | Wed Jan 15 |              |         |                                      |                               |
-|      | Fri Jan 17 |              |         |                                      |                               |
-| 3    | Mon Jan 20 | NO CLASS     |         |                                      |                               |
-|      | Wed Jan 22 |              |         |                                      |                               |
-|      | Fri Jan 24 |              |         |                                      |                               |
-| 4    | Mon Jan 27 |              |         |                                      |                               |
-|      | Wed Jan 29 |              |         |                                      |                               |
-|      | Fri Jan 31 |              |         |                                      |                               |
-| 5    | Mon Feb 03 |              |         |                                      |                               |
-|      | Wed Feb 05 |              |         |                                      |                               |
-|      | Fri Feb 07 |              |         |                                      |                               |
-| 6    | Mon Feb 10 |              |         |                                      |                               |
-|      | Wed Feb 12 |              |         |                                      |                               |
-|      | Fri Feb 14 |              |         |                                      |                               |
-| 7    | Mon Feb 17 |              |         |                                      |                               |
-|      | Wed Feb 19 |              |         |                                      |                               |
-|      | Fri Feb 21 |              |         |                                      |                               |
-| 8    | Mon Feb 24 |              |         |                                      |                               |
-|      | Wed Feb 26 |              |         |                                      |                               |
-|      | Fri Feb 28 |              |         |                                      |                               |
-| 9    | Mon Mar 03 |              |         |                                      |                               |
-|      | Wed Mar 05 |              |         |                                      |                               |
-|      | Fri Mar 07 |              |         |                                      |                               |
-| 10   | Mon Mar 10 | NO CLASS     |         |                                      |                               |
-|      | Wed Mar 12 | NO CLASS     |         |                                      |                               |
-|      | Fri Mar 14 | NO CLASS     |         |                                      |                               |
-| 11   | Mon Mar 17 |              |         |                                      |                               |
-|      | Wed Mar 19 |              |         |                                      |                               |
-|      | Fri Mar 21 |              |         |                                      |                               |
-| 12   | Mon Mar 24 |              |         |                                      |                               |
-|      | Wed Mar 26 |              |         |                                      |                               |
-|      | Fri Mar 28 |              |         |                                      |                               |
-| 13   | Mon Mar 31 |              |         |                                      |                               |
-|      | Wed Apr 02 |              |         |                                      |                               |
-|      | Fri Apr 04 |              |         |                                      |                               |
-| 14   | Mon Apr 07 |              |         |                                      |                               |
-|      | Wed Apr 09 |              |         |                                      |                               |
-|      | Fri Apr 11 |              |         |                                      |                               |
-| 15   | Mon Apr 14 |              |         |                                      |                               |
-|      | Wed Apr 16 |              |         |                                      |                               |
+| Week | Date       | Topic                                               | Reading |              Notes              | Assignment                 |
+|:-----------|:-----------|:-----------|:----------:|:----------:|:-----------|
+| 1    | Wed Jan 08 | lab: welcome                                        |         | [💻](/slides/lab0-welcome.html) | [hello R](/labs/lab0.html) |
+|      | Fri Jan 10 | intro, history, notation                            |         |                                 |                            |
+| 2    | Mon Jan 13 | lab: MLE                                            |         |                                 |                            |
+|      | Wed Jan 15 | probability, exchangeability                        |         |                                 |                            |
+|      | Fri Jan 17 | beta-binomial model                                 |         |                                 |                            |
+| 3    | Mon Jan 20 | NO CLASS                                            |         |                                 |                            |
+|      | Wed Jan 22 | Poisson-gamma model, exp families                   |         |                                 |                            |
+|      | Fri Jan 24 | reliability (conf. intervals, hpd, Laplace approx.) |         |                                 |                            |
+| 4    | Mon Jan 27 | lab: exp. families and transformations              |         |                                 |                            |
+|      | Wed Jan 29 | intro to Monte Carlo                                |         |                                 |                            |
+|      | Fri Jan 31 | predictive checks and MC error                      |         |                                 |                            |
+| 5    | Mon Feb 03 | lab: mixture densities                              |         |                                 |                            |
+|      | Wed Feb 05 | the normal model                                    |         |                                 |                            |
+|      | Fri Feb 07 | the normal model II                                 |         |                                 |                            |
+| 6    | Mon Feb 10 | lab: normal data                                    |         |                                 |                            |
+|      | Wed Feb 12 | estimators                                          |         |                                 |                            |
+|      | Fri Feb 14 |                                                     |         |                                 |                            |
+| 7    | Mon Feb 17 |                                                     |         |                                 |                            |
+|      | Wed Feb 19 | Tentative Exam Date                                 |         |                                 |                            |
+|      | Fri Feb 21 | Metropolis algorithm                                |         |                                 |                            |
+| 8    | Mon Feb 24 |                                                     |         |                                 |                            |
+|      | Wed Feb 26 | MCMC diagnostics                                    |         |                                 |                            |
+|      | Fri Feb 28 | diagnostics and MH                                  |         |                                 |                            |
+| 9    | Mon Mar 03 |                                                     |         |                                 |                            |
+|      | Wed Mar 05 | Gibbs sampling                                      |         |                                 |                            |
+|      | Fri Mar 07 | multivariate normal                                 |         |                                 |                            |
+| 10   | Mon Mar 10 | NO CLASS                                            |         |                                 |                            |
+|      | Wed Mar 12 | NO CLASS                                            |         |                                 |                            |
+|      | Fri Mar 14 | NO CLASS                                            |         |                                 |                            |
+| 11   | Mon Mar 17 |                                                     |         |                                 |                            |
+|      | Wed Mar 19 | Bayesian regression I                               |         |                                 |                            |
+|      | Fri Mar 21 | Bayesian regression II                              |         |                                 |                            |
+| 12   | Mon Mar 24 |                                                     |         |                                 |                            |
+|      | Wed Mar 26 | hierarchical modeling                               |         |                                 |                            |
+|      | Fri Mar 28 | review                                              |         |                                 |                            |
+| 13   | Mon Mar 31 |                                                     |         |                                 |                            |
+|      | Wed Apr 02 | Tentative Exam Date                                 |         |                                 |                            |
+|      | Fri Apr 04 | Hamiltonian Monte Carlo                             |         |                                 |                            |
+| 14   | Mon Apr 07 |                                                     |         |                                 |                            |
+|      | Wed Apr 09 | model averaging                                     |         |                                 |                            |
+|      | Fri Apr 11 | Bayesian inverse problems                           |         |                                 |                            |
+| 15   | Mon Apr 14 |                                                     |         |                                 |                            |
+|      | Wed Apr 16 | practice for final                                  |         |                                 |                            |
 :::
 
 <!-- | Week | Date       | Topic                                               | Reading                                                |                                            Notes                                             | Assignment                 | -->

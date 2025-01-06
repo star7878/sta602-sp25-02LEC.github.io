@@ -1,10 +1,19 @@
 ---
-title: "STA 602 Bayesian Statistical Modeling and Data Analysis"
+title: |
+  | STA602
+  | Bayesian Statistical Modeling and Data Analysis
 subtitle: "Spring 2025"
 # mainfont: Lato
 format:
   html: default
-  # pdf: default
+# include-in-header:
+#   - text: |
+#       <style>
+#       h1 {
+#         text-align: center;
+#       }
+#       </style>
+# pdf: default
 # format: 
 #    html: 
 #     page-layout: full
