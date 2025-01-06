@@ -66,9 +66,9 @@ schedule %>%
 | Week | Date       | Topic                                               | Reading |              Notes              | Assignment                 |
 |:-----------|:-----------|:-----------|:----------:|:----------:|:-----------|
 | 1    | Wed Jan 08 | lab: welcome                                        |         | [💻](/slides/lab0-welcome.html) | [hello R](/labs/lab0.html) |
-|      | Fri Jan 10 | intro, history, notation                            |         |                                 |                            |
+|      | Fri Jan 10 | intro, history, notation                            |         |                                 | [hw 0](/hw/hw00.html)      |
 | 2    | Mon Jan 13 | lab: MLE                                            |         |                                 |                            |
-|      | Wed Jan 15 | probability, exchangeability                        |         |                                 |                            |
+|      | Wed Jan 15 | probability, exchangeability                        |         |                                 | hw 1                       |
 |      | Fri Jan 17 | beta-binomial model                                 |         |                                 |                            |
 | 3    | Mon Jan 20 | NO CLASS                                            |         |                                 |                            |
 |      | Wed Jan 22 | Poisson-gamma model, exp families                   |         |                                 |                            |
