@@ -1,5 +1,5 @@
 ---
-title: "Bayesian Statistical Modeling and Data Analysis"
+title: "Bayesian statistical modeling and data analysis"
 subtitle: "Spring 2025"
 mainfont: Lato
 format:
