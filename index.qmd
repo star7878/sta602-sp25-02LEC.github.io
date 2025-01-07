@@ -64,7 +64,7 @@ schedule %>%
 ```
 ::: heatMap
 | Week | Date       | Topic                                               | Reading |              Notes              | Assignment                 |
-|:-----------|:-----------|:-----------|:----------:|:----------:|:-----------|
+|:-----|:-----------|:----------------------------------------------------|:-------:|:-------------------------------:|:---------------------------|
 | 1    | Wed Jan 08 | lab: welcome                                        |         | [💻](/slides/lab0-welcome.html) | [hello R](/labs/lab0.html) |
 |      | Fri Jan 10 | intro, history, notation                            |  Ch. 2  |                                 | [hw 0](/hw/hw00.html)      |
 | 2    | Mon Jan 13 | lab: MLE                                            |         |                                 |                            |

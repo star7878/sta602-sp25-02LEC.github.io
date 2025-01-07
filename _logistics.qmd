@@ -3,8 +3,8 @@
 |                      | Contact                                                     | Office hours         | Location              |
 |------------------|------------------|------------------|------------------|
 | Dr. Alexander Fisher | [aaf29\@duke.edu](aaf29@duke.edu)                           | We/Th/Fr: 10:00a-11:00am | Old Chem 223B         |
-| Christine Shen       | [yueming.shen@duke.edu](yueming.shen@duke.edu) | TBD      | Old Chem 203B         |
-| Benedetta Bruni           | [benedetta.bruni@duke.edu](benedetta.bruni@duke.edu)             | TBD     | Old Chem 203B         |
+| Christine Shen       | [yueming.shen@duke.edu](yueming.shen@duke.edu) | Mo: 9:30a-11:30a      | Old Chem 203B         |
+| Benedetta Bruni           | [benedetta.bruni@duke.edu](benedetta.bruni@duke.edu)             | Th: 5:00p-7:00p     | TBD        |
 | Jaehoan Kim              | [jaehoan.kim@duke.edu](jaehoan.kim@duke.edu)                 | TBD    | Old Chem 203B         |
 | Haochen Qin        | [haocheng.qin@duke.edu](haocheng.qin@duke.edu)                 | TBD     | Old Chem 203B |
 
