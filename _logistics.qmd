@@ -2,17 +2,13 @@
 
 |                      | Contact                                                     | Office hours         | Location              |
 |------------------|------------------|------------------|------------------|
-| Dr. Alexander Fisher | [aaf29\@duke.edu](aaf29@duke.edu)                           | We/Th/Fr: 10:00am-11:00am | Old Chem 223B         |
-| Christine Shen       | [yueming.shen@duke.edu](yueming.shen@duke.edu) | Mo: 9:30am-11:30am      | Old Chem 203B         |
-| Benedetta Bruni           | [benedetta.bruni@duke.edu](benedetta.bruni@duke.edu)             | Th: 5:00pm-7:00pm     | Old Chem 203A        |
-| Jaehoan Kim              | [jaehoan.kim@duke.edu](jaehoan.kim@duke.edu)                 | TBD    | Old Chem 203B         |
-| Haochen Qin        | [haocheng.qin@duke.edu](haocheng.qin@duke.edu)                 | We: 3:00pm-5:00pm     | Zoom (link on Canvas) |
+| Dr. David Dunson | [dunson\@duke.edu](dunson@duke.edu)                           | TBD | TBD         |
+| Adway Wadekar       | [adway.wadekar@duke.edu](adway.wadekar@duke.edu) | TBD      | TBD         |
+| Shuo Wang           | [shuo.wang717@duke.edu](shuo.wang717@duke.edu)             | Monday: 3:00pm-5:00pm     | Old Chem 203B        |
 
 #### Meetings
 
 |         |                     |                           |
 |---------|---------------------|---------------------------|
-| Lecture | We/Fr 8:30am - 9:45am | Old Chemistry 116 |
-| Lab 01  | Mo 1:25pm - 2:40pm  | Old Chemistry 201           |
-| Lab 02  | Mo 3:05pm - 4:20pm  | LSRC A156         |
-| Lab 03  | Mo 3:05pm - 4:20pm  | Biological Sciences 154         |
+| Lecture | Mo/We/ 8:30am - 9:45am | Reuben-Cooke Building 129 |
+| Lab 04  | Mo 1:25pm - 2:40pm  | Old Chemistry 116           |
